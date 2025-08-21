@@ -1,0 +1,122 @@
+{
+  "name": "f2tools",
+  "displayName": "F2Tools",
+  "description": "",
+  "publisher": "tf2p",
+  "version": "2.0.19",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gauravkr7488/time-tracking-and-administration"
+  },
+  "engines": {
+    "vscode": "^1.98.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "f2tools.specifyStandupReport",
+        "title": "Specify Standup Report"
+      },
+      {
+        "command": "f2tools.taskSelection",
+        "title": "Start timer on Task"
+      },
+      {
+        "command": "f2tools.pauseResumeTimer",
+        "title": "Pause/Resume Task"
+      },
+      {
+        "command": "f2tools.stopTimer",
+        "title": "Stop timer on Task"
+      },
+      {
+        "command": "f2tools.generateWorkLogs",
+        "title": "Generate WorkLogs from SR"
+      },
+      {
+        "command": "f2tools.extractF2YamlSummaryLink",
+        "title": "Extract F2Yaml Summary Link"
+      },
+      {
+        "command": "f2tools.extractF2YamlIdLink",
+        "title": "Extract F2Yaml Id Link"
+      },
+      {
+        "command": "f2tools.followF2yamlLink",
+        "title": "Follow the F2Yaml Link"
+      },
+      {
+        "command": "f2tools.generateCSV",
+        "title": "Generate CSV Line from Task"
+      }
+    ],
+    "configuration": {
+      "title": "F2tools",
+      "properties": {
+        "f2tools.userName": {
+          "type": "string",
+          "default": "YourUserName",
+          "description": "Your username"
+        },
+        "f2tools.PathSeparator": {
+          "type": "string",
+          "description": "The separator to use in the extracted YAML path.",
+          "default": "."
+        },
+        "f2tools.csvFields": {
+          "type": "array",
+          "description": "Fields of the csv generated.",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "UpdateStatus",
+            "TaskStatus",
+            "Milestone",
+            "IdLink",
+            "By",
+            "Priority",
+            "RemHrs",
+            "SummaryLink",
+            "BlockedBy"
+          ]
+        },
+        "f2tools.workspacePath": {
+          "type": "string",
+          "description": "If you are using the extension without workspace enter the workspace path here",
+          "default": ""
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.98.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "yaml": "^2.7.1"
+  }
+}
