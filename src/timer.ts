@@ -1,7 +1,5 @@
 import { Message } from './VsCodeUtils';
 import { Data } from './Data';
-import * as vscode from 'vscode';
-
 
 export class Timer { // TODO replace the strings with constants
 
@@ -56,7 +54,7 @@ export class Timer { // TODO replace the strings with constants
         Message.info(Data.MESSAGES.INFO.TIMER_PAUSED);
     }
 
-    public static async stopTimer(context: vscode.ExtensionContext) {
+    public static stopTimer() {
         const startTime = this.startTime;
         let totalDurationMs = this.accumulatedTime;
 
@@ -73,8 +71,7 @@ export class Timer { // TODO replace the strings with constants
         this.startTime = undefined;
         this.accumulatedTime = 0;
 
-        await context.globalState.update("durationMinutes", durationMinutes);
-
+        return durationMinutes;
     }
 
     private static formatDateToCustomISO(date: Date): string {
@@ -91,7 +88,7 @@ export class Timer { // TODO replace the strings with constants
 
     public static async giveStartTime() {
         const startDateIsoFormat = this.startDateIsoFormat;
-        if (!startDateIsoFormat) throw new Error("timer failed to start");
+        if(!startDateIsoFormat) throw new Error("timer failed to start");
         return startDateIsoFormat;
     }
 

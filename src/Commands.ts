@@ -17,29 +17,27 @@ export class Commands {
     private static srDocUri?: vscode.Uri;
     private static srEntry?: yaml.YAMLMap<unknown, unknown>;
 
-    public static async specifyStandupReport(context: vscode.ExtensionContext) {
+    public static async specifyStandupReport() {
         try {
-            if (Timer.isTaskRunnig()) await this.stopTask(context);
+            if (Timer.isTaskRunnig()) await this.stopTask();
             const srDoc = VsCodeUtils.getActiveDoc();
             const srCode = StringOperation.extractSrCode(srDoc);
             this.srDocUri = srDoc.uri;
             this.srCode = srCode;
 
-            await context.globalState.update("srCode", this.srCode);
-            await context.globalState.update("srDocUri", this.srDocUri?.toString());
             Message.info(Data.MESSAGES.INFO.SR_SPECIFIED(srCode));
         } catch (error: any) {
             Message.err(error.message);
         }
     }
 
-    public static async selectTask(context: vscode.ExtensionContext): Promise<void> {
+    public static async selectTask(): Promise<void> {
         try {
             const activeDoc = VsCodeUtils.getActiveDoc();
             const cursorPosition = VsCodeUtils.getCursorPosition();
             if (!this.srCode || !this.srDocUri) throw new Error(Data.MESSAGES.ERRORS.RUN_SPECIFY_SR_FIRST);
 
-            if (Timer.isTaskRunnig()) await this.stopTask(context);
+            if (Timer.isTaskRunnig()) await this.stopTask();
             let yamlLink = await StringOperation.getYamlLink(activeDoc, cursorPosition);
             if (!yamlLink) yamlLink = await F2yamlLinkExtractor.createF2YamlSummaryLink(activeDoc, cursorPosition);
 
@@ -55,8 +53,6 @@ export class Commands {
             if (srEntryIndex == -1) await YamlTaskOperations.moveEntryToWasInSr(srEntry, this.srCode, this.srDocUri);
 
             this.srEntry = srEntry;
-            await context.globalState.update("srEntry", (this.srEntry as yaml.YAMLMap<unknown, unknown> | undefined)?.toJSON());
-
 
             Message.info(Data.MESSAGES.INFO.TASK_SELECTED(yamlLink));
         } catch (error: any) {
@@ -72,46 +68,22 @@ export class Commands {
         Timer.pauseResumeTimer();
     }
 
-    public static async stopTask(context: vscode.ExtensionContext) {
-        Message.info("this works")
+    public static async stopTask() {
         try {
-
-            this.srCode = context.globalState.get<string>("srCode");
-
-            const uriStr = context.globalState.get<string>("srDocUri");
-            this.srDocUri = uriStr ? vscode.Uri.parse(uriStr) : undefined;
-
-            const srEntryObj = context.globalState.get<any>("srEntry");
-            if (srEntryObj) {
-                const entry = new yaml.YAMLMap();
-                Object.entries(srEntryObj).forEach(([k, v]) =>
-                    entry.add({ key: k, value: v })
-                );
-                this.srEntry = entry;
-            }
-            await Timer.stopTimer(context);
-
-            const durationMinutes = context.globalState.get<number>("durationMinutes");
-            if (!this.srDocUri || !this.srEntry || !this.srCode || !durationMinutes || !Timer.isTaskRunnig()) throw new Error(Data.MESSAGES.ERRORS.NO_ACTIVE_TASK);
-
-            await YamlTaskOperations.updateSrEntryDuration(this.srEntry, this.srCode, this.srDocUri, durationMinutes);
+            if (!this.srDocUri || !this.srEntry || !this.srCode || !Timer.isTaskRunnig()) throw new Error(Data.MESSAGES.ERRORS.NO_ACTIVE_TASK);
+            const duration = Timer.stopTimer();
+            await YamlTaskOperations.updateSrEntryDuration(this.srEntry, this.srCode, this.srDocUri, duration);
             this.srEntry = undefined;
-
-            await context.globalState.update("srCode", this.srCode);
-            await context.globalState.update("srDocUri", this.srDocUri?.toString());
-            await context.globalState.update("durationMinutes", durationMinutes);
-            await context.globalState.update("srEntry", (this.srEntry as yaml.YAMLMap<unknown, unknown> | undefined)?.toJSON());
-
         } catch (error: any) {
             Message.err(error.message);
         }
     }
 
-    public static async generateWorkLogs(context: vscode.ExtensionContext) {
+    public static async generateWorkLogs() {
         const srDoc = VsCodeUtils.getActiveDoc();
         const srCode = StringOperation.extractSrCode(srDoc);
         try {
-            if (srCode == this.srCode && Timer.isTaskRunnig()) await this.stopTask(context);
+            if (srCode == this.srCode && Timer.isTaskRunnig()) await this.stopTask();
             let workLogGenerated = await YamlTaskOperations.generateWorkLogs(srCode, srDoc.uri);
             if (!workLogGenerated) return
             Message.info(Data.MESSAGES.INFO.WORKLOG_GENERATED);
@@ -131,7 +103,7 @@ export class Commands {
             Message.err(error.message);
         }
     }
-
+    
     public static async extractF2YamlSummaryLink() {
         try {
             const activeDoc = VsCodeUtils.getActiveDoc();
@@ -163,7 +135,7 @@ export class Commands {
             const activeDoc = VsCodeUtils.getActiveDoc();
             const cursorPosition = VsCodeUtils.getCursorPosition();
             let yamlLink = await StringOperation.getYamlLink(activeDoc, cursorPosition);
-            if (!yamlLink) throw new Error(Data.MESSAGES.ERRORS.NO_LINK_FOUND);
+            if(!yamlLink) throw new Error(Data.MESSAGES.ERRORS.NO_LINK_FOUND);
             if (activeDoc.languageId == "csv") yamlLink = StringOperation.removeExtraQuotes(yamlLink);
             LinkFollower.followF2yamlLink(yamlLink);
         } catch (error: any) {
