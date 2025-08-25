@@ -125,6 +125,9 @@ Bugs:
     - BugFix: Double quotes are placed in between the dots in ID links (and maybe Summary links as well)
     - BugFix: Follow Link command does not work, giving the error "Cannot read properties of undefined (reading 'length')"
     - BugFix: Follow Link command does not work (on a link which might not be supported), giving the error "Cannot read properties of undefined (reading 'length')"
+    
+### 2.0.20
+    - BugFix: Generate ID link clears the Root Path, generates wrong link and then the next time it does not work
 
 ### Next
 Bugs:
