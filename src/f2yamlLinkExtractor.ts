@@ -28,7 +28,7 @@ export class F2yamlLinkExtractor {
     }
     static moveDots(yamlKeyValues: string[]) { // TODO move this from here
         let betterDots = []
-        for(const keyValue of yamlKeyValues){
+        for (const keyValue of yamlKeyValues) {
             if (keyValue.startsWith('".')) {
                 let a = StringOperation.removeQuoteWrapping(keyValue);
                 a = StringOperation.removeDot(a);
@@ -80,13 +80,13 @@ export class F2yamlLinkExtractor {
     static async removeRootPath(filePath: string) {
         let rootPath = VsCodeUtils.getRootPath();
         const config = VsCodeUtils.getConfig();
-        await config.update(Data.CONFIG.WORKSPACE_PATH, rootPath, vscode.ConfigurationTarget.Global);
+        if (rootPath) await config.update(Data.CONFIG.WORKSPACE_PATH, rootPath, vscode.ConfigurationTarget.Global);
 
         if (!rootPath) {
             rootPath = config.get<string>(Data.CONFIG.WORKSPACE_PATH);
         }
 
-        if(!rootPath) throw new Error(Data.MESSAGES.ERRORS.NO_ROOT_PATH);
+        if (!rootPath) throw new Error(Data.MESSAGES.ERRORS.NO_ROOT_PATH);
         if (filePath.startsWith(rootPath)) {
             let shortFilePath = filePath.substring(rootPath.length);
             shortFilePath = shortFilePath.slice(1);
