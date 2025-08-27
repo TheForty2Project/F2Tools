@@ -129,6 +129,12 @@ Bugs:
 ### 2.0.20
     - BugFix: Generate ID link clears the Root Path, generates wrong link and then the next time it does not work
 
+### 2.0.22
+    - BugFix: Cannot read property 'Symbol(Symbol.iterator)' of undefined when following links containing Id (Bobi)
+
+### 2.0.23
+    - Various further bugfixes around link following and CSV generation. (Bobi)
+
 ### Next
 Bugs:
     - closing the vscode should stop the task
@@ -137,6 +143,6 @@ Feature:
 
 ## For more information
 
-Contact me - Gaurav
+Contact me - Gaurav & Bobi
 
 **Enjoy!**

@@ -4,7 +4,7 @@ import { VsCodeUtils } from "./VsCodeUtils";
 import { YamlTaskOperations } from "./YamlOperations";
 import { F2yamlLinkExtractor } from "./f2yamlLinkExtractor";
 import * as vscode from 'vscode';
-
+import * as yaml from 'yaml';
 
 export class CSVOperations extends YamlTaskOperations {
 
@@ -52,8 +52,19 @@ export class CSVOperations extends YamlTaskOperations {
                     } else if (taskProperty.key.value == "+") {
                         let properties = taskProperty.value.items;
                         for (const property of properties) {
-                            if (property.key.value == field) {
-                                const propertyValue = StringOperation.wrapInQuotesIfMultiWord(property.value.value);
+                            if (property.key.value === field) {
+                                let propertyValue: string = "";
+                                if (property.value instanceof yaml.Scalar){
+                                    let yamlScalar: yaml.Scalar = property.value;
+                                    propertyValue = StringOperation.wrapInQuotesIfMultiWord(yamlScalar.value as string);}
+                                else if (property.value instanceof yaml.YAMLSeq){
+                                    let yamlSequence:yaml.YAMLSeq = property.value as yaml.YAMLSeq;
+                                    propertyValue = StringOperation.wrapInQuotesIfMultiWord(yamlSequence.items.join(", "));
+                                }
+                                else if (property.value instanceof yaml.YAMLMap){
+                                    throw new Error("Maps as values are not supported during CSV generation. Property Id: " + field);
+                                }
+                                else {throw new Error("Unknown type as a value. Property Id:" + field);}
                                 csvEntry += propertyValue + ", ";
                                 continue;
                             }

@@ -1,9 +1,11 @@
 import { Data } from "./Data";
+import { HackingFixes } from "./HackingFixes";
 import { StringOperation } from "./StringOperations";
 import { Message, VsCodeUtils } from "./VsCodeUtils";
 import { YamlTaskOperations } from "./YamlOperations";
 import * as vscode from 'vscode';
 import { LineCounter } from "yaml";
+import * as yaml from "yaml";
 
 export class LinkFollower {
 
@@ -13,8 +15,11 @@ export class LinkFollower {
             const fileUri: vscode.Uri = await VsCodeUtils.getFileUri(filePath);
             const yamlKeys: string[] = StringOperation.parseYamlPath(yamlPath);
             const yamlObj: any = await YamlTaskOperations.getYamlObj(yamlKeys, fileUri);
-            const docOftheLink = await vscode.workspace.openTextDocument(fileUri);
-            const range = this.toVsRange(yamlObj.value, YamlTaskOperations.lineCounter);
+            const docOftheLink = await vscode.workspace.openTextDocument(fileUri);    
+
+            let yamlMap = HackingFixes.getYamlMapFromPairOrYamlMap(yamlObj);
+            
+            const range = this.toVsRange(yamlMap, YamlTaskOperations.lineCounter);
 
             const editor = await vscode.window.showTextDocument(docOftheLink, { preview: false });
             editor.selection = new vscode.Selection(range.start, range.end);
@@ -26,11 +31,11 @@ export class LinkFollower {
     }
 
 
-    static toVsRange(yamlObj: { range: [number, number, number] }, lineCounter: LineCounter): vscode.Range { // TODO move this to someplace else
-        const [start, , end] = yamlObj.range;
+    static toVsRange(yamlObj: yaml.YAMLMap, lineCounter: LineCounter): vscode.Range { // TODO move this to someplace else
+        //const [start, , end] = yamlObj.range;
 
-        const startPos = lineCounter.linePos(start);
-        const endPos = lineCounter.linePos(end);
+        const startPos = lineCounter.linePos(yamlObj.range?.[0] as number);
+        const endPos = lineCounter.linePos(yamlObj.range?.[2] as number);
 
         return new vscode.Range(
             new vscode.Position(startPos.line - 1, startPos.col - 1),

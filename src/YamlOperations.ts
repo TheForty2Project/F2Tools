@@ -3,6 +3,7 @@ import * as yaml from 'yaml';
 import { Message, VsCodeUtils } from './VsCodeUtils';
 import { Data } from './Data';
 import { StringOperation } from './StringOperations';
+import { HackingFixes } from './HackingFixes';
 
 export class YamlTaskOperations {
 
@@ -81,27 +82,29 @@ export class YamlTaskOperations {
     //     return parentYamlObj;
     // }
 
-    private static getTopLevelTaskObj(yamlDoc: yaml.Document<yaml.Node, true>, yamlKeys: string[], yamlObj: any) { // TODO fix this
+    private static getTopLevelTaskObj(yamlDoc: yaml.Document<yaml.Node, true>, linkParts: string[], yamlObj: any) { // TODO fix this
         let parentYamlObj;
         if (yaml.isMap(yamlDoc.contents)) {
             let itemsOfTheContent = yamlDoc.contents.items;
             for (let index = 0; index < itemsOfTheContent.length; index++) {
                 const element = itemsOfTheContent[index];
                 let taskSummryElementKey = (element.key as yaml.Scalar).value;
-                let editedTaskSummaryElementKey = StringOperation.removeFirstWordIfFollowedBySpaceAndDot(taskSummryElementKey as string);
-                if (editedTaskSummaryElementKey == yamlKeys[0] || StringOperation.wrapInQuotes(editedTaskSummaryElementKey) == yamlKeys[0] || StringOperation.removeDot(editedTaskSummaryElementKey) == StringOperation.removeQuoteWrapping(StringOperation.removeDot(yamlKeys[0]))) { // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
+                let editedTaskSummaryElementKey = StringOperation.removeFirstWordIfFollowedBySpaceAndDot(taskSummryElementKey as string);                
+                if (editedTaskSummaryElementKey == linkParts[0] || StringOperation.wrapInQuotes(editedTaskSummaryElementKey) == linkParts[0] || StringOperation.removeDot(editedTaskSummaryElementKey) == StringOperation.removeQuoteWrapping(StringOperation.removeDot(linkParts[0]))) { // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
                     // parentYamlObj = element;
                     parentYamlObj = yamlDoc.get(taskSummryElementKey, true);
                     break;
                 }
                 if (!parentYamlObj) {
-                    let x = (element.value as yaml.YAMLMap).items;
-                    if (!x) x = (element as unknown as yaml.YAMLMap).items;
-                    if (!x) continue;
-                    for (let index = 0; index < x.length; index++) {
-                        const e = x[index];
-                        const yamlKey = yamlKeys[0].slice(1);
-                        if ((e.key as yaml.Scalar).value == "Id" && (e.value as yaml.Scalar).value == yamlKey) {
+                    let mapEntries = (element.value as yaml.YAMLMap).items;
+                    if (!mapEntries) {
+                            mapEntries = (element as unknown as yaml.YAMLMap).items; //not sure what's this case...
+                        }
+                    if (!mapEntries) {continue;}
+                    for (let j = 0; j < mapEntries.length; j++) {
+                        const mapEntry = mapEntries[j];
+                        const currentLinkPart = linkParts[0].slice(1);        
+                        if (mapEntry.key && yaml.isScalar(mapEntry.key) && mapEntry.value && yaml.isScalar(mapEntry.value) && (mapEntry.key as yaml.Scalar).value === "Id" && (mapEntry.value as yaml.Scalar).value === currentLinkPart){
                             return element;
                         }
                     }
@@ -135,8 +138,8 @@ export class YamlTaskOperations {
     static getYamlSummaryObjFromParent(yamlKey: string, parentYamlObj: any) { // TODO fix
         let summaryObj: any;
         let cleanYamlKey = StringOperation.removeQuotesWrappingAndDot(yamlKey);
+        parentYamlObj = HackingFixes.getYamlMapFromPairOrYamlMap(parentYamlObj);
         let yamlObjItems = parentYamlObj.items;
-        if (!yamlObjItems) yamlObjItems = parentYamlObj.value.items;
         for (const item of yamlObjItems) {
             const valueOfKey = item.key.value;
             let { task } = StringOperation.seperateStatusCodeAndTask(valueOfKey); // TODO clean this
