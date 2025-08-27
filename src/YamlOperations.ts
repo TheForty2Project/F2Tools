@@ -545,7 +545,7 @@ export class YamlTaskOperations {
     static async getYamlKeyValues(yamlKeys: string[], yamlKeyType: string, activeDoc: vscode.TextDocument): Promise<string[]> {
         let yamlKeyValues: string[] = [];
         const yamlDoc = await this.parseYamlDoc(activeDoc.uri);
-        let parentYamlObj: any = yamlDoc.get(yamlKeys[0]);
+        let parentYamlObj: any = yamlDoc.get(yamlKeys[0], true);
         let parentKeyValue = YamlTaskOperations.getParentValue(parentYamlObj, yamlKeyType, yamlKeys[0]);
         yamlKeyValues.push(parentKeyValue);
 
@@ -600,7 +600,7 @@ export class YamlTaskOperations {
 
     static getYamlKeyValueBasedOnKeyType(yamlObj: any, yamlKeyType: string) { // TODO 
         let yamlKeyValue;
-        if (!yamlKeyType) return;
+        if (!yamlKeyType || !yamlObj.value) return;
         try {
             for (const item of yamlObj.value.items) {
                 if (item.key.value == yamlKeyType) {
