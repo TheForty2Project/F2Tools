@@ -17,8 +17,7 @@ export class LinkFollower {
             const yamlObj: any = await YamlTaskOperations.getYamlObj(yamlKeys, fileUri);
             const docOftheLink = await vscode.workspace.openTextDocument(fileUri);    
 
-            let yamlMap = HackingFixes.getYamlMapFromPairOrYamlMap(yamlObj);
-            
+            let yamlMap: yaml.YAMLMap = HackingFixes.getYamlMapFromPairOrYamlMap(yamlObj);            
             const range = this.toVsRange(yamlMap, YamlTaskOperations.lineCounter);
 
             const editor = await vscode.window.showTextDocument(docOftheLink, { preview: false });

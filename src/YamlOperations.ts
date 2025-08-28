@@ -619,7 +619,7 @@ export class YamlTaskOperations {
                     }
                 }
             } catch (error2: any) {
-                Message.err(error1.message + error2.message);
+                //Message.err(error1.message + error2.message);
             }
         }
         if (yamlKeyType == "Id" && yamlKeyValue != undefined) return "." + yamlKeyValue; // a temp mesue

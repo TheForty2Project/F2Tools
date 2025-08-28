@@ -5,13 +5,11 @@ export class HackingFixes {
     {
         let yamlMap: yaml.YAMLMap;
         if (yamlObj instanceof yaml.YAMLMap) {
-            yamlMap = yamlObj;
+            return yamlObj;
         }
         else if (yamlObj instanceof yaml.Pair && yamlObj.value instanceof yaml.YAMLMap) { 
-            yamlMap = yamlObj.value; 
+            return yamlObj.value;
         }
-        else { throw new Error("Bug: unknown structure."); }
-
-        return yamlMap;
+        throw new Error("Bug: getYamlMapIfPairOrYamlMap: yamlObj is neither a yaml.YamlMap or a yaml.Pair");
     }
 }
