@@ -16,9 +16,21 @@ export class LinkFollower {
             const yamlKeys: string[] = StringOperation.parseYamlPath(yamlPath);
             const yamlObj: any = await YamlTaskOperations.getYamlObj(yamlKeys, fileUri);
             const docOftheLink = await vscode.workspace.openTextDocument(fileUri);    
+            let from: number;
+            let to: number;
+            if (yamlObj instanceof yaml.Scalar)
+            {
+                from = yamlObj.range?.[0] as number;
+                to = yamlObj.range?.[1] as number;
+            }
+            else
+            {
+                let yamlMap: yaml.YAMLMap = HackingFixes.getYamlMapFromPairOrYamlMap(yamlObj);
+                from = yamlMap.range?.[0] as number;
+                to = yamlMap.range?.[2] as number;
+            }
 
-            let yamlMap: yaml.YAMLMap = HackingFixes.getYamlMapFromPairOrYamlMap(yamlObj);            
-            const range = this.toVsRange(yamlMap, YamlTaskOperations.lineCounter);
+            const range = this.toVsRange(from, to, YamlTaskOperations.lineCounter);
 
             const editor = await vscode.window.showTextDocument(docOftheLink, { preview: false });
             editor.selection = new vscode.Selection(range.start, range.end);
@@ -30,11 +42,11 @@ export class LinkFollower {
     }
 
 
-    static toVsRange(yamlObj: yaml.YAMLMap, lineCounter: LineCounter): vscode.Range { // TODO move this to someplace else
+    static toVsRange(from: number, to: number, lineCounter: LineCounter): vscode.Range { // TODO move this to someplace else
         //const [start, , end] = yamlObj.range;
 
-        const startPos = lineCounter.linePos(yamlObj.range?.[0] as number);
-        const endPos = lineCounter.linePos(yamlObj.range?.[2] as number);
+        const startPos = lineCounter.linePos(from);
+        const endPos = lineCounter.linePos(to);
 
         return new vscode.Range(
             new vscode.Position(startPos.line - 1, startPos.col - 1),

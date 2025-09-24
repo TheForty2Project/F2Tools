@@ -19,7 +19,7 @@ export class YamlTaskOperations {
         } catch (error) {
             return '';
         }
-        return value
+        return value;
     }
 
     static async getYamlObj(yamlKeys: string[], fileUri: vscode.Uri): Promise<any> { // TODO replace the strings with constants
@@ -84,13 +84,16 @@ export class YamlTaskOperations {
 
     private static getTopLevelTaskObj(yamlDoc: yaml.Document<yaml.Node, true>, linkParts: string[], yamlObj: any) { // TODO fix this
         let parentYamlObj;
-        if (yaml.isMap(yamlDoc.contents)) {
+        if (yaml.isMap(yamlDoc.contents)) 
+        {
             let itemsOfTheContent = yamlDoc.contents.items;
-            for (let index = 0; index < itemsOfTheContent.length; index++) {
+            for (let index = 0; index < itemsOfTheContent.length; index++) 
+            {
                 const element = itemsOfTheContent[index];
                 let taskSummryElementKey = (element.key as yaml.Scalar).value;
                 let editedTaskSummaryElementKey = StringOperation.removeFirstWordIfFollowedBySpaceAndDot(taskSummryElementKey as string);                
-                if (editedTaskSummaryElementKey == linkParts[0] || StringOperation.wrapInQuotes(editedTaskSummaryElementKey) == linkParts[0] || StringOperation.removeDot(editedTaskSummaryElementKey) == StringOperation.removeQuoteWrapping(StringOperation.removeDot(linkParts[0]))) { // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
+                if (editedTaskSummaryElementKey == linkParts[0] || StringOperation.wrapInQuotes(editedTaskSummaryElementKey) == linkParts[0] || StringOperation.removeDot(editedTaskSummaryElementKey) == StringOperation.removeQuoteWrapping(StringOperation.removeDot(linkParts[0]))) // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
+                { 
                     // parentYamlObj = element;
                     parentYamlObj = yamlDoc.get(taskSummryElementKey, true);
                     break;
@@ -318,7 +321,8 @@ export class YamlTaskOperations {
         const { filePath, yamlPath } = StringOperation.parseF2yamlLink(yamlLink);
         const fileUri: vscode.Uri = await VsCodeUtils.getFileUri(filePath);
         const yamlKeys: string[] = StringOperation.parseYamlPath(yamlPath);
-        return taskObj = await YamlTaskOperations.getYamlObj(yamlKeys, fileUri);
+        taskObj = await YamlTaskOperations.getYamlObj(yamlKeys, fileUri);
+        return taskObj;  
     }
 
     public static getCleanYamlKeys(yamlLink: string) {
@@ -403,7 +407,7 @@ export class YamlTaskOperations {
         return cleanYamlLink;
     }
 
-    private static createWorkLogObj() {
+    private static createWorkLogObj():yaml.Pair<yaml.Scalar, yaml.YAMLSeq> {
 
         const workLogObj = new yaml.Pair(
             new yaml.Scalar('WorkLog'),
@@ -423,18 +427,34 @@ export class YamlTaskOperations {
     }
 
     private static async getWorkLogObj(taskObj: any) {
-        if (!taskObj.value.items) {
-            let newMap = new yaml.YAMLMap()
-            taskObj.value = newMap;
-        }
+        let taskItem: yaml.YAMLMap = HackingFixes.getYamlMapFromPairOrYamlMap(taskObj);
 
-        let workLogObj = taskObj.value.items.find((item: any) => item.key.value == "WorkLog");
-        if (!workLogObj) {
-            workLogObj = this.createWorkLogObj();
-            taskObj.value.items.push(workLogObj);
+        // if (!taskObj.value.items) {
+        //     let newMap = new yaml.YAMLMap()
+        //     taskObj.value = newMap;
+        // }
+
+        let workLogItemOrUnknown: yaml.Pair<yaml.YAMLSeq, yaml.YAMLSeq> | unknown = taskItem.items.find((item: any) => item.key.value == "WorkLog");
+
+        let workLogItem: yaml.Pair<unknown, unknown>;
+        if (!workLogItemOrUnknown){
+            workLogItemOrUnknown = this.createWorkLogObj();
+            taskItem.items.push(workLogItemOrUnknown as yaml.Pair<yaml.Scalar, yaml.YAMLSeq>);
+        }        
+        if (workLogItemOrUnknown instanceof yaml.Pair){
+            workLogItem = workLogItemOrUnknown as yaml.Pair;     
+            if (workLogItem.value instanceof yaml.Scalar && workLogItem.value.value === null)
+            {
+                workLogItem.value = new yaml.YAMLSeq();
+            }
+            if (workLogItem.value instanceof yaml.YAMLSeq)
+            {                
+                if (!workLogItem.value.items) this.addNullValueInWorkLog(workLogItem);
+                return workLogItem.value;
+            }
         }
-        if (!workLogObj.value.items) this.addNullValueInWorkLog(workLogObj);
-        return workLogObj.value;
+        throw new Error("Unknown structure:" + taskItem);
+
     }
 
     private static getName() {
@@ -444,9 +464,9 @@ export class YamlTaskOperations {
     }
 
     private static async addWorkLogInTask(workLog: any, yamlLink: string) {
-        const taskObj = await this.getTaskObj(yamlLink);
-        if (!taskObj) return;
-        const workLogObj = await this.getWorkLogObj(taskObj);
+        const taskItemProperties: yaml.YAMLMap = await this.getTaskObj(yamlLink);
+        if (!taskItemProperties) return;
+        const workLogObj = await this.getWorkLogObj(taskItemProperties);
         if (!workLogObj) return;
         let name = this.getName();
         name = new yaml.Scalar(name);

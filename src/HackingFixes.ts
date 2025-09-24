@@ -2,8 +2,7 @@ import * as yaml from "yaml";
 
 export class HackingFixes {
     static getYamlMapFromPairOrYamlMap(yamlObj: any): yaml.YAMLMap
-    {
-        let yamlMap: yaml.YAMLMap;
+    {        
         if (yamlObj instanceof yaml.YAMLMap) {
             return yamlObj;
         }
