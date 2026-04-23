@@ -1,0 +1,134 @@
++: {Type: Folder, DefaultTypes: [Task, Bug, Folder]}
+
+.F2FileToHtmlConverter:
+  +: { CreatedBy: Bobi, CreatedAt: 20250607 T 134055, By: [Bobi, Gaurav] }  
+  Done .Create Requirement:
+    +: {CreatedBy: Bobi, CreatedAt: 20250806 T 192923, By: Bobi}
+    Done .Create HTML format specification:
+      +: { CreatedBy: Hana, CreatedAt: 20250725 T 122732, By: [Gaurav, Bobi] }
+      Estimation: 3 hours
+      Notes:
+        - Gaurav will provide the key to Utkarsh      
+    Done .Finish the requirement:
+      +: {CreatedBy: Bobi, CreatedAt: 20250806 T 193254, By: Bobi}      
+    Comments:
+      - [Bobi, 20260330, "The requirements covered only the first phase and were obsolete, so they are not included in the current repo"]
+  InProgress .Development:
+    Done .ZerothPhase:
+      Closed .Create initial version:
+        Details:
+          This task is here only to signal that there was an initial version created before this phase.
+    Done .FirstPhase:
+      +: { CreatedBy: Hana, CreatedAt: 20250725 T 123314, By: Bobi }
+      Done .Plan the implementation:
+        +: {CreatedBy: Bobi, CreatedAt: 20250806 T 181621, By: Bobi}
+        Result:
+          There are the following Tasks:
+            - creating the requirement
+          Tasks:
+            - Refactor the existing code
+            - Implement reading the config file
+            - Implement the yaml to html converter
+            - Implement saving the json
+            - Final refactoring
+      Done .Refactor the existing code:
+        +: {CreatedBy: Bobi, CreatedAt: 20250806 T 194356, By: Bobi, Tags: [CSVDONE]}
+      Done .Implement reading the config file:
+        +: {CreatedBy: Bobi, CreatedAt: 20250806 T 194403, By: Bobi, Tags: []}
+      Done .Implement the yaml to html converter:        
+        +: {CreatedBy: Bobi, CreatedAt: 20250806 T 194408, By: Bobi, Tags: []}
+      Done .Implement saving the json:
+        +: {CreatedBy: Bobi, CreatedAt: 20250806 T 194412, By: Bobi, Tags: []}
+      Done .Missed parts:
+        +: {CreatedBy: Bobi, CreatedAt: 20250809 T 202043, By: Bobi, Tags: []}
+      Cancelled .Improvements:
+        +: {CreatedBy: Bobi, CreatedAt: 20250809 T 202853, By: Bobi, Tags: [], Priority: 2-Low}
+        Cancelled .Move the YamlParser into a project so that it can be referenced from multiple projects:
+        Cancelled .Recognize properties and subitems based on their appearance in the configured .yamls:
+          +: {CreatedBy: Bobi, CreatedAt: 20250809 T 202938, By: Bobi, Tags: []}              
+          Cancelled .Create and parse config for the paths of files containing class and enum descriptions:
+          Cancelled .Go through the files, parse the yamls in them, get the values the enum members and property description:
+          Cancelled .A map key is a SubItem if it either starts with a "." or the first word is one of the enum statuses, otherwise :            
+      Done .Fixes:
+        Done .Use the style in the yaml in the html for rendering:
+          +: {CreatedBy: Bobi, CreatedAt: 20250809 T 233559, By: Bobi, Tags: []}
+          Details:
+            - Quotations
+            - Horizontal line                
+        Done .Use nbsp for indending strings:
+        Done .Recognize subItems - if the 2nd word starts with a .:
+        Done .Fix the coloring of subitems vs properties:
+        Cancelled .Fix map in sequence case:
+          Details:
+            there's an extra newline before the sequence after the colon
+          Result: |
+            This could work - but too hacky, so leave it up to Shadow.
+            <ul>
+              <li>Sequence:
+                <ul>
+                  <li style="position: relative">
+                    <ul>
+                      <li style="position: absolute; top: 0em; left: 1em">Key1: Value1</li>
+                      <li>Key2: Value2</li>
+                    </ul>
+                  </li>
+                  <li style="position: relative">
+                    <ul>
+                      <li style="position: absolute; top: 0em; left: 1em">Key3: Value1</li>
+                      <li>Key4: Value2</li>
+                    </ul>
+                  </li>                      
+                </ul>
+              </li>
+            </ul>
+      Cancelled .Final refactoring:
+        +: {CreatedBy: Bobi, CreatedAt: 20250806 T 194439, By: Bobi}
+        CancelReason: It can be done the next time we touch it.
+    InProgress .SecondPhase:
+      Done .Update the script to generate a version which can be used for the OriginalConcept site:
+        Id: UpdateTheGeneratorScript
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162053, By: Bobi}                      
+      Done .Sync color coding with Barba.Types:
+        +: {CreatedBy: Bobi, CreatedAt: 20250902 T 182700, By: [Hana, Giselle], Priority: 3-Average}    
+      InProgress .Try Updating the BarbaF2YamlHtmlConverter to generate empty lines as well:
+        +: {CreatedBy: Bobi, CreatedAt: 20260112 T 203858, By: Bobi, Tags: [OCWSPhase1]}
+        Done .Move the yaml parser to a separate project in The F2Tools project:
+          +: {CreatedBy: Bobi, CreatedAt: 20260112 T 203858, By: Bobi, Tags: [CSVDONE], Estimation: "60", RemTime: "0"}
+        InProgress .See what can be done to support the empty lines; if easy, do it: 
+          +: {CreatedBy: Bobi, CreatedAt: 20260402 T 163818, By: Bobi, Tags: [CSVDONE], Estimation: "120", RemTime: "60"}
+          Details:
+            - It can be done seemingly, relatively easy (2h)
+      Done .Fix the non-scalar as a sequence entry folding issue:
+        +: {CreatedBy: Bobi, CreatedAt: 20260409 T 151338, By: Bobi, Tags: [CSVDONE], Estimation: "120", RemTime: 0}
+      Done .Add the config files to the project:
+        +: {CreatedBy: Bobi, CreatedAt: 20260414 T 194514, By: Bobi, Tags: [CSVDONE], Estimation: "10", RemTime: "0"}
+      TODO .Merge the project into the F2Tool solution:
+        +: {CreatedBy: Bobi, CreatedAt: 20260414 T 194910, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+      TODO .Detect and convert urls:
+        +: {CreatedBy: Bobi, CreatedAt: 20260415 T 130338, By: Bobi, Tags: [CSVDONE], Estimation: "60", RemTime: "60"}
+        Details:
+          - check first - 
+          - email addresses
+          - html links
+      Done .Display line and col number when unable to parse yaml:
+        +: {CreatedBy: Bobi, CreatedAt: 20260420 T 203155, By: Bobi, Tags: [CSVTODO], Estimation: "15", RemTime: "0"}
+      TODO .Update the colors to the current VS Code theme:
+        +: {CreatedBy: Bobi, CreatedAt: 20260415 T 130813, By: Bobi, Tags: [CSVDONE], Estimation: "15", RemTime: "15"}
+      TODO .Detect and convert f2yaml links:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 185553, By: Bobi, Tags: [CSVDONE], Estimation: "180", RemTime: "180"}
+      Done .Cleanups:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 185129, By: Bobi, Tags: [CSVDONE], Estimation: "45", RemTime: "45"}
+      Done .Implement CSV converting feature:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 184909, By: Bobi}
+        Done .Baseline:
+          +: {CreatedBy: Bobi, CreatedAt: 20260418 T 184927, By: Bobi, Tags: [CSVDONE], Estimation: "120", RemTime: "0"}
+        Done .Ability to specify which columns to be converted in config:
+          +: {CreatedBy: Bobi, CreatedAt: 20260418 T 185113, By: Bobi, Tags: [CSVDONE], Estimation: "60", RemTime: "0"}
+        Done .Include coloring:
+          +: {CreatedBy: Bobi, CreatedAt: 20260418 T 205117, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}        
+          
+
+  OnGoing .Bugs:    
+
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

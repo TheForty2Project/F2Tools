@@ -1,0 +1,1329 @@
++: {Type: Folder, DefaultTypes: [Folder, Article]}
+
+Done .Notes:
+  Content:
+    - Although this is work in progress, it already contains useful information for those who'd seriously like to participate in the project:
+      - it's a good source for information to understand the most important notations - i.e. it's worth checking this document before you ask a question, high chance that you can figure things out from this    
+    - Plan is to gradually finish the below over the next couple of weeks - but when exactly highly depends on the need and feedbacks
+
+3-Detailing Must .F2Yaml.MVP Rules Sketch:
+  Type: Article  
+  Title: F2Yaml.MVP Rules - First sketch
+  Tasks:
+    Done -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Clean, create or migrate the yamls".."Write content for the leaves".."The Abyss".."Documents".."Specifications".."F2Yaml".."Syntax, semantics and Barba.Types should not be mixed"<:
+  5-Done Must .Introduction: 
+    Title: Introduction
+    Content:
+      In this document we're mainly describing the syntax of the F2Yaml language, a yaml based language used to describe the information-pieces - we call Items - in which all data (both static and algorithmical) are stored throughout the project. The language is designed to be easy to use and understand by humans while strict enough to be relatively easy to process by computers (it's not JSON level simple though).
+      
+      We've been using and fine tuning it for a couple of years, some users not even having prior experience with formal languages before but if you've never seen a yaml (well, apart from this document) then before you proceed, we'd recommend you to ask some LLM (e.g. ChatGPT) to give you a summary about the the most important things to know about mappings, sequences and string scalars.
+
+      A note that as the Title suggests, this document is closer to a sketch, a work-in-progress document than a final specification due to - at the time of writing - the project being in its early stages and the language being under development.
+  5-Done Should .DesignConsiderations:
+    Title: Design Considerations
+    Content:
+      The most important design consideration of the f2yaml language was easy understandability and handling (by humans), sacrificing easy processing, therefore:
+        - base language is yaml (so f2yaml is yaml with extra rules, therefore you can use your favorite IDE like VS Code, Notepad++, etc. for it), as it's:
+          - already designed to be easy to process and understand by humans - sacrificing some easy processing by computer algorithms
+          - supports infinite hierarchies
+          - widespread and widely supported by the software industry
+        - it's the opposite of strict:
+          - using the language should feel like reading-writing a well structured document with some extra conventions about representing commonly used structures
+          - we tend to include common user "errors" in the language if it does not cause ambiguity rather than making you fix them - e.g. you can refer to it as F2Yaml, f2Yaml, f2yaml - all the same, no "official" casing
+        - using only the basic yaml features:
+          - only maps, sequences, scalars, excluding the "tricky" notations
+          - no anchors, verbatim tags,  etc.  
+        - lots of syntax sugars: 
+          - meaning there are multiple ways to represent commonly used structures in case it improves readibility or construction
+  4-AlmostDone Must .Overview:
+    Title: Overview
+    4-AlmostDone Must .Summary:
+      Title: Summary
+      Content:
+        At first we give an overview about Items - the abstract structures in which information is stored throughout the project - we'll then summarize the most important things about the F2Yaml language - used to describe these in a human readable form - plus the F2Yaml structures and conventions we currently use in this stage of the project.
+      Tasks:
+        -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Clean, create or migrate the yamls".."Write content for the leaves".."The Abyss".."Documents".."Specifications".."F2Yaml".."Overview".."Summary".."Create a ToC like thing from this"<
+    5-Done Must .Items:
+      Title: Items
+      5-Done Must .General:
+        Title: General
+        Content:
+          Overview:
+            We store information in "Items", a collection of properties and their values describing something, e.g. we can have an Item describing an apple containing the properties "color", "weight", "dimensions" and their values.  Items are "strongly typed", meaning they must adhere to a blueprint which most imortantly specifies what these properties are:_ their names and what kind of data (number, date, etc.) these can hold; we call these blueprints "ClassDescriptions" or in short, classes and refer to them as the Type of the Item. 
+            If you have basic programming knowledge:_ Items and their classes are very similar to objects and classes as in OOP programming languages.
+
+            For non-programmers:_ in the next section we're explaining the above a bit but you would probably benefit from asking an LLM (e.g. ChatGPT) about the fundamentals of OOP data structures.
+          
+          The basics of "OOP data structures as we use it":
+            Items consist of a set of "properties" or "fields":
+              - which are key-value pairs, where the "key" identifies the property and the "value" is the information (static or algorithmical) the property holds:
+              - Examples:
+                  - Type: PersonalData
+                    Id: Bobi
+                    Age: 42
+                    Name: Bo Bii
+                  - Type: Apple
+                    Color: Red
+                    Kind: Jonagold
+                    Id: MyFavoriteApple
+                  - Type: MemberCollection
+                    Id: ProjectMembers
+                    Elements:
+                      - -->Bobi<
+                      - -->Hana<
+            Items have a "Type" - we refer to them as "ClassDescription" or "class":
+              - It describes their structure, a blueprint, most importantly describing the set of properties they can contain:
+                - the names of them
+                - the type of data they can hold - e.g. an integer, a datetime, a list of them or an algorithm (for non-programmers:_ a list of steps to be performed)
+              - Examples: 
+                  The ClassDescriptions of the Items in the previous examples, where in the "Properties" list the first element is the type :
+                  - class PersonalData:
+                      Properties:
+                        - string Name:
+                        - integer Age:
+                  - class Apple:
+                      Properties:
+                        - ColorIdentifier Color: #a special "Enumeration" type, signaling that the property should hold a value from a predefined collection called "ColorIdentifier"
+                        - AppleKind Kind: 
+                        - string Id:
+                  - class MemberCollection:
+                      Properties:
+                        string Id:
+                        PersonalData[] Elements: #the square brackets signaling that it's a list of PersonalData
+            Each Item can be referenced:
+              - that is, another Item can "point" to it in a way that one of its properties contains either the unique identifier of the referenced item or some way to find it, e.g. a path
+              - Examples:
+                  Name: Bobi
+                  Likes: -->Applecollection.MySpecialApple<
+            Inheritance:
+              - types can be built on an existing one, automatically gaining its properties and behavior while optionally adding or changing some of them.                        
+              - Examples:
+                  class Fruit:
+                    Properties:       
+                      integer WeightInGrams:
+                      bool IsEdible:
+                  
+                  class Apple:
+                    Inherits: Fruit
+                    Properties:
+                      AppleKind Kind:
+                      ColorIdentifier Color: 
+      5-Done Must .DataTypeBasics:
+        Title: Data types basics 
+        Tasks:
+          Done .Finish this; last hairs.:
+            +: {CreatedBy: Bobi, CreatedAt: 20251220 T 124654, By: Bobi, Tags: [OCWSPhase1], Estimation: 10, RemTime: 0}
+        Content: 
+          Overview:
+            A data type defines what kind of values a variable (=a container holding data; the properties of the Items are some kind of it) can hold and as a consequence, which operations are valid on those values, such as you can say that a certain variable is for numbers, the other one should contain string (text) and therefore the operator "division" is valid on the former and "concatenation" is valid on the latter.
+          The types we use throughout the system (currently):
+            Simple or Scalar types:
+              Description:
+                - They are single, indivisible values that represent one basic piece of information, like a number, a letter, or a yes/no value.
+                - Plus, due to yaml conventions, we also classify a string (a list of characters, so it's not indivisible) and all derived types (like IdString, which limits the range of characters to simple English ones) a scalar.
+              Examples: 
+                A more or less complete list of scalars currently supported by the system:
+                  - integer: 42 #a whole number (so no fractions)
+                  - float: 4.2 #a number with fractions; (the reason it's not e.g. "fraction" is due to its internal representation in computers: the point is "floating")              
+                  - char: ≥ #one character; this comment has 42 of them
+                  - string: lorem ipsum dolor sit amet #a list of characters
+                  - bool: true #either the value "true" or "false"
+                  - DateTime: 2025-12-16 #a point in time
+                  - Duration: 42m #a length of time
+                  - IdString: loremIpsumDolorSitAmet #a list of characters from a limited set, e.g. the space character is excluded
+            Arrays (or lists) and sets:
+              Description:
+                - A collection of values of any type - so you can have a list of list of integers.
+                - F2Yaml specifics: As per the current plans, there's no special notation 
+              Examples:
+                - integer[] #a list of whole numbers
+                - string[] #a list of strings, which is essentially a list of a list of characters
+                - bool[][] #a list of a list of booleans; a 3 dimensional matrix of true/false values
+            Enumerations:
+              Description:
+                - An enumeration (enum) is a type that defines a fixed, named set of allowed values, letting you use meaningful names instead of arbitrary numbers or strings
+              Examples:
+                The definition of the "ArticleMaturity" enumeration:
+                  enum ArticleMaturity:
+                    Members:
+                    - 0-New
+                    - 1-SomeProgress
+                    - 2-HighLevel
+                    - 3-Detailing
+                    - 4-AlmostDone
+                    - 5-Done
+                    - 6-Reviewed
+                    - 7-Mature
+                    - 8-Gandalf
+
+                A ClassDescription using the above:                                
+                  class Article:
+                    Properties:
+                      - IdString Id:
+                      - ArticleMaturity Maturity:
+                      - string Content:                
+                And an Article where this property is set to one of the values:
+                  ExampleArticle:
+                    Type: Article
+                    Maturity: 5-Done
+                    Content: Lorem ipsum dolor sit amet
+
+            Items:            
+              Description:
+                - an Item of some kind, e.g. an "Apple" if there's a class called "Apple". 
+                - it's important that Item type properties can hold Items which are the descendants of the type:
+                  - e.g. if the Jonagold class inherits the Apple class, you can assign an object of Type Jonagold to a property with the type Apple)
+                  - if the declared type of the property is Item, you can assign all Item types to it
+              Examples:                
+                The classes:
+                  class User:
+                    ...
+
+                  class Task:
+                    Properties:
+                      string Id: 
+                      User By: 
+                      Task[] SubTasks: #you can assign both Task and Bug Items to it
+                  
+                  class Bug:
+                    Inherits: Task
+                    Properties:
+                      User FoundBy:
+                      string StepsToReproduce:
+                Their usages:
+                  <Task>:
+                    Properties:
+
+            Plus, the "null":
+              Description: |
+                Properties (and variables) can be set to be empty, from another perspective meaning that an "empty" value is assigned to them what we call "null" - not to be confused with 0 or an empty string.
+
+                It can be specified in the ClassDescription whether it's allowed to set a property to null - so it's not a real type, rather a flag on the property:
+                - i.e. is it mandatory to fill it
+                - e.g. a "UserInformation" must have its "UserId" property filled at all times as it's not a valid scenario that we store information about a user but we don't know which user it is, but e.g. its "LastLoggedIn" field should be null (empty) if they have never logged in before
+              Examples:    
+                <MyItem>:           
+                  StringProperty1: "" #meaning its value is a string with the length 0 - it's not empty or null
+                  StringProperty2: null #meaning it's empty
+                  NumberProperty: 0 #meaning its value is 0
+                  NumberProperty1: null #maning it's empty
+    5-Done Must .FYamlBasics:
+      Title: F2Yaml basics
+      5-Done Must .Overview:
+        Title: Overview
+        Content: |            
+          We use yaml mappings to describe Items, where:
+            - the key of the mapping contains the value(s) of one or more distinguished property of it; we refer to this part as "header"
+            - the (optional) value of it contains further mappings:
+              - describing further properties
+              - describing further Items belonging to or part of the default List property of it (these must start with a period (".") character)            
+          The property descriptions should be yaml mappings, where the key is the Id (roughly a one word identifier) and the value is its 
+          value.
+
+          Examples:
+            - a Task, the values of "Status" and "Summary" in header, the "Type" and "By" properties specifying that it's a Task and it should be performed by "Bobi", two subItems:
+
+                Done Write this example:
+                  Type: Task
+                  By: Bobi
+                  Done .Write the description:
+                  Done .Write the concrete example:
+
+            - a Folder, the value of its "Summary" property as header, further folders with the value of their "Id" properties as headers containing further subItems:
+
+                Things to be done:
+                  Type: Folder
+                  .Website related:
+                    Type: Folder
+                    InProgress .Do basic SEO:
+                    Blocked .Go live:
+                      By: Bobi
+                  .Public Relations:
+                    Type: Folder
+                    InProgress .Do streamings:
+
+      5-Done Must .Headers:
+        Title: Headers
+        Tasks:
+          Done .F2Yaml language rules finish - finish explaining that it's only defining the basics:
+            +: {CreatedBy: Bobi, CreatedAt: 20251220 T 015603, By: Bobi, Tags: [OCWSPhase1], Estimation: 10, RemTime: 0}
+          Done .CurrentBusinessRules finish:
+            +: {CreatedBy: Bobi, CreatedAt: 20251220 T 015639, By: Bobi, Tags: [OCWSPhase1], Estimation: 10, RemTime: 10}
+            Details:
+             - describe what you can meet throughout the document; some of these might be included in the language itself as well
+             - Also merge the MostWidelyUsedHeaderFormats into the 2 above it
+
+        5-Done Must .F2YamlLanguageRules:
+          Title: Headers Defined by the F2Yaml Language
+          Content:
+            Summary:
+              The Header is the key part of the yaml mapping describing the Item, containing the value(s) of one or more distinguished properties, usually holding the most important information pieces. You can consider it as the title of a document or the name of a file, serving the purpose of easy referencing and to be able to see just the essentials without the details.
+              It is NOT mandatory that an Item yaml has a header as in many cases there are no properties which would be more important than the others and we don't want to reference them - such as a WorkLog entry containing how much time a user spent on working on a Task
+
+              Multiple header formats - so what property values in what order they should contain - can be defined in the ClassDescription of an Item. 
+              By default, the language supports one special header format, using the value of the Type field.              
+
+        5-Done .HeaderTypes:
+          Title: The header types we use currently
+          Content:
+            The most widely used header formats throughout the current documents are where we use values from the following properties:
+              \"Id" or \"Summary":
+                Summary: used for e.g. folder names or simple groupings
+                Examples:
+                  - A Folder where its "Id" property contains the value "Tasks", its "Items" one some Tasks:
+                      Tasks: #So this represents a Folder where its Id property contains the value "Tasks"
+                        Items: #This is its "Items" property
+                          - MyTask1: #This is a Task where its Id property contans the value "MyTask1"
+                              Type: Task
+                          - MyTask2: #This is a Task where its Id property contans the value "MyTask2"
+                              Type: Task
+                  - The "Summary" property contains the value "These are the Tasks for the website":
+                      These are the Tasks for the website:
+                        Items:
+                          #and we list the tasks here
+
+              \"Status" + \"Id" or \"Status" + \"Summary":
+                Summary: often used for describing Tasks, Requirements, Articles, etc. where their statuses and their ids (=one word identifier) or summaries (short descriptions) are usually the most important information
+                Examples:
+                  Status ("Done") + Id ("CookSomeMeal) as header:
+                  Done CookSomeMeal:
+                    Summary: Cook some meal
+                    CreatedAt: 20251222
+                  Done Cook some meal:
+                    Id: CookSomeMeal
+                    Summary: Cook some meal
+                    CreatedAt: 20251222
+                  InProgress Write the overview about Item yamls:
+                    Id: WriteItemYamlOverview
+                    By: Bobi
+                    CreatedAt: 20251212
+
+              \"Type":
+                Summary:
+                  - The default one. Used mainly in special cases, where the Item does not have an Id, Summary or any special field we want to use as a header (but all Items must contain a "Type" property - hence we can always use it as a header).
+                  - The syntax here is to enclose the value of the Type field in between a "<" and a ">" character.
+                Examples:                    
+                  <Task>:
+                    Status: Done
+                    Id: WriteItemYamlOverview
+                    WorkLog:
+                      - <WorkLog>:
+                          Performer: Bobi
+                          ActivityDescription: Did a few things
+                          Spent: 10m
+
+            And the default, "no header" case:
+              Summary: in some cases using a header is just not convenient; this is for that case.
+              Examples:
+                The above "worklog" example in a simplified, more convenient way:
+                  Done WriteItemYamlOverview:
+                    WorkLog: [Performer: Bobi, ActivityDescription: Did a few things, Spent: 10m]
+
+                A not-too convenient way to list Tasks under a Folder:
+                  MyFolder:
+                    Items:
+                      - Type: Task
+                        Id: MyTask1
+                      - Type: Task
+                        Id: MyTask2
+
+      0-New Must .SpecialItems:
+        Tags: [Semantics]
+        Title: Special Items
+        0-New Must .Overview:
+          Title: Overview
+          InProgress .Create content:
+            +: {CreatedBy: Bobi, CreatedAt: 20251224 T 160414, By: Bobi, Tags: [CSVDONE], Estimation: "10", RemTime: "10"}
+          Content:
+            The F2Yaml specification includes a number of special Items, -->Barba.Types\..NonClassTypes.Content<
+
+        0-New Must .ItemAndStandardItem:          
+          Title: The Item and StandardItem classes
+          Tasks:
+            InProgress .Create content:
+              +: {CreatedBy: Bobi, CreatedAt: 20251220 T 184017, By: Bobi, Tags: [CSVDONE], Estimation: "60", RemTime: "60"}
+              Details: 
+                - You can create your own Items, but they 
+          Content:
+            The F2Yaml specification includes a number of special Items, 
+
+        0-New Must .ClassDescription:          
+          Title: Describing Items - the ClassDescription class
+          Tasks:
+
+      
+      0-New Must .SubItems:
+        Tags: [Syntax, Semantics]
+        +: {CreatedBy: Bobi, CreatedAt: 20251220 T 015903, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: 20, RemTime: 20}
+        Tasks:
+          InProgress .Create content:
+            Details:
+              - Explain what these are
+              - Subitems without specifying the property
+              - Mandatory hierarchy of Items - the BelongsTo
+        0-New Must .Overview:
+          Content: |
+            One of the main design concepts of the f2yaml language was to be able to easily represent hierarchies or trees of unlimited depths.
+            
+            Item "S" is a subItem of Item "I" if:
+              - S is referenced by one of I-s List properties, such as Item with Id I have two subItems, the Items with Id "S1" and "S2":
+                  <Task>:
+                    Id: I
+                    SubTasks:
+                      - <Task>:
+                          Id: S1
+                      - <Task>:
+                          Id: S2
+              - The "BelongsTo" property of 
+      
+        # Examples:
+        #   - \"Type" as header:
+        #   - Status + Summary as header:
+        
+        #   - for each key-value pair in this mapping ("Properties"):
+        #     - the key is a string scalar, containing the Id of a Property of the Item
+        #     - the value is the value of the Property      
+
+    # Examples:
+    #   - A recipe, described in the basic yaml format:
+    #       <Item>:
+    #         Type: Recipe
+    #         Id: Tea
+    #         Details: How to cook tea
+    #         Ingredients:
+    #           - 300 ml water
+    #           - 1 tea bag
+    #         Steps:
+    #           - boil the water
+    #           - put the tea bag + the boiling water into a cup
+    #           - wait 3 minutes
+    #   - A Task, described in a custom yaml format - where the first word of the first line is the value of the "Status" property :
+    #       Done Write examples:
+    #         Type: Task
+    #         By: Bobi
+    #         Details: Write examples for this section
+
+  1-SomeProgress Could .Terminology:
+    Title: Terminology
+    .Item:
+    # \"Property":
+    # \"Field":
+    #   Summary:
+    #     The key-value pairs of the Items
+    .Item Description or Item yaml:
+      Summary:
+        The yaml node describing an Item.
+    \"Item Header" and "Item Properties":
+      Summary:                         
+        In case the Item yaml is the value of a key-value pair, the "item header" is the key part of this key-value pair; a string scalar.
+      Example:          
+        Done Write this f2yaml specification: #header
+          By: Bobi #properties
+          CreatedAt: 2025-12-11 #properties
+
+  # .Concepts:
+  #   Summary:
+  #     In general, Items behave very similarly to objects in OOP languages, also, we're trying to use similar terminology here, so if you're familiar with OOP concepts then you can jump to the $@-->DocsAndArticles\Specifications\F2Yaml\.."F2Yaml.MVP Rules"..Concepts.."Differences from OOP languages"<@$ section
+  #   .Similarities to OOP languages:
+  #     .Referencing:
+  #       Summary: Items can reference each-other in a way that one of their properties can hold a value which refers to another item - either through specifying its location or its unique id
+  #     .Strongly and staticly typed language:
+  #       Summary: The language is strongly and statically typed, 
+  #   .Differences from OOP languages:
+  #     .Mandatory hierarchy of Items:
+
+  3-Detailing Must .F2Yaml syntax detailed:
+    5-Done Must .Basic yaml-ing only:      
+      Content:
+        Summary:
+          - We only support basic yaml structures/notations due to various (readability, simplicity, etc.) reasons
+          - At the time of writing, comments are NOT supported by the initial versions of The F2Tool due to 3rd party parser implementations; this is expected to change in the future
+        The list of yaml elements and whether they are allowed/supported:
+          Nodes:
+            Sequences:
+              Allowed:
+                Details: Both types (Flow and block notations)              
+                Examples:
+                  Flow: [Apple, [Banana, Cucumber]]
+                  Non-flow:
+                    - Apple
+                    - - Banana
+                      - Cucumber
+            Mappings:
+              Allowed:
+                Details: Flow and block types
+                Examples:
+                  Flow: {Apple: {Banana, Cucumber}}
+                  Block:
+                    Apple:
+                      Banana:
+                      Cucumber:
+              Not allowed:
+                The "?" notation
+            Scalars:              
+              string:
+                Allowed:            
+                  Details: all (plain, single and double quoted, literal block, folded block)
+                  Note: \"folded block" might not be fully supported by the first versions of The F2Tool
+                  Examples:
+                    - lorem
+                    - 'ipsum'
+                    - "dolor"
+                    - |
+                      sit
+                      amet
+                    - >
+                      consectetur
+                      adipisci
+              other scalars:
+                Allowed:
+                  Details: integer, float, boolean, timestamp (ISO format by default and other, user defined formats not part of the specification), null
+                  Examples:
+                    - 1
+                    - 1.0
+                    - true
+                    - 2024-12-24
+                    - null
+                Not allowed:
+                  Details: 
+                    - binary
+                    - note: this decision might be reversed later though, but this would also require reversing the decision about not allowing explicit tags
+          Other elements:
+            Comments:
+              Details:
+                - At the moment they are allowed, but not supported by the first implementations of The F2Tool due to 3rd party parser limitations
+            The rest - not supported:
+              Details: all disallowed
+              The (might not complete) list of them:
+                - Document start/ends
+                - Tags, tag handles, verbatim tags
+                - Aliases, anchors, merge keys           
+                - The "?" notation for mapping keys
+    5-Done Must .Flow and block mappings:
+      Details:
+        Items can be represented as multi-line (block) and single line (flow) yaml mappings as well; they mean the same:
+      Examples:
+        - <Task>: {Id: MyTask, Details: Lorem ipsum dolor sit amet}
+        - MyTask: {Type: Task, Details: Lorem ipsum dolor sit amet}
+        - {Type: Task, Id: MyTask, Details: Lorem ipsum dolor sit amet}      
+        - MyTask:
+            Type: Task
+            Details: Lorem ipsum dolor sit amet
+        - -->Root..MyProject..MyItem<: {Prop1: NewValue}
+    5-Done Must .Escaping:
+      Title: Escaping      
+      Content:
+        Escaping is the process of using special notation (often a backslash or similar) to represent characters in a string or text that would otherwise be interpreted as control symbols or have special meaning. Below
+      5-Done Must .Backslash:
+        Title: Backslash as a starting character in plain strings        
+        Content:
+          Summary:
+            - In cases where a plain string scalar must start with a special character, we can place a backslash ("\") as a starting character to force string interpretation; this backslash therefore will be removed from the resulting string.
+            - Therefore double backslash to un-escape (so to be able to represent a string starting with a backslash char)
+            - Main use is to be able to use plain scalars even if the first character was a double quote or a special character
+          Examples:
+            - SomeString: \"Apple" is a fruit #interpreted as: "Apple" is a fruit
+            - string myValue: \=Root.MyFolder #interpreted as: =Root.MyFolder; escaping is used because plain string scalars starting with a "=" are interpreted as expressions, not strings
+            - string myValue: \\lorem ipsum #interpreted as: \lorem ipsum
+      5-Done Must .ColonUnderscore:
+        Title: Underscore character instead of space after colon in plain strings
+        Content:
+          Summary: 
+            - for cases where a space must be placed after a colon in plain string scalars, an underscore should be placed instead of the space so that it's not interpreted as a mapping entry
+            - if a colon + underscore is intended, two underscores should be placed after the colon
+          Examples:
+            Prop1: The Answer to the Ultimate Question of Life, The Universe, and Everything:_ 42 #interpreted as: The Answer to the Ultimate Question of Life, The Universe, and Everything: 42
+            Prop2: Colon followed by underscore (:__) represents just a colon (:_) #interpreted as: Colon followed by underscore (:_) represents just a colon (:)
+    3-Detailing Must .Explicitly vs non-explicitly marked values:
+      Tasks:      
+        TODO .Explain that this is semantic, not syntax; so the rules are dependent on how we interpret certain values, not just the syntax:
+          +: {CreatedBy: Bobi, CreatedAt: 20251220 T 020449, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "5", RemTime: "5"}
+        TODO .Create a nice structure out of it:
+          +: {CreatedBy: Bobi, CreatedAt: 20251220 T 020704, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "10", RemTime: "10"}
+        TODO .Review the rules and examples below based on the F2Tool implementation:
+          +: {CreatedBy: Bobi, CreatedAt: 20251220 T 020502, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "15", RemTime: "15"}
+      Content:
+      - The F2Yaml expressions can be provided without marking whether they are strings, references, new Item definitions, etc. explicitly.:
+        - In cases where the context provides the information the parser will try to parse the expression as if the expression was one of those types, e.g. when assigning a value to a property with type "Item", it is allowed to omit the "=" or "->" prefixes and provide the value as a plain scalar
+        - In cases where the context does not provide the type information, the parser would by default try to parse it as the "most probable" type
+      - In cases where where the type information does not provide enough information:
+      #     Rules for values:
+      #       PropertyType, CanBeParsedAs , Warning, Example
+      #       string      , ItemProperty  , yes    , Root..MyItem.StringProp
+      #       string      , FunctionCall  , yes    , Root..MyFunction()
+      #       object      , ItemRef       , no     , Root..MyItem                 
+      #       object      , ItemProperty  , no     , Root..MyItem.StringProp
+      #       object      , boolean value , no     , True
+      #       object      , boolean exp   , no     , isFlagA | isFlagB
+      #       object      , arithmetic exp, no     , 1+2+3
+      #       object      , string        , yes,   , lorem ipsum
+      - for values without explicit notation (string or non-string):
+        - for properties with the type "object":
+          - tried to be interpreted as non-string (e.g. Item, function call, arithmetic expression)
+          - if unsuccessful, interpreted as a string:
+            - but a warning is generated                          
+        - for properties with the type "string":
+          - tried to be interpreted as non-string (e.g. Item, function call, arithmetic expression):
+            - but a warning is generated
+          - if unsuccessful, interpreted as string
+        - for both, only the syntax needs to be correct, e.g. Item references don't need to point to an actually existing Item          
+    # .Describing Items:
+    #   .Overview:
+    #     Title: Overview
+    #     Content:
+
+    #   .Details:
+    #     Details:
+    #       - For defining Items in the "WithHeader" format, the "new" keyword must precede the header
+    #       - For defining Items in the "WithoutHeader" format, the "new" keyword must be the key of a mapping where the value of the mapping is the item definition
+    #     .WithHeader:
+    #       Prefix: "new"
+    #       Yaml type: plain scalar or single-entry map with scalar key and map value
+    #       Details:
+    #         Overview:
+    #           - Headers contain the value of one or more distinguished property of the Item. By default the system supports Type as header for all items, Id as header for StandardItems-s and by defining header formats in the ClassDescription, one can create their own.
+    #           - if the entry is a scalar, then the "new" keyword must be followed by the values as per -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules".."F2Yaml syntax".."Defining Items"..WithHeader..CustomHeader<
+    #           - if the entry is a map, then the key must start with the "new" keyword, optionally followed by values and the value is a map containing entries with IdString-s as keys
+    #       .TypeAsHeader:
+    #         Details:
+    #           The header is the Id of the Type of the Item (the value of its "Id" property) in between the "<" and the ">" characters:
+    #         Format:
+    #           new <CLASS_ID>:
+    #             PROPERTY_ID1: PROPERTY_VALUE
+    #             ...:
+    #             PROPERTY_IDn: PROPERTY_VALUE                  
+    #         Example:
+    #           new <Task>:
+    #             Id: MyTask
+    #             Details: "Lorem ipsum dolor sit amet"
+    #       .IdAsHeader:
+    #         Details:
+    #           - For Items inheriting from StandardItem, the header is the value of the Id property of the Item.
+    #         Format:
+    #           new ID:
+    #             PROPERTY_ID1: PROPERTY_VALUE
+    #             ...:
+    #             PROPERTY_IDn: PROPERTY_VALUE                  
+    #         Example:
+    #           new MyTask:
+    #             Type: Task
+    #             Details: Lorem ipsum dolor sit amet
+    #       .CustomHeader:
+    #         Details:       
+    #           - For each type header formats can be defined in a way that properties which can be serialized (=represented as) to single line string can be used as an element.
+    #           - If a property value can consist of multiple words they must be placed in between the quotation characters
+    #         Format:
+    #           new PROPERTY_VALUE1 "PROPERTY_VALUE2":
+    #             PROPERTY_ID1: PROPERTY_VALUE
+    #             ...:
+    #             PROPERTY_IDn: PROPERTY_VALUE
+    #         Example:
+    #           Let's say that there's an Article:
+    #             <Article>:
+    #               Id: MyArticle
+    #               Maturity: 4-AlmostDone
+    #               Content: lorem ipsum              
+    #           Done 4-AlmostDone MyTask:
+    #             Content: lorem ipsum
+    #     .Without header:
+    #       Prefix: "new"
+    #       Yaml type: single-entry map with scalar key and map value
+    #       Details: a yaml mapping containing property names (IdStrings) as keys
+    #       Example:
+    #         new:
+    #           Type: Task
+    #           Id: MyTask
+    #           Details: Lorem ipsum dolor sit amet
+    4-AlmostDone Should .Functions:
+      Title: Functions
+      Details:
+        - provide summary:
+          - so what are function "in general" - so these are steps:
+          - mention that the "executor" of the functio can be both human and computer
+          - The line in between a Task and a computer function are blurred (and we'll probably change some of the semantics/syntax along these lines)      
+        - 
+      .Defining:
+        Details:
+          At the moment there's no special notation, later we might introduce some syntax sugars though (like "=>" if the code is written in f2yaml, "=C#>" if in C#, etc.)
+        Example:                      
+          <Function>:
+            Id: GetSumOfNumbers
+            Parameters:
+              FirstNo:
+                Type: Number
+              SecondNo:
+                Type: Number
+            Body:
+              Language: C#
+              Code:
+                return FirstNo + SecondNo;
+      .Calling:
+        Details: 
+          Without parameters:
+            Notation: 
+              - -->[ItemReference]<()
+              - in BNF: |
+                 "-->" <ItemReference> "<()"
+            Example: |
+              Root.MyProject.MyFunction()
+          With parameters: 
+            Notation: |
+              [ITEMREFERENCE]():
+                PARAMETER_ID1: PARAM_VALUE1
+                PARAMETER_ID2: PARAM_VALUE2
+                ...
+                PARAMETER_IDN: PARAM_VALUEN
+
+            Example:
+              MyFunction():
+                stringParam: blah
+                itemParam:
+                  <Task>:
+                    Id: myId
+                anotherItemParam:     
+    4-AlmostDone Must .strings:
+      Tasks:
+        TODO .Restructure it:
+          +: {CreatedBy: Bobi, CreatedAt: 20251220 T 020749, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "15", RemTime: "15"}
+      Details:
+        Explicitly marked strings are:
+          - all scalar node types except plain (i.e. single and double quoted, literal and folded)
+          - a plain scalar node starting with the character "\" (backslash)
+        Variant1:
+          Yaml type: scalar with the non-plain styles
+        Variant2:
+          Prefix: '\'
+          Yaml type: plain scalar
+        Examples:
+          StringProp1: 'Lorem ipsum dolor sit amet'
+          StringProp2: "Lorem ipsum dolor sit amet"
+          StringProp3: |
+            Lorem ipsum dolor sit amet
+          StringProp4: >
+            Lorem ipsum dolor sit amet
+          StringProp41: >2
+              Lorem ipsum dolor sit amet
+              Consectetur
+          StringProp5: \Lorem ipsum dolor sit amet
+          NonStringProp6: Lorem ipsum dolor sit amet #this would result in an error
+    4-AlmostDone Must .Item reference:
+      Tasks:
+        TODO Write it along these lines: #Can't CSV it
+          +: {CreatedBy: Bobi, CreatedAt: 20251220 T 020905, By: Bobi, Tags: [CSVTODO, OCWSPhase1], Estimation: "10", RemTime: "10"}
+          Details:
+            Summary:
+              An ItemReference inside the pre-postfix. See the -->DocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules".".F2Yaml syntax".".Item references or Links"..ItemReference< for item reference syntax.
+            Prefix:
+              Variant1: "->"
+              Variant2: "-->"
+            Postfix: \"<" (optional)
+            Yaml type: plain scalar
+            Examples:
+              Prop10: ->Root..MyProject..MyTask.MyProperty<
+              Prop11: ->Root..MyProject..MyTask.MyProperty
+              Prop20: -->Root..MyProject..MyTask.MyProperty<
+              Prop21: -->Root..MyProject..MyTask.MyProperty
+              Prop31: ->{12345678-90AB-CDEF-42F2-00000000003F}<
+              Prop41: ->Root..MyProject.."This is a summary"..{12345678-90AB-CDEF-42F2-00000000003F}.MyProperty<
+    1-SomeProgress Should .Item update:
+      Workspace:
+        Prefix:
+          Variant1: "->"
+          Variant2: "-->"
+        Postfix: \"<" (optional)
+        Yaml type: single entry map with scalar key and map value
+        Details:
+          the map has one entry, where the key is a plain single line scalar and the value is a map containing entries with IdString-s as keys
+        Examples: 
+          -->Root..MyProject..MyTask<:
+            Status: InProgress 
+          ->Root..MyProject..MyTask:
+            Status: Done
+          ->Root.MyItem<:
+            Details: UpdatedDetails
+          ->Root.MyItem:
+            Details: UpdatedDetails
+          ->Root.MyItem2<: {Details: UpdatedDetails} 
+    1-SomeProgress Could .PropertyOf:
+      Workspace:
+        Something along the lines:
+          Prefix: \"-ID->"
+          Postfix: \"<" (optional; if at Item references or descriptions, must be placed right after the last character of the reference path or the header of the Item))
+          Examples:
+            Prop1: -MyProperty>Root..MyProject..MyTask< #equivalent to Root..MyProject..MyTask.MyProperty
+            Prop2: -Status>new NEXT MyBlah:<
+            Prop3: 
+              -Status>new Closed MyBlah:
+                Id: "alma"
+    1-SomeProgress Could .ExpAsValue:
+      Workspace:
+        Summary: Expression as a Value - that is, instead of providing a concrete value to a property, an expression is provided which is evaluated EACH TIME the value is read.
+        Variant1:
+          Prefix: \":->"
+          Postfix: \"<" (optional; if at Item references or descriptions, must be placed right after the last character of the reference path or the header of the Item))
+        Variant2:
+          Prefix: \":="            
+        Examples:
+          Prop10: :->Root..MyProject..MyTask.MyProperty<
+          Prop11: :->Root..MyProject..MyTask.MyProperty
+          Prop12: :=Alma + Blma + 6          
+          Prop30: :->Root..MyProject..MyFunction<()
+          Prop31: :->Root..MyProject..MyFunction()
+          Prop32: :=Root..MyProject..MyFunction()
+          Prop33: 
+            :->Root..MyProject..MyFunction<():
+              Param1: param
+    3-Detailing Could .ExpAsValueWithPropertyOf:
+      Examples:
+        Prop10: :-Result>new OnGoing MyOngoingTask
+    0-New Must .Inline references (inside texts):
+      TODO .Write it:
+        +: {CreatedBy: Bobi, CreatedAt: 20251220 T 020956, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: 10, RemTime: 10}
+        Details:
+          Just a few words + example. Use the below:
+            Prefix: \"->" or "$@"
+            PostFix: \"<" or "@$"
+    3-Detailing Should .Further Examples:
+      TODO .This should be revised with the new rules:
+      Content:
+        Prop12: =Root..MyProject..MyTask.MyProperty
+        Prop13: 
+          ->TODO MyBlah<:
+            Id: blah
+        Prop14: 
+          ->TODO MyBlah:
+            Id: blah
+        Prop15: 
+          =TODO MyBlah:
+            Id: blah
+        Prop30: ->Root..MyProject..MyFunc<()
+        Prop31: ->Root..MyProject..MyFunc()
+        Prop32: =Root..MyProject..MyFunc()
+        Prop33: 
+          ->Root..MyProject..MyFunc<():
+            BlahParam: 42
+        Prop34: 
+          ->Root..MyProject..MyFunc():
+            BlahParam: 42
+        Prop35: 
+          =Root..MyProject..MyFunc():
+            BlahParam: 42
+        Prop4: ->4+2+Alma<
+        Prop41: ->4+2+Alma
+        Prop42: =4+2+Alma
+        Prop43: ->
+          42
+          +
+          2*20+2
+          + Alma<
+        Prop44: ->
+          4
+          +
+          2
+          + Alma
+        Prop45: =
+          4
+          +
+          2
+          + Alma
+        Prop5: -->"Summary of an Item"..Blah<
+
+        Id: "MyItem"
+        #string notations:
+        StringProp0: Lorem ipsum dolor sit amet #interpreted as string
+        StringProp01: Root..MyProject..MyTask.MyProperty #interpreted as string; a warning is generated though
+        StringProp1: "Lorem ipsum dolor sit amet"
+        StringProp2: |
+          Lorem ipsum dolor sit amet
+        StringProp3: >
+          Lorem ipsum dolor sit amet
+        StringProp4: 'Lorem ipsum dolor sit amet'
+        StringProp5: \Lorem ipsum dolor sit amet
+
+        #Item notations:
+        ObjectProp0: Root..MyProject..MyTask.MyStringProperty #interpreted as a property reference                  
+        ObjectProp1: Root MyProject..MyTask.MyStringProperty #interpreted as string; a warning is generated though
+        ObjectProp2: ->Root..MyProject..MyTask.MyStringProperty #interpreted as a property reference
+        ObjectProp3: 
+        ItemProp10: {  new <Task>: {Id: MyTask}} #interpreted as new Item creation: the item is created, BelongsTo:MyItem, then converted to a reference during parsing
+        ItemProp11: 
+          (Task):
+            Id: MyTask
+        ItemProp12: Root.MyProject.MyTask
+
+        ItemProp13: =Root.MyProject.MyTask
+        FunctionTypeProp: Root.MyProject.Functions.MyFunction #this is converted to a reference during parsing
+        SomeOtherProp: Root.MyProject.Functions.MyFunction() #this is executed during parsing
+        SomeOtherProp2: =Root.MyProject.Functions.MyFunction() #this is assigned as an expression which is evaluated every time the 
+        StringProp40: #The "Id" property of the newly created Task
+          -Id->:
+            new <Task>:
+              Id: Blah
+
+    1-SomeProgress Must .Item references or Links:
+      .ItemReference:
+        Content:
+      .F2Link:
+        Details:
+          - An ItemReference preceded by the file path
+          - 
+        Tasks:            
+          TODO .Problem:_ F2Link notation (separator of Ids) AND Id uniqueness:
+            Details:
+              Problem overview:
+                - A convenient notation must be found for references/links pointing to Items residing in Workspace files, organized in a hierarchical structure. This notation should not impose too strict uniqueness constraints, should mimic existing notations, should be easy to learn, understand and use; Convenience is way more important than easy implementation.
+              What needs to be decided are:                
+                What notation should be used to be able to distinguish in between referencing properties of an Item, Items belonging to it and Items being referenced by it, so in case:
+                  <MyItemType>:
+                    Id: Banana
+                    Apple: lorem ipsum
+                    DefaultListProp:
+                      - <AnotherItemType>:
+                          Id: Apple
+                      - <AnotherItemType>:
+                          Id: Apple
+                  
+                  <AnotherItemType>:
+                    BelongsTo: -->Banana<
+                    Id: Apple
+                                    
+                What to do if there are multiple Items with the same Id belonging to or  referenced by the same Item:
+                  - Should we require that Items belonging to another Item have unique Ids?
+                  - Should we require that Items referenced by another Item have unique Ids?
+                  - Should we require that both Items belonging to and referenced by another Item have unique Ids?                  
+              Considerations:
+                - Basic situation:
+                  - Programming languages overview:
+                      Class hierarchy:
+                        In most OOP programming languages one organizes/references the classes and their members through hierarchies by their Id. Each Id (property name, subclass name) is enforced to be unique, therefore the following notation works and is never ambiguous:
+                            BNF: <fullName> ::= <rootElementId> ("." <nextElementId>)*  
+                            C# example: System.Math.Min(...) #first is a namespace, second is a class, third is a Function
+                      Object hierarchy:
+                        Having some kind of directory of all the objects is at least not widespread, therefore there is no systm-given structure we could use - so we reference them either through the local variables, properties, or we create our own structure for which each time we have our "own" notation depending on what type of structure we created:
+                        Such as in this C# example:
+                          MyBigTask.SubTasks.Single(t => t.Id = "42ndMediumTask").SubTasks.Single(t=> t.Id = "LoremIpsum")
+                  - F2Yaml:
+                    - Here on the other hand, the "code" is mostly about manipulating "live" data, referencing Items (and not just classes, properties) very often - i.e. it's like every human is a process (very slowly running on its own thread) which manipulates the objects created from those classes while the program is running and only rarely working on classess and their methods.
+                    - There are special conditions:
+                      - The system mandates that every Item is placed into a hierarchy of Items (the BelongsTo tree, forming a kind of a folder structure where folders and files are the same, so each FolderFile can have children and also content)
+                        - ability for humans to see the memory structure through - as we're bad at handling lists but good at hirarchies due to how our minds operate on a basic level - and therefore reference them in a meaningful manner - i.e. not Item with InternalId 876465468768 but -->Root.Projects.Barba.Task.
+                        - as this is a program which never stops, we need strict accounting of memory objects; a simple garbage collector based on simple rules (=no reference) is not enough 
+                        - permission 
+                      - Most Items we work with (Tasks, Requirements, etc) have default list property/ies and we often reference these through the parent(s).Wwe want to see Ids which are compile-time checked, not position in the list (such as a Task have a Task[] SubTasks property):
+                        - What we want as a minimum:
+                            MyBigTask.SubTasks.42ndMediumTask.SubTasks.LoremIpsum
+                        - Current implementation is that since SubTasks is a default list, we can syntax sugar the above by saying that two dots ".." mean that the Id following it is from the property of the parent marked with "isDefault":
+                            MyBigTask..42ndMediumTask..LoremIpsum
+                      - Not all Items have Ids though - but very importantly, we very rarely need to reference them in a human readable form (batch processing by algorithms is a different case)
+                - The goals:
+                  - Ideally we do not require that the followings have unique Ids under an Item: 
+                    - Properties of it, 
+                    - Items belonging to it, 
+                    - Items its default property references
+                  - Ideally we use the single dot notation for most of the scenarios, but referencing classes and namespaces at least, better if that was the "default" and any special (like the double dot) is special case
+                  - 
+                - The options we have:
+                  - Requiring some uniqueness in between certain types - e.g. Ids of an Item Belonging to vs. Ids of the Properties:
+                    
+                  - Having a different notation for referencing certain types of Items - such as namespaces, classes and methods - than for referencing general Items:
+                      Example: 
+                        We could say:
+                          namespace Root.Projects.Barba.Types:
+                            class SpecialTask:
+                              Inherits: Root.System.Types.Task
+                        Instead of (currently):
+                          -->Root..Projects..Barba..Types<:
+                            class SpecialTask: 
+                              Inherits: -->Root..System..Types..Task<
+                      Analysis:
+                        Pros:
+                        - programmer-style, what we expect notation
+                        - Short(est) possible
+                        Cons:
+                        - Can only reference through the BelongsTo tree, not through the default list one or property one
+                        - A second notation which need to be learned; causes confusion                        
+                  - Since the system does not store the references by Id, we can have "hacks" for the cases the uniqueness is broken:
+                    - In case of duplicate Ids: Automatic workspace-wide link rewriting to a form where the Id gets a suffix like MyBigTask..MyTask(0)..MyLittleTask
+                    - 
+                - We need to find a notation which:
+                  - In an ideal situaton, would folow the above <rootElementId> ("." <nextElementId>)* notation as that's what programmers are used to, it's easy and optimal to write
+                  - Would not put too much constraints on reassigning the Items 
+                - At the moment no "unique id" constraint is applied to any Children (through BelongsTo), also, the properties and other sub-Items can have the same Id, leading to the problems of:
+                  - A link pointing to an element with Id x can be ambiguous (for the user)
+          InProgress .Problem:_ Linking to an element in the default list property and an element belonging to, having the same Id.:
+            Details:                
+              For example in this case:
+                TODO MyTask:
+                  TODO .MySubTask:
+                    Id: MySubTask
+                ...:
+                TODO MySubTask:
+                  Id: MySubTask
+                  BelongsTo: MyTask
+                
+              Notes:
+                - The problem arises only in the "workspace" files as the system stores the Item references (to each-other) in a "proper" way, not affected by the value of their Id/Summary properties
+                - By default, the "A..B" notation means that B BelongsTo A
+            Workspace:
+              Ideas:
+                - Using a special notation in this case for the Item in the Default list property, such as:
+                    - A...B
+                    - A.-.B
+                - Explicitly specifying the list property in this case:
+                    - A.SubTasks.B
+          InProgress .Problem:_ Linking to an element having the same Id (or Summary) as one of its "sibling":
+            Details:
+              For example in this case:
+                TODO MyTask:
+                  TODO .MySubTask:
+                    Id: MySubTask
+                  TODO .MySubTask1:
+                    Id: MySubTask
+              Problems:
+                Problem1: Where does the link "MyTask..MySubTask" point to?
+                Problem2: How to generate an Id link?
+              Notes:
+                - The problem arises only in the "workspace" files as the system stores the Item references (to each-other) in a "proper" way, not affected by the value of their Id/Summary properties
+                - Problem1: this should happen only if the workspace is disconnected from the system and the metadata is lost OR the user replaces the content in such a way that it's not clear which Item was the first and which one the other one - e.g. it's "new" content, no InternalIds yet and it's a copy-paste from another, external location                  
+            Workspace:
+              Ideas:
+                - Problem1: we don't really care as following the link should still work in most cases; in "tricky" content-replace cases the user should take care.
+                - Problem2:
+                  - In both cases we display both of the Ids as:
+                    (BNF): 
+                        <DisplayId> ::= <Id> <UniqueNumber>
+                        <UniqueNumber> ::= "(" [0..9]+ ")"
+                    Example: MySubTask(0)
+                  - The link pointing to it will be MyTask..MySubTask(0)
+                  - In case any of the Items (having the same Ids) are removed from the lists we discard the "()"
+          InProgress .Problem:_ Work out the F2Links concept:
+            Workspace:
+              
+          Done .Problem:_ How should we handle the case if ItemB BelongsTo ItemA, but their definition do not reside in the same file:
+            Details:
+              Example:
+                In MyFile1:
+                  <Task> .ItemA:
+                In MyFile2:
+                  <Task> .ItemB:
+                    BelongsTo: -->MyFile1\..ItemA<
+              Problems:
+                Problem1: What's the link to ItemB?
+            Workspace:
+              Ideas:
+                Idea1:
+                - -->MyFile2\..ItemA..ItemB<: opens the file MyFile2
+                - -->MyFile1\..ItemA..ItemB<: opens the file MyFile1
+            Result:
+              Idea1 seems to be fine.
+          TODO .Problem:_ Linking to an element under an Item update:          
+            Details:
+              Such as, in Barba.Types, link to Item:
+                -->Root..System..Types<:
+                  class Item:
+                    blahlablah: blah
+              Problems:
+                - It's a link in a link - is it fine? So e.g. it would be -->Barba.Types\-->Root..System..Types<.Summary< - I think it is actually.
+          TODO .Decide:_ Should we have separate Workspace links and Item references:
+            Details:
+              - Item references could use the simple dot notation and the BelongsTo tree only - so no referencing through property values
+              - F2Links would use the double dot notation
+              - 
+          TODO .Decide:_ Should we allow Items with the same Ids belonging to the same Item?:
+            Details:
+              - We made the decision that we should, on the other hand, this might not be too convenient. We need to collect pros-cons for both.              
+        Workspace:
+          Sandbox:
+            Example:
+              RootItem:
+                <Task>:      
+                  Id: MyItem
+                  Summary: First Item
+                  InternalId: <13421234-1234234-243-1234> #guid
+                  .<Task>:
+                    Id: MySubItem
+                    Summary: Sub Item of First Item
+                    InternalId: <132980135-2134123-42136> #guid
+                TODO I like "quotes" and backslashes like this \:        
+                TODO I like "quotes" and backslashes like these \ and atdollars @$:
+                TODO My colons are clean - I mean these:_ "::", not my guts:
+                # TODO .First Item:
+                #   Id: MyItem
+                #   InternalId: <13421234-1234234-243-1234>
+                TODO .MyItem:
+                  Id: MyItem2
+
+          Link as the value of a property:
+            Notes: 
+              - Links can appear at 3 places:
+                - as a value:
+                      SomeProperty: -->Root."Item summary"<
+                - as a key:
+                    -->Root."Item summary"<: 
+                - as inside a text:
+                    SomeProperty: this is a link:_ $@Root."Item summary"@$ and there's more text
+              - 
+              - you can only link to a yaml key - so not to an element of a sequence.
+              - all links can have a "text" part, serving like the DisplayText part in html <a href="">DisplayText</a>, although this should not be necessary in most cases as the link itself should be human readable and contain the information about what it is pointing to.
+
+            Direct link with note:
+              -!>{132980135-2134123-42136}, "Note"<
+            Approximate link:
+              ~-><
+            Hierarchical link:
+              Full path:
+                -->!PublicWorkspace\Bobi\RootItem."First Item".{132980135-2134123-42136}<
+              Relative path:
+                Example:
+                  Consider the following structure:
+                    .Apple:
+                      .Banana:
+                        .Cauliflower: ~->"Blue Berry"<
+                        .Cherry: -->.\Cucumber<
+                        .Cucumber: -->..\BlueBerry<
+                        -->..\BlueBerry<:
+                          Note: this property is part of Item "Blue Berry" with this value of the note as well. Not the best practice though, so probably will only be allowed in temporary locations (e.g. in your workspace or when issuing commands), not in the storage of Items (so e.g. in Backlog)                    
+                      .Blue Berry:
+                        Id: BlueBerry                                  
+                
+            
+            Quotes in summary:
+              -->!PublicWorkspace\Bobi\RootItem."I like ""quotes"" and backslashes like this \"<
+
+
+
+          Link inside a text:
+            This is a text $@!PublicWorkspace\Bobi\RootItem."Implement the ""escaping"" with @$"@$ and it continues here
+
+          Colon inside a text:
+
+          Escaping Rules: |
+            "": "
+
+          Double dots shit sandbox:
+            MyFolder\Thisisadot.my\My Yaml\:
+            Comments:
+              Bobi: This is a file I like.    
+            TODO .Root:
+              Summary: This is the summary of Root #First
+              TODO .Summary: #Second
+                Id: Summari
+                Type: Task
+              TODO .Sum Mary: #Third
+                Id: Summary
+                Type: Task
+              LinkToAnItem: -->MyFolder\Thisisadot.my\My Yaml\..OtherItem<
+            TODO .OtherItem:
+              PropOfOther:
+              .SubOtherItem:
+              
+              - -->MyFolder\.Root<
+
+            Links:
+              #First - through the property name:
+              - -->MyFolder\Thisisadot.my\My Yaml\..Root.Summary< #link to the first - to the Summary property
+
+              #Second - through the value of the Summary property of the Task ("Summary"):
+              - -->MyFolder\Thisisadot.my\My Yaml\..Root.."Summary"< #link to the property with .Summary in the header
+
+              #Third - through the value of the Id property of the Task ("Summary"):
+              - -->MyFolder\Thisisadot.my\My Yaml\..Root..Summary< #link to the property with .Sum Mary in the header
+
+            Pseudocodeshit: |
+              string GetOrGenerateLiink(filename, cursorposition)
+              {
+                if (isThisF2YamlLink(cursorPosition, currentDocument))
+                  return GetF2YamlLinkAtCursor(cursorPosition, currentDocument)
+                else return GenerateLinkFrom(filename, cursorposition);
+              }
+              
+              string GenerateLinkFrom(filename, cursorposition)
+              {
+                string[] pathElements = GetPathElementsFrom(filename) //
+                string fileNamePart = "";
+                foreach (var pathElement in pathElements)
+                  fileNamePart = pathElement + "\";
+                string idLinkPart = ""; //missing:_ what if the cursor is on a property
+
+                Item currentItem = GetItemAtCursorPosition(filename, cursorposition)
+                while (true)
+                {
+                  idLinkPart = GetIdOrSummaryPartFromItem(currentItem) + idLinkPart;
+                  currentItem = GetParentItemOf(currentItem);
+                  if (currentItem is null)
+                    break;
+                }
+                
+                return fileNamePart + idLinkPart;
+              }
+
+              string GetIdOrSummaryPartFromItem(Item item)
+              {
+                if (item.Id is not null)
+                  return ".." + item.Id.Value;
+                else if (item.Summary is not null)
+                  return ".." + """" + item[Summary].Value + "\"";
+              }
+
+              Item GetItemAtCursorPosition(filename, cursorposition)
+              {
+                //- returns an Item in a form of a Map<string, object>, where the keys are the property names and the values are the values of those properties
+                //- able to understand a yaml representation of an Item where the Item is rendered as a yaml mapping in a way that:
+                //  - the key contains:
+                //    - the value of the Status property as the first word
+                //    - the value of the Summary property from the second word
+                //  - the value contains mappings where:
+                //    - the key is the name of a property
+                //    - the value is the value of the property
+                //- it decides whether the Item is represented like above or not based on whether the first word is part of the [NameOfTheIgnoreList]
+              }
+
+  1-SomeProgress Must .Semantics:
+    5-Done .No "update Items when assigning them as value":
+      Content:
+        Notes: this is more like a reminder that this is forbidden, despite the syntax could allow it
+        Summary: Items can't be updated while assigning them as a value to a property
+        Example:
+          In "console.yaml":
+            Valid:
+              Update(): {-->Root..SomeItem<: {SomeProp: newValue}}
+              var myBlah: -->Root..SomeItem<
+            Invalid:
+              var myBlah: 
+                -->Root..SomeItem<:
+                  SomeProp: newValue
+          In Roots:
+            Valid:
+              -->Root<:
+                ..(0):
+                .SomeItem:
+                  SomeProp: newValue
+                .SomeOtherItem:
+                  SomeProp: -->Root.SomeItem<
+                ..(1):
+            Invalid:
+              -->Root<:
+                ..(0):
+                .SomeProp: oldValue #so this is left unchanged, containing the old value
+                .SomeOtherItem:
+                  SomeProp: 
+                    -->Root.SomeItem<:
+                      SomeProp: newValue #and we'd update the value here - which is not allowed
+                ..(1):
+    5-Done .InternalId is not "writeable":
+      Content:
+        Details:        
+          The value of InternalId is handled by the system, therefore assigning/changing the value to it is not allowed. In places where it's not clear from the context, if an Item-yaml contains the InternalId property with a non-null value, it is treated as an Item describing an existing Item.
+        Example:
+          In Roots:
+            If Synced, this is handled as an update to an Item with InternalId {MyInternalId}:
+              ->Root<:
+                MyItem:
+                  InternalId: {MyInternalId}
+                  MyProp: My new value
+            This is as a new Item:
+              ->Root<:
+                MyItem:
+                  MyProp: My new value
+    4-AlmostDone .Omitting the type specification:
+      Content:
+        Details:
+          In most cases where the Type of an Item yaml can be determined from its context, it can be omitted.
+        .Assigning a value to a Property having a Type from which no other Types derive from:        
+          Status: 5-Done
+          Content:
+            Details:
+              
+            Examples:
+              class MyItemType:
+                Inherits: ItemWithId
+                Properties: 
+                  string SomeProp:
+                Flags: IsSealed #representing that other classes can't be inheriting from this class
+
+              class MyClass:
+                Properties:
+                  MyItemType MyItem:
+                  ItemWithId SomeItemWithId:
+                  MyItemType[] MyItems:
+
+              <MyClass>:
+                SomeItem: {SomeId1: {SomeProp: "lorem ipsum"}} #valid
+                SomeItemWithId: {SomeId2: {SomeProp: "lorem ipsum"}} #invalid - missing type
+                MyItems:
+                  - SomeId3:
+                      SomeProp: "lorem ipsum"
+                  - SomeId4: {SomeProp: "lorem ipsum"}
+          Type restrictions imposed by the "Folder.DefaultTypes" setting:
+            TODO 
+    5-Done .InlineItemBelongsTo:
+      Content:
+        Details:
+          Items declared inline (i.e. as a Property value) will - by default, i.e. if not explicitly stated otherwise - BelongTo to the Item to which the Property belongs
+        Example:
+          The Item with the Id "MySubTask" in the below example will BelongTo the Item with the Id "MyTask", the one with the Id "MyOtherSubTask> will not:
+            <Task>:
+              Id: MyTask
+              SubTasks:
+                - <Task>: {Id: MySubTask}
+                - <Task>: {Id: MyOtherSubTask, BelongsTo: -->Root.MyProject.OtherTask<}                        
+    3-Detailing .NonClassTypes:
+      Summary: 
+        - This article contains the non-class types included in the system, on top of the simple ones (integer, char, string, float, bool, etc.)
+      Type: Article      
+      Content:      
+        Simple types:
+          # - char:
+          #     Summary: a single character; 16 bit.
+          #     SupportedFrom:
+          #       MVP++
+          - string:
+              Summary: a string of chars (like this text)
+          - $@TODO rest of the simple types @$
+        Complex types:
+        - IdString: 
+            Summary:
+              - a string, but can contain only numbers, English alphabet characters, the dash and the underscore character
+              - it can't be equal to the "reserved words", which are at the moment:
+                - new
+                - class
+                - enum
+                - namespace
+                - string
+                - integer            
+                - float
+                - bool
+                - boolean
+                - duration
+                - datetime
+                - using            
+        # - Map<,>: 
+        #     Summary: 
+        #       Details:
+        #         - a Mapping of the first type into the second type. 
+        #         - BNF: |
+        #             "Map<" <TypeId1> "," <TypeId2> ">"
+        #       Example: |
+        #         class MyClass:
+        #           Map<IdString, string> Dictionary:
+                
+        #         ...
+
+        #         <MyClass>:
+        #           Dictionary:
+        #             myId: description for it
+        #             mySecondId: lorem ipsum dolor sit
+        - F2Link:
+            Summary: 
+              See the F2Links specification in the specifications
+        - Duration: a length of time, written as a number and a time unit suffix, such as "10m" is 10 minutes, "1h" is 1 hour, etc. Time suffixes can be s, m, h, d, w, M, y/Y (so case matters.)
+        - DateTime: 
+            Summary:
+              - a point in time
+              - accepted format currently is the ISO + some we use commonly 
+              - in first versions, until automatic conversions are place, any non ISO format we support must follow the Year, Month, Day, hour, minute, seconds order
+        - InternalId:
+            Summary: a unique identifier identifying the Items; at the time of writing it's a GUID
+
+            
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)

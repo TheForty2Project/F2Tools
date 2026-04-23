@@ -1,0 +1,33 @@
+ThePathOfImprovingDecisionMaking:
+  .HighLevel:
+    Type: Article
+    Maturity: 6-Reviewed
+    Title: The path of improving the quality and speed of decisions
+    Content:
+      .What questions this is aiming to answer:
+        Title: What questions this is aiming to answer?
+        Content:
+          - What are the differences in between our method of decision making and the existing ones
+          - What are the techniques we'll be employing
+          - How would we work at the beginning and at the end, through what stages
+      .Sketch:
+        Title: High level sketch
+        Content: |
+          At the initial stages we're mostly just discussing the decisions; this requires "logically" minded members and that the circumstances of the decisions are available, the decision can be questioned, that no one has the right to "make a decision" but rather just to make a baseline decision-recommendation which _might_ be accepted without questioning:
+            - in case it is dicussed, the process is somewhat similar to a jury's - just the people are selected to be highly capable in reason based, cooperative thinking with the goal of finding the correct answer - and not to "win" - with a high interest to make it so.
+            - so, our initial method compared to a hierarchically managed company (the "old" and "current" way):
+              - there are no "bosses", just roles,  i.e. there is no hierarchical power structure, members propose solutions but do not hold unilateral decision-making power
+              - circumstances are required to be disclosed to the members
+              - decisions can be and are expected to be regularly questioned and examined; members have the responsibility and interest to do so if they think this would help
+
+          As soon as it's needed (e.g. there's no agreement in an important case), we'll be starting to formalize the decisions scenario - i.e. converting the proposed reasonings (i.e. the "why is it true/false") to a formal description containig statements understandable by the computer, e.g. "PriceOfProduct = 30", "ComputeTaxFromPrice(Number price){...}" - and then members would only need to agree whether the formalization is correct, the rest would be computed by a computer.:
+            - if members can't agree whether a certain step in the formalization is correct, the process is done recursively, i.e. then that particular step is also formalized as a decision scenario, continuing until things are broken down to such simple and easy to verify facts that - unless someone has a malicious intent - everyone could agree to and verify. There would of course be processes to filter out “malicious intent” people  but we don't expect that we'd need to employ them very much due to numerous techniques about filtering, ranking, scoring, incentivising, random testing and penalizing so that the difficulty and risk to benefit ratio of such trials would be extremely high.
+                                
+          With the membership growing we are gradually improving our toolsets by :
+            - introducing verification processes, e.g. randomized checks of decisions made, formal proofs of our methods, formal proofs of the formal proofs, etc.
+            - randomizing the people involved to reduce the possibility of "scheming"
+            - measuring the performance of members
+            - introducing processes to the important classes of decisions to increase quality and to be able to do parallel computations to increase speed
+            - automating the scenario - i.e. moving the decision fully to the computers
+            
+          To reach full automation in the end, with many levels of "proving that the proofs are correct", to reach the state where we can be 99.99(+and an arbitrary number of nines)99% sure that some super important decision is the correct one

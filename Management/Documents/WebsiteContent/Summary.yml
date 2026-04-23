@@ -1,0 +1,16 @@
+This (part) of the site is aimed for those who'd like to dive deeper into how we work, who are interested in seeing the initial steps we're making to build The Forty2 Project to reach our end goal: 
+  to create the self-improving computed management framework capable of reaching decision-making powers high enough to efficiently lead the cooperation of humanity as a whole - and to actually unite humanity with it; to Switch Earth On.
+
+At this initial stage: we're focusing mostly on building the MVP version of The F2Tool - the software-package required to enable computed-management of teams.
+
+What you can find here:
+  - Daily synchronization of our management data so that you can experience how the system works in practice
+  - Information about:
+    - how to watch us working (the Watch section)
+    - how to ask questions and in general, contact us (the Contact section)
+    - how to join or just support the projec (the Join the Mission section)
+
+Technicalities:
+  - All content (this as well) is in the "f2yaml" language, a yaml based language designed to be both suitable for human and machine processing (remember, we're building a hybrid human-computer machine)
+  - We're trying to provide similar reading experience on the site as we have in our "main" environment; at later stages we'll provide access to our repositories and know-hows about how to set up this environment on your local machine as well.
+  - None of the parts are "bug free" and this is not even intended. The reason is that we're letting you witness how we work, how we progress with our Tasks and not serving you as a customer or selling you a product.

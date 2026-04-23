@@ -1,0 +1,238 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+Summary:
+  - include:
+      - \"random task handling" - so if you have random task, where to put it until they are processed
+      - high level management process, so when to have retro, planning, who holds it, etc.
+      - prepare for standup
+      - Requirements creation and handling:
+          - Every Task should be connected to a Requirement and vice versa
+.Environment Setup:
+  Id: EnvSetup
+  Done .Create baseline:
+  Done .Update to the current version as of 20250422:
+    By: Bobi
+    Id: Update20250422
+    Details: See @
+  TODO .Revise as of 20250909:
+    +: {CreatedBy: Bobi, CreatedAt: 20250909 T 120309, By: Bobi, Tags: [CSVDONE]}
+    Milestone: BarbaPapa
+.Members:
+  OnHold .Initial Interview:
+    Id: InitialInterview
+    OnHold .Baseline:
+      Id: Baseline
+      By: Bobi
+  OnHold .Rampup:
+    +: { CreatedBy: Bobi, CreatedAt: 20250729 T 215957, By: Bobi }
+    OnHold .Baseline:
+      +: { CreatedBy: Bobi, CreatedAt: 20250729 T 215957, By: Bobi }
+  TODO .Work:
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 170811, By: Bobi, Tags: [CSVDONE]}
+    Milestone: BarbaPapa
+    Details:
+      including how to access the repo, commit; how to discuss things, including joining Discord
+  TODO .Hold meetings:
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 170955, By: Bobi, Tags: [CSVDONE]}
+    Milestone: BarbaPapa
+    Details:
+      - where to put the notes
+      - any recording - so when and how to do it?
+  InProgress .Do Focusmating:
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 172013, By: Bobi, Tags: [CSVDONE]}
+    Milestone: BarbaPapa
+    Workspace:
+      Roughly:
+        - Schedule the work:
+          - At each "day" we should disclose how many hours we're planning to work the next period
+          - Importantly: the team should ask the questions if it didn't happen
+        - PlanTheWork:
+          - Worker: Post into Focusmate chat that you'd be working from time x, who's willing to work with me
+          - Team members: try to respond and organize their work so that they can be present at time x
+          - Ideally a pair is found
+        - StartTheWork:
+          - Each participant explains what would they be doing, in a big potato-small potato way:
+              E.g.: this is the big task I'm working on, I'll be doing this part of it and from it these little steps are expected to finish by the time we talk next
+          - Participants state whether they can be disturbed or not while doing it (if it needs concentration then not really, if it's stupid task then yes)
+          - Participants agree on a "session done" time - so up until when they should be working in this session. Ideally in between 30 and 90 mins; 45 is an ideal.
+        - PerformWork:
+          - Participants work. If convenient, do a screen sharing - pros are that there's lower chance for "doing something else", cons are that it might consume computer resources
+        - Report:
+          - At the end of the session, each participant report:
+            - Reporter reports what has been done
+            - Listener listens and - very importantly - analyses it
+            - Both discuss the learnings - how should it be done better next time - basically what should be the process next time:
+              - If there are big things to change, take note and make a Task about solving it
+          - This should not take more, than 10 minutes                
+        - Repeat:
+          - If convenient, agree that they'd continue in like 10-20 mins or whatever     
+.Standup:
+  Id: Standup
+  Done .Create baseline:
+  TODO .Update to the current version as of 20250422:
+    Id: Update20250422
+    Milestone: BarbaPapa
+    By: Bobi
+    TODO .Standup Preparation:
+      Id: StandupPrep
+      By: Boby
+    TODO .Standup:
+      Id: Standup
+      By: Boby
+.AchievementAndPointsSystem:
+  Id: PointsSystem
+  TODO .Achievement and Points system:
+    +: {CreatedBy: Bobi, CreatedAt: 20250918 T 200326, By: Bobi, Tags: [CSVDONE]}
+    Milestone: BarbaPapa
+    Details:
+      -->Documents\ProcessDescriptions\.."Point and Achievement System"<
+.Project Management:
+  Id: PM
+  TODO .Task prioritization:
+    +: {CreatedBy: Bobi, CreatedAt: 20250909 T 115437, By: Bobi, Tags: [CSVDONE]}
+    Id: TaskPrioritization
+    Milestone: BarbaPapa
+    TODO .Baseline:
+      By: Bobi
+      Details:
+        - Result should be a prioritized Task list from which you can just pick the next.
+        - Including:
+            - prioritization of Tasks
+            - creating and maintaining the prioritized Task list
+  TODO .Verify and improve work:
+    Id: VerifyAndImprove
+    TODO .Baseline:
+      By: Bobi
+      Details:
+        - An umbrella process for tracking, verification and improving work
+        - including:
+            - holding standups
+            - holding retrospectives
+            - what to watch
+        - meant to be broken down into several separate processes gradually
+  TODO .Retro and Retro preparation:
+    +: {CreatedBy: Bobi, CreatedAt: 20250905 T 160622, By: pms, Tags: [CSVDONE], Priority: 4-High}
+    Milestone: BarbaPapa,
+    Details:
+      Include for the preparation:
+        - -->Tasks\Management\.."General management".."Standup related".."Preparation for participants"< #this has been modified (042026) in management.yml
+      Include for the meeting:
+        - Template, based on the previous
+        - The "went well - went wrong" part
+        - Analysis of the "hours spent" - are we progressing well enough, if not, what should be done
+  TODO .Planning meeting and preparation:
+    +: {CreatedBy: Bobi, CreatedAt: 20250905 T 161521, By: pms, Tags: [CSVDONE], Priority: 4-High}
+    Milestone: BarbaPapa
+    Details:
+      Include:
+        - Preparing the agenda - so what are the Tasks we're planning to accomplish on it
+        - Preparing the "resources", e.g. reports about progress, cleaning up the plans, etc.
+  TODO .Daily activities of a PM:
+    +: {CreatedBy: Bobi, CreatedAt: 20250905 T 161534, By: pms, Tags: [CSVDONE], Priority: 4-High}
+    Milestone: BarbaPapa
+    Details:
+      Include:
+        - Hana remembers that there's already some daily activities of pm tasks somewhere - these maybe.
+        - anything which is tagged by "PMDailyActivities" tag
+  InProgress .Preparing and holding standup:
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 170322, By: [Hana, Bobi], Tags: [CSDONE]}
+    Milestone: BarbaPapa
+    Details:
+      Here: -->Documents\ProcessDescriptions\.."Process Descriptions"..WorkProcesses.."General Management Duties".."Holding Standup".Workspace."Existing scribblings"<
+.Requirements:
+  TODO .Creation:
+    TODO .Baseline:
+      By: Bobi
+  TODO .Evaluation:
+    TODO .Baseline:
+      By: Bobi
+  TODO .Change:
+    TODO .Baseline:
+      By: Bobi
+      Details: What happens if the _content_ of a Requirement is changed
+.QA:
+  TODO .Creation:
+    TODO .Baseline:
+      By: Bobi
+  TODO .Evaluation:
+    TODO .Baseline:
+      By: Bobi
+  TODO .Change:
+    TODO .Baseline:
+      By: Bobi
+      Details: What happens if the _content_ of a Requirement is changed
+.Tasks:
+  TODO .Creation:
+    TODO .Baseline:
+      By: Bobi
+      Details:
+        - Include what files to use, where to put the new ones, who puts them into the right place
+  TODO .Change:
+    TODO .Baseline:
+      By: Bobi
+      Details: what to watch when a Task is edited
+  TODO .Work on:
+    Id: WorkOn
+    TODO .Baseline:
+      By: Bobi
+      Details: what to do when you work on a task
+.Make formal decision:
+  Id: MakeFormalDecision
+  TODO .Baseline:
+    By: Bobi
+    Details:
+      How to formally/methodically find an answer to a certain question in case e.g.:
+        - There's no consensus about the answer
+        - The question is important
+      Include:
+        - steps
+        - where to store the result
+.Processes:
+  TODO .Baseline:
+    By: Bobi
+    Details: When and how to create or change a process to ensure that it keeps improving the system
+.Miscellaneous:
+  Id: Misc
+  Details:
+    - for creating small or (supposedly) temporary processes
+    - note: log hours here not needing a separate task
+  TODO .Logging of issues and their workarounds:
+    Id: IssuesAndWorkarounds
+    CreatedBy: Gaurav
+    By: Gaurav
+    Details:
+      - A lots of small and big problems happens with the project and the participants.
+      - Logging should be done to make sure we can prevent the problem from happening again and in case it happens again we would already have a solution.
+  TODO .Password Management:
+    +: {CreatedBy: Bobi, CreatedAt: 20260409 T 135136, By: [Bobi,Hana], Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+    Id: PwdManagement
+    By: Bobi
+    Details:
+      - How to handle passwords
+      - Including how to handle the password for the initial storage      
+    Workspace:
+      - Start truecrypt      
+      - Mount to a drive; find the file - it's in Technical.dat of the respective repo
+      - Password:
+        - for this management.public the hint is the line in the Hitchiker's guide
+        - for the private repo: no hint
+      - Access is through the files in that drive
+      - Make sure that before dismounting any changes to those files are saved
+      - Make sure you dismount properly, not just close Truecrypt
+      - Commit and sync if there were changes
+  Done .Transcription with Whisper:
+    Result: $@Processes\ProcessDescriptions.Technical..WhisperCpp@$
+    WorkLog:
+      - [25m, Bobi, "", 20250303]
+  TODO .Updating things on the tf2porg website:
+    Id: Tf2porgUpdate
+    +: { CreatedBy: Bobi, CreatedAt: 20250329T1838, By: [ Bobi, Shadow ], Responsible: Bobi }
+    ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase..Infrastructure.."Basic"<
+    Details: Create a process about it.
+.Marketing:
+  TODO .Create a process about streaming the meetings:
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 114252, By: pms, Tags: [CSVDONE]}
+    Milestone: BarbaPapa
+      
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

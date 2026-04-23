@@ -1,0 +1,16 @@
+Type: Article
+Maturity: 5-Done
+Title: \-
+Parts:
+  .WhyContributeBox:
+    Details: The box currently on the left, currently "Why Contribute? ..."
+    Title: Why
+    Content: |
+      Your contribution can accelerate progress towards the goals of the project: the development of a system that establishes fair distribution and optimal production benefiting the members and - hopefully - eventually everyone; a humanity-level cooperation.
+      You would ideally both:
+        - help humanity by making us closer in building the systems with which we can create a fair world: where not the richest, but the ones contributing the most get the most
+        - help yourself by getting your fair share from the value we (you+us) produce
+  .QuestionnaireTitle:
+    Details: The title of the application form - currently "Contribution Application"
+    Content: |
+      Please fill the below - at least on some level:

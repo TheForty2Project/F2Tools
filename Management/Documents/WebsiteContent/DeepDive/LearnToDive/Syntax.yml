@@ -1,0 +1,75 @@
+Intro: |
+
+  It was a key consideration during the design of the language to make it as easy to read and handle for humans as possible, also, to be able to use widely available software for handling/displaying the f2yaml documents, still, making it relatively easy to process by computer algorithms. F2yaml therefore is based on yaml - i.e. f2yaml documents are also yaml documents - and the syntax is quite loose, allowing the user to express the same thing in multiple ways.
+
+  Information is stored in entities we call "Items" of various kinds, such as Tasks, Requirements, Articles. Each Item is basically a dictionary, as in a collection of key - value pairs - with some "syntax sugars" to make things easier to read/write.
+  If you have basic object oriented programming knowledge, you can think of Items as instances of objects and we use similar concepts and terminology here - such as the "key"-s are called properties, there's inheritance, we refer to the definition of Items as ClassDescriptions.
+
+  For example a Task stores information about something which needs to be performed, such as one about cooking a meal could look like:
+    TODO Cook a succulent chinese meal:
+      Type: Task
+      CreatedBy: Hana
+      By: Bobi
+      Details: Make it spicy and dishwashing included! Love, Hana
+      CreatedAt: 2025-12-03                                           
+  Here the "CreatedBy" (and the rest in light blue) are properties written in a standard way, the "TODO" and "Cook a succulent chinese meal" parts are values of special properties - the "Status" and "Summary" ones in particular; the syntax sugars.
+
+  Item kinds and their structure can be freely defined by the user - so for example we could create a "Recipe" type of Item containing the instructions about how to make "Bobi's sludge":
+    Bobi's sludge:
+      Type: Recipe
+      Details: A very easy to digest, gut healing, SIBO friendly but still tasty strawberry-vanilla meal-replacement ice-cream
+      Ingredients:
+        - 700g frozen!!! strawberries
+        - 200g dextrose
+        - 350ml yogurt
+        - 60g coconut fat
+        - 60g hydrolized whey powder
+        - 20g l-glutamine powder
+        - 15g partially hydrolized guar gum
+        - 350ml water
+        - optional: vanilla for flavor if the whey powder is unflavored
+      Instructions: |
+        1: add everything in a large bowl
+        2: mix it with a hand blender for ~3 minutes until it becomes a bit whipped
+        3: store it in the freezer - but best before it fully freezes (otherwise microwave it a little)          
+      Notes:
+        - high protein content supporting an active lifestyle; hydrolized = pre-digested
+        - dextrose instead of table sugar for digestibility and inflammation reduction
+        - l-glutamine for restoring gut lining
+        - phgg for feeding the beneficial bacteria in the right place
+        - yogurt for supplying some beneficial bacteria
+        - coconut fat: one of the easiest to digest fats; for energy and lowering glycemic load
+        - strawberries: low sugar; provides texture and taste + antioxidants
+
+  The Item definition (we call it Class Description) for the above would look like the following - which is also an Item:
+  
+    Recipe:
+      Inherits: Item
+      Details: this defines the Item type "Recipe"
+      Type: ClassDescription
+      Properties:
+        - PropertyId: Ingredients
+          PropertyType: string 
+          IsList: true
+        - PropertyId: Instructions
+          PropertyType: string
+          IsList: false
+
+  Explanation:
+    - "Inherits: Item": on top of the properties defined in this ClassDescription it include the properties defined in Item - such as "Type" and "Details"; quite handy if we do not want to always re-define commonly used properties
+    - "Details:...": the details (this property is actually defined in Item)
+    - "Type: ClassDescription": this Item is a ClassDescription, used to define other items (also defined in Item)
+    - "Properties: ...": each list entry defines one of the properties of the Recipe Item
+    - "PropertyId: ...": the name (id) of the property
+    - "PropertyType: string": the type of the property is "string"; for non-programmers: this means that it can hold some text (Number would mean it should be a number, Boolean would mean its either "true" or "false", etc.)
+    - "IsList: true": the property is a list
+
+Now some commonly used notations:
+  Note: 
+    - For the (hopefully or at least soon) complete syntax please check the F2YamlSpecification.
+    - For the definition of the Items used throughout The Abyss see the Barba.Types
+
+  <Status> <Summary> as header: TODO
+  Preceding "." as child Item: TODO
+  Plus sign as property id: TODO
+  F2Links: TODO

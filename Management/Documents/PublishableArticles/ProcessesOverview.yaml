@@ -1,0 +1,11 @@
+=Result>:
+  TODO Write an article which gives an overview about what processes we need/have:
+    Details:
+      - From the perspective of a "hybrid system"
+      - Including:
+        - rampup
+        - work processes:
+          - CRUD tasks and related
+        - processes of processes
+        - Task prioritization and value/effort calculation
+      - It should not contain the actual processes; that should be through Git.

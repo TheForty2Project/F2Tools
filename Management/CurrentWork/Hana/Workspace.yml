@@ -1,0 +1,111 @@
++: { Type: Folder, AllowedTypes: [ Task, Folder ] }
+
+
+Done 20260416:
+
+- -->Tasks\Management\.."OCWSPhase1".."Plan and prepare Twitch streaming first phase"<:
+  Workspace: 
+
+Health Template:
+  .Important Notes:
+    - Take it step by step
+    - Try not to have sugar today or very minimum sugar. 
+    - No desserts after lunch (fruits are ok)
+    - Take note of the mmc
+  .Cycle Day:  Cycle 8 (follicular phase)
+  .Wake up:
+    - Time: 8:06
+    - Duration: 8h 48m
+    - Deep Sleep: 41m
+    - Light Sleep: 6h 7m
+    - REM: 2h 1m
+    - Awake time: 5m
+    - Stress: 13 avg
+    - Body Battery: +57
+    - Mood: Tired but forcing myself to do my chores and work (for example this)
+  .Diet+Mood:
+    - AfterWakeUp:
+      - Time: 08:30
+      - Macro Nutrient: Warm water+lemon
+      - Mood: anxious
+    - Breakfast:
+      - Time: 09:30
+      - Food: 
+        - some small snacks pancake + pickle fish
+      - Mood: Anxious and started a fight  - cried
+    - Snacks:
+      - Time: 
+      - Food: 
+      - Mood: SAd, cried ( mama)
+    - Lunch: 
+      - Time: 14:30
+      - Food: 
+        - Side dish:  Rice
+        - Main Course: Chiken thigh
+        - Dessert: 2 pieces of sponge cake + tea = coffee
+      - Mood: Sad, tired
+    - Dinner:
+      - Time: 17:00
+      - Food: popcorn
+      - Mood: tired, dimotovated
+  .Poop:
+    - Time:  12:00
+    - Quality: Healthy
+  .Activity:
+    - After wake up: 
+    - Morning: 
+      - Time: 11:00
+      - Activity: Running
+      - Mood: ok 
+    - Afternoon:
+      - Time: 12:00
+      - Activity: Hike
+      - Mood: chaotic
+  .Night Sleep:
+    - Time: 11:13
+    - Sleep Hygiene:  S
+    - Mood: Very tired  crashed
+  .Notes for tomorrow:
+    - Prioritize movements and sun exposure
+    - Proioritize Robis breakfast 
+    - create a schedule for meals 
+    - create a schedule for your workout:
+      - What are your goals
+      - base the workout according to the goals
+Done 20260419:
+  Done .Add the part we recorded during our smoking session to the Summary:
+Done 20260420:
+  InProgress .Create OCWSPhase2 task list reports: 
+    Done .Clean up the CSVTODO in Website file:
+      Notes: 
+        - change the color of delete  property
+      WorkSpace:
+        - Remove the CSVTODO tag from items that are already  cancelled
+        - Remove CSVTODO from parent tasks
+        - Change the CSV TODO to DONE from tasks that are already DONE
+        - Add the rest of CSVTODO to CurrentTask.csv
+        - -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 Deepdive (Read) page engine".."Make the yaml downloadable".."Make the yamls downloadable as a package".."Implement"< changed to ocwsphase2
+    TODO .Have it reviewed by Bobi:
+    Done .Cleanup the CSVTODO in management file:
+  InProgress .Write your thoughts:
+    - Management of your life (yourself, your partner, both of your project of life) - it'll be published our life
+TODO .20260421:
+  TODO .Prepare twitch to be live this week:
+    TODO .Edit the channel:
+      Remove:
+        Reddit-HanaK42 https://www.reddit.com/user/No_Leopard1874/
+        LinkedIn-HanaK42 https://www.linkedin.com/in/hanak42/
+        Twitch-HanaK42 https://www.twitch.tv/hanak42
+      Extensions:
+        Schedule with Google Calendar:
+          unlike other scheduling extensions, this one lets you define your schedule with the powerful tools of a real calendar application. Repeating events of a certain flavor can be color coded, and then renamed so the viewers will know what to expect that day.
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you have to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)
+
+
+
+
+
+
+
+
+

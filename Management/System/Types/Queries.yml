@@ -1,0 +1,13 @@
+namespace System.Types.Queries:
+  Comments:
+    Bobi: This is mostly a plan, here only to give some idea about what's planned and how the system would work. Very-very work in progress.
+    
+  class QueryDescription:
+    Properties:
+      string .Query:     
+      <--TODO finish this:
+
+  class ViewDescription:
+    <--TODO the properties for describing the view comes here:
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)

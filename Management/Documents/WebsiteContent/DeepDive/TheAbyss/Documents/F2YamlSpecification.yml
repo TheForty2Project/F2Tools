@@ -1,0 +1,5 @@
+Specifications and specification-like documents, at the moment mostly:
+  - the F2Yaml language
+  - the classes we use throughout the project:
+    - as part of the F2Yaml language such as Item, StandardItem, Enumeration, etc.
+    - as "business" entities such as the ClassDescription of a Task, a Requirement, an Article, etc.

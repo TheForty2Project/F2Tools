@@ -1,0 +1,81 @@
+Type: Article
+.HighLevel:
+  Maturity: 2-HighLevel
+  Title: High level sketch of "Enforcement of the rules we set for ourselves"
+  Details:          
+    - We won't be a company, but a new type of entity:
+      - explain the properties of this entity: The key is a self-improving core process, which assigns Tasks necessary to find the best value to a question (i.e. to make the best decision) to the computational units -people and (as we automate), computers - in a way that it compensates for the error-characteristics of these units. In practice...
+      - blockchain-based systems are a good example
+    - Gradual transition from a hierachical management by always replacing the part which has the highest value/cost ratio to improve the quality and speed of the decisions
+  Content:
+    .InAWord:
+      Maturity: 3-SomeProgress
+      Title: In a paragraph
+      Content:
+        When people are grouped together to work as a unit (e.g. a company or us), there are agreements/rules made about what people in a certain situation should do - like work instructions, responsibilities. Since we're not ideal automatons perfectly doing what we should, various techniques are used to increase the chances that we do what we should in the way how it should be done, such as incentives, deterrents, verification, etc. In the current world, these techniques are overwhelmingly relying on the decisions of people in power - bosses deciding whether you did your work well, you can get your pay, judges deciding whether the contract was kept, whether you should be fined, etc.; often making errors, can be bribed, blackmailed or just for some reason not wanting to make the right decisions.
+
+        This project is about moving away from single people holding the power towards "logic" holding it - i.e. decisions are increasingly computed - so it would be inconvenient and inefficient for us to work as a company or non-profit, etc., and to fully rely on the law systems. Although we'll keep the legalities, there will probably be a/some company/ies governed by the systems of the project to interface the company world, rules will be enforced in increasingly and way more safe ways than the law and court systems could provide. We'll be using techniques starting as simple as requiring multiple people to make the same important decision to consider one valid, through selecting them from a random pool and requiring each decision-step to be formalized and agreed on by different set of people, in the end automating them on the level that it will be formally proven that the proof with which we proove [that the proof with which we proove]* that it's error-free is error free.
+
+        # The first step will be a system where we'll need significant money transfers to be done in a way that:
+        #   - there are  distributed amongst the key members
+
+        # Examples 
+
+
+
+        # An example is that we could easily put together a system where, in order to make a payment to a member:_
+        #   - X number of people are selected from a random pool by the system
+        #   - Each are asked:_ Is it true that some conditions are true, such as some Task is set to "accepted" in the system AND there are no signs that the system is compromised
+        #   - If all says yes, the system sends the payment. If some says no, 
+
+        
+        
+        
+
+
+        #   - to in usual settings we use incentives like the salary, bonuses or just that the boss would say "good job", deterrents like reprimanding, fines or even prison and employ techniques to like verification steps, making decisions in a group or with the help of a computer.
+        
+        # In the usual settings decisions about when a certain is task is performed according to the rules, when someone is 
+        #     we   We know that people are more likely to do their work as per the directives if incentives and deterrents are used   verification is needed - whether they performed things according to the rules set - and 
+
+        # One of the important properties of the project is that instead of relying on people in position of power to decide whether the agreements made are kept  (so e.g. the content of work directives by the bosses, content of the contracts by judges), we rely on a system of processing units to compute the 
+
+    .What questions this is aiming to answer:
+      Title: What questions this is aiming to answer?
+      Content:
+        - How will rules we set be enforced? 
+        - Is this like a company? What are the similarities and the differences?
+        - Ok, so it's not really - but then how will rules be enforced if there's no boss/CEO and we're not using the current legal systems?
+    .Sketch:
+      Title: High level sketch
+      Content:
+  <-Workspace-:
+
+    - Question is:
+      - What are the things making it more likely that a certain agreement (=law) in between people are kept?        
+    - Some points:
+      - mention "law enforcement" - so it's one thing that ther are laws and some people decide whether these laws are kept/not by someone, but they must be enforced as well, so based on the decision of these people, positive/negative consequences must happen to the someone, e.g. police forcing that someone into prison.
+      - mention that in our case it's the same, we're just not using the same systems as the current governments; the main problem there is that there ~people decide - and that's what we're replacing here.
+      - a note that does not mean that we'll not use the existing systems _as_well_ - so on top/in parallel, where necessary and beneficial for us, we might use regular companies, contracts and laws
+    - Approach should be:
+      - For companies, the rules are basically what people in powerful positions say, quite often just losely based on what is "written":
+        - first level is e.g the boss, then big boss, then judge, then big judges - put there by other people, e.g. politicians.
+        - all can be bribed, forced, biased, dishonest or just not "smart" enough to understand a complex situation
+        - the more it matters for people in power or the more complex a situation is, the less we can trust the method
+      - For us, the rules are what algorithms compute - involving people as computational units:
+        - self-improvingly correcting for the typical human errors:
+          - [And here the error types]
+        - therefore, the "core", initial algorithm is super crucial:
+          - luckily the "basics" are simple and well worked-out, starting from Aristotle and continuing throughout the development of mathemathics; we, humans also have a quite good ability to do it - we call it "thinking". So, we're basically doing a formal proof and the only thing we need to verify is that our proof systems are sound. Verification is that before you join, you are requested to understand and agree to it - or if not, show us where the errors are.
+      - Show an example: like blockchain, which is "above" the law system
+      - Explain the "theories" - so from a system perspective:
+        - We're a system (input, output, internal state and algorithm)
+        - Like a company or a government, where:                
+          - company, government: 
+              Hierarchical:
+              - single people decide, in a hierarchy
+              - depends on how trustworthy and capable those people are
+              Democratical:
+                - the decision of 
+          - us: 
+            - people are computational units with error rates; we correct for these with statistical, heuristical and "formal proof construction" methods:                

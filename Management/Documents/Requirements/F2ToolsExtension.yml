@@ -1,0 +1,591 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+.F2ToolsExtension:
+  Details:
+    There is a Visual Studio Code extension (=can be registered into Visual Studio Code as an extension), providing various services helping to perform day-to-day tasks around handling the Items.
+  Closed .Minimal Base:
+    Details:
+      - Its name should be: F2Tools
+      - Published by: tf2p.org
+  Closed .Publishing the extension:
+    Details: The F2ToolsExtension should be published in the Visual Studio Marketplace under the publisher name tf2p.org
+  InQA .Extract F2Yaml Link in F2ToolsExtension:
+    ReqReq: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Minimal Base"<
+    Details:
+      There should be a functionality in the extension with which one can extract the yaml path to a yaml key and paste it in one of the "link" formats.
+    Obsolete .Basic:
+      Details:
+        A basic version, with simple, configurable string replace (and manipulations)
+      Obsolete .Registers commands:
+        Details:
+          The extension registers 2 commands:
+            CopyAsF2YamlLink: Generate or Copy F2Yaml Link
+            CopyAsF2YamlReference: Generate or Copy F2Yaml Reference
+      Closed .Can be configured:
+        Details:                
+          - It can be configured what words should be removed from the extracted key - such as status words like "TODO", "Done".              
+        Stories:
+          Open and use settings:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code   
+            When:
+              - In VS Code, the user navigates to the Settings (of VS Code) and opens the Extensions category from the tree on the left side
+            Then:
+              - There's a section containing the settings for the extension "F2Tools"                  
+              - The section contains the followings: |
+                  F2Tools:Ignore Words
+                  Words to remove from the extracted YAML path during F2Yaml link generation:
+                  [TextBox]
+              - The TextBox contains the value of the "f2ToolInterface.removeWords" setting (in settings.json), or, if not found, the default, which is:
+                  "EstTODO, DraftTODO, TODO, Estimated ,OnGoing, OnHold, Cancelled, Paused, InProgress,Done, CurrentFocus, Blocked, Drafting, Draft , Reviewed, InDev, Developing, InQA, BugFixing, QAPassed"
+              - The user can change the content of the texbox and when closing, the settings is saved to the above key in settings.json              
+      Obsolete .Extract by shortcut:
+        ReqReq: 
+          - -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Extract F2Yaml Link in F2ToolsExtension".."Basic".."Registers commands"<
+          - -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Extract F2Yaml Link in F2ToolsExtension".."Basic".."Can be configured"<
+        Details: 
+          - It should be able to extract yamlLink and yamlReferance via shortcut
+        Stories:
+          Copy and Format Yaml Path:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code
+              - The shortcuts CopyAsF2YamlLink and CopyAsF2YamlReference are registered
+            When:
+              - The user presses one of the shortcut keys
+              - The yaml path to the current key is extracted (into a local variable of the extension):
+                  Such as:
+                    - Pressing the shortcut on MyKey2 on the item:
+                        MyItem:
+                          My Key 1:
+                            MyKey2:
+                    - extracts: MyItem.My Key 1.MyKey2
+              - The words configured in "f2Tools.removeWords" are removed from the extraction in a way that no resulting keys start or end with a space:
+                  Such as:
+                    - If:
+                      - the extracted key is: MyItem.My Key 1.MyKey2 
+                      - the configured words: "My"
+                    - then the extracted key becomes: Item.Key 1.Key2                    
+              - If a key contains spaces, it is put in between quotations:
+                  Such as:
+                    - if the extract is "Item.Key 1.Key2"
+                    - it becomes: MyItem."My Key 1".MyKey2
+              - if the shortcut key is:
+                  CopyAsF2YamlLink:                           
+                    the extraction is put in between the characters $@ and @$:
+                      such as:
+                        The extraction:
+                          MyItem."My Key 1".MyKey2
+                        becomes:
+                          $@MyItem."My Key 1".MyKey2@$
+                  CopyAsF2YamlReference:
+                    the extraction is put in between the characters --> and <:
+                      such as:
+                        The extraction:
+                          MyItem."My Key 1".MyKey2
+                        becomes:
+                          -->MyItem."My Key 1".MyKey2<
+              - the result is placed to the clipboard:
+                  so that the user can paste it.        
+      Comments:
+        - - Bobi
+          - The F2Yaml link format is obsolete and this functionality is superseded by the $@-->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Extract F2Yaml Link in F2ToolsExtension".."Yaml parsing based"<@$ functionality
+          - 20260421
+    InQA .Yaml parsing based:
+      Details: |
+        A yaml parsing based version, where the Items are parsed and the links are created using the contents of their properties.
+        Also, there are 2 link types supported: 
+          - Summary based
+          - Id based
+      InQA .Registers commands:
+        Details:
+          The extension registers 2 commands:
+            ExtractSummaryLink: Extract F2Yaml Summary Link
+            ExtractIdLink: Extract F2Yaml Id Link
+      InQA .Works:
+        ReqReq: 
+          - -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Extract F2Yaml Link in F2ToolsExtension".."Yaml parsing based".."Registers commands"<
+        Details: 
+          - When the command of extracting the link is fired the Extension should be able to first parse the relevant yaml-doc then it should be able to extract the yaml-keys as per requirements and then create a link in the given format then provide it into the clipboard.
+          - The link is generated in the following way described as a pseudocode and should comply to the bnf described in the f2links.bnf:
+            pseudoCode: |
+              string GenerateLinkFrom(string filename, Position cursorposition)
+              {
+                string[] pathElements = GetPathElementsFrom(filename)
+                string fileNamePart = "";
+                foreach (var pathElement in pathElements)
+                  fileNamePart = pathElement + "\";
+
+                string propertyPart = "";
+                PropertyAndValue prop = GetPropertyNameAtCursorPos(filename, cursorposition);
+                if (prop is not null)
+                  propertyPart = "." + prop.Value;
+
+                string idLinkPart = "";
+                Item currentItem = GetItemAtCursorPosition(filename, cursorposition)
+                while (true)
+                {
+                  idLinkPart = GetIdOrSummaryPartFromItem(currentItem) + idLinkPart;
+                  currentItem = GetParentItemOf(currentItem);
+                  if (currentItem is null)
+                    break;
+                }
+                
+                return fileNamePart + idLinkPart + propertyPart;
+              }
+
+              string GetIdOrSummaryPartFromItem(Item item)
+              {
+                if (item.Id is not null)
+                  return ".." + item[Id]Value;
+                else if (item.Summary is not null)
+                  return ".." + """" + EscapeSummary(item[Summary].Value) + "\"";
+              }
+
+              string EscapeSummary(string summary)
+              {
+                //so the double quote chara to be replaced to double-double quotes:
+                return summary.ReplaceAllOccurencesOf("\"", "\"\"")
+              }
+
+              Item GetItemAtCursorPosition(filename, cursorposition)
+              {
+                //- returns an Item in a form of a Map<string, string>, where the keys are the property names and the values are the values of those properties
+                //- able to understand a yaml representation of an Item where the Item is rendered as a yaml mapping in a way that:
+                //  - the key contains:
+                //    - the value of the Status property as the first word
+                //    - the value of the Summary property from the second word, starting with a dot
+                //  - the value contains mappings where:
+                //    - the key is the name of a property
+                //    - the value is the value of the property:
+                //      - at the time being, parses all values into strings
+                //- it parses all yaml mappings like the above if the second word of the key starts with a dot                      
+              }
+            Examples: |
+              Example structure:
+                MyFolder\Thisisadot.my\My Yaml\:
+                  Comments:
+                    Bobi: This is a file I like.    
+                  TODO .Root:
+                    Summary: This is the summary of Root #First
+                    TODO .Summary: #Second
+                      Id: Summari
+                      Type: Task
+                    TODO .Sum Mary: #Third
+                      Id: Summary
+                      Type: Task
+              Links:
+                #First - through the property name:
+                - -->MyFolder\Thisisadot.my\My Yaml\..Root.Summary< #link to the first - to the Summary property
+
+                #Second - through the value of the Summary property of the Task ("Summary"):
+                - -->MyFolder\Thisisadot.my\My Yaml\..Root.."Summary"< #link to the property with .Summary in the header
+
+                #Third - through the value of the Id property of the Task ("Summary"):
+                - -->MyFolder\Thisisadot.my\My Yaml\..Root..Summary< #link to the property with .Sum Mary in the header
+        Stories:                
+          Extract F2Yaml Id Link:
+            When the cursor in on a item:
+              Given: 
+                - The F2Tools vscode extension is installed and running.              
+              When: 
+                - The cursor is on an item and the Extract F2Yaml Id Link command is fired.
+              Then:
+                - The link is generated by following the $@pseudoCode@$
+                - The link is pasted in the clipboard.
+                - A popup comes with text "${link} is copied to the keyboard"
+            When the Cursor in on a IdLink:
+              Given: 
+                - The F2Tools vscode extension is installed and running.              
+              When: 
+                - The cursor is on an item and the Extract F2Yaml Id Link command is fired.
+              Then:
+                - The link is copied by following the $@pseudoCode@$
+                - The link is pasted in the clipboard.
+                - A popup comes with text "${link} is copied to the keyboard"                      
+          Extract F2Yaml Summary Link:
+            Given: 
+              - The F2Tools vscode extension is installed and running.              
+            When: 
+              - The cursor is on an item and the Extract F2Yaml Summary Link command is fired.
+            Then:
+              - The link is generated by following the $@pseudoCode@$
+              - The link is pasted in the clipboard.
+              - A popup comes with text "${link} is copied to the keyboard"
+
+            pseudoCode: |
+              string GenerateLinkFrom(string filename, Position cursorposition)
+              {
+                string[] pathElements = GetPathElementsFrom(filename)
+                string fileNamePart = "";
+                foreach (var pathElement in pathElements)
+                  fileNamePart = pathElement + "\";
+
+                string propertyPart = "";
+                PropertyAndValue prop = GetPropertyNameAtCursorPos(filename, cursorposition);
+                if (prop is not null)
+                  propertyPart = "." + prop.Value;
+
+                string summaryLinkPart = "";
+                Item currentItem = GetItemAtCursorPosition(filename, cursorposition)
+                while (true)
+                {
+                  summaryLinkPart = GetSummaryPartFromItem(currentItem) + summaryLinkPart;
+                  currentItem = GetParentItemOf(currentItem);
+                  if (currentItem is null)
+                    break;
+                }
+                
+                return fileNamePart + summaryLinkPart + propertyPart;
+              }
+
+              string GetSummaryPartFromItem(Item item)
+              {
+                if (item.Summary is not null)
+                  return ".." + """" + EscapeSummary(item[Summary].Value) + "\"";
+              }
+
+              string EscapeSummary(string summary)
+              {
+                //so the double quote chara to be replaced to double-double quotes:
+                return summary.ReplaceAllOccurencesOf("\"", "\"\"")
+              }
+
+              Item GetItemAtCursorPosition(filename, cursorposition)
+              {
+                //- returns an Item in a form of a Map<string, object>, where the keys are the property names and the values are the values of those properties
+                //- able to understand a yaml representation of an Item where the Item is rendered as a yaml mapping in a way that:
+                //  - the key contains:
+                //    - the value of the Status property as the first word
+                //    - the value of the Summary property from the second word
+                //  - the value contains mappings where:
+                //    - the key is the name of a property
+                //    - the value is the value of the property
+                //- it decides whether the Item is represented like above or not based on whether the first word is part of the [NameOfTheIgnoreList]
+              }
+  InQA .Time Tracking and Administration:
+    ReqReq: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Minimal Base"<
+    Details:
+      Summary:
+        The user has the abilities:
+          - to signal to the extension which Task he/she is working on
+          - for how long
+          - what is the activity; 
+          - to update the StandupReport 
+          - and to generate the WorkLog entries into the Tasks.
+    InQA .Basic:
+      Details:
+        The basic version.        
+      QAPassed .Registers shortcuts/command:
+        Details:                
+          The extension registers shortcuts/commands:
+            SpecifyStandupReport: 
+              Command: Speficy Standup Report
+              Description: if the cursor is on a StandupReport, signals that the extension should work into (and if necessary, generate) the "Was" part of this StandupReport                 
+            StartTask:
+              Command: Start timer on Task
+              Description: if the cursor is on a Task, signals that the user has started working on this Task (and that he/she stopped working on the previous)
+            StopTask: 
+              Command: Stop timer on Task
+              Description: signals that the user has stopped working on the Task
+            ResumePreviousTask:
+              Command: Pause/Resume Task
+              Description: if there was a task selected previously and the times was stopped with the "StopTask" command, instructs the app to resume counting the time on the Task
+      InQA .Works:
+        Details:
+          The extension has the basic Specify SR, Start/Stop and Pause/Resume functionalities
+        Notes:
+          The fields - e.g. SPENT_TIME - are referring to the standup format defined here: -->Documents\ProcessDescriptions\.."Process Descriptions"..StandupProcess..ManualStandupPreparation..CreateSRItem.."Fill in its properties"<
+        Stories:
+          Specify SR:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code                  
+              - The cursor is standing on the Id of a StandupReport
+            When:
+              - The user presses the SpecifyStandupReport shortcut
+            Then:
+              - The extension stores the location of the SR so that it can update it
+              - a popup appears saying "[NameOfTheSR] is selected as the Standup Report. Please select a Task and issue the Start timer on Task command"
+
+          Start the counter on a Task:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code                  
+              - The cursor is standing on the:
+                  OR:
+                    - Id of a Task inside of a yaml file
+                    - on a link pointing to a Task
+            When:
+              - The user presses the StartTask shortcut
+            Then:
+              - IF there's a Task already started previously:
+                - performs the $@Stop the counter on a Task@$ action
+              - Stores the current time for the task in memory
+              - checks whether there's an entry in the specified SR about the Task for which the counter was started
+              - IF Not:
+                - The extension writes an entry in the specified SR:
+                  - sets its "SPENT_TIME" to 0
+                  - sets its "STARTDATETIME_IN_ISOFORMAT" to the current datetime
+              # - Else:
+              #     - the previous entry gets updated with the elapsed time being added to the duration in the previous entry.
+              - It displays a popup saying "The timer has started on Task TASKNAME"
+
+
+          Stop the counter on a Task:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code
+              - The $@Start the counter on a Task@$ was performed
+              - The $@Specify SR@$ was performed
+            When:
+              - The user presses the StopTask shortcut
+            Then:
+              - The extension:
+                - checks whether there's an entry in the specified SR about the Task for which the counter was started
+                - if so, updates the entry by adding the time (rounded to mins) elapsed since the $@StartTask@$ command was issued to the time already present in the entry 
+                - if no, creates the entry and sets the time (rounded to mins) elapsed since the $@StartTask@$ command was issued
+                - Displays a popup saying "The timer was stopped on Task TASKNAME"
+
+
+          Resume the counter on a Task:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code
+              - The $@Start the counter on a Task@$ was performed and then the $@Stop the counter on a Task@$ as well
+            When:
+              - The user presses the ResumeTask shortcut
+            Then:
+              The $@Start the counter on a Task@$ action is performed in a way that the Task in question is the previous task
+
+    InQA .WorkLogGeneration:
+      QAPassed .Registers shortcuts:
+        Details:                
+          The extension registers shortcuts:
+            GenerateWorkLogsFromSR:
+              ShortCut:
+              Description: generates (or updates) the WorkLog entries of the Tasks based on this SR
+          Done .specify the shortcuts (or just a ctrl+shift+p command?):
+            Result: ctrl+shift+p was selected
+      InQA .Generates WorkLog Entries:
+        Details:
+          Given:
+            The cursor is on the Id of a StandupReport Item
+          When:
+            The user presses the GenerateWorkLogFromSR command
+          Then:
+            - foreach (wasPartEntry in WasPartOfTheSR):
+              - var task = findTaskBy(wasPartEntry)
+              - if(!isTaskAYamlLink(task)):
+                - Message.err("Cant find this task")
+                - return;
+              - if (!task.HasProperty("WorkLog")):
+                  task.CreateProperty("WorkLog")
+              - var workLogProperty = task.GetProperty("WorkLog")
+              - var existingEntry = workLogProperty.GetEntryByDateOrNull(wasPartEntry.Date))
+              - if (existingEntry is not null):
+                  existingEntry.UpdateFrom(wasPartEntry)
+                else:
+                  workLogProperty.AddNewEntry(wasPartEntry)
+  Cancelled .Code Completion:
+    Cancelled .Minimal Snippet Based Item Creation:
+      ReqReq: --->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Minimal Base"<
+      Details:
+        Summary: The extension integrates into IntelliSense, providing code completion
+      Stories:
+        Code completion:
+          Given:
+            - 
+          When:
+            - user starts typing the snippets will be suggested.
+            - user selects a snippet with enter/tab/mouse.
+          Then:
+            - The entire structure of the selected snippet will be formed.
+      CancelReason: by adding the snippets into the "yaml.code-snippets" file in the .vscode folder we can have all the functionalities of this, including the easy global-update of the snippets - in fact, easier one than with the extension.
+  InQA .CSV Task List Tools:
+    ReqReq: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Minimal Base"<
+    Details:
+      Summary:
+        Various CSV Task list helper functionalities.
+    InQA .CSV Entry generation:
+      QAPassed .Registers commands:
+        Details:
+          The extension registers shortcuts/commands so that they appear in the command palette (ctrl+shift+p) :
+            GenerateCSVLine: 
+              Command: Generate CSV Line from Task
+              Description: if the cursor is on a Task, signals that the extension should generate a CSV Line from the properties specified in the settings of the extension and put it on the clipboard.
+      InQA .Can be configured:
+        Details:                
+          It can be configured what property values in what order should be used for the CSV line generation.
+        Stories:
+          Open and use settings:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code    
+              - There's a section containing the settings for the extension "F2Tools"                  
+            When:
+              - In VS Code, the user navigates to the Settings (of VS Code) and opens the Extensions category from the tree on the left side
+            Then:
+              - Inside the section "F2Tools" section, there is a section containing the followings: |
+                  CSV Task list line generation
+                  A list of Property Ids which should be included in the CSV line in the given order. The followings can be used as well:
+                    IdLink: The link to the Task containing Ids
+                    SummaryLink: The link to the Task containing Summaries
+                    Empty: An empty "cell"
+                  [ListBox]
+              - The ListBox contains the value of the "f2Tool.CSVTaskListProperties" setting (in settings.json), or, if not found, the default, which is:
+                  Empty, Status, Milestone, IdLink, By, Priority, RemainingHrs, SummaryLink, BlockedBy    
+              - The user can change the content of the texbox and when closing, the settings is saved to the above key in settings.json
+      InQA .Works:
+        ReqReq: 
+          - -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."CSV Task List Tools".."CSV Entry generation".."Registers commands"<
+          - -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."CSV Task List Tools".."CSV Entry generation".."Can be configured"<
+        Stories:
+          Copy CSV:
+            Given:
+              - The F2ToolsExtension is installed and enabled in VS Code
+              - The command GenerateCSVLine is registered
+            When:
+              - The user issues the GenerateCSVLine command from the command palette (ctrl+shift+p)                    
+              - A CSV line is generated, in the following way:
+                - pseudocode: |
+                    string GetLinkConsistingOfIdsAsPartsForTask(Task task)
+                    { 
+                      //should create and return a link where each link element should be the value of the "Id" property of the Task; 
+                      //if there's no "Id" property, it should default to the value of the Summary property though, put in double quotes
+                      //should return something like: 
+                        -->MyWorkFolder\\Root..Backlog..Development..MyTask<
+                        -->MyWorkFolder\\Root..Backlog..Development.."My Other Task not having Id"<                            
+                    }
+
+                    string GetLinkConsistingOfSummaryPartsForTask(Task task)
+                    {
+                      //should create and return a link where each link element should be the value of the Summary property of the Task, put in double quotes 
+                      //if there's no "Summary" property, it should default to the value of the Id property though, without double quotes
+                      //should return something like: 
+                        -->MyWorkFolder\\Root.."The main backlog".."Development tasks".."My Task"<
+                        -->MyWorkFolder\\Root.."The main backlog".."Development tasks"..TaskNotHavingSummary<
+                    }
+                  
+                    string GenerateCsvLineFromTask(Task task)
+                    {
+                      string csvLine = "";
+                      foreach (var elementIdentifier in CSVTaskListProperties)
+                      {
+                        string csvElement = "";
+                        var elemId = elementIdentifier.ToLowerCase();
+                        if (elemId == "idlink")
+                          csvElement.Append(GetLinkConsistingOfIdsAsPartsForTask(task))
+                        else if (elemId == "summarylink")
+                          csvElement.Append(GetLinkConsistingOfSummaryPartsForTask(task))
+                        else if (elemId == "empty")
+                          csvElement.Append(" ");
+                          
+                        if (csvElement.Contains(DOUBLEQUOTECHAR) || csvElement.Contains(COMMA))
+                        {
+                          csvElement.ReplaceAllOccurences(DOUBLEQUOTECHAR, DOUBLEQUOTECHAR + DOUBLEQUOTECHAR);                                
+                          csvElement = DOUBLEQUOTECHAR + csvElement + DOUBLEQUOTECHAR;
+                        }
+
+                        csvLine.Append(csvElement);
+                        csvLine.Append(",");
+                      }
+                      csvLine.RemoveLastChar();
+                    return csvLine;
+                    }
+
+              - The CSV line is placed to the clipboard:  
+                  so that the user can paste it.
+              - A notification popup is presented, containing: |
+                  The following line was placed to the clipboard:
+                  [the CSV line]"
+  InQA .Following links basic:
+    BA: Gaurav
+    Details: 
+      There should be a functionality that can make the link live i.e. make the link work like a url link
+    Stories:
+      Given:
+        - The F2Tools extension is installed and enabled in VSCode
+        - The Cursor should be on a f2yamlLink
+      When:
+        - The follow link command is fired.
+      Then:
+        - IF (CurrentDoc == DocOfTheItemPointedByLink):
+            - Move the cursor to the position of the task's summary 
+            - Highlight the task summary
+        - Else:
+            - Open the document of the item pointed by the Link
+            - Move the cursor to the position of the task's summary and Highlight the task summary in the following way:
+              pseudocode: |
+                followLink(f2yamlLink){
+                  if(!checkIfTheLinkIsAlive(f2yamlLink)){
+                    Message.err("The link is not active");
+                    return;
+                  } 
+                  const item = getItem(f2yamlLink);
+                  const itemDocument = findTheItemDocument(item);
+                  const itemDocUri = itemDocument.uri;
+                  const itemPositon = getItemPosition(item.key.value, itemDocUri); // this will constist the starting and ending row and column numbers of the charecters of the summary of the item.
+
+                  openAndHighlightPosition(itemPosition, itemDocUri);
+                }
+  InQA .Follow F2Links:
+    Details: |
+      There should be a functionality that can make the link live i.e. make the link work like a url link.
+      This Requirement is the "advanced" behavior, being able to follow all valid F2Yaml links as specified in DocsAndArticles\Specifications\F2Links.bnf, both when they are in a yaml and in a CSV.
+    InQA .Registers commands:
+      Details:
+        The extension registers a command:
+          FollowLink: Follow F2Yaml Link                
+    InQA .Works:
+      Details: 
+        - The link following functionality works both inside yaml and csv files, supporting:
+          - Id based parts
+          - Summary based parts (they should be in double quotes)              
+          - In CSV:
+            - The whole link can be in double quotations or not in double quotations
+            - The double quotations are escaped (so two double quotations)
+      Stories:
+        Given:
+          - The F2Tools extension is installed and enabled in VSCode
+          - The Cursor is on an F2Link, meaning that it's in between a --> and < character-sequences.
+        When:
+          - The FollowLink command is issued.
+        Then:
+          - IF(CurrentDoc == DocOfTheItemPointedByLink):
+              - Move the cursor to the position of the task's summary 
+              - Highlight the task summary
+          - Else:
+              - Open the document of the item pointed by the Link
+              - Move the cursor to the position of the task's summary and Highlight the task summary in the following way:
+                pseudocode: |
+                  followLink(f2yamlLink){
+                    if(!checkIfTheLinkIsInACorrectFormat(f2yamlLink)){
+                      Message.err("The link is not in a correct format");
+                      return;
+                    } 
+
+                    if(!checkIfTheLinkIsAlive(f2yamlLink)){
+                      Message.err("The link is not active");
+                      return;
+                    } 
+                    const item = getItem(f2yamlLink);
+                    const itemDocument = findTheItemDocument(item);
+                    const itemDocUri = itemDocument.uri;
+                    const itemPositon = getItemPosition(item.key.value, itemDocUri); // this will constist the starting and ending row and column numbers of the charecters of the summary of the item.
+
+                    openAndHighlightPosition(itemPosition, itemDocUri);
+                  }
+
+                  bool checkIfTheLinkIsAlive
+  Drafting .Docs for the extension:
+    Drafting .ReadMe:
+      Details:
+        - all the features of the F2Tools extension should be mentioned in the readme.
+        - all the features should have a explanation.
+        - if there is known issues or common error there should be a warning.
+    Drafting .ChangeLog:
+      Details:
+        - all the updates should be documented.
+        - all the fixed bugs should be mentioned
+        - all the added and removed features should be mentioned.
+  Drafting .behaviour of the extension when the vscode shuts down:
+    BA: Gaurav
+    Details:
+      
+      - The $@-->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Time Tracking and Administration".."Basic".."Registers shortcuts/command".Details."The extension registers shortcuts/commands".StopTask<@$ command should be automatically executed when VS Code shuts down
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

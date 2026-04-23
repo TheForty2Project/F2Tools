@@ -1,0 +1,3275 @@
+Health: 
+  - Nutrition:
+    - TODO Create a notification for meals, vitamins and supplements
+    - Blocked Check ready meals and prices (No finances yet):
+      - Websites:
+        - https://www.teletal.hu/
+        - https://egeszsegkonyha.hu/
+        - https://www.cityfood.hu/en/
+        - https://www.gastroyal.hu/
+        - https://www.interfood.hu/
+        - https://www.beresalexandra.hu/
+  
+-->Backlog\\Backlog..Management.."Prepare for the R&HPlanning20250213 planning meeting"<:
+  -->Summary<:
+      Deliverables of the Planning meeting:
+      - Prioritized list of Tasks, enough for the next sprint:
+        Summary:
+          So that we can just pick the next ones for the StandUp
+      - Scheduled Tasks for the next sprint:
+        Summary:
+          Such as gym, eating, cooking; meetings
+      For the above we need to see:
+        - at least an overview about what we need to do until we reach this current milestone
+        - what are the other constraints, so what other non next-milestone, but still important Tasks we have:
+          - private ones, such as keeping us healthy in body (fed, rested, exercised) and in mind (drugs, entertainment, 69)
+          - obligations, such as babysitting and other things in Hana's mind
+      Therefore, Tasks:
+        - Collect the streams (Big Potatoes):
+          - Go through the Backlog
+          - Whatever in my head (inc. personal stuff eg. Health and Nutrition)
+        - Have some idea who will work on what stream
+        - Breakdown/Taskify the streams so that there are enough taskd from which we can choose tasks for the next sprint:
+          - This means we have way more tasks than we need just for the next sprint
+          - This includes rough estimations about the length of the tasks
+        - Estimate the capacity of your team 
+  CurrentFocus .Create Tasks out of the Big Potatoes:
+    <-Workspace-:
+      -->Backlog\\Backlog..Management<:
+        OnGoing .Daily project management:
+          By: PM
+          Details:
+            - Schedule and hold standups!!:
+              - one of the most important tool of the pm, the "daily general checkup"
+            - Make sure that the:
+              - plans, reports, meetings, etc. are "healthy"
+              - people and their environment are in a good condition
+            - Verify that work was done how it should have been done:
+              - Administration:
+                - There are Tasks for everything ppl are doing, Requirements for the Tasks
+                - Time is reported, statuses are updated, rules are kept
+            - They work on the Tasks they should be working:
+              - Ideally on what was agreed (on a Standup)
+              - But, there will be changes: 
+                - it should be the logical consequence of the information that they switched to another Task
+                - if unsure, they should check with you whether they can switch
+            - Handle daily issues
+          Notes:
+            - The time needed for this varies, based on:
+              - no of ppl
+              - project
+              - phase
+              - alignment of the stars
+            - In terms of "how much time should I plan for this": based on experience and feelings(!); try scheduling 2 hours/day at first.
+        OnGoing .Maintain reports:
+          By: PM
+          OnGoing .Prioritized Task lists:
+            Details:
+              - From which everyone can just choose the next ones.
+              - This has to be done kind of daily or even more often.
+              - It needs to be decided:
+                - Separate lists for people or one for everyone
+                - Format
+            Note:
+              - A very good candidate for automation.
+            TODO .Create first prioritized Task list:
+              By: Bobi, Hana
+              Priority: 5-VeryHigh
+          OnGoing .Worked hours/day/person:
+            By: PM
+            Details:
+              Maybe by every planning meeting, but as it's simple to do, can be done daily.
+            Notes:
+              A simple report from the standup reports.
+            TODO .Create first report:
+              By: Bobi, Hana
+              Priority: 3-Average      
+          OnGoing .Progress reports:
+            Details:
+              - Maybe by every planning meeting
+              - To see how we are progressing:
+                - By what time will we be ready IF we progress like this
+              - To identify problems and possible improvements
+            TODO .Create first progress reports by the retro on the 20th:
+              By: Bobi, Hana
+              Deadline: 2025-02-20T1400+0100
+              Priority: 2-Low
+
+  Management: 
+    Summary: Read more in Administration and integrate the recent changes
+    StandUp:
+      Requirement of StandUp preparation for Scrum master:
+        - Technicalities before the call: 
+          - Preparation of the environment:
+            - Mic, Camera, share button are tested of the scrum master
+            - Record Button tested
+        - Administration:
+          - first thing early morning:
+            - Check the standUp content of the team
+            - Understand ( as much as you can) and follow up the tasks and the progresses with the team
+            - Set calendar date for one week (each Sunday)
+            - Prepare yours and the team stansUps
+          - While and after the standUp:
+            - Duration
+            - Meeting Minutes:
+              - Notes of topics discussed
+              - 
+            - Psychology of the members
+      Analysis:
+        - Number of days of the standUp reports
+        - Tasks that are completed
+        - Tasks that are postponed
+        - Connect the standUp tasks to the milestones 
+        - Progresses & Regresses
+    Planning Meetings:
+    Retrospective Meetings:
+
+  TODO Giselle Preparation Meeting:      
+    WorkLog:
+      - [180m, Hana]
+    Details: 
+      - Ramping Up Giselle with VSC:
+        - Postponed Giselle adding the new repository Tf2p: 
+          - Reason: Laptop in the office 
+        - Done Keybase installation in tablet
+        - Ask the difficulties in using it 
+        - member should get used to reading content of VSC
+        - Introducing BackLogs, requirements and standsups:
+          - Postponed Backlogs: 
+            Summary: Giselle need to access VSC in laptop and read and skim through the backlog and share her understanding
+            To follow up on:
+              - website progress
+              - Podcast Progress
+      - Brief Updates from 20250209 to 20250308:
+        - members who are in and who became inactive
+        - Processes:
+          - StandUp
+          - Taskifications
+          - Milestone
+      - Website:
+        Road Map:
+          - Done each milestone , there is a tree structure. In this tree structure there should be a window for text and window for media (short clip of the standUp)
+          - Done After FAQ section Contact details different window for each section: Contributor, Investor,/ A button of opinion on the contributor and Investor 
+      - Inprogress collect all the videos and audios of the project progress between Hana, Robi and Giselle since 2023 
+      - Legalities and Finances for the MOnth of May and forward
+      - Gaurav possible migration to Hungary Requirements (need to discuss with Gaurav)
+      - Open a task for Hungary requuirements (giselles Visa)
+
+
+
+  Draft -->-->Backlog\\Backlog..PublicRelations..""Collect Marketing Ideas"".Details<<:
+    Draft  Inclusion of Live and recorded meetings:
+      Summary:
+        Reasons:
+          . Transparency:
+            - Build trust of the Audience, Investors
+            - a channel for the contributers to check the member workflows.
+          .Members discipline:
+          .Work evidence:
+      Meetings: 
+        - StandUpMeetingRoom
+        - focusmate
+      Draft  Inclusion of Live meeting channels:
+          Draft Website:
+            Summary: a dedicated space in the website that new members, investors and contributer can join and watch the members working
+              - Can be a live window that is automatically connected to discord meeting channels (might be for future)
+              - Can be a link and written text that shows the schedules of StandUp meeting (current)
+          Draft TF2P Social Media Live stream:
+            Summary: Live stream standUp meeting in different TF2P platforms
+              - Generate a script that activate the live streaming of different TF2P media platform
+            
+      Draft Storage for past Recordings accessible only for members:
+
+OnHold Sundan SubProject and publications:
+  Summary: Sudan as a subproject for TF2P publications
+  Thoughts not in order:
+    - Difficult time accepting donation from Go Fund me:
+      Details: I can't take the idea of taking moeny for free despite the high success rate. People working to provide themselves and goals and we ask for it for donation does not seem morally right.
+      Result: Making Sudan Project (starting small) as a subproject of the TF2P and apply the tools and methods in restoring life (start simple)
+    - The Donation will be replaced with investments, so people who contribute financially and with work will have their fare share
+    - Start small: starting with building the necessecities in Sudan with family members and friends (WHO WILL WORK) this is not a donation.
+    - Publication: Create requirements and Backlogs for the processes of publication.
+
+Some points to focus on:
+  - Publication ideas:  
+    - Live channels for the next batches to watch ( evidences that the team is working):
+      - Focus mate channel
+      - StandUps
+  - Contribution part in the website: 
+    - Live accounts where contributers and investors can see their money (thinking stage)
+  - Filtering first members:
+    - Requirement: 
+      - Goals in life
+      - Universtity state and their opinions of the current education system
+      - Religion
+      - Current observation on the current world
+
+Drafting .Specify StandupReport:
+      
+    TestRuns:
+      Fail Hana20250507:
+        Bug: -->Backlog\\Bugs.FCVSCExtensions."name of the bug"<
+      Pass Hana20250508:
+        - se
+
+    Question to Robi:
+    in test case Id: 
+      - can I include test case in the ID?
+      - Need to think of the test run format:
+    eg: 
+    Test Case ID: TC-001
+    Test Title: User Login Functionality
+    Yes Date: 2025-05-12
+    Yes Tested By: [Your Name]
+    Environment: Staging (v1.2.5)
+
+VSIX Testing: 
+
+  - Done Read Backlog: 1m
+
+  - Done Read line 2860-->BusinessAnalysis\Requirements.Requirements..SmallScripts.."F2VSCExtension extension"<: 
+    - Requirement
+    - Process Description
+    - StandUp report 
+    - Bugs
+  - Done Showcase with Gaurav: 4m
+  - InProgress Testing
+
+  - Notes:  
+    1. Bug: Extension should not crash
+    2. Clarification Request: what should happen during worklog generation if one of the links in the worklog entries are either wrong or the element they are pointing at is not there
+
+    Change request to the extension: 
+    2 extra feature:
+      1. detection during select task the user standing on the task or not 
+      2. If the user is not standing on the task detect an error 
+
+
+      Create a task regarding the ablve 
+
+Planning meeting:
+  Upgrade Website:
+    Accessories: 
+      - Table of content on the side:
+        - Landing page
+        - Summary
+        - Articles
+        - Contribute
+      - putting the contact social media bar in each page
+    Landing Page:
+      Summary: 
+        - Boxes should be removed: 
+          - Only one box for all: 
+          - Reason: Peop;le can be confused if its connected to one article or a different one. One bog box should contain the whole article the same as the article section
+        - Back button
+        - Table of content
+    Articles:
+      - The vibration while hovering the mouse on the box of the article ( minor)
+      - Table of content (side)
+      
+    Contact:
+      - Idea: putting the contact social media bar in each page
+      - Reddit: Add the member as modetrator 
+    Deepdive:
+
+  Public relation: 
+
+    - Social media:
+      - Password access fo all
+    - Audience:
+      - Contact the audience    - Process of the donation (minor)
+
+  Tasks for next week: 
+    - Audience 
+    - Tool
+    - 
+
+CSV Tasks:
+  TODO .Change F2Tools Publisher (need to register the account):
+
+Planning Meeting:
+  Streams:
+    Marketing:
+      Current Phase:
+        - Contacting Audience:
+          - make a meeting about who can be selected to the audience
+          - think of the content of the message to people 
+        - Think of social media exposure 
+      Next Phase:
+        - Tour 
+        - Platforms and facial exposure    
+        - Cleanup 1502
+        - work on 410  
+    Website develpment:
+      - Articles:
+        Current Phase:
+        - Article formatting:
+          - Decision formalization
+          - company structure.
+        
+        Next Phase:
+        - Article formatting:
+          - Current project management system ( this is for later when there are people joing and include the ramping u[ i the project system article)
+        - Deepdive section
+    Tool development:
+      line 474
+    Testing: 
+      Update the requirements 
+      Bugs
+
+Platforms to ad TF2P: 
+  LinkedIn: 
+    - Goal: Find 
+
+Plans after thisphase: 
+  - Creating Discord Channel
+  - Task Creating Process for applicant:
+    - Selecting C# applicants:
+    - Any coder who can do Business Analysis who can B2 level:
+      - Vocabulary is not important like knowing the grammar and forming a correct sentences.
+      - Analytic mind
+      - Think in a structured way (Analytic mind). Start from the big thing to small. Break down big things to small
+
+    - 3 pillars: 
+      - Instead of using human mind to compute Decision we use computer to compute the decision. Decision automation
+      - YOu get your share for the member value of contribtution
+      - Gradual transformation from hierirchal to distribute decision making to full automation in the end
+
+TaskHana202250711: 
+  Bobi: 
+    TODO .Follow up on the First Contact email:
+          By: Bobi
+          Details:
+            - Include the "2 pillars, 1 approach" topic:
+
+    TODO .General strategy about growing:
+
+  Giselle: 
+  InProgress .Search for animators/animation producer: ( check Backlog)
+  
+  Gaurav: 
+    TODO. Fill in the worklog of the previous tasks (pretty please eye blinking): 
+    InProgress .Implement follow F2YamlLink (is it updated)?:
+
+Done .ZoltanEmailSketchByHana:
+  Details:
+    Include: |
+      Some intro from Hana, then sketching the problems and then the answers:      
+        1. Logistic problems that you shared it with me 
+        2. How the the tool can solve the complex problems (Creating algorithms in the computer for these problems)
+        3. basic understanding how our project work 
+        4. The current state of the project
+      Then any other topics we wanted to include
+      Then "kisses, wink wink" (ok this is not or I'll murder you.)
+  InProgress .Intro:
+    By: Hana
+    <-Workspace-: 
+
+  InProgress .Questions detailed:
+    By: [Hana, Bobi]
+    Details:
+      Detail the questions and write answers to it
+        1. Logistic problems that you shared it with me 
+        2. How the the tool can solve the complex problems (Creating algorithms in the computer for these problems)
+        3. basic understanding how our project work 
+        4. The current state of the project
+      Include any other topics we wanted to talk about
+    InProgress .Baseline sketch:
+      By: Hana
+      Details:
+        - Hana to try to draw the problem up (at least for the logistics problems) and answer them
+        - in a points style, so not in beautiful English sentences necessarily
+        - include the AI, etc. topics from Bobi's publicworkspace
+      InProgress .Draw the problems up and analyze them:
+        Done .Sketch the problem "TeamA-TeamB sending trucks":
+          Details:
+            Describe the problem about "TeamA-TeamB sending trucks" and, if necessary, provide an example
+          Result:
+            Sketch:
+              Scenario described to us:
+                - There are two teams, one responsible for transferring goods from A to B (TeamAB), the other for B to A (TeamBA)
+                - There's a truck (TruckA) operated by TeamAB which was transferring cargo from A to B and is scheduled to go back to A without cargo at the time TeamBA wants to send a truck to A
+                - Ideal:
+                  - TeamBA would use TruckA to send goods to A
+                - Current:
+                  - TeamBA uses a new truck, TruckB to send goods to A
+                  - TruckA goes back to A empty
+                - Problem: the costs are almost twice
+                - Due to: When TeamBA is making a decision, they don't (properly) take into account that there's TruckA there, going back empty 
+
+              Generalizing the problem: 
+                Problem:
+                  The information about a truck (operated by another team) doing the same route at the same time without cargo is not taken into account when making a decision about a route.
+                  More generally, teams making the decision about how to send goods from A to B do not have all the "easily acquirable'* information necessary for making an optimal decision.
+                Ideally: there's a central system into which all the important information is collected and decisions are computed (made) 
+                Due to:
+                - The decision-makers in different teams do not have all the important information necessary to make a group-wide optimal decision - where "important information" is an information piece which, if taken into account, would change what's the optimal decision. $@TODO put the buying tomatoes from shops example here@$
+                - OR they do have it but for some reason they do not make an optimal decision, which can be due to various factors:
+                  - lack of understanding of how to make an optimal decision (i.e. "Bug" in the "software" of the decision-maker person)
+                  - available, but (relatively) hard to access data causing the decision-maker not having enough time to take it into account (e.g. overloaded decision-makers, slow systems, communication, etc.)
+                  - not clearly defined what's optimal - e.g. the decision-maker does not know that cost is more important than some other factor
+                  - etc.                    
+        Done .Draft the problem and its analysis about lots of administration and paperwork:
+          Result:
+            Scenario described to us:
+              - 20 percent of freight forwarders job is administration.
+            Problems which might appear:
+              Types:
+              - Errors made causing extra costs, delays, etc. having various impacts (in terms of "cost")
+              - Time necessary to fill them correctly, therefore causing cost
+              - Knowledge needed to fill them in, causing:
+                - delays if not enough properly trained people
+              In general:
+                - If not done "in the right way" then can cause problems ranging from minor to company-level, in rare cases involving even the top management
+                - Even if done properly, needs significant effort therefore is high cost
+            Ideally:
+              - Administration is done by a system (consisting of people and computers) in which the rules are up to date in complying to the regulations and requirements and the paperwork is done by a bug-free software (i.e. printed) wherever possible and where it's not and having to be done by people, the level of verification is proportional to the risks involved in a way that if the expected cost of errors can be reduced by a lower cost extra verification, then the extra verification is applied. The system is continuously improved, meaning the results are periodically evaluated and improvements are made according to the evaluation.              
+      TODO .Any other topics:
+        Details:
+          Include:
+            - SAP is fucking expensive, you also need to hire consultatnts and it taks like 1.5-3 years to integrate. It's fucking laughable.
+          Explain:
+            - Importance of collecting the data in a central location and making decisions using _all_ the knowledge of the group (i.e. company).
+            - 
+    Blocked .Review and finalize:
+      By: [Bobi, Hana]
+      DependsOn: 
+
+  <-Workspace-:
+    Logistic Problems: 
+        Problems:
+        Summary: Detail the 2 problems the client mentioned on the call
+        First Problem:
+        Description of a problem: 
+          - team 2 team b options to solve this problem
+          - problems that international freight forwarder have:
+            - Lack of Real-Time Visibility - Coordination Challenges:
+              - Miscommunication
+              - delays
+              - lost tracking visibility :
+                - Vehicle status
+                - Delivery progress
+            - Returns & Reverse Logistics:
+                - complex process of handling return
+            - Technology Gaps:
+              - Poor tracking, inefficient customer service, slower updates
+            - Administraion- Documentation Errors:
+              - 20 percent of problem of freight f
+              - Complex paperwork and compliance issues
+
+        Second Problem:
+
+
+        Questions for meeting: 
+          - What ERP the company use
+          
+    <-Workspace-: |
+      Hello Zoltan,
+
+        Super sorry for our late email. 
+
+        We chose one problem and Included all the 4 points in it. 
+
+
+
+
+
+          3. basic understanding how our project work 
+          4. The current state of the project
+
+            1. Logistic problems: I picked 1 subject (trucking problem) and analysed it with Robert. Below is how we breakdown the problem
+              
+          
+              b. 20 percent of freight forwarders job is administration:
+                Problems which might appear:
+                  Types:
+                  - Errors made causing extra costs, delays, etc. having various impacts (in terms of "cost")
+                  - Time necessary to fill them correctly, therefore causing cost
+                  - Knowledge needed to fill them in, causing:
+                    - delays if not enough properly trained people
+                  In general:
+                    - If not done "in the right way" then can cause problems ranging from minor to company-level, in rare cases involving even the top management
+                    - Even if done properly, needs significant effort therefore is high cost
+                Ideally:
+                  - Administration is done by a system (consisting of people and computers) in which the rules are up to date in complying to the regulations and requirements and the paperwork is done by a bug-free software (i.e. printed) wherever possible and where it's not and having to be done by people, the level of verification is proportional to the risks involved in a way that if the expected cost of errors can be reduced by a lower cost extra verification, then the extra verification is applied. The system is continuously improved, meaning the results are periodically evaluated and improvements are made according to the evaluation.
+
+              Summary: 
+                A general problem with a group (e.g. a company) managed through a hierarchial management is that the optimality of the actions the group takes is decreasing with the group growing mostly due to the amount of information needed to be transferred into the "computers" - human minds - and the tremendous increase of computational complexity.
+              - It is expected therefore that it feels "too complex" to solve even basic-looking problems in large(r) companies, that most employees can point to things which are trivially bad - still, those are not solved. We can give an example of powerful  logistics and ERP system SAP S/4HANA, which I think used by DHL.from our experience as both sender and receiver, we've encountered numerous issues while using their services from different part of the globe.
+
+
+            
+    
+        
+            3. basic understanding how our project work:
+            4. The current state of the project
+              Our situation:
+              - So we're making one, right now it seems that if we play our cards right, The One (why The One? The answer is around combining a few factors:_ 1, the unprecedented ability to increase the management efficiency with our growth; 2, the "more people cooperate (optimally) the better for the individual cooperators" - so if there's another project like us, we'd merge ; 2.5, the "everyone is a shareholder" approach therefore interest to join us instead of a company), pioneering the whole thing.
+              - As you probably know we just went public, posted our first ads on Linkedin, we're now filtering through the applicants; updates from the last days are that they are quite promising, despite this is just the test round and we offer no compensation.
+              - We're a couple hundred man-hours away from finishing the MVP (Minimum Viable Product) version of it - capable of managing small teams better than with contemporary products -  and lets say a couple of thousands to be able to make it capable to replace any kind of management; yes, this sounds awesome but take note that there's almost a decade long preparation behind it, or almost a lifetime if we count my "employment" experience mostly in managing software projects along with being a programmer-geek from the age of 11.
+              - Having said the above, the development is progressing slowly and - unless we get an experienced team "out of the box" or some significant investment - this is not expected to be changing in the next month or so as we need time to ramp-up the candidates and with the team growing I can spend even less time on development, so we'd say that the MVP will be ready in 2-3 months, the "Basic" in 4-6.
+
+              How we can we cooperate:                  
+              - How we can see the things right now is that your company seems to be an "easy" first target, with relatively easy to solve problems. According to Hana's assesment and our further research about you, you're a CEO with high empathy, the "slave of all employees" type who wants to make the company work instead of concentrating just on his personal success. The management is financially incentivised in the success of the company; the lack of motivation of some might come from the difficulty of the problems and the "no future" mood of the current world - to which our project might hopefully be a cure once they start to experience the details.
+
+              - The approach, in general would be:
+              - at first we'd need to map the way you operate; the information flow, what constraints it has; flexibility and willingness for change; political constraints, etc, in order to see with what strategy you can be transformed from a hierarchical management where "bosses give orders" to a distributed-computed one, where "people perform the highest priority Tasks".
+              - we'd identify the first "easy" targets, test grounds, high yield/risk ratio areas where we can introduce the processes first
+              - the transformation would be gradual then, iteratively identifying the next highest yield/risk areas, to end up with a cooperative, self-improving and automating community providing the services you provide now, just in a way more efficient and optimal way         
+
+TODO . Migrate tasks:
+  - -->Backlog\Backlog\..Management.."Migration of  Next Tasks to Backlog"<:
+    - Create tasks from Bobi public workspace:
+      Done .Articles/tweet content:
+        - -->Backlog\Backlog\..PublicRelations.."Collect Marketing Ideas".."Marketing strategy".."Write thoughts on X".."Definition of Fair"<  
+      Reqruitment:
+        InProgress .Create Recruitment group under Public workspace:
+          Details: -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations.."Recruitment Phase 1"<
+          Done .Update the Contribute form:  
+            -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentCurrentPhase.."Update the Contribute form"<
+          Done .Create process for work for new joiners:
+            Notes: there is already something about this in the Backlog
+              - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentCurrentPhase.."Create process for work for new joiners"<
+          Done .Change the current ads on LinkedIn and WellFound to specific skills that are needed for MVP (C# and Type Script) :
+            - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentCurrentPhase.."Change the current ads on LinkedIn and WellFound to specific skills that are needed for MVP (C# and Type Script)"<
+          Done .Find other platform for adverising:
+            Details:
+            - Reddit 
+            - Discord      
+      Marketing:
+        Done .Go through the existing material (articles, etc.) and share it with the current team:
+          By: Bobi
+        Done .Attend MeetUp or events in Budapest and nearby; we can join meetups and talk to people:
+          - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".InPerson Marketing".."Attend MeetUp or events in Budapest and nearby; we can join meetups and talk to people"<
+        Done .Take videos of meetings; advertise the clips to different platform; linkedIn, X, Youtube:
+          By: Marketing
+          Details: People might have the understanding that the project is not a regular work place, grasping the idea of the project workplace
+            - StandUp reports
+            - Article discussion
+            - Focusmate
+            - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".Visual Marketing".."Take videos of meetings; advertise the clips to different platform; linkedIn, X, Youtube"<
+        Done .Clips of us for people to grasp who we are in Reels and stories in different platform; insta, threads, fb:
+          - -->Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".Visual Marketing".."Clips of us for people to grasp who we are in Reels and stories in different platform; insta, threads, fb"<
+        Done .At least weekly updates - what happened with the project:
+          -->Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".Written Marketing".." Write on LinkedIn the project updates"<
+        TODO .search for other potential platforms:
+          Id: Csharpplatforms
+          +: {CreatedBy: Hana, CreatedAt: 20250730 T 202702, By: Hana}
+          Details:
+            - https://dev.to/t/csharp
+            - https://www.codeproject.com/?cat=24:
+              Notes: we can write an article in a way that the reader would be interested in joining.
+            - Reddit:
+              - Https://www.reddit.com/r/csharp/
+              - 
+            - https://programming.dev/c/csharp
+            - Discord:
+              Details:
+                Represent myself as a member whos role is to project manage a software tool development and the project development. Asking programmers for their opinion in what they think of the project. 
+              Groups:
+                - C-sharp Group
+                - Programmer group
+
+        Done .Tweet:
+          By: Marketing
+        We should approach them highlighting so that they let us in:
+            - we're coOperation and not coRporation
+            - you can practice with us, just better, because:
+              - it's organized (and you can organize yourself)
+              - you can learn Agile processes, how to work in a team
+              - if your work is valuable, you get your _fair_ share - so it's not that the corporate owners take most of the profit
+            - so we don't need the usual shit about "no ads"; fuck you managerboy, then you didn't understand.
+
+      Notes: 
+        Recruitment - Marketing:
+          Wellfound: is a job post and the other platforms is a hidden job post
+        Marketing - Reqruitment:
+          Discord:
+
+TODO Decide:_ what email addresses to use:
+  Details:
+    e.g. all recruitment should go from e.g. hr@tf2p, etc.
+
+Done Respond to Rahul:
+  Id: RahulResponseEmail
+  +: {CreatedBy: Hana, CreatedAt: 20250803 T 171317, By: Bobi, Hana}
+  
+  Done Write the email:
+    Details:
+      - Explain current situation:
+        - we finished:
+          - filtering the candidates
+          - the high level processes about how new members can join
+        - in short: we'll be ramping you up first, fine tune our (and work out the missing) processes and then we'll gradually let other people in.
+      - Would this work for an interview:
+        - Tuesday noon?
+        - If not, monday noon, but we might not be that prepared.
+      - Prospects:
+        - We'll have some deeper questions to assess how the details should be, but roughly:
+          - we'll ask you to join the next standups
+          - at first it will be "shadowing" one of the developers (probably Bobi), that will make you learn into the code, then gradually you'll get your own tasks
+          - you might have to do a few administration-related tasks to learn the current project management environment
+    <-Worspace-: |
+      Good Sunday Rahul,
+
+        Summary:
+         We have finished filtering the candidates and we've also finished creating the high level processes about how new members can join - in short we'll be ramping you up first, fine tune our (and work out the missing) processes and then we'll gradually let other people in.
+        
+        Timing:
+          Would this work for our first call:
+            - Tuesday: 11:00 12:30 (UTC+2)
+            - If not, Monday 11:00 - 12:30, but we might not be that prepared.
+          Ideally you should stay a few hours after the call as well - there's lot of material to learn - but the call itself is the most important.
+
+
+        Prospects:
+        - We'll have some deeper questions to assess how the details should be, but roughly:
+          - we'll ask you to join the next standups
+          - at first it will be "shadowing" one of the developers (probably Bobi), that will make you learn into the code, then gradually you'll get your own tasks
+          - you might have to do a few administration-related tasks to learn the current project management environment
+          - and lots to read - Requirements, materials we have        
+
+      
+        It is easier for me to communicate through points instead of a whole paragraphs. Let me know if the above way is fine with you:)
+
+        Ps. we have no sirs here:) you can call our names if its comfortable for you.
+  Done Send the email from hana@tf2p.org:
+
+  UpdateContributeForm:
+    Idea1: 
+      - Remove technical skill that apply option and replaced it with what skill you have that you can contribute to the project? 
+      - Reason: Many applicants in the test phase selected different options on the checkbox. We had to compare their selections with their CVs for verification, and the results did not match.
+      - Result: 
+
+    Idea2:
+      - add questions that:
+        - Verify the applicant understanding about the project? 
+        - their understandiong of profit share
+        - how this project is different from any corporation
+        - how do they think they can contribute to the project?
+        - goals?
+
+Done .Phase 1Retrospective:
+  Id: RetrospectivePhase1
+  +: {CreatedBy: Hana, CreatedAt: 20250817 T 224949, By: Hana, Tags: [CSVTODO], Priority: 5-Veryhigh}
+  .Management Status:
+    - progress in management on Aug:
+      - 32 Tasks completed:
+      - 14 Tasks InProgress:
+      - 18 task Urgent:
+    - Where PM failed:
+      - Working late hours and not getting enough sleep
+      - results in lack of motivation, thinking process and movements
+      - very minimal process or no process, work is chaotic.
+    - Plans:
+      - PM role should be shared, If one PM unable to do the role of the day he\she has the responsibility informing the team. We should take turns
+      - Exercise Cardio and HIIT for GH stimulation (thinking included)
+      - Daily Process of PM should be created 
+  .Marketing status:
+    - Why did it take that long:
+      - Implementation of the meeting was a bit hard. studies and research took time 
+      - Body condition has an affect on Hana Productivity
+    - Where we are now: 
+      - InProgress Phase 1 Marketing: 
+    - The plans and estimations:  
+      - TBD
+  .Meetingnotes:
+    - clear guidlines for any stream. eg. marketing. what are the steps we should take n
+    - Processes and rules should be created 
+    - All core members should be contributing to the release to public in terms of thoughts (decisionmaking). We are defining tf2p process by showing how our process of our work/project; 
+    - Introducing the point system - initially for motivation of the members and progress of the project processes.
+    - Permission asks to market this meeting. Permission granted
+    - Githu discussion that I dont understand.
+    - Create the process of PM:
+      - Management
+      - Member tasks
+      - Motivation
+  Building fare share through collaboration : Work optimally and share fairly through computed management, welcoming everyone
+TODO . Webiste clean up with the tasks that are mentioned in BarbaPapa:
+ 
+
+
+TODO . Publish the 20250818 video:
+  Id: VideoPublish
+  +: {CreatedBy: Hana, CreatedAt: 20250818 T 203922, By: Hana, Tags: [CSVTODO], Priority: 4-High }
+  TODO .Create a process:
+  TODO .Choose/create a platform:
+Test:
+  -->Backlog\Development\..F2VSCExtension.."Create the F2VSCExtension"<
+  -->Backlog\Development\..F2VSCExtension.."Create a stop task command feature that is executed when VS Code is shutting down"<
+  -->Backlog\Development\..F2VSCExtension..F2ToolsConsolidation20250618<
+  -->Backlog\Development\..F2VSCExtension..F2ToolsConsolidation<
+  -->Backlog\Development\..F2VSCExtension.."Create a stop task command feature that is executed when VS Code is shutting down"<
+  -->Backlog\Development\..F2VSCExtension..geci<
+  -->Backlog\Development\.F2VSCExtension.."Consolidate the requirements of the F2Tools extension as of 20250618"<
+Workspace20250828:
+  SR20250828Hana:
+    Was:
+      - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".Test<: [ 0m, "", 20250828 T 193433 ]
+    Next:
+      - null
+    AOIB: 
+      - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".."Test"<
+  Tasks:
+    InProgress -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".Test<:   
+      Notes: I can't use the feature in Mac        
+      Done .Check the bugs in CSV:
+      Done .Check the bugs in Bug File:
+        TODO .One bug that should be fixed
+      Done .Test The functioanlities:
+        Details:          
+          - Tasks with special characters in their Summary:
+                Characters: |
+                 Done ": beginning, end, middle
+                  Done': anywhere
+                  Done\: middle, end                                                  
+          - Does it give a "proper" error message when something happens?:
+            - If there's no "." in front of an Item
+          - Spelling/English errors in error messages
+        InProgress .Specify:
+            Result: Working 
+        InProgress .Start:
+            Result: Working
+        InProgress .Stop:
+            Result: Working
+        InProgress .Worklog:
+            Result: Working
+        InProgress .CSV:
+            Result: Working
+        InProgress .Extract Link:
+            Result: Working
+        InProgress .Extract ID Link:
+            Result: Working
+        InProgress .Follow Link:
+            Result: Working    
+    TODO .Schedule a planning meeting with Robi tomorrow:
+      Details:
+          Topics:
+          - next days
+          - when to do marketing, etc. stuff
+          - how is the development
+          - tracking the develompent things - he needs to merge his todos into the "big tasks"
+    TODO .Create a schedule for Robi about the Tasks he needs to do:
+      Details:
+        Include:
+          - doing the -->Backlog\Milestones\.."Barbapapa Birthday".."Create the Milestone "BarbaPapa Birthday"".."Have it reviewed by Gaurav, maybe Bobi"<
+    TODO .Marketing:
+      TODO .Go through material for reddit ( what you and Giselle went through):
+      TODO .Create a draft of responses of PM questions:
+        Details:
+        - https://www.reddit.com/r/projectmanagement/comments/1n277ev/needing_recommendation_for_an_opensource_project/
+        - https://www.reddit.com/r/projectmanagement/comments/1n0hwpa/the_biggest_time_sink_in_projects_isnt_meetings/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+        -  https://www.reddit.com/r/projectmanagement/comments/1mw5ayd/the_real_project_killer_decision_drift/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+Workspace20250830:
+TODO .Schedule a planning meeting with Robi tomorrow:
+  +: {CreatedBy: Hana, CreatedAt: 20250829 T 134928, By: Hana, Tags: [CSVTODO], Priority: 4-High}
+  TODO .listdown the points of the meeting:
+    TODO .Schedule of the days after (4 days):
+      TODO .Collect the streams that has to be discussed with Robi:
+        Details:
+          - Have Barbapapa+Birthday to be reviewed by Bobi:
+          - VSIX testing:
+            Result: Almost done
+              - TODO record the mac bug
+          - Marketing - Reddit:
+          - Marketing streaaming tasks process creation
+          - Finalizing the website decision (4-High):
+            Details:
+              - A new website should be done
+              - Utkarsh:
+                - Record Utkarshs personality properties to avoid people with similar character (Sad :()
+                - Disable Utkarsh accesses
+                - For future pointsystem for Utkarsh works in case the website will be used. If not this also should be calculated 
+                - 
+          - Project management process
+          - Color coding in sync with Barba type
+          - Schedule the work above for next week
+          - 
+          - Health and Mental:
+            - Scheduling workouts:
+              Details: Start with movement, active stretches, study running and sprinitng, Supplements that should be taken..etc
+            - Schedule meals for the weekdays ( Mon - Fri):
+              Details: Based on activities
+            - Schedule certain time to meet with people 
+            - Schedule special time for social media and movies
+            - Schedule next teeth treatment
+          - Finances:
+            - Introduce the breakfast to the guest:
+              - Create Menu of the breakfast:
+              - Create menu of snacks:
+              - Take pictures of breakfast and snacks:
+                - Apply meals this week (based on activities )and take good picture with Nikkie
+            - Payment of NAV
+            - Payment of activities per week.
+            - Payment Groceries per week.
+
+
+
+        
+        InProgress .Friday:
+          Done .Tested VSIX functionalities.
+
+        TODO .Saturdday:
+         InProgress .Finish the Testing for VSIX:
+          Details:
+            - Features are not working in Mac
+            - One bug to fix -->Backlog\Bugs\.F2VSCExtension.."Follow link is not working when the target item does not have any properties"<
+          TODO .Project Management Process:
+Workspace20250902:
+  SR20250902Hana:
+    Was:
+      - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..Coding.."Create a process for Livestream coding"<: process figured out
+      - -->Backlog\Management\..ManagemenPhase1.."General Management".."StandUp analysis"<: [ 0m, "", 20250902 T 162732 ]
+    Next:
+  Workspace: #this is where you put your scribblings, any "in progress", "to be sorted", etc. things:
+    TODO .Ask permission for working on the tasks below:
+      Id: Permissiontaskincome
+      +: {CreatedBy: Hana, CreatedAt: 20250902 T 004658, By: Hana, Tags: [CSVTODO], Priority: 3-Average}
+      Analyze the StandUp reports:
+        - Collect the tasks of my stand up reports (Aug). 
+        - Categorized them based on the backlog category
+        - Include it to the planning meeting next session
+        - Include the agreed tasks to the current Milestone
+    TODO .SR20250901Hana Analysis:
+      Was:
+        - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..StandUp.."Create a process for livestream standup"<: [ 22m, "", 20250901 T 123142 ]
+        - - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development"<: [ 900m, "", 20250829 T 133939 ]
+        - - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..Coding.."Create a process for Livestream coding"<: [ 70m, "imp: Robert can use the streaming while he codes- this is pretty urgent", 20250831 T 180544 ]
+        - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..Coding.."Create a process for Livestream coding"<: [ 0m, "", 20250901 T 170743 ]
+      Next:
+        - -->Backlog\Milestones\.."Barbapapa Birthday".."Clean-ups some Yamling Tasks"<
+      AOIB:
+        - Discuss the planning meeting for website results:
+        - Cleaning up amling should be in what category in development
+        - Passwords should be changed
+        - Learning from Juniors, Thy need to be supervised.
+        - Remaining VSIX tasks should be for tomorrow Bobi
+        - Definition of EWrkspace and Notes propert in Barba types
+        - 20280902 - First test standup streaming
+        - Create a summary for coding streaming
+
+    Done .Month of Aug:
+      Done.create a a file for standup report analysis:
+      Done .collect the standup report tasks in Was and Next in new file:
+      Done .collect AOIB:
+Workspace20250903:
+  Prepare for Planning meeting @11:00 :
+    Done .Organize Month of Aug Analysis:
+    Done .Add Tasks above to milestones:
+    TODO .Make sure the tasks of milestones in Backlog and CSV:
+    Done .Retrospective file creation:
+    InProgress .New Planning meeting:
+
+  Prepare the architecture of Life Scheduling:
+  Follow upi of NAV:
+  Prepare Airbnb things:
+    TODO .Create a picture guide about entering the code (so like circles, with numbers on them?):
+
+  Marketing: 
+    - Thing that spark up the target audience:
+      - We need to make the audience want to understand
+      - Start to introduce the project in group:
+        - Reddit: 
+          - Start Up
+          - Speed up the marketing 
+      - system with which you can replace the management:
+        - system where we can store the data, rules and ( configuration of the system)
+        - Idea to implementation process
+        - Processes: Steps that can help to reach the goal.
+        - Developliong a system whicn can replace the management. 
+    - Hashim: 
+      - What do you want to do with project: 
+    - Giselle:
+      - Asign task for Giselle that she can handle   
+  Gigi:
+  # of Tasks for 20250904: 1
+    - -->Backlog\Administration\.."Read Planning meeting 20250830"<:
+      Requirements: 
+        - Add the tasks to your standup report SRGigi20250904
+        - Estimation time in finishing the task
+        - Apply the Specify, Select Task, Stop Task on your standup report:
+          Reasons: 
+            - You get use to the process 
+            - Check if there are any bugs, VSIX tool should be subjected to marketing soon
+        - Worklog generation is not working at the moment @bobi Please prioritize this task:
+          - Reason: We are going to market VSIX tool soon. 
+      Note:
+        If the above points are implemented, you applied project management process to yourself:)
+  Hana: 
+    # of Tasks for 20250904: 2
+      - -->Backlog\Management\..ManagemenPhase1.."Create a Plan with Gigi"<:
+        Requirements:
+          - Figure methods where PM can be understood (One of methods: the above scenario)
+          - Create a process for 2 days in regards PM tasks
+        Notes:
+          - To be discussed with Giselle for agreement by tomorrow 20250905 (Agreement is depended on Hana 1st Task, Therfore this task should be done today)
+        Workspace:
+          - Apply Project Management assigned requirement to Giselles work
+          - Apply PM task on Hana and Bobi (Training ground 2 days)
+          - Record observation either in AOIB or Public workspace
+          - Read PM Processes 
+
+      - -->Backlog\Management\..ManagemenPhase1.."General Management".."Create Schedule"<:
+        Requirements:
+          - Collect tasks of this 2 days.
+          - Include it in the schedule task
+  Bobi:
+    # of Tasks for 20250904: 2
+      - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".."Cleaning up the remaining Bugs in VSIX"<:
+        Notes: 
+          - VSIX Market place
+      - Continue development coding:
+        Requirements:
+          - Create summaary of what you code
+          - Stream while working
+SR20250905Hana:
+  Was:
+    - -->Backlog\Management\..ManagemenPhase1.."Create a Plan with Gigi"<: [ 69m, "", 20250905 T 055828 ]
+  Next:
+    - null
+  AOIB:
+    - Hana:
+      First Task:
+        - Estimation: 60 m
+        - Actual time: 69 m
+        - Done Transfer the tasks 20250904 to CSV
+        - TODO Ask Robi Site where to check the correct Yaml format
+        - Remider to Hashim everyday about the answer of his goal with the project
+      Second Task:
+
+    - Giselle:
+        - Last StandUp 20250825
+        - 1st follow up has been sent for task of 20250905 - WhatsApp
+        - Tasks are shared to the task file in Gigi PublicWorkspace folder
+        - To be discussed today in planning meeting (Agreement should be reached)
+        - Tasks are migrated to CSV
+        - Think about shadowing and discuss it with Giselle. 
+    - Bobi:
+        - Milestones 20250903 reviewed
+        - 1st follow up has been sent for task of 20250905 - WhatsApp
+OnGoing Create a process for Hashim to understand TF2P:
+  Details: 
+    - Hashim want to join the project for the purpose of:
+      - finding purpose and meaning. To be explained in time
+      - Money 
+      - Working with Hana
+      - Using skills Hashim is good at: 
+        - Connecting people
+        - finding the right people
+        - Introducing the people to the project
+        
+  Notes: 
+    - For Hashim to perform the above, understanding the project is required
+    - This will be a testing ground to teast Hana and Hashim commitment to the their agreement:
+      - Agreement: Hashim Understanding the project 
+      
+
+  InProgress .Create a plan for the test phase cooperation between Hana and Hashim:
+    +: {CreatedBy: Hana, CreatedAt: 20250907 T 214516, By: Hana, Tags: [CSVTODO], Priority: 3-Average}
+    Estimation: TBD
+
+    TODO .Present the project to Hashim with the same project process:
+      Details: 
+        - In order for Hashim to understand the core concept of the project. 
+    Done .Listen to the voice note in Instagram and create the requirement:
+    Done .Write down Hashim VN requirement:
+     Details:
+        Hashim VN reqiuirements:
+          - Showcasing the project products in a power point
+          - Solutions that the project provide:
+            - show case used cases 
+          - End goal of the project
+          - Target Audience
+          - What can Hashim do to facilitate the projects progress
+      
+    CurrentFocus .Share the requirement with Hashim and finetune to reach to a proper requirement:
+    TODO .Taskify the requirement to Hana and Hashim:
+    OnGoing .Update Hashim every time this task is CurrentFocus preferabbly everyday:
+      TODO .Giving feedback after every update from Hashim            
+Schedule for 20250908:
+  Meals: 
+    Done Breakfast: Yogurt Honey
+    Done Snack:  in case hungry by 10, bread toast with cheese and fiber/ instead brownie 150 cal    
+    Done Lunch: Chicken Soup with carrots
+    Cancelled Dessert: Coconut water
+    Done Dinner: rice and soup
+  Supplements: 
+    Done Folic Acid
+    Done Bcomplex
+    TODO Omega 3
+  Actvities: 
+    - Done Morning Walk
+    - Done Bouldering
+    - TODO Stretching / evening walk
+  TODOs:
+    - Cancelled Wake up 4 to 5 am. If tired then 6 am last:
+      Result: 
+        - woke up 8:00
+        - Physical tiredness/ first day period
+    - Done Drink folic acid and 1/4 Bcomplex with water and lemon
+    - Read the planning meeting and barpabirthday milestone
+    - Done Send confirmation to Akos Bouldering trainer.
+    - Prepare for lunch:
+      - Chicken soup with carrots 
+    - Go for a quick walk 30 mins
+    - Done Breakfast: Yogurt and honey
+    - Work based on the early morning results:
+      - prepare for the planning continuation:
+      - Add followers tasks on the streaming after the test phase:
+        - Decise how long is the test phase
+    - Reminder:
+      - Check on NAV, Remind Bobi
+      - Check on Hashim reply
+      - Share with G the updates that happened with hashim 
+    - Meetings live
+    - Done Lunch
+    - Prepare for bouldering:
+      - Supplements, water, tickets and payment
+    - Bouldering 
+    - Preparation for the next day.   
+Cleanup Process:
+  - Meeting minutes
+  - Marketing Backlog needs cleanup
+marketing meeting minutes:
+  Ideas:
+    - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Do streamings"<:
+    - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing..AdvertiseOnXEtc<:
+    - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing..GoThroughMaterial<:
+    - -->Backlog\PublicRelations\..MarketingPhase1..WrittenMarketing..RegularUpdates<:
+    - -->Backlog\PublicRelations\..MarketingPhase1..WrittenMarketing.."Approach Reddit groups"<:     
+  TODO .Create a rough plan about how to execute the ideas in the previous task:
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 154846, By: marketing, Tags: [CSVTODO]}
+    Details:
+      Answer these questions:
+      - collect what dependencies each have - so e.g. do they need the new site to be up?
+      - how effective they seem to be - so how much "valuable" people we'd get, how much chance for monetary support; 3-5 categories (e.g. low-mid-high)
+      - roughly how much effort they'd need
+      - do they need Bobi's contribution
+
+  CurrentFocus .Action the following -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Do streamings"<:  
+Platforms that we can find potential Audience:
+
+  Thread:
+    - we can use the algorithms based on certain topics the TF2P wants to produce:
+    - 
+    - Community using thread is Asia 
+  X:
+    - Follow 
+  Reddit: 
+    Details:
+      - -->Backlog\PublicRelations\..MarketingPhase1..WrittenMarketing.."Approach Reddit groups"<
+      - -->DocsAndArticles\PublicRelations\QsandTopicstobepublished\.."Marketing plan as of 20250819"..Subreddit<
+Topics: 
+    - Project Management:
+    - Successes and Failures:
+      - Team successes and failures 
+      - Personal successes and failures 
+    - Decision making:
+      - How decisions are made in small team, small interprises and businesses, mid companies and corporations
+    - Goals:
+      - The effect of goals management in life and businesses
+      
+    
+    
+    - Questions:
+      - -->DocsAndArticles\PublicRelations\QsandTopicstobepublished\.."Marketing plan as of 20250819"<
+      - How do you deal with members coming and going 
+20250914Tasks:
+  - Schedule
+  - Standupprepprocess:
+  - Streams:
+    - G&H
+    - Mindmodel
+    - TF2P Products:
+      - StandUps 
+      - Planning meeting
+      - Code 
+      - Focusmate
+  - Hashim
+  - Airbnb 
+Things that need to be done by this week 15-21: 
+
+  Health:
+    - Reduce smoking/vitamins
+    - Increase sleep quality
+    - Increase activities
+    - Decrease snacking
+    - Meal on time
+  Work:
+  - Schedule:
+    - Hana
+    - Bobi
+  - Standupprepprocess:
+    - StandupProcessCreationMeeting continuation and finalization:
+      +: {CreatedBy: Hana, CreatedAt: 20250915 T 083340, By: [Bobi, Hana], Tags: [CSVTODO], Priority: 4-High}
+    - Streams:
+      - G&H:
+        +: {CreatedBy: Hana, CreatedAt: 20250915 T 083421, By: [Hana,Gigi], Tags: [CSVTODO], Priority: 4-High}
+        Details: 
+      - Mindmodel:
+        +: {CreatedBy: Hana, CreatedAt: 20250915 T 083446, By: [Bobi,Hana], Tags: [CSVTODO], Priority: 3-Average}
+      - TF2P Products:
+        - StandUps 
+        - Planning meeting
+        - Code 
+        - Focusmate
+    - Hashim
+    - Airbnb  
+StandUp:
+  Tasks of the member: 
+    Hana:
+      For the week: 
+        - StandupProcessCreationMeeting continuation and finalization:
+          +: {CreatedBy: Hana, CreatedAt: 20250915 T 083340, By: [Bobi, Hana], Tags: [CSVTODO], Priority: 4-High}
+        - Streams:
+          - G&H:
+            +: {CreatedBy: Hana, CreatedAt: 20250915 T 083421, By: [Hana,Gigi], Tags: [CSVTODO], Priority: 4-High}
+            Details: 
+          - Mindmodel:
+            +: {CreatedBy: Hana, CreatedAt: 20250915 T 083446, By: [Bobi,Hana], Tags: [CSVTODO], Priority: 3-Average}
+          - TF2P Products:
+            - CurrentFocus StandUps 
+            - Planning meeting
+            - Code 
+            - Focusmate
+        - Hashim
+        - Airbnb  
+    Bobi:
+
+
+    Giselle:
+Requirement:
+  Tasks:
+  Subtasks:
+  What are the subtasks:
+  What are the estimations:
+  Scheduling:
+AgiHanaMindModel:
+  
+  Workspace:
+    .Topics:
+      TODO MindModel Analyzation :
+      Topic 1: 
+      Hana: 
+        Can you understand this process Agi? referring to $@-->!PublicWorkspaces\Hana\MindModel\."Algorithm piece to the mind"<@$:
+
+          If not tell me what parts. If yes, tell me your thoughts. This is one of the materials for the brain model project. I am curious about your thoughts:) Maybe your thoughts can help making the process more efficient somehow. Answer in your own time, no rush.
+          Os. we didnt finish the line 1319
+
+        Background: 
+          Robi and I had our small fights these days ( it's more than its suppose to average 2 small fights per day). I was in my luteal phase and period. Meaning I should take care of myself in this phase, but instead I was just working and having no rest which increased my stress level which is really bad on the body and its hormones. in short I fucked it up somehow. Then we discuss how the thoughts went inside of our heads while we are in this "fighting modes" and we try to figure out a process for it by creating steps for our mind to think of "if" we are in this fighting mode. (Brain Model) 
+          
+          So we decided that Robi should write it down for both of us to follow this rule when we are this mode. in future we change it to pseudocode (language that human and a computer understand) and then a c# code(language that computer understands).
+          in short, we had to figure out a way how to think more objectively rather than emotions control me (subjectively)
+      Agi:
+        It is really nice if you can be in this mode during fights we cant haha 😂 I think when you in bad mood hormones and in a fight mode You regress to your previous self (like sometimes acting like a 3year old 🫣 with tantrums) and it really opens the Scars from the past
+        for example for me it is always “I am not important” for Tibi is “I am not enough” and we behave with these false thoughts during a fight and trying to keep our clear mind with these thoughts (or similar) which you have wrotten down with Robi. So yes it is interesting
+
+
+
+      TODO .Create Hana thought structure in responding to the above:
+        Details: 
+         Agi: It is really nice if you can be in this mode during fights we cant
+         Hana Thought: I am usually not in that mode. It requires a meltdown to be in a cooperative mode during fight mode or shifting from fight mode. 
+WorkSpace20251003:
+  Administraation:
+    TODO .Change Passwords:
+    TODO .Change or create a new Discord Channel:
+    TODO .Change Access of the current repository or Create new repository:
+  Public Relation: 
+    - Collect the topics of the mind model from Videos to Voice messages:
+      - Videos located in phones:
+        - Huwawei 
+        - Robi Phone 
+        - Samsung Phone
+      - Voice Recording: 
+        - Samsung Phone
+        - Robi Phone
+      - Events if you remember:
+        - Few events in the balcony:
+        - In front of the train track
+        - The mind momdel formula
+    - Check what can you do on Sat inn regards sharing the site and material of the mindmodel TF2P
+    - Website scheduling:
+    - Streaming TODO:
+      - StandUps 
+      - Coding
+      - Work
+  Scheduling:
+    - Try to schedule events that has been done from Oct 1 to Oct 3:
+  Discuss and Taskify the above:
+
+  Streaming:
+    Workspace:
+      Some focus:
+        .Coding:
+          .Channels: 
+            - Twitch: https://www.twitch.tv/theforty2project
+            - Youtube: https://www.youtube.com/@TheForty2Project    
+          .Schedule: TimeBox (22:00-00:00)
+        .ProjectManagement:
+          .Channels: 
+            - Twitch: 
+              - https://www.twitch.tv/theforty2project
+              - https://www.twitch.tv/hanak42
+            - Youtube: https://www.youtube.com/@TheForty2Project    
+          .Schedule: early morning ( Hana work time ) to be adjusted
+        .StandUp:
+          .Channels: 
+            - Twitch: https://www.twitch.tv/theforty2project
+            - Youtube: https://www.youtube.com/@TheForty2Project    
+          .Schedule:
+            - Requirement:
+              - Before Lunch
+              - After Workout
+              - 2 days a week
+        .MindModel:
+          .Schedule: TBD
+      TODOs:
+        .Twitch:
+          InProgress .Create a twitch account for theforty2project@gmail.com:
+            TODO .Create a Bio for the account
+            TODO .Check the profile picture if its fine
+            TODO .Go through settings
+            TODO .Select a Banner for it
+          TODO .Change the banner of Hanak42:
+          TODO .Check the join streaming feature:
+
+        .Youtube:
+          Done .Link youtube account to twitch:
+  Todos20251015:
+    - Set a on day for standup streaming this week
+    - Work on the video editing ( mid morning )
+    - Work on MindModel - Babysitting      
+    - Selling Project: 
+      - Create a task for it
+      - Categorization of the stuff:
+        - Party clothes
+        - Work clothes
+        - Casual clothes
+        - Freebies
+        - Prices on each
+      - Wash the clothes:
+        - Work
+        - Party
+        - Anythingelse
+      - Clean the shoes
+      - Iron the clothes
+      - Picture the shoes alone
+      - Picture the clothes  with the shoes
+      - Check platforms for selling second hand
+Work20251017:
+    Create a task system for the below:
+    InProgress .Video Editing: 
+      - Whisper
+      - Topics:
+        - Our perspective of the education system in our time:
+        - What is thinking ( The art of computing the answers to the questions ): 
+          - Elements of thinking:
+            - how to make this thoughts in what order if you want to find an answer to a certain precision
+        - Love and Sex:
+        - 
+      - Notes:
+        - We are not politically correct
+    Brain Model - Babysitting: 
+    Clothing Selling:
+    Streaming - Bio:
+Work20251018:
+    - Create tasks for the below:
+    - Video editing: 
+      - Organize the trasncript into a document
+      - Add it to google drive
+      - Change it into topics      
+CurrentFocus .Create Tasks out of the Big Potatoes:
+    <-Workspace-:
+      -->Backlog\\Backlog..Management<:
+        OnGoing .Daily project management:
+          By: PM
+          Details:
+            - Schedule and hold standups!!:
+              - one of the most important tool of the pm, the "daily general checkup"
+            - Make sure that the:
+              - plans, reports, meetings, etc. are "healthy"
+              - people and their environment are in a good condition
+            - Verify that work was done how it should have been done:
+              - Administration:
+                - There are Tasks for everything ppl are doing, Requirements for the Tasks
+                - Time is reported, statuses are updated, rules are kept
+            - They work on the Tasks they should be working:
+              - Ideally on what was agreed (on a Standup)
+              - But, there will be changes: 
+                - it should be the logical consequence of the information that they switched to another Task
+                - if unsure, they should check with you whether they can switch
+            - Handle daily issues
+          Notes:
+            - The time needed for this varies, based on:
+              - no of ppl
+              - project
+              - phase
+              - alignment of the stars
+            - In terms of "how much time should I plan for this": based on experience and feelings(!); try scheduling 2 hours/day at first.
+        OnGoing .Maintain reports:
+          By: PM
+          OnGoing .Prioritized Task lists:
+            Details:
+              - From which everyone can just choose the next ones.
+              - This has to be done kind of daily or even more often.
+              - It needs to be decided:
+                - Separate lists for people or one for everyone
+                - Format
+            Note:
+              - A very good candidate for automation.
+            TODO .Create first prioritized Task list:
+              By: Bobi, Hana
+              Priority: 5-VeryHigh
+          OnGoing .Worked hours/day/person:
+            By: PM
+            Details:
+              Maybe by every planning meeting, but as it's simple to do, can be done daily.
+            Notes:
+              A simple report from the standup reports.
+            TODO .Create first report:
+              By: Bobi, Hana
+              Priority: 3-Average      
+          OnGoing .Progress reports:
+            Details:
+              - Maybe by every planning meeting
+              - To see how we are progressing:
+                - By what time will we be ready IF we progress like this
+              - To identify problems and possible improvements
+            TODO .Create first progress reports by the retro on the 20th:
+              By: Bobi, Hana
+              Deadline: 2025-02-20T1400+0100
+              Priority: 2-Low
+TODO Giselle Preparation Meeting:      
+    WorkLog:
+      - [180m, Hana]
+    Details: 
+      - Ramping Up Giselle with VSC:
+        - Postponed Giselle adding the new repository Tf2p: 
+          - Reason: Laptop in the office 
+        - Done Keybase installation in tablet
+        - Ask the difficulties in using it 
+        - member should get used to reading content of VSC
+        - Introducing BackLogs, requirements and standsups:
+          - Postponed Backlogs: 
+            Summary: Giselle need to access VSC in laptop and read and skim through the backlog and share her understanding
+            To follow up on:
+              - website progress
+              - Podcast Progress
+      - Brief Updates from 20250209 to 20250308:
+        - members who are in and who became inactive
+        - Processes:
+          - StandUp
+          - Taskifications
+          - Milestone
+      - Website:
+        Road Map:
+          - Done each milestone , there is a tree structure. In this tree structure there should be a window for text and window for media (short clip of the standUp)
+          - Done After FAQ section Contact details different window for each section: Contributor, Investor,/ A button of opinion on the contributor and Investor 
+      - Inprogress collect all the videos and audios of the project progress between Hana, Robi and Giselle since 2023 
+      - Legalities and Finances for the MOnth of May and forward
+      - Gaurav possible migration to Hungary Requirements (need to discuss with Gaurav)
+      - Open a task for Hungary requuirements (giselles Visa)
+Prioritization of task OCWSPhase1 Based on Importace:
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Integrate Shadow's site with the Deepdive one"<:
+    - Importance: Could
+    - Estimation: 30m
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 Deepdive (Read) page engine".."Make the yaml downloadable"<:
+    - Importance: TBD
+    - Estimation: 20m
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 Deepdive (Read) page engine".."Add some buttons"<:
+    - Importance: Could
+    - Estimation: [5-30m]
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 Deepdive (Read) page engine".."Add Fold All and Unfold ALl buttons".."Try with a codex prompt".Details<:
+    - Importance:
+    - Estimation: 20m
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 Deepdive (Read) page engine".."Ability to follow links"<:
+    - Importance: Should
+    - Estimation:
+      - Pages are generated so that there are anchors: 40m
+      - Update the generator: 80m
+      - Total: 120m
+      - Plusminus: 80m
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 non-deepdive pages".."Create phase1 Watch page"<:
+    - Importance: 
+    - Estimation: 30m
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 non-deepdive pages".."Create phase1 Contact page"<:
+    - Importance: 
+    - Estimation: 30m
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 non-deepdive pages".."Create phase1 Support page"<:
+    - Importance: 
+    - Estimation: 4h
+    - Stripe:
+      - Account creation: 
+        - Name: Hanakovacs42@gmail.com
+        - Bio for review: Creating a system that distributes and (gradually) automate decision-making, or, 'computed management' - finally replacing the ancient, hierarchical managements (of large groups, e.g. companies, countries).
+        - The account for review : https://dashboard.stripe.com/acct_1SaWedPFGcwcbwM8/dashboard?copy_to_live=true
+    - BuyusCoffee:
+      - Accont Creation:
+        - Name: https://buymeacoffee.com/hanak42
+TODO:
+  - OCWS-Phase 1 Project Management:
+    - Done Transfer the tasks to the CSV
+    - Done Summary of Estimated time:
+      - 1200 m - 20 h
+    - InProgress Review with Bobi
+    Notes:
+      - 1100 Done
+      - 1400 and 1401 under details not considered a task
+  - Selling Clothes management: 
+    - Prepare for selling:
+      - Price Tags
+      - Prepare what to wear (Something Bright)
+    - Banners:
+      - Buy 15 k and get 1 item free ( free items)
+      - “En- Included a model photo to showcase how the clothes look when worn. Hu-Egy modellről készült fotót is mellékeltem, hogy bemutassam, hogyan néznek ki a ruhák viselve.
+      - Christmas and event Dresses
+      - Office Attires
+    - Bring:
+      - IDs
+      - Cash
+      - Price Tag
+      - Measurement Tape
+      - Ds        
+    - Create marketing agenda: 
+      - Free Products
+      - Sale Price
+      - Maybe include the original price and origin
+    - Prepare the health Data:
+
+
+         -->Backlog\Management\..ManagementLive.."Management Tasks OCWSPhase1".."Migration of tasks to CSV".."Periodic syncs of Tasks-CSV"<
+         -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the Phase1 non-deepdive pages".."Create phase1 Support page".."BuyUsACoffee".."Set up the account".."Create a bio for the account"<
+TODO20251211:
+  - Done Send the download procedure to Anita
+  - Done Fill up the health data "accurately"
+  - Fill up the schedule tomorrow
+  - light run tonight
+  - Sleep in bed by 10 pm 
+  - Delete te profile in Babysitter
+Pros and Cons going to mama:
+  General:
+    .Cons:
+      .Money:
+        .Ticket + cost of staying there 563 GBP:
+          Details:
+            - Ticket: min 563 GBP = 250,000 HUF = 44,722
+            - Travel costs, living there: 200,000.- HUF/month
+        .No babysitting:
+          Details:
+            - missing 60000/month
+      .Our future:
+        .Less effective work:
+          - Inability to work together physically
+          - Robert alone is less effective
+          - and have to talk to Apu
+        .Chores:
+          - Airbnb management
+          - Food management        
+      .Less money for mama's hospital + doctor care:
+        Details:
+          Travel: 300000 HUF
+          Missing money + extra costs due to "new life": 100000 HUF/month
+          Total: 71000 php
+    .Pros:
+      .Helping Hiba:
+        Details:
+        - Kids are sick
+        - Hiba is getting sick
+        - They have hard time to manage time. warning on work has been issued to both
+        - Gringo is taking care of the kids and it's alternating
+        - Kids have school
+        Tasks:
+          TODO .How much does it help us to solve these?:
+      .Money:
+        .Bank and chicken business:
+          Details:
+            - I can go to pangasinan and process money from Farm, bank and the chicken business:
+            - Some money is stored in the bank
+            - No one is able to go Pangasinan as for now.
+          Tasks:
+            TODO .How much is expected for us from this?: 
+              Result: 0
+      .Mama home care:
+        Details:
+          IF mama needs significant home care:
+            - Hana can be a nurse:
+              - putting IV, caring about mama
+              - doing physical therapy
+              - cook for her
+              - talk to the doctors, better than Hiba and Gringo
+      .Work:
+        Details:
+          No weed for sure:
+      # .Personal:
+      #   - Have a solid process for TF2P work. should be done before getting to philippines.
+      #   - A solid reason for working and not postponing ( drugs use, fun)
+      #   - Ability to be in the computer together online and work.
+Mama (stroke):
+    - Done Create management task for mama
+    - Done  Creation Apple task list for Hiba:
+      - Account: Hana42 gmail thing
+    - InProgress Processes of mama daily activities, diet, medication and sleep:
+        
+    - Collect the bills 
+    - Find an MRI specialist for reading  2 MRIs:
+      - Ask Hiba to send the 2nd result of MRI
+      - Search for specialists
+      - Contact the specialists
+CSV TF2P management:
+  - check Bobis standup report
+  - Add the CSV TODOs to a new CSV file (specification)
+  - Schedule standup meeting 20251225
+BOBIWORK20251229:
+            
+  InProgress .F2link specification current task of Robi:
+  - Writing down how Bobi figured out the case of F2Link Internal ID.:
+    Estiamtion: 1 hour
+    Link: -->Backlog\Development\..Website..BackToOrigi..Intermediate.."Create the OriginalConcept site".."Clean up and write the yamls".."Write content for the leafs".."The Abyss".."Documents".."Specifications".."F2Yaml".."F2Link"<
+
+  NEXT .-->DocsAndArticles\Specifications\F2Yaml\."3-Detailing Must .F2Yaml.MVP Rules Sketch"<:
+    - organizing the TODOs
+    - Estimation: 10 mins
+    - Re-estimation should be discussed 20251230  
+Exercises on C#:
+  class PersonDescr:
+    Properties:
+      int Height:
+      int Weight:
+
+  class HanaPhysDescr:
+    Inherits: PersonDescr
+    Properties:
+      string BirthMarkDescription:
+  
+      int Weight:
+  
+
+      
+  # class BobiPhysDescr:
+    # Inherits: PersonDescr
+    # Properties:
+      # int MrImpLenght:
+
+  # class ThalaPhysDescr:
+    # Inherits: PersonDescr
+    # Properties:
+      # int NoOfBabyTeethRemaining:
+TODO Exercise:
+  Details:
+  - We want to store info about vehicles.
+  - There are 2 types: cars and trucks
+  - We want to store about both:
+    - Weight
+    - MaxSpeed
+  - We want to store only about cars:
+    - PeopleCapacity
+  - We want to store only about trucks:
+    - CargoCapacity
+  - Create the classes for the above, using inheritance; use the example above as "template" - so you need to do a similar structure as PErsonDesc and HanaPhysDescr, ThalaPhysDescr,etc.
+  Workspace:
+  HanaAtAgeOf12:
+    Type: HanaPhysDescr
+    Height: 12
+    Weight: 12
+    BirthMarkDescription: it's there.
+    
+  HanaAtAgeOf20:
+    Type: HanaPhysDescr
+    Height: 14
+    Weight: 14
+    BirthMarkDescription: it's the same as before.
+QATesting:
+  Extensions:
+    TODO ..Minimal Base:
+      TODO .Change F2Tool name:
+      TODO .Change F2Tools Publisher (need to register the account):
+    TODO .Extract F2Yaml Link in F2VSCExtension:
+      TODO .should be rewritten:
+          Details: -->BusinessAnalysis\Requirements..Requirements..SmallScripts..F2VSCExtension Extension..Extract F2Yaml Link in F2VSCExtension.Details<
+          TODO .Yaml refrence and Yaml format should be defined:
+      TODO .Register Commands:
+          Details: fix the commands spelling
+      Done .Can be configured:
+          -  ."F2ToolInterface" replaced with F2Tools
+          - What is indicated is: F2tools - Ignore Word    
+          - f2Tools.removeWords is replaced with F2Tools:Ignore Words
+      TODO .Extract by shortcut:
+          - BUG -If the shortcut is being copied more than once , duplicate happens
+          - Why do we need to use the shortcutes if we can already generate it by Ctrl Shift P + Generate yaml link
+          - To be changed line 2803, 2806 and 2829 remove words to ignore Words
+
+    TODO .Time Tracking and Administration:
+      - specify the shortcuts (or just a ctrl+shift+p command?):
+        - in case the task is not stopped manually, selecting a task would stop the first task 
+      - CSV Generatin: 
+        - Bug - Document name on the Idlink
+      - Select Task: 
+        - Pre condition - If the standup report is not in the correct yaml format select task cant be made
+        - Solution: Add Proper yaml format should be implemented before going through the time tracking features
+
+Decision formalization article meeting:
+  Today - How to formalize your thoughts:
+    - Single cell organism ( prokaryotic/flahgella):
+      - 14 mins
+    - C Elegenc
+      - 3 min
+    - multiorganism (dogs):
+      - 4 min
+      - Photo receptos - identify the photons on an objective way
+        - 7 mins
+    - Imagination:
+      - Static vs dynamic imaginiation model:
+        - 4 mins
+    - Decision formalization:
+      - Object (28-36):
+        - ( need some ToC) a bit messy
+      - Yaml (36-43): 43-46 break
+      - OOP and thinking summary (46-51 ):
+      - How to inerpret thinking process to a written form in computer (51-55):
+        - Natural and formal languages ( 55-58):
+        - Static and Dynamic thinking process summary:
+          - turing complete description (1:01          -1:12)
+
+  Next: Decision making scenarios based on your thought processing
+
+Done .Categorize streams for marketing:
+  Details: It is needed to find workers, investors (small time), core members. It is also needed to advertise the core of the project
+  
+  The Tool Stream: 
+    Id: ToolStream 
+    Note: This can be marketed as product for investors (small and Big), also some recording that can be used in  "PublicStream"
+    TODO .Change the methodology of reaching workers:
+      - Website might have some bugs:
+        - Contribute part; some fields are missing
+      - DeepDive section: 
+        - Process creation for task handling for workers
+        - Tasks for workers:
+          Note: These workers find tasks in deepdive and work on it sharing the working hours
+        - Create explanation or clarification on how profit based compensation is:
+        - StandUp reports of members and workers:
+          - we can use written format in deepdive section and some video sample showing standup (for PublicStream purpose)
+      - Advertise the job description that is needed for the tool ( to reach the MVP version fast):
+        - Change the current ads on LinkedIn and WellFound to specific skills that are needed for MVP (C# and Type Script)
+      - Find other Platforms for advertising:   
+        - Reddit 
+        - Discord      
+
+  The Public Stream:
+    Id: PublicStream
+    InPerson:
+      - Gaurav suggested educating 15-16ish when it comes to decision making and logic
+      - MeetUp or events in Budapest and nearby; we can join meetups and talk to people
+    Visual:
+        - Take videos of meetings; advertise the clips to different platform; linkedIn, X, Youtube:
+          Note: People might have the understanding that the project is not a regular work place, grasping the idea of the project workplace
+            - StandUp reports
+            - Article discussion
+            - Focusmate
+        - Clips of us for people to grasp who we are in Reels and stories in different platform; insta, threads, fb  
+    Written:
+        - Articles can be advertised in different platforms: 
+          - LinkedIn:
+              Purpose: 
+                - Workers to gain more insight of what the project is 
+                - potential companies who would hire us
+          - Reddit: 
+              Purpose:
+                - Improve our processes and analyse the target audience
+          - https://medium.com/:
+              Purpose:
+                - used for Popular for tech blogs, tutorials, and project showcases.
+                - Good for visibility and SEO.
+
+        - Thoughts of the members should be advertised in different platforms:
+          - Using X for thoughts        
+          - Migrate the file to StandUp Drive
+    Website:
+    - Create a task modifying contribute page 
+    
+.HanasProject:
+  - Finding life mistakes and solving them using algorythms - TheTool.:
+    Physical:
+    Mind:
+    Work (combination)":
+
+
+InProgress Phase 1 Marketing: 
+  Id: Marketingideas
+  +: {CreatedBy: Hana, CreatedAt: 20250817 T 155706, By: [Hana, Gigi], Tags: [CSVTODO], Priority: 4-High}
+  Notes: 
+    - Focus should be shifted in target auidence from public to co-op organezations (TBD).
+    - All core members should be contributing to the release to public in terms of thoughts (decisionmaking). We are defining tf2p process by showing how our process of our work/project; 
+    - We can start with forum discussion in developer subreddit, gather the data and compose startups post then lastly post in charp after gaining atleast 20 interactions comments and answer (TBD)
+
+  .Reddit: 
+    - Subreddit:
+      .Startups - Share your startup:
+        - Audience: different community - 1.9 million members
+        - Goals: 
+          - Introducing the idea of the project (first of it's kind). That we are software organization using The Tool to manage and automate decisions of ours and organizations with the same concept (co-op) 
+        - Ideas:
+            - Idea1 - Finances: This has to be driven by the community not to suit levels, board members ..etc. Profit should be distributed fairly to the contributers. 
+            - Idea2 - The Tool: Intro to the tool process in automating the decision makers thoughts to algorithm into the software.
+
+            - Analysis: 
+              A1: 
+                Upon research oprganization with the similar concepts exist - they call it co-ops organizations. has similar idea on how to distribute the profit ( roles, metrics, hours ):
+                  Notes: Robi mentioned we can use the methods above as a start (TBD). 
+              A2: 
+                we can mention similar ALM products where the audience can compare to and add that the tool is not restricted only to software but to management decisions in any industry
+            - Results:
+              General: The possiblility of joining the Organization (Co-op) and project managed them and us is high > 40%. This can accelerate our progress in developing the tool and using it as our and their product. The profit then can be distributed fairly to the contributers.
+      .Csharp  Come discuss your side projects! [August 2025]:
+      - Audience: C# Community - 298K members
+      - Goals: 
+        .Introducing the tool:
+          - Idea1 - TheTool: describe the process of manaegement system we use with VSIX and how we the tool is gradually replacing it. using C# language
+          - Analysis:
+            A1: Co-op organizations can use our project management system to unite
+        .The idea and the goal of the project:
+          - Idea1 - Finances: This has to be driven by the community not to suit levels, board members ..etc. Contribution should be distributed fairly to the contributers. 
+          
+          - Analysis: 
+            A1: 
+              Upon research oprganization with the similar concepts exist - they call it co-ops organizations.
+              
+        
+          - Analysis Results:
+            R1: The possiblility of joining the Organization (Co-op) and project managed them and us is high > 40%. This can accelerate our progress in developing the tool and using it as our and their product. The profit then can be distributed fairly to the contributers.          
+      .Developers: 
+        - Goal:   
+          - Open discussion forum:
+            - On how developer receive their pay based in their contribution in a regular company compare it with the idea of profit share based on the value of the contribution of the project. 
+  .Prerequisite:
+    - Share depends on the "value" of contribution explanation
+    - Chatgpt - Contribution based on value is tricky:
+      - Why “pure value-based profit” is rare
+      - Value is subjective: How do you quantify the real impact of a single code commit or design contribution?
+      - Risk of gaming the system: Without fixed metrics, contributors might overstate or misinterpret “value.”
+      - Legal / accounting constraints: Profit distribution usually needs clear, auditable rules for tax and compliance purposes.
+  .Process: 
+  - We can start with forum discussion in (1)developer subreddit, gather the data and (2)compose startups post then lastly (3)post in charp after gaining at least 20 interactions comments and answer (TBD):
+    - Post the question: 
+    - receive their feedbacks/answers 
+    - Interact with the community by answering questions:
+    - then introducing the fairshare articles # Definition of fair article with including the data we collected from the forum
+
+  Management: 
+    Summary: Read more in Administration and integrate the recent changes
+    StandUp:
+      Requirement of StandUp preparation for Scrum master:
+        - Technicalities before the call: 
+          - Preparation of the environment:
+            - Mic, Camera, share button are tested of the scrum master
+            - Record Button tested
+        - Administration:
+          - first thing early morning:
+            - Check the standUp content of the team
+            - Understand ( as much as you can) and follow up the tasks and the progresses with the team
+            - Set calendar date for one week (each Sunday)
+            - Prepare yours and the team stansUps
+          - While and after the standUp:
+            - Duration
+            - Meeting Minutes:
+              - Notes of topics discussed
+              - 
+            - Psychology of the members
+      Analysis:
+        - Number of days of the standUp reports
+        - Tasks that are completed
+        - Tasks that are postponed
+        - Connect the standUp tasks to the milestones 
+        - Progresses & Regresses
+
+
+  
+
+  
+                    
+  
+
+  Some points to focus on:
+  - Publication ideas:  
+    - Live channels for the next batches to watch ( evidences that the team is working):
+      - Focus mate channel
+      - StandUps
+  - Contribution part in the website: 
+    - Live accounts where contributers and investors can see their money (thinking stage)
+  - Filtering first members:
+    - Requirement: 
+      - Goals in life
+      - Universtity state and their opinions of the current education system
+      - Religion
+      - Current observation on the current world
+
+
+  VSIX Testing: 
+    - Done Read Backlog: 1m
+
+    - Done Read line 2860-->BusinessAnalysis\Requirements.Requirements..SmallScripts.."F2VSCExtension extension"<: 
+      - Requirement
+      - Process Description
+      - StandUp report 
+      - Bugs
+    - Done Showcase with Gaurav: 4m
+    - InProgress Testing
+
+
+  Drafting .Specify StandupReport:
+      
+    TestRuns:
+      Fail Hana20250507:
+        Bug: -->Backlog\\Bugs.FCVSCExtensions."name of the bug"<
+      Pass Hana20250508:
+        - se
+
+    Question to Robi:
+    in test case Id: 
+      - can I include test case in the ID?
+      - Need to think of the test run format:
+    eg: 
+    Test Case ID: TC-001
+    Test Title: User Login Functionality
+    Yes Date: 2025-05-12
+    Yes Tested By: [Your Name]
+    Environment: Staging (v1.2.5)
+
+
+
+  1. Bug: Extension should not crash
+
+  2. Clarification Request: what should happen during worklog generation if one of the links in the worklog entries are either wrong or the element they are pointing at is not there
+
+  Change request to the extension: 
+    2 extra feature:
+      1. detection during select task the user standing on the task or not 
+      2. If the user is not standing on the task detect an error 
+
+
+
+
+
+
+  Planning meeting:
+    Upgrade Website:
+      Accessories: 
+        - Table of content on the side:
+          - Landing page
+          - Summary
+          - Articles
+          - Contribute
+        - putting the contact social media bar in each page
+    Landing Page:
+      Summary: 
+        - Boxes should be removed: 
+          - Only one box for all: 
+          - Reason: Peop;le can be confused if its connected to one article or a different one. One bog box should contain the whole article the same as the article section
+        - Back button
+        - Table of content
+    Articles:
+      - The vibration while hovering the mouse on the box of the article ( minor)
+      - Table of content (side)
+      
+    Contact:
+      - Idea: putting the contact social media bar in each page
+      - Reddit: Add the member as modetrator 
+    Deepdive:
+
+    Public relation: 
+
+    - Social media:
+      - Password access fo all
+    - Audience:
+      - Contact the audience    - Process of the donation (minor)
+
+    Tasks for next week: 
+      - Audience 
+      - Tool
+
+
+  QATesting:
+    Extensions:
+      TODO ..Minimal Base:
+        TODO .Change F2Tool name:
+        TODO .Change F2Tools Publisher (need to register the account):
+      TODO .Extract F2Yaml Link in F2VSCExtension:
+        TODO .should be rewritten:
+            Details: -->BusinessAnalysis\Requirements..Requirements..SmallScripts..F2VSCExtension Extension..Extract F2Yaml Link in F2VSCExtension.Details<
+            TODO .Yaml refrence and Yaml format should be defined:
+        TODO .Register Commands:
+            Details: fix the commands spelling
+        Done .Can be configured:
+            -  ."F2ToolInterface" replaced with F2Tools
+            - What is indicated is: F2tools - Ignore Word    
+            - f2Tools.removeWords is replaced with F2Tools:Ignore Words
+        TODO .Extract by shortcut:
+            - BUG -If the shortcut is being copied more than once , duplicate happens
+            - Why do we need to use the shortcutes if we can already generate it by Ctrl Shift P + Generate yaml link
+            - To be changed line 2803, 2806 and 2829 remove words to ignore Words
+
+      TODO .Time Tracking and Administration:
+        - specify the shortcuts (or just a ctrl+shift+p command?):
+          - in case the task is not stopped manually, selecting a task would stop the first task 
+        - CSV Generatin: 
+          - Bug - Document name on the Idlink
+        - Select Task: 
+          - Pre condition - If the standup report is not in the correct yaml format select task cant be made
+          - Solution: Add Proper yaml format should be implemented before going through the time tracking features
+
+
+
+
+  Decision formalization article meeting:
+    Today - How to formalize your thoughts:
+      - Single cell organism ( prokaryotic/flahgella):
+        - 14 mins
+      - C Elegenc
+        - 3 min
+      - multiorganism (dogs):
+        - 4 min
+        - Photo receptos - identify the photons on an objective way
+          - 7 mins
+      - Imagination:
+        - Static vs dynamic imaginiation model:
+          - 4 mins
+      - Decision formalization:
+        - Object (28-36):
+          - ( need some ToC) a bit messy
+        - Yaml (36-43): 43-46 break
+        - OOP and thinking summary (46-51 ):
+        - How to inerpret thinking process to a written form in computer (51-55):
+          - Natural and formal languages ( 55-58):
+          - Static and Dynamic thinking process summary:
+            - turing complete description (1:01          -1:12)
+
+  Next: Decision making scenarios based on your thought processing
+
+  Planning Meeting:
+    Streams:
+      Marketing:
+        Current Phase:
+          - Contacting Audience:
+            - make a meeting about who can be selected to the audience
+            - think of the content of the message to people 
+          - Think of social media exposure 
+        Next Phase:
+          - Tour 
+          - Platforms and facial exposure    
+          - Cleanup 1502
+          - work on 410  
+      Website develpment:
+        - Articles:
+          Current Phase:
+          - Article formatting:
+            - Decision formalization
+            - company structure.
+          
+          Next Phase:
+          - Article formatting:
+            - Current project management system ( this is for later when there are people joing and include the ramping u[ i the project system article)
+          - Deepdive section
+      Tool development:
+        line 474
+      Testing: 
+        Update the requirements 
+        Bugs
+
+
+  Platforms to ad TF2P: 
+    LinkedIn: 
+      - Goal: Find 
+
+
+  Plans after thisphase: 
+    - Creating Discord Channel
+    - Task Creating Process for applicant:
+      - Selecting C# applicants:
+      - Any coder who can do Business Analysis who can B2 level:
+        - Vocabulary is not important like knowing the grammar and forming a correct sentences.
+        - Analytic mind
+        - Think in a structured way (Analytic mind). Start from the big thing to small. Break down big things to small
+
+    - 3 pillars: 
+      - Instead of using human mind to compute Decision we use computer to compute the decision. Decision automation
+      - YOu get your share for the member value of contribtution
+      - Gradual transformation from hierirchal to distribute decision making to full automation in the end
+
+
+  TaskHana202250711: 
+    Bobi: 
+      TODO .Follow up on the First Contact email:
+            By: Bobi
+            Details:
+              - Include the "2 pillars, 1 approach" topic:
+
+      TODO .General strategy about growing:
+
+    Giselle: 
+    InProgress .Search for animators/animation producer: ( check Backlog)
+    
+    Gaurav: 
+      TODO. Fill in the worklog of the previous tasks (pretty please eye blinking): 
+      InProgress .Implement follow F2YamlLink (is it updated)?:
+
+  Done .ZoltanEmailSketchByHana:
+    Details:
+      Include: |
+        Some intro from Hana, then sketching the problems and then the answers:      
+          1. Logistic problems that you shared it with me 
+          2. How the the tool can solve the complex problems (Creating algorithms in the computer for these problems)
+          3. basic understanding how our project work 
+          4. The current state of the project
+        Then any other topics we wanted to include
+        Then "kisses, wink wink" (ok this is not or I'll murder you.)
+    InProgress .Intro:
+      By: Hana
+      <-Workspace-: 
+
+    InProgress .Questions detailed:
+      By: [Hana, Bobi]
+      Details:
+        Detail the questions and write answers to it
+          1. Logistic problems that you shared it with me 
+          2. How the the tool can solve the complex problems (Creating algorithms in the computer for these problems)
+          3. basic understanding how our project work 
+          4. The current state of the project
+        Include any other topics we wanted to talk about
+      InProgress .Baseline sketch:
+        By: Hana
+        Details:
+          - Hana to try to draw the problem up (at least for the logistics problems) and answer them
+          - in a points style, so not in beautiful English sentences necessarily
+          - include the AI, etc. topics from Bobi's publicworkspace
+        InProgress .Draw the problems up and analyze them:
+          Done .Sketch the problem "TeamA-TeamB sending trucks":
+            Details:
+              Describe the problem about "TeamA-TeamB sending trucks" and, if necessary, provide an example
+            Result:
+              Sketch:
+                Scenario described to us:
+                  - There are two teams, one responsible for transferring goods from A to B (TeamAB), the other for B to A (TeamBA)
+                  - There's a truck (TruckA) operated by TeamAB which was transferring cargo from A to B and is scheduled to go back to A without cargo at the time TeamBA wants to send a truck to A
+                  - Ideal:
+                    - TeamBA would use TruckA to send goods to A
+                  - Current:
+                    - TeamBA uses a new truck, TruckB to send goods to A
+                    - TruckA goes back to A empty
+                  - Problem: the costs are almost twice
+                  - Due to: When TeamBA is making a decision, they don't (properly) take into account that there's TruckA there, going back empty 
+
+                Generalizing the problem: 
+                  Problem:
+                    The information about a truck (operated by another team) doing the same route at the same time without cargo is not taken into account when making a decision about a route.
+                    More generally, teams making the decision about how to send goods from A to B do not have all the "easily acquirable'* information necessary for making an optimal decision.
+                  Ideally: there's a central system into which all the important information is collected and decisions are computed (made) 
+                  Due to:
+                  - The decision-makers in different teams do not have all the important information necessary to make a group-wide optimal decision - where "important information" is an information piece which, if taken into account, would change what's the optimal decision. $@TODO put the buying tomatoes from shops example here@$
+                  - OR they do have it but for some reason they do not make an optimal decision, which can be due to various factors:
+                    - lack of understanding of how to make an optimal decision (i.e. "Bug" in the "software" of the decision-maker person)
+                    - available, but (relatively) hard to access data causing the decision-maker not having enough time to take it into account (e.g. overloaded decision-makers, slow systems, communication, etc.)
+                    - not clearly defined what's optimal - e.g. the decision-maker does not know that cost is more important than some other factor
+                    - etc.                    
+          Done .Draft the problem and its analysis about lots of administration and paperwork:
+            Result:
+              Scenario described to us:
+                - 20 percent of freight forwarders job is administration.
+              Problems which might appear:
+                Types:
+                - Errors made causing extra costs, delays, etc. having various impacts (in terms of "cost")
+                - Time necessary to fill them correctly, therefore causing cost
+                - Knowledge needed to fill them in, causing:
+                  - delays if not enough properly trained people
+                In general:
+                  - If not done "in the right way" then can cause problems ranging from minor to company-level, in rare cases involving even the top management
+                  - Even if done properly, needs significant effort therefore is high cost
+              Ideally:
+                - Administration is done by a system (consisting of people and computers) in which the rules are up to date in complying to the regulations and requirements and the paperwork is done by a bug-free software (i.e. printed) wherever possible and where it's not and having to be done by people, the level of verification is proportional to the risks involved in a way that if the expected cost of errors can be reduced by a lower cost extra verification, then the extra verification is applied. The system is continuously improved, meaning the results are periodically evaluated and improvements are made according to the evaluation.              
+        TODO .Any other topics:
+          Details:
+            Include:
+              - SAP is fucking expensive, you also need to hire consultatnts and it taks like 1.5-3 years to integrate. It's fucking laughable.
+            Explain:
+              - Importance of collecting the data in a central location and making decisions using _all_ the knowledge of the group (i.e. company).
+              - 
+    Blocked .Review and finalize:
+      By: [Bobi, Hana]
+      DependsOn: 
+
+  <-Workspace-:
+    Logistic Problems: 
+        Problems:
+        Summary: Detail the 2 problems the client mentioned on the call
+        First Problem:
+        Description of a problem: 
+          - team 2 team b options to solve this problem
+          - problems that international freight forwarder have:
+            - Lack of Real-Time Visibility - Coordination Challenges:
+              - Miscommunication
+              - delays
+              - lost tracking visibility :
+                - Vehicle status
+                - Delivery progress
+            - Returns & Reverse Logistics:
+                - complex process of handling return
+            - Technology Gaps:
+              - Poor tracking, inefficient customer service, slower updates
+            - Administraion- Documentation Errors:
+              - 20 percent of problem of freight f
+              - Complex paperwork and compliance issues
+
+        Second Problem:
+
+
+        Questions for meeting: 
+          - What ERP the company use
+          
+    <-Workspace-: |
+      Hello Zoltan,
+
+        Super sorry for our late email. 
+
+        We chose one problem and Included all the 4 points in it. 
+
+
+
+
+
+          3. basic understanding how our project work 
+          4. The current state of the project
+
+            1. Logistic problems: I picked 1 subject (trucking problem) and analysed it with Robert. Below is how we breakdown the problem
+              
+          
+              b. 20 percent of freight forwarders job is administration:
+                Problems which might appear:
+                  Types:
+                  - Errors made causing extra costs, delays, etc. having various impacts (in terms of "cost")
+                  - Time necessary to fill them correctly, therefore causing cost
+                  - Knowledge needed to fill them in, causing:
+                    - delays if not enough properly trained people
+                  In general:
+                    - If not done "in the right way" then can cause problems ranging from minor to company-level, in rare cases involving even the top management
+                    - Even if done properly, needs significant effort therefore is high cost
+                Ideally:
+                  - Administration is done by a system (consisting of people and computers) in which the rules are up to date in complying to the regulations and requirements and the paperwork is done by a bug-free software (i.e. printed) wherever possible and where it's not and having to be done by people, the level of verification is proportional to the risks involved in a way that if the expected cost of errors can be reduced by a lower cost extra verification, then the extra verification is applied. The system is continuously improved, meaning the results are periodically evaluated and improvements are made according to the evaluation.
+
+              Summary: 
+                A general problem with a group (e.g. a company) managed through a hierarchial management is that the optimality of the actions the group takes is decreasing with the group growing mostly due to the amount of information needed to be transferred into the "computers" - human minds - and the tremendous increase of computational complexity.
+              - It is expected therefore that it feels "too complex" to solve even basic-looking problems in large(r) companies, that most employees can point to things which are trivially bad - still, those are not solved. We can give an example of powerful  logistics and ERP system SAP S/4HANA, which I think used by DHL.from our experience as both sender and receiver, we've encountered numerous issues while using their services from different part of the globe.
+
+
+            
+    
+        
+            3. basic understanding how our project work:
+            4. The current state of the project
+              Our situation:
+              - So we're making one, right now it seems that if we play our cards right, The One (why The One? The answer is around combining a few factors:_ 1, the unprecedented ability to increase the management efficiency with our growth; 2, the "more people cooperate (optimally) the better for the individual cooperators" - so if there's another project like us, we'd merge ; 2.5, the "everyone is a shareholder" approach therefore interest to join us instead of a company), pioneering the whole thing.
+              - As you probably know we just went public, posted our first ads on Linkedin, we're now filtering through the applicants; updates from the last days are that they are quite promising, despite this is just the test round and we offer no compensation.
+              - We're a couple hundred man-hours away from finishing the MVP (Minimum Viable Product) version of it - capable of managing small teams better than with contemporary products -  and lets say a couple of thousands to be able to make it capable to replace any kind of management; yes, this sounds awesome but take note that there's almost a decade long preparation behind it, or almost a lifetime if we count my "employment" experience mostly in managing software projects along with being a programmer-geek from the age of 11.
+              - Having said the above, the development is progressing slowly and - unless we get an experienced team "out of the box" or some significant investment - this is not expected to be changing in the next month or so as we need time to ramp-up the candidates and with the team growing I can spend even less time on development, so we'd say that the MVP will be ready in 2-3 months, the "Basic" in 4-6.
+
+              How we can we cooperate:                  
+              - How we can see the things right now is that your company seems to be an "easy" first target, with relatively easy to solve problems. According to Hana's assesment and our further research about you, you're a CEO with high empathy, the "slave of all employees" type who wants to make the company work instead of concentrating just on his personal success. The management is financially incentivised in the success of the company; the lack of motivation of some might come from the difficulty of the problems and the "no future" mood of the current world - to which our project might hopefully be a cure once they start to experience the details.
+
+              - The approach, in general would be:
+              - at first we'd need to map the way you operate; the information flow, what constraints it has; flexibility and willingness for change; political constraints, etc, in order to see with what strategy you can be transformed from a hierarchical management where "bosses give orders" to a distributed-computed one, where "people perform the highest priority Tasks".
+              - we'd identify the first "easy" targets, test grounds, high yield/risk ratio areas where we can introduce the processes first
+              - the transformation would be gradual then, iteratively identifying the next highest yield/risk areas, to end up with a cooperative, self-improving and automating community providing the services you provide now, just in a way more efficient and optimal way         
+
+  Done .Categorize streams for marketing:
+    Details: It is needed to find workers, investors (small time), core members. It is also needed to advertise the core of the project
+    
+    The Tool Stream: 
+      Id: ToolStream 
+      Note: This can be marketed as product for investors (small and Big), also some recording that can be used in  "PublicStream"
+      TODO .Change the methodology of reaching workers:
+        - Website might have some bugs:
+          - Contribute part; some fields are missing
+        - DeepDive section: 
+          - Process creation for task handling for workers
+          - Tasks for workers:
+            Note: These workers find tasks in deepdive and work on it sharing the working hours
+          - Create explanation or clarification on how profit based compensation is:
+          - StandUp reports of members and workers:
+            - we can use written format in deepdive section and some video sample showing standup (for PublicStream purpose)
+        - Advertise the job description that is needed for the tool ( to reach the MVP version fast):
+          - Change the current ads on LinkedIn and WellFound to specific skills that are needed for MVP (C# and Type Script)
+        - Find other Platforms for advertising:   
+          - Reddit 
+          - Discord      
+
+    The Public Stream:
+      Id: PublicStream
+      InPerson:
+        - Gaurav suggested educating 15-16ish when it comes to decision making and logic
+        - MeetUp or events in Budapest and nearby; we can join meetups and talk to people
+      Visual:
+          - Take videos of meetings; advertise the clips to different platform; linkedIn, X, Youtube:
+            Note: People might have the understanding that the project is not a regular work place, grasping the idea of the project workplace
+              - StandUp reports
+              - Article discussion
+              - Focusmate
+          - Clips of us for people to grasp who we are in Reels and stories in different platform; insta, threads, fb  
+      Written:
+          - Articles can be advertised in different platforms: 
+            - LinkedIn:
+                Purpose: 
+                  - Workers to gain more insight of what the project is 
+                  - potential companies who would hire us
+            - Reddit: 
+                Purpose:
+                  - Improve our processes and analyse the target audience
+            - https://medium.com/:
+                Purpose:
+                  - used for Popular for tech blogs, tutorials, and project showcases.
+                  - Good for visibility and SEO.
+
+          - Thoughts of the members should be advertised in different platforms:
+            - Using X for thoughts        
+            - Migrate the file to StandUp Drive
+      Website:
+      - Create a task modifying contribute page 
+      
+  TODO . Migrate tasks:
+    - -->Backlog\Backlog\..Management.."Migration of  Next Tasks to Backlog"<:
+      - Create tasks from Bobi public workspace:
+        Done .Articles/tweet content:
+          - -->Backlog\Backlog\..PublicRelations.."Collect Marketing Ideas".."Marketing strategy".."Write thoughts on X".."Definition of Fair"<  
+        Reqruitment:
+          InProgress .Create Recruitment group under Public workspace:
+            Details: -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations.."Recruitment Phase 1"<
+            Done .Update the Contribute form:  
+              -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentCurrentPhase.."Update the Contribute form"<
+            Done .Create process for work for new joiners:
+              Notes: there is already something about this in the Backlog
+                - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentCurrentPhase.."Create process for work for new joiners"<
+            Done .Change the current ads on LinkedIn and WellFound to specific skills that are needed for MVP (C# and Type Script) :
+              - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentCurrentPhase.."Change the current ads on LinkedIn and WellFound to specific skills that are needed for MVP (C# and Type Script)"<
+            Done .Find other platform for adverising:
+              Details:
+              - Reddit 
+              - Discord      
+        Marketing:
+          Done .Go through the existing material (articles, etc.) and share it with the current team:
+            By: Bobi
+          Done .Attend MeetUp or events in Budapest and nearby; we can join meetups and talk to people:
+            - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".InPerson Marketing".."Attend MeetUp or events in Budapest and nearby; we can join meetups and talk to people"<
+          Done .Take videos of meetings; advertise the clips to different platform; linkedIn, X, Youtube:
+            By: Marketing
+            Details: People might have the understanding that the project is not a regular work place, grasping the idea of the project workplace
+              - StandUp reports
+              - Article discussion
+              - Focusmate
+              - -->c:\!TF2P\Management\Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".Visual Marketing".."Take videos of meetings; advertise the clips to different platform; linkedIn, X, Youtube"<
+          Done .Clips of us for people to grasp who we are in Reels and stories in different platform; insta, threads, fb:
+            - -->Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".Visual Marketing".."Clips of us for people to grasp who we are in Reels and stories in different platform; insta, threads, fb"<
+          Done .At least weekly updates - what happened with the project:
+            -->Backlog\Backlog\..PublicRelations..Marketing.."Collect Marketing Ideas".".Written Marketing".." Write on LinkedIn the project updates"<
+          TODO .search for other potential platforms:
+            Id: Csharpplatforms
+            +: {CreatedBy: Hana, CreatedAt: 20250730 T 202702, By: Hana}
+            Details:
+              - https://dev.to/t/csharp
+              - https://www.codeproject.com/?cat=24:
+                Notes: we can write an article in a way that the reader would be interested in joining.
+              - Reddit:
+                - Https://www.reddit.com/r/csharp/
+                - 
+              - https://programming.dev/c/csharp
+              - Discord:
+                Details:
+                  Represent myself as a member whos role is to project manage a software tool development and the project development. Asking programmers for their opinion in what they think of the project. 
+                Groups:
+                  - C-sharp Group
+                  - Programmer group
+
+          Done .Tweet:
+            By: Marketing
+          We should approach them highlighting so that they let us in:
+              - we're coOperation and not coRporation
+              - you can practice with us, just better, because:
+                - it's organized (and you can organize yourself)
+                - you can learn Agile processes, how to work in a team
+                - if your work is valuable, you get your _fair_ share - so it's not that the corporate owners take most of the profit
+              - so we don't need the usual shit about "no ads"; fuck you managerboy, then you didn't understand.
+
+        Notes: 
+          Recruitment - Marketing:
+            Wellfound: is a job post and the other platforms is a hidden job post
+          Marketing - Reqruitment:
+            Discord:
+  .HanasProject:
+    - Finding life mistakes and solving them using algorythms - TheTool.:
+      Physical:
+      Mind:
+      Work (combination)":
+
+  TODO Decide:_ what email addresses to use:
+    Details:
+      e.g. all recruitment should go from e.g. hr@tf2p, etc.
+
+  Done Respond to Rahul:
+    Id: RahulResponseEmail
+    +: {CreatedBy: Hana, CreatedAt: 20250803 T 171317, By: Bobi, Hana}
+    
+    Done Write the email:
+      Details:
+        - Explain current situation:
+          - we finished:
+            - filtering the candidates
+            - the high level processes about how new members can join
+          - in short: we'll be ramping you up first, fine tune our (and work out the missing) processes and then we'll gradually let other people in.
+        - Would this work for an interview:
+          - Tuesday noon?
+          - If not, monday noon, but we might not be that prepared.
+        - Prospects:
+          - We'll have some deeper questions to assess how the details should be, but roughly:
+            - we'll ask you to join the next standups
+            - at first it will be "shadowing" one of the developers (probably Bobi), that will make you learn into the code, then gradually you'll get your own tasks
+            - you might have to do a few administration-related tasks to learn the current project management environment
+      <-Worspace-: |
+        Good Sunday Rahul,
+
+          Summary:
+          We have finished filtering the candidates and we've also finished creating the high level processes about how new members can join - in short we'll be ramping you up first, fine tune our (and work out the missing) processes and then we'll gradually let other people in.
+          
+          Timing:
+            Would this work for our first call:
+              - Tuesday: 11:00 12:30 (UTC+2)
+              - If not, Monday 11:00 - 12:30, but we might not be that prepared.
+            Ideally you should stay a few hours after the call as well - there's lot of material to learn - but the call itself is the most important.
+
+
+          Prospects:
+          - We'll have some deeper questions to assess how the details should be, but roughly:
+            - we'll ask you to join the next standups
+            - at first it will be "shadowing" one of the developers (probably Bobi), that will make you learn into the code, then gradually you'll get your own tasks
+            - you might have to do a few administration-related tasks to learn the current project management environment
+            - and lots to read - Requirements, materials we have        
+
+        
+          It is easier for me to communicate through points instead of a whole paragraphs. Let me know if the above way is fine with you:)
+
+          Ps. we have no sirs here:) you can call our names if its comfortable for you.
+    Done Send the email from hana@tf2p.org:
+
+    UpdateContributeForm:
+      Idea1: 
+        - Remove technical skill that apply option and replaced it with what skill you have that you can contribute to the project? 
+        - Reason: Many applicants in the test phase selected different options on the checkbox. We had to compare their selections with their CVs for verification, and the results did not match.
+        - Result: 
+
+      Idea2:
+        - add questions that:
+          - Verify the applicant understanding about the project? 
+          - their understandiong of profit share
+          - how this project is different from any corporation
+          - how do they think they can contribute to the project?
+          - goals?
+
+  InProgress Phase 1 Marketing: 
+    Id: Marketingideas
+    +: {CreatedBy: Hana, CreatedAt: 20250817 T 155706, By: [Hana, Gigi], Tags: [CSVTODO], Priority: 4-High}
+    Notes: 
+      - Focus should be shifted in target auidence from public to co-op organezations (TBD).
+      - All core members should be contributing to the release to public in terms of thoughts (decisionmaking). We are defining tf2p process by showing how our process of our work/project; 
+      - We can start with forum discussion in developer subreddit, gather the data and compose startups post then lastly post in charp after gaining atleast 20 interactions comments and answer (TBD)
+
+    .Reddit: 
+      - Subreddit:
+        .Startups - Share your startup:
+          - Audience: different community - 1.9 million members
+          - Goals: 
+            - Introducing the idea of the project (first of it's kind). That we are software organization using The Tool to manage and automate decisions of ours and organizations with the same concept (co-op) 
+          - Ideas:
+              - Idea1 - Finances: This has to be driven by the community not to suit levels, board members ..etc. Profit should be distributed fairly to the contributers. 
+              - Idea2 - The Tool: Intro to the tool process in automating the decision makers thoughts to algorithm into the software.
+
+              - Analysis: 
+                A1: 
+                  Upon research oprganization with the similar concepts exist - they call it co-ops organizations. has similar idea on how to distribute the profit ( roles, metrics, hours ):
+                    Notes: Robi mentioned we can use the methods above as a start (TBD). 
+                A2: 
+                  we can mention similar ALM products where the audience can compare to and add that the tool is not restricted only to software but to management decisions in any industry
+              - Results:
+                General: The possiblility of joining the Organization (Co-op) and project managed them and us is high > 40%. This can accelerate our progress in developing the tool and using it as our and their product. The profit then can be distributed fairly to the contributers.
+        .Csharp  Come discuss your side projects! [August 2025]:
+        - Audience: C# Community - 298K members
+        - Goals: 
+          .Introducing the tool:
+            - Idea1 - TheTool: describe the process of manaegement system we use with VSIX and how we the tool is gradually replacing it. using C# language
+            - Analysis:
+              A1: Co-op organizations can use our project management system to unite
+          .The idea and the goal of the project:
+            - Idea1 - Finances: This has to be driven by the community not to suit levels, board members ..etc. Contribution should be distributed fairly to the contributers. 
+            
+            - Analysis: 
+              A1: 
+                Upon research oprganization with the similar concepts exist - they call it co-ops organizations.
+                
+          
+            - Analysis Results:
+              R1: The possiblility of joining the Organization (Co-op) and project managed them and us is high > 40%. This can accelerate our progress in developing the tool and using it as our and their product. The profit then can be distributed fairly to the contributers.          
+        .Developers: 
+          - Goal:   
+            - Open discussion forum:
+              - On how developer receive their pay based in their contribution in a regular company compare it with the idea of profit share based on the value of the contribution of the project. 
+    .Prerequisite:
+      - Share depends on the "value" of contribution explanation
+      - Chatgpt - Contribution based on value is tricky:
+        - Why “pure value-based profit” is rare
+        - Value is subjective: How do you quantify the real impact of a single code commit or design contribution?
+        - Risk of gaming the system: Without fixed metrics, contributors might overstate or misinterpret “value.”
+        - Legal / accounting constraints: Profit distribution usually needs clear, auditable rules for tax and compliance purposes.
+    .Process: 
+    - We can start with forum discussion in (1)developer subreddit, gather the data and (2)compose startups post then lastly (3)post in charp after gaining at least 20 interactions comments and answer (TBD):
+      - Post the question: 
+      - receive their feedbacks/answers 
+      - Interact with the community by answering questions:
+      - then introducing the fairshare articles # Definition of fair article with including the data we collected from the forum
+
+  Done .Phase 1Retrospective:
+    Id: RetrospectivePhase1
+    +: {CreatedBy: Hana, CreatedAt: 20250817 T 224949, By: Hana, Tags: [CSVTODO], Priority: 5-Veryhigh}
+    .Management Status:
+      - progress in management on Aug:
+        - 32 Tasks completed:
+        - 14 Tasks InProgress:
+        - 18 task Urgent:
+      - Where PM failed:
+        - Working late hours and not getting enough sleep
+        - results in lack of motivation, thinking process and movements
+        - very minimal process or no process, work is chaotic.
+      - Plans:
+        - PM role should be shared, If one PM unable to do the role of the day he\she has the responsibility informing the team. We should take turns
+        - Exercise Cardio and HIIT for GH stimulation (thinking included)
+        - Daily Process of PM should be created 
+    .Marketing status:
+      - Why did it take that long:
+        - Implementation of the meeting was a bit hard. studies and research took time 
+        - Body condition has an affect on Hana Productivity
+      - Where we are now: 
+        - InProgress Phase 1 Marketing: 
+      - The plans and estimations:  
+        - TBD
+    .Meetingnotes:
+      - clear guidlines for any stream. eg. marketing. what are the steps we should take n
+      - Processes and rules should be created 
+      - All core members should be contributing to the release to public in terms of thoughts (decisionmaking). We are defining tf2p process by showing how our process of our work/project; 
+      - Introducing the point system - initially for motivation of the members and progress of the project processes.
+      - Permission asks to market this meeting. Permission granted
+      - Githu discussion that I dont understand.
+      - Create the process of PM:
+        - Management
+        - Member tasks
+        - Motivation
+    Building fare share through collaboration : Work optimally and share fairly through computed management, welcoming everyone
+  TODO . Webiste clean up with the tasks that are mentioned in BarbaPapa:
+  
+
+
+  TODO . Publish the 20250818 video:
+    Id: VideoPublish
+    +: {CreatedBy: Hana, CreatedAt: 20250818 T 203922, By: Hana, Tags: [CSVTODO], Priority: 4-High }
+    TODO .Create a process:
+    TODO .Choose/create a platform:
+  <EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)
+
+  Test:
+    -->Backlog\Development\..F2VSCExtension.."Create the F2VSCExtension"<
+    -->Backlog\Development\..F2VSCExtension.."Create a stop task command feature that is executed when VS Code is shutting down"<
+    -->Backlog\Development\..F2VSCExtension..F2ToolsConsolidation20250618<
+    -->Backlog\Development\..F2VSCExtension..F2ToolsConsolidation<
+    -->Backlog\Development\..F2VSCExtension.."Create a stop task command feature that is executed when VS Code is shutting down"<
+    -->Backlog\Development\..F2VSCExtension..geci<
+    -->Backlog\Development\.F2VSCExtension.."Consolidate the requirements of the F2Tools extension as of 20250618"<
+
+  Workspace20250828:
+    SR20250828Hana:
+      Was:
+        - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".Test<: [ 0m, "", 20250828 T 193433 ]
+      Next:
+        - null
+      AOIB: 
+        - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".."Test"<
+    Tasks:
+      InProgress -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".Test<:   
+        Notes: I can't use the feature in Mac        
+        Done .Check the bugs in CSV:
+        Done .Check the bugs in Bug File:
+          TODO .One bug that should be fixed
+        Done .Test The functioanlities:
+          Details:          
+            - Tasks with special characters in their Summary:
+                  Characters: |
+                    Done: beginning, end, middle
+                    Done: anywhere
+                    Done: middle, end                                                  
+            - Does it give a "proper" error message when something happens?:
+              - If there's no "." in front of an Item
+            - Spelling/English errors in error messages
+          InProgress .Specify:
+              Result: Working 
+          InProgress .Start:
+              Result: Working
+          InProgress .Stop:
+              Result: Working
+          InProgress .Worklog:
+              Result: Working
+          InProgress .CSV:
+              Result: Working
+          InProgress .Extract Link:
+              Result: Working
+          InProgress .Extract ID Link:
+              Result: Working
+          InProgress .Follow Link:
+              Result: Working    
+      TODO .Schedule a planning meeting with Robi tomorrow:
+        Details:
+            Topics:
+            - next days
+            - when to do marketing, etc. stuff
+            - how is the development
+            - tracking the develompent things - he needs to merge his todos into the "big tasks"
+      TODO .Create a schedule for Robi about the Tasks he needs to do:
+        Details:
+          Include:
+            - doing the -->Backlog\Milestones\.."Barbapapa Birthday".."Create the Milestone "BarbaPapa Birthday"".."Have it reviewed by Gaurav, maybe Bobi"<
+      TODO .Marketing:
+        TODO .Go through material for reddit ( what you and Giselle went through):
+        TODO .Create a draft of responses of PM questions:
+          Details:
+          - https://www.reddit.com/r/projectmanagement/comments/1n277ev/needing_recommendation_for_an_opensource_project/
+          - https://www.reddit.com/r/projectmanagement/comments/1n0hwpa/the_biggest_time_sink_in_projects_isnt_meetings/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+          -  https://www.reddit.com/r/projectmanagement/comments/1mw5ayd/the_real_project_killer_decision_drift/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+
+  Workspace20250830:
+  TODO .Schedule a planning meeting with Robi tomorrow:
+    +: {CreatedBy: Hana, CreatedAt: 20250829 T 134928, By: Hana, Tags: [CSVTODO], Priority: 4-High}
+    TODO .listdown the points of the meeting:
+      TODO .Schedule of the days after (4 days):
+        TODO .Collect the streams that has to be discussed with Robi:
+          Details:
+            - Have Barbapapa+Birthday to be reviewed by Bobi:
+            - VSIX testing:
+              Result: Almost done
+                - TODO record the mac bug
+            - Marketing - Reddit:
+            - Marketing streaaming tasks process creation
+            - Finalizing the website decision (4-High):
+              Details:
+                - A new website should be done
+                - Utkarsh:
+                  - Record Utkarshs personality properties to avoid people with similar character (Sad :()
+                  - Disable Utkarsh accesses
+                  - For future pointsystem for Utkarsh works in case the website will be used. If not this also should be calculated 
+                  - 
+            - Project management process
+            - Color coding in sync with Barba type
+            - Schedule the work above for next week
+            - 
+            - Health and Mental:
+              - Scheduling workouts:
+                Details: Start with movement, active stretches, study running and sprinitng, Supplements that should be taken..etc
+              - Schedule meals for the weekdays ( Mon - Fri):
+                Details: Based on activities
+              - Schedule certain time to meet with people 
+              - Schedule special time for social media and movies
+              - Schedule next teeth treatment
+            - Finances:
+              - Introduce the breakfast to the guest:
+                - Create Menu of the breakfast:
+                - Create menu of snacks:
+                - Take pictures of breakfast and snacks:
+                  - Apply meals this week (based on activities )and take good picture with Nikkie
+              - Payment of NAV
+              - Payment of activities per week.
+              - Payment Groceries per week.
+
+
+
+          
+          InProgress .Friday:
+            Done .Tested VSIX functionalities.
+
+          TODO .Saturdday:
+          InProgress .Finish the Testing for VSIX:
+            Details:
+              - Features are not working in Mac
+              - One bug to fix -->Backlog\Bugs\.F2VSCExtension.."Follow link is not working when the target item does not have any properties"<
+            TODO .Project Management Process:
+              
+  Workspace20250902:
+    SR20250902Hana:
+      Was:
+        - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..Coding.."Create a process for Livestream coding"<: process figured out
+        - -->Backlog\Management\..ManagemenPhase1.."General Management".."StandUp analysis"<: [ 0m, "", 20250902 T 162732 ]
+      Next:
+    Workspace: #this is where you put your scribblings, any "in progress", "to be sorted", etc. things:
+      TODO .Ask permission for working on the tasks below:
+        Id: Permissiontaskincome
+        +: {CreatedBy: Hana, CreatedAt: 20250902 T 004658, By: Hana, Tags: [CSVTODO], Priority: 3-Average}
+        Analyze the StandUp reports:
+          - Collect the tasks of my stand up reports (Aug). 
+          - Categorized them based on the backlog category
+          - Include it to the planning meeting next session
+          - Include the agreed tasks to the current Milestone
+      TODO .SR20250901Hana Analysis:
+        Was:
+          - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..StandUp.."Create a process for livestream standup"<: [ 22m, "", 20250901 T 123142 ]
+          - - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development"<: [ 900m, "", 20250829 T 133939 ]
+          - - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..Coding.."Create a process for Livestream coding"<: [ 70m, "imp: Robert can use the streaming while he codes- this is pretty urgent", 20250831 T 180544 ]
+          - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Livestream marketing strategy"..Coding.."Create a process for Livestream coding"<: [ 0m, "", 20250901 T 170743 ]
+        Next:
+          - -->Backlog\Milestones\.."Barbapapa Birthday".."Clean-ups some Yamling Tasks"<
+        AOIB:
+          - Discuss the planning meeting for website results:
+          - Cleaning up amling should be in what category in development
+          - Passwords should be changed
+          - Learning from Juniors, Thy need to be supervised.
+          - Remaining VSIX tasks should be for tomorrow Bobi
+          - Definition of EWrkspace and Notes propert in Barba types
+          - 20280902 - First test standup streaming
+          - Create a summary for coding streaming
+
+      Done .Month of Aug:
+        Done.create a a file for standup report analysis:
+        Done .collect the standup report tasks in Was and Next in new file:
+        Done .collect AOIB:
+      
+
+  Workspace20250903:
+    Prepare for Planning meeting @11:00 :
+      Done .Organize Month of Aug Analysis:
+      Done .Add Tasks above to milestones:
+      TODO .Make sure the tasks of milestones in Backlog and CSV:
+      Done .Retrospective file creation:
+      InProgress .New Planning meeting:
+
+    Prepare the architecture of Life Scheduling:
+    Follow upi of NAV:
+    Prepare Airbnb things:
+      TODO .Create a picture guide about entering the code (so like circles, with numbers on them?):
+
+    Marketing: 
+      - Thing that spark up the target audience:
+        - We need to make the audience want to understand
+        - Start to introduce the project in group:
+          - Reddit: 
+            - Start Up
+            - Speed up the marketing 
+        - system with which you can replace the management:
+          - system where we can store the data, rules and ( configuration of the system)
+          - Idea to implementation process
+          - Processes: Steps that can help to reach the goal.
+          - Developliong a system whicn can replace the management. 
+      - Hashim: 
+        - What do you want to do with project: 
+      - Giselle:
+        - Asign task for Giselle that she can handle
+        
+  Gigi:
+  # of Tasks for 20250904: 1
+    - -->Backlog\Administration\.."Read Planning meeting 20250830"<:
+      Requirements: 
+        - Add the tasks to your standup report SRGigi20250904
+        - Estimation time in finishing the task
+        - Apply the Specify, Select Task, Stop Task on your standup report:
+          Reasons: 
+            - You get use to the process 
+            - Check if there are any bugs, VSIX tool should be subjected to marketing soon
+        - Worklog generation is not working at the moment @bobi Please prioritize this task:
+          - Reason: We are going to market VSIX tool soon. 
+      Note:
+        If the above points are implemented, you applied project management process to yourself:)
+  Hana: 
+    # of Tasks for 20250904: 2
+      - -->Backlog\Management\..ManagemenPhase1.."Create a Plan with Gigi"<:
+        Requirements:
+          - Figure methods where PM can be understood (One of methods: the above scenario)
+          - Create a process for 2 days in regards PM tasks
+        Notes:
+          - To be discussed with Giselle for agreement by tomorrow 20250905 (Agreement is depended on Hana 1st Task, Therfore this task should be done today)
+        Workspace:
+          - Apply Project Management assigned requirement to Giselles work
+          - Apply PM task on Hana and Bobi (Training ground 2 days)
+          - Record observation either in AOIB or Public workspace
+          - Read PM Processes 
+
+      - -->Backlog\Management\..ManagemenPhase1.."General Management".."Create Schedule"<:
+        Requirements:
+          - Collect tasks of this 2 days.
+          - Include it in the schedule task
+  Bobi:
+    # of Tasks for 20250904: 2
+      - -->Backlog\Development\..F2VSCExtension.."Wrap up the first phase of VSIX development".."Cleaning up the remaining Bugs in VSIX"<:
+        Notes: 
+          - VSIX Market place
+      - Continue development coding:
+        Requirements:
+          - Create summaary of what you code
+          - Stream while working
+
+  SR20250905Hana:
+    Was:
+      - -->Backlog\Management\..ManagemenPhase1.."Create a Plan with Gigi"<: [ 69m, "", 20250905 T 055828 ]
+    Next:
+      - null
+    AOIB:
+      - Hana:
+        First Task:
+          - Estimation: 60 m
+          - Actual time: 69 m
+          - Done Transfer the tasks 20250904 to CSV
+          - TODO Ask Robi Site where to check the correct Yaml format
+          - Remider to Hashim everyday about the answer of his goal with the project
+        Second Task:
+
+      - Giselle:
+          - Last StandUp 20250825
+          - 1st follow up has been sent for task of 20250905 - WhatsApp
+          - Tasks are shared to the task file in Gigi PublicWorkspace folder
+          - To be discussed today in planning meeting (Agreement should be reached)
+          - Tasks are migrated to CSV
+          - Think about shadowing and discuss it with Giselle. 
+      - Bobi:
+          - Milestones 20250903 reviewed
+          - 1st follow up has been sent for task of 20250905 - WhatsApp
+
+  OnGoing Create a process for Hashim to understand TF2P:
+    Details: 
+      - Hashim want to join the project for the purpose of:
+        - finding purpose and meaning. To be explained in time
+        - Money 
+        - Working with Hana
+        - Using skills Hashim is good at: 
+          - Connecting people
+          - finding the right people
+          - Introducing the people to the project
+          
+    Notes: 
+      - For Hashim to perform the above, understanding the project is required
+      - This will be a testing ground to teast Hana and Hashim commitment to the their agreement:
+        - Agreement: Hashim Understanding the project 
+        
+
+    InProgress .Create a plan for the test phase cooperation between Hana and Hashim:
+      +: {CreatedBy: Hana, CreatedAt: 20250907 T 214516, By: Hana, Tags: [CSVTODO], Priority: 3-Average}
+      Estimation: TBD
+
+      TODO .Present the project to Hashim with the same project process:
+        Details: 
+          - In order for Hashim to understand the core concept of the project. 
+      Done .Listen to the voice note in Instagram and create the requirement:
+      Done .Write down Hashim VN requirement:
+      Details:
+          Hashim VN reqiuirements:
+            - Showcasing the project products in a power point
+            - Solutions that the project provide:
+              - show case used cases 
+            - End goal of the project
+            - Target Audience
+            - What can Hashim do to facilitate the projects progress
+        
+      CurrentFocus .Share the requirement with Hashim and finetune to reach to a proper requirement:
+      TODO .Taskify the requirement to Hana and Hashim:
+      OnGoing .Update Hashim every time this task is CurrentFocus preferabbly everyday:
+        TODO .Giving feedback after every update from Hashim
+      
+  Schedule for 20250908:
+    Meals: 
+      Done Breakfast: Yogurt Honey
+      Done Snack:  in case hungry by 10, bread toast with cheese and fiber/ instead brownie 150 cal    
+      Done Lunch: Chicken Soup with carrots
+      Cancelled Dessert: Coconut water
+      Done Dinner: rice and soup
+    Supplements: 
+      Done Folic Acid
+      Done Bcomplex
+      TODO Omega 3
+    Actvities: 
+      - Done Morning Walk
+      - Done Bouldering
+      - TODO Stretching / evening walk
+    TODOs:
+      - Cancelled Wake up 4 to 5 am. If tired then 6 am last:
+        Result: 
+          - woke up 8:00
+          - Physical tiredness/ first day period
+      - Done Drink folic acid and 1/4 Bcomplex with water and lemon
+      - Read the planning meeting and barpabirthday milestone
+      - Done Send confirmation to Akos Bouldering trainer.
+      - Prepare for lunch:
+        - Chicken soup with carrots 
+      - Go for a quick walk 30 mins
+      - Done Breakfast: Yogurt and honey
+      - Work based on the early morning results:
+        - prepare for the planning continuation:
+        - Add followers tasks on the streaming after the test phase:
+          - Decise how long is the test phase
+      - Reminder:
+        - Check on NAV, Remind Bobi
+        - Check on Hashim reply
+        - Share with G the updates that happened with hashim 
+      - Meetings live
+      - Done Lunch
+      - Prepare for bouldering:
+        - Supplements, water, tickets and payment
+      - Bouldering 
+      - Preparation for the next day.   
+
+  Cleanup Process:
+    - Meeting minutes
+    - Marketing Backlog needs cleanup
+  marketing meeting minutes:
+    Ideas:
+      - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Do streamings"<:
+      - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing..AdvertiseOnXEtc<:
+      - -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing..GoThroughMaterial<:
+      - -->Backlog\PublicRelations\..MarketingPhase1..WrittenMarketing..RegularUpdates<:
+      - -->Backlog\PublicRelations\..MarketingPhase1..WrittenMarketing.."Approach Reddit groups"<:     
+    TODO .Create a rough plan about how to execute the ideas in the previous task:
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 154846, By: marketing, Tags: [CSVTODO]}
+      Details:
+        Answer these questions:
+        - collect what dependencies each have - so e.g. do they need the new site to be up?
+        - how effective they seem to be - so how much "valuable" people we'd get, how much chance for monetary support; 3-5 categories (e.g. low-mid-high)
+        - roughly how much effort they'd need
+        - do they need Bobi's contribution
+
+    CurrentFocus .Action the following -->Backlog\PublicRelations\..MarketingPhase1..VisualMarketing.."Do streamings"<:  
+
+
+  Platforms that we can find potential Audience:
+
+    Thread:
+      - we can use the algorithms based on certain topics the TF2P wants to produce:
+      - 
+      - Community using thread is Asia 
+    X:
+      - Follow 
+    Reddit: 
+      Details:
+        - -->Backlog\PublicRelations\..MarketingPhase1..WrittenMarketing.."Approach Reddit groups"<
+        - -->DocsAndArticles\PublicRelations\QsandTopicstobepublished\.."Marketing plan as of 20250819"..Subreddit<
+
+  Topics: 
+      - Project Management:
+      - Successes and Failures:
+        - Team successes and failures 
+        - Personal successes and failures 
+      - Decision making:
+        - How decisions are made in small team, small interprises and businesses, mid companies and corporations
+      - Goals:
+        - The effect of goals management in life and businesses
+        
+      
+      
+      - Questions:
+        - -->DocsAndArticles\PublicRelations\QsandTopicstobepublished\.."Marketing plan as of 20250819"<
+        - How do you deal with members coming and going 
+
+  +20250914Tasks:
+      - Schedule
+      - Standupprepprocess:
+      - Streams:
+        - G&H
+        - Mindmodel
+        - TF2P Products:
+          - StandUps 
+          - Planning meeting
+          - Code 
+          - Focusmate
+      - Hashim
+      - Airbnb 
+
+  Things that need to be done by this week 15-21: 
+      Health:
+        - Reduce smoking/vitamins
+        - Increase sleep quality
+        - Increase activities
+        - Decrease snacking
+        - Meal on time
+      Work:
+      - Schedule:
+        - Hana
+        - Bobi
+      - Standupprepprocess:
+        - StandupProcessCreationMeeting continuation and finalization:
+          +: {CreatedBy: Hana, CreatedAt: 20250915 T 083340, By: [Bobi, Hana], Tags: [CSVTODO], Priority: 4-High}
+        - Streams:
+          - G&H:
+            +: {CreatedBy: Hana, CreatedAt: 20250915 T 083421, By: [Hana,Gigi], Tags: [CSVTODO], Priority: 4-High}
+            Details: 
+          - Mindmodel:
+            +: {CreatedBy: Hana, CreatedAt: 20250915 T 083446, By: [Bobi,Hana], Tags: [CSVTODO], Priority: 3-Average}
+          - TF2P Products:
+            - StandUps 
+            - Planning meeting
+            - Code 
+            - Focusmate
+        - Hashim
+        - Airbnb  
+
+
+  StandUp:
+    Tasks of the member: 
+      Hana:
+        For the week: 
+          - StandupProcessCreationMeeting continuation and finalization:
+            +: {CreatedBy: Hana, CreatedAt: 20250915 T 083340, By: [Bobi, Hana], Tags: [CSVTODO], Priority: 4-High}
+          - Streams:
+            - G&H:
+              +: {CreatedBy: Hana, CreatedAt: 20250915 T 083421, By: [Hana,Gigi], Tags: [CSVTODO], Priority: 4-High}
+              Details: 
+            - Mindmodel:
+              +: {CreatedBy: Hana, CreatedAt: 20250915 T 083446, By: [Bobi,Hana], Tags: [CSVTODO], Priority: 3-Average}
+            - TF2P Products:
+              - CurrentFocus StandUps 
+              - Planning meeting
+              - Code 
+              - Focusmate
+          - Hashim
+          - Airbnb  
+      Bobi:
+
+
+
+
+    AgiHanaMindModel:
+    
+    Workspace:
+      .Topics:
+        TODO MindModel Analyzation :
+        Topic 1: 
+        Hana: 
+          Can you understand this process Agi? referring to $@-->!PublicWorkspaces\Hana\MindModel\."Algorithm piece to the mind"<@$:
+
+            If not tell me what parts. If yes, tell me your thoughts. This is one of the materials for the brain model project. I am curious about your thoughts:) Maybe your thoughts can help making the process more efficient somehow. Answer in your own time, no rush.
+            Os. we didnt finish the line 1319
+
+          Background: 
+            Robi and I had our small fights these days ( it's more than its suppose to average 2 small fights per day). I was in my luteal phase and period. Meaning I should take care of myself in this phase, but instead I was just working and having no rest which increased my stress level which is really bad on the body and its hormones. in short I fucked it up somehow. Then we discuss how the thoughts went inside of our heads while we are in this "fighting modes" and we try to figure out a process for it by creating steps for our mind to think of "if" we are in this fighting mode. (Brain Model) 
+            
+            So we decided that Robi should write it down for both of us to follow this rule when we are this mode. in future we change it to pseudocode (language that human and a computer understand) and then a c# code(language that computer understands).
+            in short, we had to figure out a way how to think more objectively rather than emotions control me (subjectively)
+        Agi:
+          It is really nice if you can be in this mode during fights we cant haha 😂 I think when you in bad mood hormones and in a fight mode You regress to your previous self (like sometimes acting like a 3year old 🫣 with tantrums) and it really opens the Scars from the past
+          for example for me it is always “I am not important” for Tibi is “I am not enough” and we behave with these false thoughts during a fight and trying to keep our clear mind with these thoughts (or similar) which you have wrotten down with Robi. So yes it is interesting
+
+
+
+        TODO .Create Hana thought structure in responding to the above:
+          Details: 
+          Agi: It is really nice if you can be in this mode during fights we cant
+          Hana Thought: I am usually not in that mode. It requires a meltdown to be in a cooperative mode during fight mode or shifting from fight mode. 
+
+    WorkSpace20251003:
+      Administraation:
+        TODO .Change Passwords:
+        TODO .Change or create a new Discord Channel:
+        TODO .Change Access of the current repository or Create new repository:
+      Public Relation: 
+        - Collect the topics of the mind model from Videos to Voice messages:
+          - Videos located in phones:
+            - Huwawei 
+            - Robi Phone 
+            - Samsung Phone
+          - Voice Recording: 
+            - Samsung Phone
+            - Robi Phone
+          - Events if you remember:
+            - Few events in the balcony:
+            - In front of the train track
+            - The mind momdel formula
+        - Check what can you do on Sat inn regards sharing the site and material of the mindmodel TF2P
+        - Website scheduling:
+        - Streaming TODO:
+          - StandUps 
+          - Coding
+          - Work
+      Scheduling:
+        - Try to schedule events that has been done from Oct 1 to Oct 3:
+      Discuss and Taskify the above:
+
+      Streaming:
+        Workspace:
+          Some focus:
+            .Coding:
+              .Channels: 
+                - Twitch: https://www.twitch.tv/theforty2project
+                - Youtube: https://www.youtube.com/@TheForty2Project    
+              .Schedule: TimeBox (22:00-00:00)
+            .ProjectManagement:
+              .Channels: 
+                - Twitch: 
+                  - https://www.twitch.tv/theforty2project
+                  - https://www.twitch.tv/hanak42
+                - Youtube: https://www.youtube.com/@TheForty2Project    
+              .Schedule: early morning ( Hana work time ) to be adjusted
+            .StandUp:
+              .Channels: 
+                - Twitch: https://www.twitch.tv/theforty2project
+                - Youtube: https://www.youtube.com/@TheForty2Project    
+              .Schedule:
+                - Requirement:
+                  - Before Lunch
+                  - After Workout
+                  - 2 days a week
+            .MindModel:
+              .Schedule: TBD
+          TODOs:
+            .Twitch:
+              InProgress .Create a twitch account for theforty2project@gmail.com:
+                TODO .Create a Bio for the account
+                TODO .Check the profile picture if its fine
+                TODO .Go through settings
+                TODO .Select a Banner for it
+              TODO .Change the banner of Hanak42:
+              TODO .Check the join streaming feature:
+
+            .Youtube:
+              Done .Link youtube account to twitch:
+      Todos20251015:
+        - Set a on day for standup streaming this week
+        - Work on the video editing ( mid morning )
+        - Work on MindModel - Babysitting      
+        - Selling Project: 
+          - Create a task for it
+          - Categorization of the stuff:
+            - Party clothes
+            - Work clothes
+            - Casual clothes
+            - Freebies
+            - Prices on each
+          - Wash the clothes:
+            - Work
+            - Party
+            - Anythingelse
+          - Clean the shoes
+          - Iron the clothes
+          - Picture the shoes alone
+          - Picture the clothes  with the shoes
+          - Check platforms for selling second hand
+          
+      Work20251017:
+        InProgress .Video Editing: 
+          - Whisper
+          - Topics:
+            - Our perspective of the education system in our time:
+            - What is thinking ( The art of computing the answers to the questions ): 
+              - Elements of thinking:
+                - how to make this thoughts in what order if you want to find an answer to a certain precision
+            - Love and Sex:
+            - 
+          - Notes:
+            - We are not politically correct
+        Brain Model - Babysitting: 
+        Clothing Selling:
+        Streaming - Bio:
+
+
+      Work20251018:
+        - Create tasks for the below:
+        - Video editing: 
+          - Organize the trasncript into a document
+          - Add it to google drive
+          - Change it into topics
+            
+
+
+  20251028Hana:
+    - Planning meeting: 
+      - TF2P:
+        - Video Editing:
+        - Streams:
+          - Bio:
+            Workspace:
+              Born and raised in UAE of a Sudanese Father and a Filipino Mother. Studied in Sudan for college ( 3 semesters ) then transferred to The Philippines where I studied and worked for 11 years. Got married to Robert (Hungarian genius and life partner) and currently based in EU.
+            Interest:
+              - TF2P
+              - Algorithms
+              - Mind Model
+              - Humanity
+
+          - Different catagories of stream
+          - Schedules
+        - Standups:
+        - Project Management:
+      - Selling Clothes:
+      - Airbnb:
+        - Breakfast
+        - Business plan
+      - Done Berci:
+        - Scheduling
+      
+      - Prioritize the above
+
+  WorkSpace:
+    Done Sierk Business Plan:
+      - Problems with previous co - host: 
+        - Pricing:
+          - Didnt want to go through the auto pricing
+          - What is his lose in auto pricing?
+          - What is expected from the new co-host to acheive in auto pricing
+      - Job Desciption:
+        - Customer Service:
+          - Trouble shooting
+          - Manage Refunds
+          - Check on the guest after checkin and checkout
+        - Administration:
+          - Tourist Administration
+          - IFA
+          - Invoicing
+          - Calculation
+          - Vendegem
+          - NAV
+        - House Keeping:
+          - BEDDINGS:
+            - Bed ALWAYS with 2 Beddings: 
+              - Why?
+            - Spare Bedding in the cabinet
+            - Towels and bedsheets in the cabinet
+          - Cleaning:
+            - After each checkout
+            - Paid cleaning service in case long check-in
+          - Maintenance:
+            - Fixing Furniture
+            - Plants watering
+            - Battery replacement ( to be notified by an email each sunday)
+            -  Futés yearly maintenance
+
+
+  Planning 20251130:
+
+    Morning:
+      - Hana:
+        - Lemon water + Lglutamine + Antioxidant
+        - Morning Tea + Dates + MCT      
+        - Hip mpobility and core exercises
+        - Run:
+          - Prepare runnig clothes
+          - Buy Breakfast and Lunch for the day:
+            - Eggs
+            - Spinach/Argula
+            - Nuts
+            - Cherry tomato
+            - Fish for lunch
+            - Olives black
+        - Shower (Prepare gym clothes)
+        - Preparae breakfast:
+          - Chicken thinghs with spinach
+        - Breakfast (check the day work) + Omega 3
+        - 
+      - Robi:
+        - Lemon water + Lglutamine + Antioxidant
+        - Morning tea/coffee
+        - Hip Mobility and core exercise
+        - TBD:
+          - Buy meals of the week:
+            - Pork bone
+            - Ground Turkey
+            - Eggs
+            - Strawberry
+            - Chicken Thighs
+            - Fish:
+              - The silver one 
+              - 
+            - Chinese cabbage
+            - Zucchini 
+            - bok choy
+
+      - Breakfast:
+        - Canned Tuna
+        - Rice + Quinoa + Parsley + Basil
+        - Yogurt
+        - Eggs 2
+        - cherry tomatoes
+        - Cottage cheese/Blue cheese
+      - Rest:
+        - Gentle walk
+        - Plan the rest of the day or review:
+          - Standup schedule and report
+          - Planning meeting Marketing and Health Schedule
+        - Nap:
+          - 20 mins
+      - Gym:
+        - Hana:
+          - Easy HIIT (body weight)
+          - Core, Back and SH mobility. 
+        - Robi: 
+          - TBD
+
+
+  Afternoon:
+      - Light Lunch
+      - Nap
+      - Work -3 hours with break every 42 mins : 
+        - Continuation of planning meeting
+        - Stand up 
+        - Schedule Standup for Monday (Take note there is bouldering + tailor) on Twitch
+        - Assign tasks for Monday and if possible the next days of this week (including food and activity plans):
+          - 
+      - Snacks (Rice cake)
+      -
+
+
+
+
+
+  Twitch interesting streamers(cowrking channel):
+          https://www.twitch.tv/raulvillalobosjr
+
+  Bio for Donation:
+      Your donation will help The Forty2 project expands
+Hana TODOs Projemxt Management: 
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Invest section".."BuyUsACoffee".."Set up the account".."Add the payment info".."Fight it through with fucking support and solve the issue"<
+  - Estimation discussion of Phase 1 Tasks
+  - -->Backlog\Development\..Website.."Back to original".."Do intermediate solution".."Create the Deepdive site"<:
+    - Watch Tab:
+    Notes: 
+      - can the title "Watch" can be replaced to Media:
+      - Twitch Schedule:
+        - Stand up:
+        - Planning Meeting:
+        - Retrospective Meeting:
+      - Youtube: 
+        - Important Videos from the meeting are saved in youtube
+      - OnlyFans: 
+        - Entertainment Videos are linked 
+        - TODO .schedule video before January 31st event:
+          - Add the Love and Sex video to Onlyfans
+      - Patreon: 
+        - Could be both The work and Entertainment Videos
+Draft -->-->Backlog\\Backlog..PublicRelations..""Collect Marketing Ideas"".Details<<:
+    Draft  Inclusion of Live and recorded meetings:
+      Summary:
+        Reasons:
+          . Transparency:
+            - Build trust of the Audience, Investors
+            - a channel for the contributers to check the member workflows.
+          .Members discipline:
+          .Work evidence:
+      Meetings: 
+        - StandUpMeetingRoom
+        - focusmate
+      Draft  Inclusion of Live meeting channels:
+          Draft Website:
+            Summary: a dedicated space in the website that new members, investors and contributer can join and watch the members working
+              - Can be a live window that is automatically connected to discord meeting channels (might be for future)
+              - Can be a link and written text that shows the schedules of StandUp meeting (current)
+          Draft TF2P Social Media Live stream:
+            Summary: Live stream standUp meeting in different TF2P platforms
+              - Generate a script that activate the live streaming of different TF2P media platform
+
+
+
+
+
+
+
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you have to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

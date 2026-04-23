@@ -1,0 +1,70 @@
+SR_20260401_Hana:
+  Was:
+    - -->Tasks\Management\.."General management".."Planning related".."Hold periodically".."Planning 20260328".."Hold the meeting"<: [ 90m, "", 20260328 T 15:10 ]
+    - -->Tasks\Management\.."General management".."Task list reports (CSV)".."Creation".."Create OCWSPhase1 task list reports"<: [ 156m, "", 20260330 T 174652 ]
+    - -->Tasks\Management\.."General management".."Standup related".."Preparation"<: [ 51m, "", 20260401 T 102129 ]
+  Next:
+    - -->Tasks\Management\.."Management Tasks OCWSPhase1".."Hold planning meetings periodically".."20260328".."Process the results"<: [ 70m ]
+    - -->Tasks\Management\.."Management Tasks OCWSPhase1".."Migration of tasks to CSV".."Periodic syncs of Tasks-CSV".."Create Management CSV"< [90m]
+    - -->Tasks\Management\.."Management Tasks OCWSPhase1".."Migration of tasks to CSV".."Periodic syncs of Tasks-CSV".."SyncAt20260401"<: [ 30m ]
+
+SR_20260409_Hana:
+  Was:
+    - -->Tasks\Management\.."General management".."Task Administration"<: [ 140m, "", 20260401 T 115454 ]
+    - -->Tasks\Management\.."General management".."Planning related".."Hold periodically".."Planning 20260328".."Process the results"<: [ 12m, "", 20260401 T 202502 ]
+    - -->Tasks\Management\.."General management".."Task list reports (CSV)".."Creation".."Create Management task list reports"<: [ 11m, "", 20260401 T 210810 ]
+    - -->Tasks\Management\.."General management".."Task list reports (CSV)".."Maintenance".."SyncAt20260402"<: [ 90m, "", 20260402 T 093736 ]
+    - -->Tasks\Management\..""General management""..""Task list reports (CSV)""..""Maintenance""..""SyncAt20260403""<: [ 4m, "", 20260403 T 075801 ]
+    - -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the non-deepdive pages".."Phase1".."Create SupportUs page".."Rename "Support" to something less confusing".."Try finding something better than "Support us""<: [ 10m, "", 20260403 T 081218 ]
+    - -->Tasks\Management\.."OCWSPhase1".."Cleanup workspace".."Hana"<: [ 22m, "", 20260403 T 132212 ]
+    - -->Tasks\Management\.."OCWSPhase1".."Update F2yaml links"<: [ 142m, "", 20260403 T 215949 ]
+  Next:
+    - -->Tasks\Website\.."Back to original"..Intermediate..CreateSite.."Implement"..NonDD.."Phase1".."Create Watch page"..Review..Links<
+    - -->Tasks\Website\.."Back to original"..Intermediate..CreateSite.."Implement"..NonDD.."Phase1".."Create Contact page".."Implement, finalize and publish".."Provide the links into the document"<
+    - -->Tasks\Processes\..Miscellaneous..PwdManagement<
+    - -->Tasks\Website\.."Back to original"..Intermediate.."Setup Discord permissions and channels"<
+    - -->Tasks\Website\.."Back to original"..Intermediate..CreateSite.."Manually create the yaml links"<: [ "Bobi is needed for the first part - i.e. to show what needs to be done" ]
+
+SR_20260414_Hana:
+  Was:
+    - -->Tasks\Website\.."Back to original".."Do intermediate solution".."Setup Discord permissions and channels"<: [ 10m, "", 20260410 T 200129 ]
+    - -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the non-deepdive pages".."Phase1".."Create Watch page".."Review".."Get the links"<: [ 12m, "", 20260410 T 180212 ]
+    - -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the non-deepdive pages".."Phase1".."Create Contact page".."Implement, finalize and publish".."Provide the links into the document"<: [ 10m, "", 20260410 T 182544 ]
+    - -->Tasks\Management\.."OCWSPhase1".."Update F2yaml links".."Bobi to go through the ones which are tagges"<: [ 37m, "", 20260410 T 200359 ]
+    - -->Tasks\Management\.."General management".."Reports".."Create report about total spent time per task and per day per worker up until 20260413 meh"<: [ 10m, "", 20260414 T 120832 ]
+    - -->Tasks\Management\.."General management".."Standup related".."Preparation for participants"<: [ 10m, "", 20260414 T 122807 ]
+
+  Next:
+    - -->Tasks\Management\.."General management".."Reports".."Create report about total spent time per task and per day per worker up until 20260413 meh"<:
+    - -->Tasks\Management\.."General management".."Task list reports (CSV)".."Creation".."Create OCWSPhase2 task list reports"<:
+
+
+SR_20260415_Hana:
+  Was:
+    - -->Tasks\Management\.."General management".."Reports".."Create report about total spent time per task and per day per worker up until 20260413 meh"<: [ 80m, "", 20260414 T 120832 ]
+    - -->Tasks\Management\.."General management".."Task list reports (CSV)".."Creation".."Create OCWSPhase2 task list reports"<: TODO
+    - -->Tasks\Management\.."General management".."Standup related".."Preparation for participants"<: [ 10m, "", 20260418 T 134121 ]
+  Next:
+    - Create a task for this "PlanningPlusStandup" activity, report your time to it and fix Bobi's standup report as well (so his time is also reported to this and not to the standup preparation):
+    - -->Tasks\Management\.."OCWSPhase1".."Plan and prepare Twitch streaming first phase"<
+    - -->Tasks\Management\.."General management".."Task list reports (CSV)".."Creation".."Create OCWSPhase2 task list reports"<:
+    - -->Tasks\Website\.."Improvements".."Add the part we recorded during our smoking session to the Summary"<
+    - -->Tasks\Website\.."Improvements".."Manually convert the urls in the NonDD pages to html links"<
+
+SR_20260421_Hana:
+  Was:
+    - -->Tasks\Management\.."General management".."Task list reports (CSV)".."Creation".."Create OCWSPhase2 task list reports"<: [ 178m, "", 20260415 T 181450 ]
+    - -->Tasks\Management\.."OCWSPhase1".."Plan and prepare Twitch streaming first phase"<: [ 58m, "", 20260417 T 111754 ]
+    - -->Tasks\Website\.."Improvements".."Add the part we recorded during our smoking session to the Summary"<: [ 65m, "", 20260418 T 065619 ]
+    - -->Tasks\Management\.."General management".."Standup related".."Preparation for participants"<: [ 4m, "", 20260418 T 134121 ]
+
+  Next:
+    - -->Tasks\Management\.."OCWSPhase1".."Plan and prepare Twitch streaming first phase"<:
+
+
+SR_NEXT_Hana:
+  Was:
+    - -->Tasks\Management\.."General management".."Task Administration"<: [ 20m, "", 20260421 T 173647 ]
+  Next:
+    - -->Tasks\Miscellaneous\.."Health".."Create a daily health tracking template to monitor sleep quality, bowel movements, mood, nutrition, hydration, and physical activity."<
+    

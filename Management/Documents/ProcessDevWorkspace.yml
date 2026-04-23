@@ -1,0 +1,70 @@
+Process development meeting at 2025-08-19 notes:
+  - General problem solving process:
+      Requirements:
+        - include the "big potato-small potato" approach
+        - inlcude the "keep the tree and" principle
+  - General Process development process:
+      Details:        
+      Requirements:
+      Steps:
+        - first the requirement - what do you want to achieve with the process        
+  - Point system:
+      Details:
+        - Completing Tasks earns you Points
+        - Profits are shared proportionally to the total points members collected
+        - The point value of each Task is determined before performing the Task, during the Task estimation process:
+          - Should reflect:            
+            - The difficulty of the Task - the more difficult (needing higher concentration, IQ, knowledge, skills), the more points
+            - The expected duration of completing it - the longer it takes, the more points
+            - The urgency - the more urgent, the more points
+          - For Tasks which simply consume time - e.g. participating in meetings - a points value is determined afterwards, based on the time spent on it.
+        - The point value can be revised:
+          - triggered by:            
+            - request of the performer or other team members:
+              - the cost of the revision MIGHT need to be "paid" by him/her (i.e. the points value of the Tasks about revision is deducted from the total points earned) if it is determined that it was not "necessary"
+            - supply/demand:
+              - if no one wants to work on it for that amount of points - increase
+              - if a lot of members want to do it, they're "fighting" for it - decrease
+        - Determining the point value can be postponed to a later stage:
+          - expecting that at later stages we'll have better, more precise methods
+          - not later than the pay-out of profit shares
+  - Task estimation:
+      Details:
+        - Estimating the duration (in man-hours), value (in Points) and expected completion time of Tasks.
+  - Work process:
+      Details:
+        Include:
+          Focus on Focusmating:
+            - Schedule the work:
+              - At each "day" we should disclose how many hours we're planning to work the next period
+              - Importantly: the team should ask the questions if it didn't happen
+            - PlanTheWork:
+              - Worker: Post into Focusmate chat that you'd be working from time x, who's willing to work with me
+              - Team members: try to respond and organize their work so that they can be present at time x
+              - Ideally a pair is found
+            - StartTheWork:
+              - Each participant explains what would they be doing, in a big potato-small potato way:
+                  E.g.: this is the big task I'm working on, I'll be doing this part of it and from it these little steps are expected to finish by the time we talk next
+              - Participants state whether they can be disturbed or not while doing it (if it needs concentration then not really, if it's stupid task then yes)
+              - Participants agree on a "session done" time - so up until when they should be working in this session. Ideally in between 30 and 90 mins; 45 is an ideal.
+            - PerformWork:
+              - Participants work. If convenient, do a screen sharing - pros are that there's lower chance for "doing something else", cons are that it might consume computer resources
+            - Report:
+              - At the end of the session, each participant report:
+                - Reporter reports what has been done
+                - Listener listens and - very importantly - analyses it
+                - Both discuss the learnings - how should it be done better next time - basically what should be the process next time:
+                  - If there are big things to change, take note and make a Task about solving it
+              - This should not take more, than 10 minutes                
+            - Repeat:
+              - If convenient, agree that they'd continue in like 10-20 mins or whatever      
+          Status handling:
+  - Task handling:
+      Include:
+        - Status of Parent tasks in case the status of children; like:
+          - IF all the same: same
+          - ELSE IF any is InProgress: InProgress
+          - ELSE IF any is Blocked, some are TODO: TODO
+          - ELSE IF all are Done, Cancelled, Closed: Done
+          - ELSE IF all are Cancelled or Closed: Cancelled or Closed, depending on whether the Cancelled or the Closed tasks were more significant
+  - Marketing process:

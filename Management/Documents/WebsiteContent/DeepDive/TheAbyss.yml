@@ -1,0 +1,3 @@
+Deep dive into the life of the project: 
+  - We store all information in Items, represented as yaml nodes; these yamls are mirrored here so basically you can see what we see while working even if in a somewhat "buggy" representation.
+  - While the yaml structures are more or less self explanatory, we'd still recommend reading through the Learn to Dive section (above) first.

@@ -1,0 +1,74 @@
+Summary: C# learning materials
+Type: Article
+Content:
+  Tutorials:
+    Microsoft Get started with C#:
+      Link: https://learn.microsoft.com/en-us/collections/yz26f8y64n7k07
+      Quality: 4-High
+      Topics: Basics (until procedural programming)
+      Notes:
+        - Good for basics only
+        - Lacks concepts of object oriented programming and any advanced topics; what they say that "start to finishing learning the C# programming language" is not true.        
+    Raisanenmarkus Tutorial:
+      Link: https://raisanenmarkus.github.io/csharp/
+      Quality: 3-Average
+      Topics: Basics + little OO + advanced
+      Notes:
+        - Good for basics + contains OO and advanced topics as well
+        - Gaurav's notes: tried to do object oriented part from here found it confusing.        
+    W3schools Tutorial:
+      Quality: 4-High
+      Link: https://www.w3schools.com/cs/index.php
+      Topics: Basics + OO + little advanced
+      Notes:
+        From Gaurav:
+        - Did concepts of object oriented programming from here.
+        - Good for both basic and advanced topics.
+    Microsoft C# reference:
+      Quality: 4-High
+      Topics: ~All
+      Link: https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/
+      Notes:
+        - The "official" C# material by Microsoft
+        - As of now none of us have tried this yet
+  Materials from members:
+    Gaurav's Own Notes:
+      Link: https://github.com/Gauravkr7488/C-sharp-notes.git
+      Notes:
+        - These are Gaurav's notes for self
+        - might contain some important information for yourself as well but note that it might contain errors
+        - It is recommended that you:
+          - \"git clone https://github.com/Gauravkr7488/C-sharp-notes.git" to your local pc
+          - install https://obsidian.md/download and open the folder you created in the above step with it
+    Gaurav's Practice Material:
+      Link: https://github.com/Gauravkr7488/LearningCsharp
+      Notes:
+        - These are Gaurav's practice materials for himself
+        - might be useful if you get stuck in your own practice
+        - It is recommended that you:
+          - \"git clone https://github.com/Gauravkr7488/LearningCsharp.git" to your local pc
+          - open the csproj files with your Visual Studio or just look into the .cs files with your preferred editor (Total Commander Viewer (F3), NotePad++ or VS)
+  Practice materials:
+  W3Schools:
+    Quality: 4-High
+    Links:
+      - https://www.w3schools.com/cs/cs_exercises.php      
+    Notes:
+      - Provides "verifiers", meaning it verifies your solution:
+        - Sometimes annoying as it only accepts their version of the answer - such as you can't use "var" as the "type" of a variable (so you have to say "int myVar = 42" instead of "var myVar = 42")
+      - Seems to be relatively good to verify that you know the basics. 
+      - Includes OO as well
+  ExerciseSharp:
+    Quality: 3-Average
+    Links:
+      - https://www.exercisescsharp.com/introduction-to-csharp/
+      - https://www.exercisescsharp.com/easy-exercises/
+      - https://www.exercisescsharp.com/intermediates-exercises/
+    Notes:
+      - Provides (example) solutions but its up to you how you do it
+  W3Resource:
+    Quality: 3-Average
+    Links:      
+      - https://www.w3resource.com/csharp-exercises/basic/index.php
+    Notes:
+      - Provides (example) solutions but its up to you how you do it

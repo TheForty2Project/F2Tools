@@ -1,0 +1,54 @@
+namespace System.Types.WorkSpaces:
+  Comments:
+    Bobi: This is mostly a plan, here only to give some idea about what's planned and how the system would work. Very-very work in progress.
+
+  class WorkspaceDescription:
+    Inherits: StandarItem
+    WorkspaceProperties .Properties :  
+    string .RootDirectoryAbsolutePath:
+    # WSFolderDescription .FoldersAndFiles:
+    WSItemDescription[] .Roots:
+
+  class WorskpaceProperties :
+    string .WorkspaceName:
+    string .Description:
+    string .RootsFolderName: #default: Root
+    string .ReportsFolderName: #default: Reports
+    string .TF2PFolderName: #default: !TF2P; containing this WorkspaceDescription, Local process contexts
+
+  # class WSFolderDescription:
+  #   string .Name:
+  #   string .Summary:
+  #   WSFolderDescription[] .Folders:
+  #   WSEntryDescription[] .Files:
+
+  class WSItemDescription:
+    bool .IsFolder: #if so, generated as a folder + a file (if not a Folder), otherwise only as a file.
+    bool .IsTop: #if so, the file/folder name will be its FullId
+    PropertyDescription .FolderContentProperty: #the Items in this folder (if it is) are referenced by which property, e.g. BelongsTo (default), 
+    Item .Item: #the Item it should represent
+    WSFileDescription .Content:
+
+  class WSFileDescription:
+    WSFilePartDescription[] .Items:
+
+  abstract class WSFilePartDescription:
+    Range .RowRange: #what rows - from-to
+
+  class WSFilePartDescription WSFileComment:
+    string .CommentText:
+    int .StartColumn:
+
+  class WSFilePartDescription WSFileItem: 
+    Item .Item:
+    RenderingOptions .RenderingOptions:
+
+  class WSConsoleFileDescription:
+    string .Name:
+    #nothing really; it's just a file
+
+  class WSReportDescription:
+    QueryDescription .Query:
+    ViewDescription .View:
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)

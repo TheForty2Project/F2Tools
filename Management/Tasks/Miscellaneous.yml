@@ -1,0 +1,50 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+Id: Misc
+
+OnGoing .IT:
+  Id: IT
+  OnGoing .Environment configuration:
+    Id: EnvConfig
+    Details:
+      SW Installations, configuration, etc.
+  OnGoing .Git setups:
+    Id: Git
+    Blocked .Create a new repository after the cleanups:
+      +: {CreatedBy: Bobi, CreatedAt: 20260420 T 133138, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+      DependsOn: -->Tasks\Management\.."OCWSPhase1".."Clean up the files we are publishing"<
+      
+OnGoing .BusinessAnalysis:
+  Id: BA
+  Details:
+    Business analysis related - e.g. requirement writing, discussions, etc.
+
+OnGoing .Health:
+  TODO .Create an an analysis about the effects of consuming various sugars:
+    +: {CreatedBy: Bobi, CreatedAt: 20260417 T 122654, By: [Bobi Hana], Tags: [CSVDONE], Estimation: "60", RemTime: "60"}
+    Details:
+      Include:
+        Sucrose vs dextrose:
+        Sugar crash/spike:
+          - what are the symptoms of spike/crash
+          - how to avoid it
+          - adverse effects short long term:
+            - how to "heal" them          
+          - how to combine macronutrients to avoid spike (e.g. fats)
+        Difference in between females and males:
+        How much of dextrose and sucrose should we include in our diets:
+          - Taking into account that we have sensitive digestion AND surcose can stay in your guts without being digested longer
+        What happens after the sugars (dextrose + fructose) enter the bloodstream:
+          - liver (glycogen) storage
+          - fructose processing
+          - insulin and fat storage
+          - muscle storage
+        Eating various of amounts:
+        Activities before/after eating:
+          - Walk after - how much it helps
+          - Eating on "starved" state:
+            - sugar spike?
+  TODO .Create a daily health tracking template to monitor sleep quality, bowel movements, mood, nutrition, hydration, and physical activity.:
+  +: {CreatedBy: Hana, CreatedAt: 20260421 T 174216, By: Hana, Tags: [CSVDONE], Estimation: 60m, RemTime: 0m}
+  
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)

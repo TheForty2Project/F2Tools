@@ -1,0 +1,155 @@
++: {Type: Folder}
+
+namespace System.Types:
+  class Item:
+    Summary:
+      The root of all; everything about this is (should be) hardcoded in the software system - so changing this should not affect the behavior. Only derived classes can be instantiated.
+    ClassDescriptionFlags: [Abstract]
+    Properties:
+      User CreatedBy:
+      DateTime CreatedAt:
+      InternalId InternalId:
+      ClassDescription Type:
+      Item BelongsTo:
+      Entitlement[] Entitlements:
+      bool IsDeleted:
+        Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
+    <--TODO Clean up the flags - so hardcoded, etc. - and add them to the ItemTypes-:
+
+  class Entitlement:
+    Summary:
+      Pairing the rights with the users - so that it can finally be used on the Items to signal what users have what rights.
+    Properties:
+      bool IsPropagating:
+        Summary: whether the Entitlement is propagating down on the BelongsTo tree - i.e. if Apple BelongsTo Pear and I have rights to Pear, do I have rights to rights to Apple as well
+      Right Right:
+        Summary: the bit field (flags) of Rights the user can have
+      Role Role: 
+        Summary: the entitlement of the system
+    Comments:
+      - Bobi: supported from MVP++ versions
+
+  class Role:
+    Inherits: StandardItem
+    Summary: Represents a Role - used in permission management
+    Properties:
+      Role[] Role:
+        Summary:
+          The Roles this Role represents; note that a single User is also a Role
+    Comments:
+      - Bobi: supported from MVP++ versions
+
+  class User:
+    Inherits: Role
+    Summary:
+      Represents a User
+    Properties:
+      string Password:
+        Flags: [WriteOnly, DoNotPersist]
+      string HashAndSalt:
+        Flags: ReadOnly
+      Alias[] Aliases:
+        Summary:
+          The aliases the user has
+
+  class Alias:
+    Inherits: StandardItem
+    Summary:
+      For supporting "full anonymity" - so that you can, if you want, use a different alias for different purposes, making it harder for people to connect your virtual personality with your real-life one
+
+  enum Right:
+    IsFlags: true #meaning a property of this type is a bit field, so e.g. in this particular case can have a value of e.g. Read + Write together.
+    Members:
+      Read:
+        Summary: The user having this right can read the properties of the Item
+        Value: 1
+      Write:
+        Summary: The user having this right can write the properties of the Item
+        Value: 2
+      Create:
+        Summary: The user having this right can create new Items under this item (i.e. set the BelongsTo of the newly created Item pointing to this)
+        Value: 4
+      Move:
+        Summary: The user having this right can change the BelongsTo of this Item - i.e. the user can move it under a different Item
+        Value: 8
+      Execute:    
+        Summary: The user having this right can execute the Item; only applies if the Item is a Function.
+        Value: 16
+
+  class StandardItem:
+    #Inherits: Item //Commented out as this is by default
+    ClassDesciptionFlags: [Abstract]
+    Properties:
+      IdString Id: #Note that the content of this will be automatically generated IF left empty by The F2Tool
+        Mandatory: true
+      string Summary: 
+      string Notes:
+        Summary:
+          any notes from anyone (regarding the Task, how to do it, etc.; please note that the "Workspace" property is to be used for scribblings while doing the task). Please mention your username in it if you're not the owner of the task
+      Comment[] Comments:
+        Summary:
+          - a "chat" thread - up until we have some chat functionality.
+          - about the format: see the notes on the Comment type
+      IdString[] Tags:
+        Summary: a set of one-word tags - e.g. we use "CSVTODO" currently, signaling it should be added to the CSV file.      
+    Notes: 
+      The content of the Id field will be automatically generated from the content of the Summary field by removing spaces and capitalizing the letter after (Pascal case), removing non-allowed chars, and using the first 12 + last 12 chars IF left empty; if not unique, adding numbers to the end (and using less characters from the last part). E.g. the summary "Add the Extract F2Yaml link functionality" would be "AddTheExtrac_unctionality"
+
+  class Comment:
+    #Inherits: Item //Commented out as this is by default
+    Properties:      
+      string Content:
+    Notes:
+      - Use the following formats (these are planned to be implemented as custom formats as soon as the system supports it):
+          key-value pair, if the timestamp is not important: 
+            That is: 
+              - username: content
+            Example: 
+              - bobi: lorem ipsum
+          flow-sequence:
+            That is:
+              - [username, date, "content"]
+            Example:
+              - [bobi, 20251208 T 000842, "lorem ipsum"]
+          full:
+            - CreatedBy: Bobi
+              CreatedAt: 20260422 T 1233
+              Content: lorem ipsum
+
+  class ClassDescription:
+    Inherits: StandardItem
+    Summary:
+      Item for the description of other Items - i.e. like a "class" for describing "objects" in Object Oriented programming languages.  
+    Properties: 
+      PropertyDescription[] Properties:
+      ClassDescriptionFlags ClassDescriptionFlags:
+        PropertyDescriptionFlags
+      -Result->TODO write this - based on the current F2Tool implementation:
+    Comments:
+      - [Bobi, 20251208, "Up until I write this, use the fields you see in class descriptions like this (so anything which is 'class SomeId:')"]
+
+  class PropertyDescription:
+    Inherits: StandardItem
+    Summary:
+      Item for the description of the Properties of other Items
+    Properties: -Result->TODO write this - based on the current F2Tool implementation
+    Comments:
+      - [Bobi, 20251208, "Up until I write this, use the fields you see in property descriptions in this file (so anything which is under the 'Properties:' part of class descriptions"]
+
+  class Enumeration:
+    Inherits: StandardItem
+    Summary:
+      Item for the description of an enumeration.
+    Notes: 
+    Properties: -Result->TODO write this - based on the current F2Tool implementation-
+    Comments:
+      - [Bobi, 20251208, "Up until I write this, use the fields you see in enumeration definintions (so anything which is 'enum SomeId:')"]
+  
+  class NameSpace:
+    Inherits: StandardItem
+    Summary:
+      Serves as a grouping of class descriptions - similarly as in e.g. C#.
+      Purpose is not much different than a simple folder/directory.
+      At the moment there are no extra properties (on top of the ones defined in Item)
+  
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)

@@ -1,0 +1,580 @@
++: {Type: Folder, DefaultTypes: [Task, Bug, Folder]}
+
+Tasks:
+  Closed .Create the F2ToolsExtension:
+    By: Gaurav
+    Estimation: 15m                    
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Minimal Base"<
+    Details:
+      - Create the extension as specified in the Requirement
+      - Place the code under the TheTool repository into the (newly created) F2Tool.F2ToolsExtension folder
+  Closed .Add the Extract F2Yaml link functionality:
+    By: Gaurav
+    Estimation:
+      - 1h: PAR time
+      - 12h: normal time
+    DependsOn: -->Tasks\Software\F2ToolsExtension\.Tasks.."Create the F2ToolsExtension"<
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Extract F2Yaml Link in F2ToolsExtension"<
+    Details:
+      - Add the functionality as specified in the Requirement
+    WorkLog:
+      - [28m, "Figuring out how the extension will work in TypeScript",  Gaurav, 20250228]
+      - [30m, "Added the functionality to extract the yml", Gaurav, SR20250304]
+      - [68m, "Added the functionality to create links and references", Gaurav, SR20250306]
+      - [40m, "Added the Ignore words", Gaurav, SR20250306]
+  Cancelled .Create Extension with snippets:
+    By: Gaurav
+    Estimation: 2hrs
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Code Completion".."Minimal Snippet Based Item Creation"<
+    Requirements:
+      - There should be an Extension created that has all the snippets loaded according to the Barba.Types.
+    Workflow:
+      Given:
+        - A Extension with snippets loaded in the users vs code.
+      When:
+        - user starts typing the snippets will be suggested.
+        - user selects a snippet with enter/tab/mouse.
+      Then:
+        - The entire structure of the selected snippet will be formed.
+    Notes:
+      Bobi:
+        - Reason for cancelled is that by adding the snippets into the "yaml.code-snippets" file in the .vscode folder we can have all the functionalities of this, including the easy global-update of the snippets - in fact, easier one than with the extension.
+        - try typing "Task" and pressing tab
+    Done .Understand all the snippets that are needed to be made:
+      Estimation: 1hr
+    WorkLog:
+      - [ bobi, 60m, "discuss, research, create then cancel due to VS code snippet functionality", 20250308 ]
+  Closed .Create an extension that generates SR:
+    Requirements:
+      - There should be a extension that can Generate the date and the username of the user when creating a standup report
+    Notes:
+      Bobi: \@Gaurav, is this something you created? Please create a requiremetn for it if so
+      Gaurav: It was merged with the basic time tracker v0.0.1
+  Closed .Create Time Tracking functionality:
+    Id: TimeTracking
+    Estimation:
+      - 4h: Gaurav's estimation
+      - 6h: Bobi's estimation
+    ForRequirement: 
+      -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Time Tracking and Administration"..Basic<
+  Closed Basic:
+    Id: Basic
+    +: { ForRequirement: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Time Tracking and Administration"..Basic< , Estimation:, By: Gaurav, Responsible: Gaurav } 
+    WorkLog:
+      - [ Gaurav, 77m, "Created a bare minimum time tracker", 20250323 ]
+      - [ Gaurav, 20m, "added visx for files of the time tracker", 20250327 ]
+      - [ Gaurav, 44m, "Creating the specify Sr command", 20250421 T 123156 ]
+      - [ Gaurav, 60m, "Creating select task command", 20250421 T 123644 ]
+      - [ Gaurav, 180m, "worked along with robert on focus mate", 20250422 T 074430 ]
+      - [ Gaurav, 210m, "Create pasuse, resume and stop commands", 20250423 T 192528 ]
+      - [ Gaurav  40m, "Create pasuse, resume and stop commands", 20250423 T 192613 ]
+      - [ Gaurav, 160m, "Create pasuse, resume and stop commands", 20250424 T 154407 ]
+    InProgress .WorkLog generation:
+      Id: WorklogCreation
+      +: { ForRequirement: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Time Tracking and Administration"..Basic<, Estimation:, By: Gaurav, Responsible: Gaurav }
+      WorkLog:
+        - [ Gaurav, 518m, "Creation of the worklog generation feature", 20250426 T 161302 ]
+        - [ Gaurav, 175m, "Fixed bugs and submitted the visx", 20250428 T 201124 ]
+      TODO .Create a feature that marks the StandupReport as alreadyprocessed after the worklog is generated from it:
+        +: { CreatedBy: Hana, CreatedAt: 20250523 T 111704, By: Gaurav }
+    InProgress .Fix Bugs:
+      +: { CreatedBy:, CreatedAt:, ForRequirement:, Estimation:, By:, Responsible: }
+      Details:
+      Result:
+      Notes:
+      WorkLog:
+        - [ Gaurav, 20m, "fixed TimeTracking functionality does not support yaml extensions bug", 20250430 T 132939 ]
+        - [ Gaurav, 120m, "trying elemination of the scalar and inserting a map instead.", 20250501 T 152116 ]
+        - [ Gaurav, 523m, "Refactoring and fixing bugs", 20250502 T 152239 ]
+        - [ Gaurav, 143m, "Fixed a bug and created worklog generator feature", 20250503 T 152501 ]
+        - [ Gaurav, 220m, "Fixed one bug and created the new vsix", 20250505 T 152649 ]
+        - [ Gaurav, 58m, "Fixed The Worklog generator is only generating first worlkog and is working very randomly at times and created the new vsix", 20250507 T 160700 ]
+  Closed .Add the Extract F2Yaml link functionality in the Time-Tracker:
+    WorkLog:
+      - [ Gaurav, 120m, "", 20250508 T 142700 ]
+  Closed .Create functionality that will make all the links alive:
+    Id: LiveLinks
+    By: Gaurav
+    Worklog:
+      - [ Gaurav, 34m, "researching for the link functionality", 20250327 ]
+  Closed .Merge the VSIX-es together:
+    +: { CreatedBy: Hana, CreatedAt: 20250510 T 1140, By: Gaurav }
+  Done .Publish the VSIX on VSCode marketplace:
+    +: { CreatedBy: Hana, CreatedAt: 20250510 T 141928, By: [ Gaurav, Bobi ], Responsible: Gaurav }
+  Closed .Detect if the cursor is on a Task and show error if not:
+    Details: When issuing the "Select Task" command, the extension should detect if the user's text cursor is over a Task or not; if not, an error popup should be displayed.
+  Closed .Create the CSV Entry Generation functionality:
+    +: { CreatedBy: Bobi, CreatedAt: 20250519 T 230218, By: Gaurav }
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."CSV Task List Tools".."CSV Entry generation"<
+    Comments:
+      - bobi: message me pls if there are questions even if I don't seem to be at the computer, I'll try to answer
+  InProgress .Create a stop task command feature that is executed when VS Code is shutting down:    
+    +: { CreatedBy: Hana, CreatedAt: 20250523 T 114808, By: Gaurav }
+    WorkLog:
+      - [ bobi, 45m, "creating the requirement", 20250308 ]
+      - [ Gaurav, 10m, "Was reading the requirements to get a overview of things", 20250328 ]
+      - [ Gaurav, 101m, "reached to the conclusion that yml parsing is a must", 20250329 ]
+      - [ Gaurav, 12m, "refactoring and testing", 20250528 T 143438 ] 
+  Done .Consolidate the requirements of the F2Tools extension as of 20250618:
+    Id: F2ToolsConsolidation20250618
+    +: {CreatedBy: Bobi, CreatedAt: 20250618 T 163248, By: Gaurav}
+    Details:
+      We need to consolidate the current F2Tool VSIXso that it has a consistent and desirable behavior. I think the most important points are the following:
+        - the "Generate or Copy F2Yaml link" should be:
+          - renamed to "Extract F2Yaml Summary Link"
+          - should generate the link with those quotations in place
+        - the "Follow F2Yaml link":
+          - as a priority, should understand the format with the quotations as well (it does not currently)
+          - should in general understand ID based (and mixed - so one part Id, other part Summary) based links as well            
+        - the CSV line generator should put those values in quotes which contain characters which are not allowed (which I think are only the doublequote and the comma, right?) (and which do not, not)   
+    Done .Prioritize andor consolidate the Bugfixes after Requirement consolidation:    
+  InProgress .Wrap up the first phase of VSIX development:
+    +: {CreatedBy: Hana, CreatedAt: 20250827 T 133402, By: Bobi, Priority: 5-veryhigh}
+    InProgress .Test:
+      +: {CreatedBy: Hana, CreatedAt: 20250829 T 181308, By: Hana, Tags: [CSVDONE], Priority: 3-Average}
+    InProgress .Cleaning up the remaining Bugs in VSIX:
+      +: {CreatedBy: Bobi, CreatedAt: 20250901 T 134531, By: Bobi, Tags: [CSVDONE], Priority: 3-Average}
+    TODO .Update readme:
+      +: {CreatedBy: Bobi, CreatedAt: 20250901 T 134531, By: Bobi, Tags: [CSVDONE], Priority: 3-Average, Estimation: [60m, "timeboxed"]}
+    TODO .Create License for VSIX:
+      +: {CreatedBy: Bobi, CreatedAt: 20250901 T 134531, By: Bobi, Tags: [CSVDONE], Priority: 3-Average, Estimation: [60m, "timeboxed"]}
+  OnGoing .Enhancements:
+    TODO .Time tracking should generate Id based F2Links, not Summary ones.:
+      +: {CreatedBy: Bobi, CreatedAt: 20260422 T 121219, By: Bobi, Tags: [CSVTODO], Estimation: 20, RemTime: 20}
+      Comments:
+        - Bobi: Take note that there's a bug around the same subject:_ -->Tasks\Software\F2ToolsExtension\.Bugs.."Can't start timer on an F2Link containing Ids"<
+
+Bugs:
+
+  OnHold .Mac can't install VSIX:
+    QA: [ Giselle ]
+    Severity: 4-High
+    Details:
+      - On version 2.0.4
+      - Devie Mac
+      - Tool is not installed after installing VSIX in MAC
+
+  OnHold .Name of the publisher is "undefined_publisher":
+    QA: Hana
+    Version: 1.5.0
+    Preconditions:
+      - The F2ToolsExtension is installed and enabled with version 1.5.0
+    Steps to reproduce:
+      - Check the extensions tab of VSCode
+      - Find the F2ToolsExtension
+      - Check the name of F2ToolsExtension (Top Line)
+    ActualResult:
+      - name of the extension tf2p
+    ExpectedResult:
+      - The name is "tf2p.org"
+    Notes:
+      - Requirement: -->Documents\Requirements\F2ToolsExtension\..F2ToolsExtension.."Minimal Base"< 
+      - (.) can be added only for registered publisher:
+          - Create an account (for review)
+    WorkLog:
+      - [ Gaurav, 5m, "", 20250529 T 141034 ]
+
+  Fixed .Non-Bug:_ No "Root path" in settings:
+    QA: Bobi
+    Severity: 3-Average
+    Version: 2.0.6
+    Area: LinkGeneration
+    Details:
+      - There is no settings for Root path; this makes all the links generated to be wrong.
+      - So this seems to be a feature request, not a bug. The feature should be then:
+          - There's a setting for Root path.
+          - The app, at start, checks if there's a VS Code Workspace (or Folder?) set:
+              - If so, copies the path of it to this setting
+          - At each link generation (or operation using the root path) the value from the settings is used
+    Comments:
+      - Bobi: I guess it happened when there was no VS Code Workspace open, I just opened a file; reduced the severity to from 5-VeryHigh to 3-Average therefore.
+
+  Fixed .Ignore Words in settings:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 1-VeryLow
+    Details: There is still an Ignore Words in settings - is this intentional, do we still use it for something?
+
+  Accepted .Not specific-enough error message when invalid line in SR:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 3-Average
+    Area: WorklogGeneration
+    Details:
+      When generating worklog the error message appearing when there are problems in my SR is not specific enough - I can't figure it out which line was problematic. I should at least know the line number, also, it would be good if it gave me all the wrong lines. Maybe giving a report that:
+        Errors:
+          Line 1: can't parse yaml
+          Line 5: invalid link
+          Line 6: target not found
+
+  Fixed .Wrongly placed dot in the link:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 4-High
+    Area: LinkGeneration
+    Details:
+      It extracted the link in the following format - the dot inside the quotations: -->Recruitment\JobDescriptions\.".Seniority classification for CSharp".Content< 
+    Comments:
+      Gaurav:
+        WorkAround:
+          - Not using spaces in properties and non-task items
+    Retests:
+      - QA: Bobi
+        Version: 2.0.17
+        Severity: 4-High
+        Details: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules".".F2Yaml syntax"< 
+
+  Fixed .Misleading error message when Stopping Timer on Task without Starting one:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 2-Low
+    Area: TimeTracking
+    Details: When I select "Stop timer on Task" without first starting a timer, the error message is "Speficy SR first" instead of reminding that I need to start something first.
+    Comments:
+      Bobi: How is the app implemented, are these messages embedded into the code or are they coming from a resource file (like a json?). Latter would be nicer; let's talk about it.
+
+  Accepted .Not informative error message when the SR entry is wrong:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 2-Low
+    Area: TimeTracking
+    Details: When I select "Stop timer on Task" on an entry which does not have the sequence afterwards, it gives me the "Cannot read properties of undefined (reading '0')"
+
+  Fixed .CSV Line generation not working - "cannot read the properties of undefined" error:
+    QA: [ Hana, Bobi ]
+    Version: 2.0.6
+    Severity: 5-VeryHIgh
+    Area: CSV
+    Details:
+      error message \"Cannot read the properties of undefined (reading:_ 'items')" is thrown for:
+        TODO .Go through the existing material (articles, etc.) and share it with the current team:
+          +: { CreatedBy: Hana, CreatedAt: 20250727 T 160745, By: [ Bobi, Hana ] }
+          TODO .Organize the video recordings in one file in GoogleDrive:
+
+
+  Fixed .CSV Line generation not working - "unable to find the Item"h:
+    QA: [ Hana, Bobi ]
+    Version: 2.0.6
+    Severity: 4-High
+    Area: CSV
+    Details:
+      we get \"Unable to find the Item" errror if this is the outmost element for example:
+        EstTODO .MVPLeftAsOf20241113:
+      Notes: I cant generate CSV for this
+
+  Fixed .CSV Line generation not working - "taskObj.value.items is not iterable":
+    QA: Hana
+    Version: 2.0.6
+    Severity: 4-High
+    Details:
+      - In case the task has no value, error meesage above occur.
+      - Example:
+          - If the file content is this, it happens:
+              .Yeeah:
+                TODO .Dilitme:
+          - Notes: I cant generate CSN for this
+
+  Fixed .Generate ID Link creates link with one dot where there should be 2:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 4-High
+    Area: LinkGeneration
+    Details:
+      So this was just generated: -->Backlog\Backlog\..PublicRelations.Recruitment.RecruitmentPhase1.."Advertise the job description in different platform"< 
+ 
+  Fixed .When trying to follow a link in the CSV, it gives "Cannot read properties of undefined (reading 'items')"j:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 4-High
+    Area: CSV
+    Details:
+      The link I tried: |
+        "-->Backlog\Backlog\..PublicRelations..Marketing..""Collect Marketing Ideas""."".Written Marketing""..""Write thoughts on X""..""Definition of Fair""<"
+
+  Fixed .CSV link following works with the "wrong" IDLink format only:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 3-Average
+    Area: LinkFollowing
+    Details:
+      So it works with this link: -->Backlog\Backlog\..PublicRelations.Recruitment.RecruitmentPhase1.."Advertise the job description in different platform"< 
+      It doesn't with the fixed version: -->Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentPhase1.."Advertise the job description in different platform"< 
+ 
+  Fixed .Non-Bug:_ CSV line generator does not take properties in the "+:" section into account:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 3-Average
+    Area: CSV
+    Details: So the reason it's non-Bug is that the F2Yaml specification still not talk about this "+" section - on the other hand, it's a bug in the spec AS WELL.
+
+  Fixed ."Start timer on task" command gives error "This is not a task":
+    QA: Gaurav
+    Version: 2.0.6
+    Severity: 4-High
+    Details:
+      Task on which the command was tried: |
+        New .CSV Line generation not working - "taskObj.value.items is not iterable":
+          QA: Hana
+          Version: 2.0.6
+          Severity: 4-High
+          Details: 
+            - In case the task has no value, error meesage above occur. 
+            - Example:
+              - If the file content is this, it happens: |
+                  .Yeeah:
+                    TODO .Dilitme:
+
+  Fixed .CSV Line generation not working - when there is no character after last double qoutes:
+    QA: Hana
+    Version: 2.0.6
+    Severity: 4-High
+    Area: CSV
+    Details:
+      The link I tried: |
+        " New .CSV Line generation not working - "taskObj.value.items is not iterable":"   
+
+  Fixed .CSV Line generation not working - in case the top level element is not just one word:
+    QA: Hana
+    Version: 2.0.7
+    Severity: 4-High
+    Area: CSV
+    Details:
+      - put the following into an empty file (First row first column):
+          OnGoing .Website:
+            TODO .SomeTask:
+      - Generating CSV from .SomeTask gives "Cannot read properties of undefined (reading 'items')"
+      - Generating CSV from .Website gives the "cannot find Item" error
+
+  Fixed .Double quotes are placed in between the dots in ID links (and maybe Summary links as well):
+    QA: Bobi
+    Retest:
+      QA: Bobi
+      Severity: 3-Average
+      Version: 2.0.14
+      Details:
+        - Tested with -->DocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules"<, with the "Generate ID link" 
+        - It works with the summary link: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules"<
+
+  Fixed .Follow Link command does not work, giving the error "Cannot read properties of undefined (reading 'length')":
+    QA: [ Hana, Bobi ]
+    Version: 2.0.14
+    Severity: 4-High
+    Area: CSV
+    Details:
+      - Extracted: -->DocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules"< follow link does not work on this one.
+      - And neither on this one: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules"<
+
+  Fixed .Follow Link command does not work (on a link which might not be supported), giving the error "Cannot read properties of undefined (reading 'length')":
+    QA: Bobi
+    Version: 2.0.14
+    Severity: 3-Average
+    Area: LinkFollowing
+    Details: -->BusinessClasses\."namespace Barba.Types"."enum TaskStatusEnum"< 
+    Notes:
+      Bobi: this might not be a bug but a missing feature; nevertheless, it would be good if it worked
+
+  RetestFail .CSV Line generation not working - when the "by" property has a sequence (more than one name):
+    QA: Hana
+    Version: 2.0.14
+    Severity: 3-Average
+    Area: CSV
+    Details:
+      Example Item:
+        TODO .Alma:
+          +: { CreatedBy: Bobi, CreatedAt: 20250805 T 111801, By: [ Bobi, FireWood ] }
+      Error message: Cannot read properties of undefined (reading 'trim')
+      #- I can't generate CSV with the above
+    Retest:
+      Version: 2.0.18
+      Details: same.
+
+  Fixed .Follow link does not work, giving the error "Unable to find the Item":
+    +: { CreatedBy: Bobi, CreatedAt: 20250806 T 191825, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.14
+    Severity: 4-High
+    Area: LinkFollowing
+    Details: -->DocsAndArticles\Specifications\YamlToHtmlConversion\.Content< 
+    Retest:
+      - QA: Bobi
+        Version: 2.0.17
+        Details: same link
+
+  Fixed .Follow link does not work, giving the error "Cannot read properties of undefined (reading 'items')":
+    +: { CreatedBy: Bobi, CreatedAt: 20250811 T 235245, By: Gaurav, Tags: [ ] }
+    QA: Bobi
+    Version: 2.0.17
+    Severity: 4-High
+    Area: LinkFollowing
+    Details:
+      - -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules".".F2Yaml syntax"< 
+      - (neither with correctly placed dot: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules".".F2Yaml syntax"<)
+
+  OnHold .Follow link leads to the wrong place:
+    +: { CreatedBy: Bobi, CreatedAt: 20250811 T 235257, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.17
+    Severity: 4-High
+    Area: LinkFollowing
+    Details:
+      This link: -->Backlog\Development\..Processes..PM.VerifyAndImprove.Baseline<
+      Leads here: -->Tasks\Processes\..Members.."Initial Interview".."Baseline"<
+    Comments:
+      - Bobi: As agreed, this is hard to fix without proper parsing, so I put it on hold. Let's see my progress with the parser and get back to it when things change.
+
+  Rejected .Follow link does not work if no workspace despite Root Path is set:
+    +: { CreatedBy: Bobi, CreatedAt: 20250811 T 235818, By: Gaurav, Tags: [ ] }
+    QA: Bobi
+    Version: 2.0.17
+    Severity: 3-Average
+    Area: LinkFollowing
+    Details: As per the summary
+    Comments:
+      Gaurav:
+        - Unable to reproduce
+
+  Fixed .Generate ID link clears the Root Path, generates wrong link and then the next time it does not work:
+    +: { CreatedBy: Bobi, CreatedAt: 20250820 T 132152, By: Gaurav, Tags: [  ], Priority: 4-High }
+    QA: Bobi
+    Version: 2.0.19
+    Severity: 3-Average
+    Area: LinkGeneration
+    Steps:
+      - Open F2Yaml.yml in a VS Code without workspace
+      - Ensure that the Root Path is set (for me it's "d:\_TF2P\Management\")
+      - Issue the Extract ID Link command on -->DocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules".".F2Yaml syntax"..PropertyOf<
+      - Errors:
+          - The link generated is -->ocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules".".F2Yaml syntax"..PropertyOf< - so no "D" 
+          - Displays the error: "No workspace found"
+      - Issue the Extract ID Link command again
+      - Errors:
+          - Displays Errors:
+              - "No workspace found"
+              - "Please enter the root path in the settings"
+          - The root path in settings becomes empty
+
+  Fixed .CSV generation giving the usual "Cannot read properties of undefined (reading 'items')" error:
+    +: { CreatedBy: Bobi, CreatedAt: 20250821 T 121117, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.20
+    Area: CSV
+    Severity: 4-High
+    Details: Basically on all.
+
+  Fixed .CSV generation giving "Cannot read properties of null (reading 'items')" error:
+    +: { CreatedBy: Bobi, CreatedAt: 20250821 T 121117, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.20
+    Area: CSV
+    Severity: 3-Average
+    Steps:
+      - Place this into an empty file: |
+          OnGoing .Website:
+            +: {CreatedBy: Hana, CreatedAt: 20250804 T 231015, By: [Hana, Mama]}
+            TODO .SomeTask:    
+      - Try generating a csv line from the "SomeTask" task
+
+  New .Follow link is not working when the target item does not have any properties:
+    +: { CreatedBy: Hana, CreatedAt: 20250829 T 181438, By: Hana, Tags: [ CSVDONE ], Priority: 3-Average }
+    QA: Hana
+    Version: 2.0.23
+    Area: Follow Link
+    Severity: 3-Average
+
+  New .Can't use the features of VSIX on Mac depite installing the TF2Tool latest version:
+    +: { CreatedBy: Hana, CreatedAt: 20250831 T 154720, By: Bobi, Tags: [ CSVDONE ], Priority: 3-Average }
+    QA: Hana
+    Version: 2.0.23
+    Area: General
+    Severity: 3-Average
+
+  New ."Bug:_ Unknown structure" error message:
+    +: {CreatedBy: Bobi, CreatedAt: 20250902 T 124657, By: Bobi, Tags: [CSVDONE], Priority: 4-High}
+    QA: Hana
+    Version: 2.0.23
+    Area: General
+    Severity: 3-Average    
+    Details:
+      On this link: -->!PublicWorkspaces\Hana\PlanningMeeting20250830\.."Planning and Retrospective".."PlanningMeeting20250830".Workspace.."Review milestones"<
+
+  Fixed .Worklog generation is not working:
+    +: {CreatedBy: Hana, CreatedAt: 20250903 T 102933, By: Hana, Priority: 4-High}
+    QA: Hana
+    Version: 2.0.23
+    Area: Work
+    Severity: 4-High  
+    Details:
+      - specify SR, select task and stop task were implemented. Cursor was on SR worklog generation didn't work
+
+  Rejected .Task minutes does not get saved whem VSC is closed:
+    +: {CreatedBy: Hana, CreatedAt: 20250903 T 170338, By: Hana, Tags: [CSVDONE], Priority: 3-Average}
+    QA: Hana
+    Version: 2.0.23
+    Area: TimeTracking
+    Severity: 3-Average
+    Comments:
+      - [Bobi, 20260423 T 2153, "This feature is not implemented yet."]
+
+  New .During Id link generation the value of the "Summary" field is used instead of the "Id" field:
+    +: {CreatedBy: Bobi, CreatedAt: 20250917 T 152232, By: Bobi, Tags: [CSVDONE]}
+    QA: Bobi
+    Version: 2.0.24
+    Area: LinkGeneration
+    Severity: 4-High    
+    Details:
+      Probably in cases where:
+        - if the Item is a top level one
+        - the Summary contains just one word
+  
+  New .During CSV Generation extra fields are added:
+    +: {CreatedBy: Hana, CreatedAt: 20260327 T 104642, By: Bobi, Tags: [CSVTODO]}
+    QA: Hana
+    Version: 2.0.24
+    Area: LinkGeneration
+    Severity: 4-High
+  
+  Fixed .During CSV Generation if the value of a property is not a string, it fails:
+    +: {CreatedBy: Bobi, CreatedAt: 2026030 T 122326, By: Bobi, Tags: [CSVTODO]}
+    QA: Bobi
+    Version: 2.0.25
+    Area: LinkGeneration
+    Severity: 4-High
+    Details:
+      \"str.Trim is not a function" if the value is e.g.:
+        number
+        null
+
+  New .Can't link to sequences:
+    +: {CreatedBy: Bobi, CreatedAt: 20260421 T 125103, By: Bobi, Tags: [CSVTODO]}
+    QA: Bobi
+    Version: 2.0.24
+    Area: LinkGeneration
+    Severity: 4-High
+    Details:
+      Description:
+        Trying to generate a link to a sequence element results in "Cannot read properties of underfined (reading 'value')" error message instead of generating the link
+      Example:
+        Prop1:
+          - You can't generate link to this line:
+        Prop2:
+          But you can to this:
+      
+  New .Can't start timer on an F2Link containing Ids:
+    +: {CreatedBy: Bobi, CreatedAt: 20260422 T 120717, By: Bobi, Tags: [CSVTODO]}
+    QA: Bobi
+    Version: 2.0.24
+    Area: TimeTracking
+    Severity: 2-Low
+    Details:
+      While this is a valid F2Link, the timer can't be started on it: 
+        -->Tasks\Management\.."OCWSPhase1"..UpdateF2Links..Fix2ndRound<
+      It can be started if it's a summary one:
+        -->Tasks\Management\.."OCWSPhase1".."Update F2yaml links".."Bobi to go through the ones which are tagges"<
+    Comments:
+      Bobi: Take note that there's a pending (at the time of writing this) Task around this subject:_ -->Tasks\Software\F2ToolsExtension\.Tasks.."Enhancements".."Time tracking should generate Id based F2Links, not Summary ones."<
+
+            
+  
+
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

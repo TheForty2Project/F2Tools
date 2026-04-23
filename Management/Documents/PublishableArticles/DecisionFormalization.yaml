@@ -1,0 +1,185 @@
+Status: InProgress
+Done .Overview:
+  Details:
+    - Include:
+      - intuition can be considered "in between" stored and computed
+      - \"getting ideas" is also a task
+      - evaluating pros-cons is also something where we need the ideas; in average situations + computation
+      - we're in a probabilistic space
+  Result: 
+    <Article>:
+      Title: Overview of decision-making in practice
+      Content:
+        In decision-making the task is to select the best action from the action-candidates, where "best" is the one which has the highest expected value, where "expected value" is "how good the result is likely to be according to our goals"; we can use utility functions as well - the point is that we should be able to tell how good a certain outcome is for us.:
+        Main cases we, humans use:
+          By intuition, by relying on our built-in AI:
+            Which picture is more suitable as the decoration?: then selecting the one which feels right
+            What should we say as the next sentence on the first date with someone?: then just saying whatever comes into our mind
+            Properties: relatively quick, but gives good results only in cases we have good experience or skills; relying on the teaching our AI received, outsourcing the task to the past ourselves, to evolution or to ones putting together the material we learnt it from
+          By following, by relying on an external source, e.g. someone else:
+            Which wire to cut?": then listening to the advice of "Cut the red one!" by the bomb expert
+            Properties: relatively quick, but needs a trusted source who knows the answer; works only in special cases therefore, basically outsourcing the task 
+          By computation, by collecting and consciously thinking through - computing - the consequences of action-candidates and stopping only when we decide that we should:
+            What is the result of this complex mathematical equation in the exam: then deciding what approach to follow by going through the possibilities, making sub-decisions each time, trying to correctly apply the rules on the variables and numbers, then verifying the result by computing it in another way
+            What should I eat?: then thinking "I can buy ready food from places or cook, first cases probably cost more but takes less time, it's also less healthy what I eat, but I'd walk which gives my body some movement which is good because I'm sitting all day, second case I'll also run out of ingredients but I can shop later, which costs less money IF I don't buy unnecessary things, but I move, etc."                                        
+            Which politician should I vote for?: then thinking through the miriad pros-cons, researching information, comparing their lying patterns - and in the end deciding that fuggit, we're doomed.
+            Properties: slow, prone to errors, especially if we do it in our minds (see @ https://en.wikipedia.org/wiki/List_of_fallacies); requires a lot of - correct - information about the "universe" of the decision
+                                                    
+        Finding the best action even in a seemingly simple situation - like what to eat - is a complex task, needing complex computation, relying on a lot of information. As the examples above illustrate, a computation can be broken down into many components - (e.g. action-candidate selection, evaluation, verification) - where each can be further broken down to form a very complex tree of tasks where we can make many errors, especially if we take it into account that we're not working with simple "good/not good" values but ranges (HOW good) or rather, probabilities and complex data structures. It should also be visible that lacking infinite computing power, we in practice never compute everything, meaning there's always room for improvement.:
+
+        Despite the availability of computers - which by now extremely outperform human minds in almost every aspect (e.g. speed, working memory, complexity of datasets, correctness, influencability, etc.) - the dominant method of solving complex problems in decision making in large groups (i.e. making managment decisions in companies, countries, communities) is using human minds: a boss decides.
+        This is what we want to finally change.:
+
+Done .Decision-computational task distribution:
+  Result:
+    <Article>:
+      Title: Decision-computational task break-down and distribution
+
+      Content: |
+        Our goals with breaking down the task of making a complex decision and distributing the parts in between "computing units" (=human minds and software) are:
+          - by parallelizing the computations: to improve the speed of reaching the decision (e.g. you check this case, I check the other)
+          - by assigning the same task to different units with different error characteristics (e.g. ask the same question from different people):
+            - to reduce errors (e.g. who is the best to do a certain task) 
+            - to improve precision (e.g. how much does the cow displayed weigh?).
+      
+        As you can probably see from the previous overview and examples, we have a lot of ways to break-down the task of making even a simple decision:
+          - collection of action-candidates: 
+            e.g.: food we can make, 
+          - evaluation of action-candidates:
+          - computation of sub-tasks including further breaking them down
+          - researching and information collection
+          - probability calculations
+          - verification of steps (to reduce errors)
+        
+        The methods we're employing:
+          In general, we're going from "casual discussion of decisions" through "formal analysis of steps" towards "formalization of the decision-scenario and using computers to compute the result".
+          In the initial stages we're mostly just requiring that every decision should be disputable by any member, for which it is required that the one making the decision-proposal should (at least by request) disclose all the details leading to the decision (the information used and the steps leading to it) and should embrace the process of improving it step-by-step, that mistakes are not only expected to happen but almost required ("if you don't make errors, your tasks are too easy"), that no one has the right to make a decision, just the task to provide the baseline - which we might just not dispute.
+          Gradually, we're employing algorithms starting from the most important cases, basically steps one needs to perform with the increasing help of computers to reach a decision.
+          We'll be soon fully automating them - and with this we arrived to the next section: how and why to formalize a decision-scenario, i.e. convert it into (something like) a computer program.
+
+    AlreadyProcessed: 
+      Background: 
+      # In decision-making the task is to select the best action from the action-candidates, or, more formally, the one which has the highest expected value, where "expected value" is "how good the result is likely to be according to our goals".
+      # We can acquire these expected values in general:
+      #   - from "knowledge":
+      #       e.g.: someone told us that "(the good decision is to) cut the red wire, not the blue one (so that the bomb does not explode)"
+      #       Properties:
+      #         - quick
+      #         - but needs a trusted source
+      #         - as it relies on a computation done by another party/a previous time, only works in special cases AND if the computation was done right
+      #   - or by computation:   
+      #       - simulating the action with the information we have about the world - like our conscious way of thinking - checking how much I like the consequences and choosing the one which gives us the best results:
+      #           e.g.: I can buy certain food vs cook something from ingredients at home:
+      #             - First case costs more but takes less time, it's also less healthy what I eat, but I walked which gives my body some movement which is good because I'm sitting all day
+      #             - Second case I'll have more money but spend more time, but less movement, I'll eat healthier but I'll run out of ingredients but I can shop later, which costs less money IF I don't buy unnecessary things, etc.
+      #           Properties:
+      #             - takes a lot of time
+      #             - prone to computational errors
+      #       - using some "formula" we trust which gives us the preferred action based on the circumstances, like our subconscious way of thinking (note that current LLM based AIs like ChatGPT work like this):
+      #           e.g.: 
+      #             - which picture is more suitable as the decoration of an aparment we're tasked to design
+      #             - what should we say as the next sentence on the first date with someone
+      #           Properties:
+      #             - quick
+      #             - very sensitive to how good the formula is; how experienced we are in design or in dating
+
+      # What we can see is that making even a simple decision - whether we should cook or buy food - is a complex task and can be broken down into many components - (e.g. action-candidate selection, evaluation, verification) whhere each can be further broken down (evaluation into the collection of pros-cons) to form a very complex tree of tasks where we can make many errors, especially if we take it into account that we're not working with simple "good/not good" values but ranges (HOW good) or rather, probabilities and complex data structures.
+
+InProgress .Formalizing decision-scenarios:
+  Details:                
+    Include:
+    - this:
+      - we need to be able to steadily improve the quality and speed of decisions
+      - human brains are not really upgradable, debuggable, components are hard to replace
+      - so the solution is to move it from "intuition", "feelings" through human-computed one to the computers
+      - towards which the first step is to formalize them - i.e. convert them into a clearly defined, precise format, to a collection of steps which can be individually executed in a way that the correctness of each step can be verified
+
+    - What is a "formal description of a decision-scenario" - OO data + if-thens, which are basically algorithms
+    - What - easy - steps you need to make
+    - How to write the program
+    - which in fact we're performing whenever we make a decision consciously (i.e. not intutitively).
+    - why:
+      
+  <-Workspace-:
+    One of our main goals are to steadily improve the quality and speed of the decisions we, as a group are making. As human minds are not really upgradeable, we need to move the computation from "intuition", "feelings" through human (conscious) computations to computers, towards which the first step is to formalize them: to convert the decision-scenario into a clearly defined, precise format, to a set of data and collection of steps which can be individually executed.
+
+    Even though this might sound like a difficult process, this is what we are actually doing every time we "think through" something: 
+
+      - at the start of "thinking" we have an initial knowledge about the (universe of the) problem in our head, basically a set of statements; let's categorize them into "states" and "rules" (note that we're trying to use layman's terms, not the ones in formal logic, decision-theory, etc.):
+        - such as:
+            Set of states:
+              - I'm hungry; actions I can make are shopping, cooking; shopping costs money; cooking takes more time than shopping; cooking costs less money than shopping
+              - There are red, blue, green wires; bomb expert said "cut the red wire"
+              - The recipe says chop the onion, 
+            Set of rules:
+              - IF: shopping costs money AND I make the action of shopping 
+                THEN: I'll have less money AND I'll have food
+              - - IF: bomb expert said "cut the red wire" 
+                  THEN: the right wire is red
+                - IF: I cut the right wire 
+                  THEN: bomb doesn't explode
+        - It's important that the above are the English representation of the information (~thoughts) we have, therefore - as there are many ways to "say the same thing" - you can write the same information in different ways, such as the followings are equivalent: 
+          - actions I can make are shopping and cooking = I can shop and cook = I can go buy things and I can also make food.; 
+          - IF bomb expert said "cut the red wire" THEN the right wire is red = the right wire is red because bomb expert told me I should cut that one ...
+        #include that it's that we're manipulating objects like with a computer program, so not just the IF THEN part
+      - 
+
+      - during thinking, we are trying to match the "IF" parts of the rule on the current set of states and include the "THEN" part in them, until we have a statement about the question we're trying to answer:
+        - such as: 
+            if we want to estimate how hot our car will be if we left it under the sun, one part of our thinking could be:
+              Initial set of state:
+                my car is black
+                his car is white
+                his car is hot inside
+              Set of rules:                      
+                IF my car is black AND his car is white AND his car is hot inside THEN my car is expected to be very hot inside
+              New set of states:
+                my car is black
+                his car is white
+                his car is hot inside
+                my car is expected to be very hot inside
+      - it's important that both the condition on the "IF" and the consequence on the "THEN" side can be a description of a computation - sometimes a very complex one, resembling to some program - like IF  THEN the other end of the nail will be coming out of the other end of the woor
+
+    The science about precisely representing and computing with the elements of thinking/reasoning/decision-making started in the ancient times (see Aristotelian logic), branched into multiple fields (game theory, ) and by now it reached to the state that the job of programmers is solely this:_ to formalize the states into variables and their values, the rules into algorithms - even if they (we) don't think about it too much this way. With the development of programming languages it became easier and easier to do this, at first having to punch those holes, then soon using variables storing numbers to represent the data and english-resembling keywords to represent the rules, now we can :
+      - variables for easier storage of the "states" (describing data), e.g. myCarWeightInKg = 1200
+      - and methods for the "rules" (~=describing a set of steps with which we can manipulate the information stored in variables), e.g. ComputeTheSumOfTwoNumbers(myCarWeightInKg, cargoWeightInKg)).
+    
+    The last big step in the evolution of programming languages was the introduction of Object Oriented programming, about which one of the main selling point was that "it's the closest to how we represent things in our minds": 
+      - it allows you to use not just variables, but a hiearchical grouping of them with ability to represent their relations to each other as well
+      - e.g.:
+          Converting the "thoughts" in my head which are:
+            - there's a "type" (~=category) of things called "Person". All "Person"-s have a property (=a variable associated to it) called "Name" and this property should hold values which are a set of characters, i.e. its "type" should be "string", e.g. "John".
+            - let there be another "type" of things called "Car". All "Car"-s should have properties called "WeightInKg" which should hold a number (its type should be "Number"), and an "Owner" which should be of the type "Person"
+            - there's "me" as one of the instances of those "Person"-s (i.e. the "type" of "me" is "Person"), and let's set my Name to "John"
+            - there's a 
+          Let's see: |
+
+            #defining the types:
+            class Person:
+              string Name
+
+            class Car:
+              Number WeightInKg
+              Person Owner
+
+            #defining the instances (of those types):
+              var me = new Person()
+              me.Name = "John"
+              var myCar = new Car()
+              MyCar.weightInKg = 1200
+              MyCar.owner = me
+    # The development went through 
+    #   - 
+
+    The above examples are very simple, the problems we need to solve throughout the project are many orders of magnitude more complex and while you can improve your thinking abilities by practicing, being able to quickly and correctly handle datasets with thousands of states and rules is impossible, especially if you take it into account that your mind is a fuzzy logic - it approximates things, therefore unavoidably makes errors.:
+
+
+
+
+      - We represent the state of the universe of the problem as a set of "things we know", like "
+      - And the rules of the universe as an algorithm, which in our mind are a bunch of IF (this is true about the variables) THEN (that must be true)
+    
+
+TODO .Automation of tasks - making the computers do the computation:
+  Details:
+    Basically explained in the previous section? But "in detail" maybe...

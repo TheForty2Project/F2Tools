@@ -1,0 +1,1562 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+Closed .Minimal:
+  Notes: For reference only - so the site was done way before this Backlog was done.
+Done .Initial Website:
+  Id: WebsiteBasic
+  Done .Transfer and/or create access for Shadow for the tf2p.org website infrastructure:
+    +: { CreatedBy: Bobi, CreatedAt: 20250329T1836, By: Bobi, Responsible: Bobi }
+    Id: AccessToCloudflare
+    Estimation: 2h
+    ForRequirement: -->BusinessAnalysis\Requirements..Requirements..Website - tf2p dot org..Infrastructure..Basic< 
+    Done Access to the password storage:
+    <-Workspace-:
+    WorkLog:
+      - [ Bobi, 30m, "retrieved pwd + logged in", 20250425 T 1530 ]
+      - [ Hana, 30m, "retrieved pwd + logged in", 20250425 T 1530 ]        
+  Done .Set up Cloudflare and upload the basic website:
+    +: { CreatedBy: Bobi, CreatedAt: 20250329T1841, By: [ Bobi, Shadow ], Responsible: Shadow }
+    Id: SetUpOnCloudflare
+    ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase..Infrastructure.."Basic"<
+  Done .Create basic website architecture:
+    +: { CreatedBy: Bobi, CreatedAt: 20250330T1425, By: Shadow }
+    ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase..Architecture<
+  Done .Create basic website design:
+    +: { CreatedBy: Bobi, CreatedAt: 20250331T1514, By: Shadow }
+    ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Design concepts".."Basic"<
+    Done .website final design - basic:
+      By: Utkarsh
+      Details:
+        - Make website final Desgin
+        - use lorem ipsem till the content is ready
+      WorkLog:
+        - [ Utkarsh, 120m, "landing page and other pages except roadmap and dynamic one", 20250313 ]
+  Done .Decide how exactly we should be handling the "deepdive" section:
+    +: { CreatedBy: Bobi, CreatedAt: 20250331 T 223037, Responsible: Bobi, By: Hana, Gaurav, Shadow, Bobi }
+    ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."DeepDive pages"<
+    Details:
+      - so there's the idea that we just lead them to a github page with the yamls
+      - but, I think it would be better if we at least showed the yamls - so you don't need to go to GitHub because people don't like doing extra clicks
+      - To be discussed with the team
+    Result:
+      - what we decided was - on the call - that we should be uploading the yamls to the site with the converter stuff
+  Paused .Upload the video to Youtube:
+    Id: UploadVideoToYoutube
+    +: { CreatedBy: Bobi, CreatedAt: 20250405 T 185050, Responsible: Bobi, By: All }
+    Details:
+      Drive link: https://drive.google.com/file/d/1zuFrLnRloiXQXtyMDBGF2rmoz2Kzf3Se/view?usp=drive_link
+  Done .Develop the site elements for the Basic site:
+    Id: Site
+    +: { CreatedBy: Bobi, CreatedAt: 20250331T1900, By: Shadow }
+    ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase..Architecture.."Basic"<
+    Done .Develop the landing page:
+      +: { CreatedBy: Bobi, CreatedAt: 20250331T1905, By: Shadow }
+      ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page"<
+      Done .First section:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331T1908, By: Shadow }
+        Done .Top:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 212427, By: Shadow }
+          ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."First section".."Top"<
+        Done .Summary of the project with one sentence:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331T1915, By: Shadow }
+          ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."First section".."Summary of Project in a sentence roughly"<
+          Done .Create the section with Lorem Ipsum:
+            +: { CreatedBy: Bobi, CreatedAt: 20250331T194133, By: Shadow } 
+          Done .Incorporate the content:
+            DependsOn: -->Tasks\Website\.."Initial Website".."Create Website content".."LandingPage".."Create the one sentence description of the project to the landing page"<
+        Cancelled Summary Video:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 213315, By: Shadow }
+          ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."First section".."Summary Video"<
+          Cancelled .Create the means to display the video:
+            +: { CreatedBy: Bobi, CreatedAt: 20250331 T 213329, By: Shadow }
+          OnHold .Upload the video:
+            DependsOn: -->Tasks\Website\.."Initial Website".."Create Website content".."LandingPage".."Finalize the video content"<
+      Done .Contribute section:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 220546, By: Shadow }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."Invest/Contrib section".."Contribute section"<
+        Done .Create the section with lorem ipsum:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 220619, By: Shadow }
+        Done .Incorporate the content:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 220738, By: Shadow }
+          DependsOn: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Summary page".."Main summary"<
+      Done.FAQ section:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 221109, By: Shadow }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."FAQ"<
+    Done .Develop the Summary page:
+      +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222130, By: Shadow }
+      ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Summary page"<
+      Done .Create the main summary section:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222219, By: Shadow }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Summary page".."Main summary"<
+        Done .Create the page with Lorem Ipsum:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222225, By: Shadow }
+        Done .Incorporate the content:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222252, By: Shadow }
+          DependsOn: -->Tasks\Website\.."Initial Website".."Create Website content".."LandingPage".."Create content for the Contribute section"<
+      Done .Create the FAQ section:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222726, By: Shadow }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Summary page".."FAQ"<
+      Done .Create the Discussion section:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222734, By: Shadow }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Summary page".."Discussion"<
+    Cancelled .Create Bubble feature that shows some explanations when the mouse hover on a word (Like wikipedia):
+      +: { CreatedBy: Hana, CreatedAt: 20250510, By: Shadow }
+    Done .Develop the article page:
+      +: { CreatedBy: Hana, CreatedAt: 20250515 T 112323, By: Shadow }
+      ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Articles"<
+    Done  .Create a report comparing third-party services that offer article commenting features:
+      Details:
+        - first check what 3rd party services are available (Disqus?)
+        - we need moderation (possibly in a way that only approved things appear),
+        - price is important, is there a free version, what is the drawback of free (ads?)
+      +: { CreatedBy: Hana, CreatedAt: 20250510, By: Shadow }
+    Done . Choose third-party service. (Hyvor Talk):
+      +: { CreatedBy: Hana, CreatedAt: 20250510, By: Shadow }
+  Done .Figure out how to handle accesses and credentials:
+    Id: AccessesAndCredentials
+    +: { CreatedBy: Hana, CreatedAt: 20250516 T 133531, By: [ Bobi, Shadow ] }
+  Done .Create and configure the comment section under the articles:
+    +: { CreatedBy: Hana, CreatedAt: 20250523 T 203756, By:Shadow }
+  Done .Setup and configure emailjs:
+    +: { CreatedBy: Hana, CreatedAt: 20250523 T 203817, By: Shadow }
+  Done .Create Website content:
+    Id: Content
+    +: { CreatedBy: Bobi, CreatedAt: 20250331T1921, By: Bobi }
+    Done .LandingPage:
+      Done .Create the one sentence description of the project to the landing page:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331T1921, By: Bobi }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."First section".."Summary of Project in a sentence roughly"<
+        Done .Provide baseline:
+          Result:
+            Basically: $@-->PublicRelations/MarketingMaterial..OneSentenceDescription<@$
+            Which is at the time of writing (20250405T1844): "We're a community welcoming everyone in the end, aimed to cooperate in the most optimal, 21st century way: using computers for increasing the decision-making performance (quality and speed) by distributing the decision-computation tasks in between members and computers, with the goal of full automation, finally getting away from the (ancient) hierarchical managements where human minds are computing them.
+
+              We're starting small, iteratively optimising our cooperation abilities, aiming to switch Earth on."
+        Done Discuss it with the team:
+          +: { CreatedBy: Bobi, CreatedAt: 20250405 T 184629, Responsible: Bobi, By: All }
+      Done .Finalize the video content:
+        +: { CreatedBy: Bobi, CreatedAt: 20250331T1928, By: Bobi }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."First section".."Summary Video"<
+        Details: If needed, convert it to a smaller, lower resolution version
+        Result:
+          - As per the discussion on the standup, we'll use the 15 mins one uploaded to Youtube
+      Done .Create content for the Contribute section:
+        Id: Contribute
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 215747, By: Bobi }
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."Invest/Contrib section".."Contribute section"<
+        Details:
+        Done .DoFeedback:
+          +: { CreatedBy: Hana, CreatedAt: 20250426 T 140334, By: Bobi }
+          Estimation: 1h
+          Done .Baseline:
+            +: { CreatedBy: Hana, CreatedAt: 20250516 T 132312, By: Bobi }
+          Done .Review:
+            +: { CreatedBy: Hana, CreatedAt: 20250516 T 132431, By: all }
+
+      Done .Create content for the FAQ section:
+        Id: FAQ
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 221215, By: Bobi }
+        Done .Create the Landing page FAQ:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 221612, By: Bobi }
+          ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."FAQ"<
+          Result: see at $@DocsAndArticles\PublishableArticles\LandingPageFAQ@$
+        Done .Create all the FAQs:
+          +: { CreatedBy: Bobi, CreatedAt: 20250331 T 221626, By: Bobi }
+          Id: AllFAQ
+          ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Summary page".."FAQ"<
+      OnHold .Create (and decide) content for the footer:
+        Id: Footer
+        +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222047, By: Bobi }
+        Details: Update the requirement as well.
+        ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."Footer"<
+    Done .Create the main summary content:
+      +: { CreatedBy: Bobi, CreatedAt: 20250331 T 221758, By: Bobi }
+      ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Summary page".."Main summary"<
+      Details:
+        Article is here: -->Documents\PublishableArticles\SummaryArticle<
+    Done .Create the Contact page content:
+      +: { CreatedBy: Bobi, CreatedAt: 20250401 T 182036, By: Shadow }
+      ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Contact"< 
+    Cancelled .Finding picture icon  to the assigned articles:
+      +: { CreatedBy: Hana, CreatedAt: 20250530 T 112021, By: Hana, Giselle }
+  Done .Update website content:
+    Done .Summary of everything:
+      Done .Migrating content to the website:
+        +: { CreatedBy: Hana, CreatedAt: 20250526 T 120445, By: Shadow }
+    Paused .Merging the boxes on the Summary page:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131438, By: [ Shadow, Gaurav, Bobi ] }
+      Details:
+        Reasons:
+          - consistency with the Articles pages
+          - it's distracting if not merged (one might feel that they are separate things, like they are separate on the article "list" page)
+          - this is the usual way on other sites - so everything is in one "box"
+    Done .Fixed header:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131613, By: [ Shadow, Gaurav ] }
+      Priority: 3-Average
+      Details: the header bar (the menu) should be in a fixed position
+  Done .Handover from Shadow to Gaurav about how to change things in the website:
+    +: { CreatedBy: Bobi, CreatedAt: 20250613 T 113816, By: [ Gaurav, Shadow ] }
+    Details: So that it's not only Shadow who can do things with the website, knowing that he has other, e.g. university related stuff to do.
+  Done .Place feedback and Questions:
+    Details: Putting it to its appropriate place
+    Cancelled .Implement Basic "Quickanddirty" version:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 140048, By: Bobi }
+      Estimation: 30m
+      Details: Putting a oneliner under the FAQ and the Summary pages, saying something like "Please give us feedback blahblabh here"
+    Done .Decision about it:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 130553, By: everyone }
+    Done .Implement:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 130607, By: Shadow }
+      Details: Create a page like Contact us
+    Done .Upload the site to the test environment:
+      +: { CreatedBy: Hana, CreatedAt: 20250625 T 115614, By: Shadoew }
+    Done .Connect the feedback button under the Article page:
+      +: { CreatedBy: Hana, CreatedAt: 20250625 T 115625, By: Shadow }
+    Done .Registering another emailjs account and create the template:
+      +: { CreatedBy: Hana, CreatedAt: 20250625 T 115646, By: Shadow }
+      Done .ReviewAndFinalize:
+        +: { CreatedBy: Bobi, CreatedAt: 20250621 T 113822, By: [ Shadow, everyone ] }
+  Done .Website release process:
+    +: { CreatedBy: Bobi, CreatedAt: 20250613 T 113252, By: [ Bobi, Shadow ] }
+    Details: We need the scripts and what to do when we want to update the website
+    Done .Share the commands:
+      +: { CreatedBy: Bobi, CreatedAt: 20250613 T 115017, By: Shadow }
+      Details:
+        Somethinglike: wrangler login wrangler deploy project [projectname]
+      Result: npm run build npx wrangler login npx wrangler pages deploy out --project-name=tf2p-project-wrang
+    Done .Test the deployment:
+      +: { CreatedBy: Bobi, CreatedAt: 20250613 T 115120, By: Bobi }
+      Result: To test, used the "npx wrangler pages project list" command
+  Done .Release the website First Round:
+    #used to be just "Release the website"
+    +: { CreatedBy: Bobi, CreatedAt: 20250607 T 130626, By: [ Bobi, Shadow ] }
+    Done .Baseline:
+    Done .EmailJS config:
+      +: { CreatedBy: Bobi, CreatedAt: 20250613 T 112743, By: [ Bobi, Shadow ] }
+      Details: Make EmailJS work.
+      Comments:
+        - Bobi: Shadow needs to give us the scripts and finish setting it up; it's already working on a "test" environment, these are just the closing steps.
+    Done .Redirect the domains:
+      +: { CreatedBy: Bobi, CreatedAt: 20250613 T 114753, By: Bobi }
+      Details: to the new site Shadow just set up.
+  Done .Update the website first round:
+    +: { CreatedBy: Bobi, CreatedAt: 20250620 T 110206, By: everyone }
+    Done .Change the website code to support html formatting on the articles:
+      Priority: 5-VeryHigh
+      +: { CreatedBy: Bobi, CreatedAt: 20250620 T 105523, By: Shadow }
+      Done .Do the actual change:
+        +: { CreatedBy: Bobi, CreatedAt: 20250620 T 105543, By: Shadow }
+      Done .Commit the changes:
+        Priority: 5-VeryHigh
+        +: { CreatedBy: Bobi, CreatedAt: 20250620 T 105602, By: [ Shadow, Bobi ] }
+        Details: Shadow to either commit the changes, or zip them up and send it to Bobi so that Bobi can commit Done .Sent Utkarsh message on Focusmate Done .Sent Utkarsh follow up message on Whatsapp. Utkarsh replied he will be active in one hour 14:10 CET
+    Done .Implement the missing:
+      +: { CreatedBy: Bobi, CreatedAt: 20250613 T 113209, By: [ Gaurav, Shadow ] }
+      Priority: 5-VeryHigh
+      Details:
+        Done .Syncing with the yaml according to the instructions, which are:
+          Some instructions:
+            - if there's a yaml key-value pair like this:
+              GoaldAndSubgoals:
+                Title: Goals and subgoals of this Stage
+                Content: |
+                  [content here]
+              then the value of the Title should be the title of that section, the content of the Content: should be the content.
+          Done .The formatting we used should also more or less be followed in terms of new lines and spaces in between paragraphs, the bullet points and what's indented should be indented.:
+
+          InProgress .the email address should be a clickable mailto: link
+          Done .the text inside $[]$ should be with the same style as in the Summary (so this used to be the hovercard(?)); it's important that we're consistent with this, so everywhere it should be the same. Also, I think it used to be with a style which was kind of un-highlighted - so showing that it's not that important, just an extra info - but now it's bold and highlighted; can we make it less-highlighted, so the text color maybe dark-grey instead of the current black, non-bold, italic and non-highlighted?:
+
+          Done .the current "High level sketch of "Enforcement of the rules we set for ourselves" should be removed as of now - it's not ready yet:
+
+          Done .'ll need to think about how we should present the "Feedback and Questions" article; this is a TODO (although how I remember, we did have some idea about it - <@1003391089635504238> , maybe you remember?). We'll think about it and discuss tomorrow.:
+
+          The articles:
+            - DocsAndArticles\\PublishableArticles\\CurrentStates
+            - DocsAndArticles\\PublishableArticles\\ThePathOfImprovingDecisionMaking
+            - DocsAndArticles\\PublishableArticles\\FeedbackAndQuestions
+  Done .Fixing the phone version of the website:
+    +: { CreatedBy: Hana, CreatedAt: 20250630 T 182405, By: Shadow }
+    Done .Placing TF2P logo to it's proper place:
+    Done .Completion of the Nav Bar:
+    Done .Completion of the Switching earth on in it's proper place:
+    Done .Make the give us feedback on Article page clickable:
+  Done .remove the checkbox from the feedback form:
+    +: { CreatedBy: Hana, CreatedAt: 20250705 T 155418, By: Bobi }
+Done .Phase1:
+  Id: Websitephase1
+  Done .Google Analytics:
+    Done .Research about the implementation:
+      +: { CreatedBy: Hana, CreatedAt: 20250630 T 113836, By: Shadow }
+    Done .Review with the team about the decision:
+      +: { CreatedBy: Hana, CreatedAt: 20250630 T 113907, By: All }
+    Done .Implement:
+      +: { CreatedBy: Hana, CreatedAt: 20250630 T 113923, By: Shadow }
+  Cancelled .Redesign the website Version 2:
+    Id: WebsiteVersion2
+    +: {CreatedBy: Hana, CreatedAt: 20250812 T 085657, By: Shadow, Tags: , Priority: 4-High}
+    Cancelled .Update the Contribute form:
+      Id: ContributePhase1
+      +: { CreatedBy: Hana, CreatedAt: 20250727 T 145140, By: All, Tags: [CSVDone] }
+      Notes:
+        - Contribute form is needed for the current phase Applicants which is needed for The tool development - Top Priority
+        - Based on the recent events, Questions in contribute section should be revised
+        - Change "Additional Info:" to "How about “Tell us what is your interest in the project” ?:
+          +: { CreatedBy: Hana, CreatedAt: 20250727 T 155716, By: Giselle }
+        - instead of applicant choosing the skills, it will be more functional to change it to "which skills you have that can help accelerating the progress of T42P" (for us ot filter the potentials):
+          +: { CreatedBy: Hana, CreatedAt: 20250727 T 155737, By: Hana }
+      Done .Schedule a meeting about Contribute page:
+        +: {CreatedBy: Hana, CreatedAt: 20250806 T 195322, By: All, Tags: [CSVDONE]}    
+      Done .Discuss and review contribute page elements:
+        +: {CreatedBy: Hana, CreatedAt: 20250807 T 204005, By: All, Tags: [CSVDONE]}
+      Cancelled .Implementation of the agreed points:
+        +: {CreatedBy: Hana, CreatedAt: 20250810 T 202248, By: [Shadow, Hana], Tags: }
+        Details:
+          UpdateContributeForm:
+            - CTA to read the summary and post questions:
+            - Technical skills to be changed to:
+              - Title to "Technical skills (if applying to a technical position)":
+              - List should be:
+                - Frontend technologies (nextJs, react)
+                - C#/.Net      
+                - Typescript
+                - Business analysis/Technical Writing
+                - Project Management and Administration
+                - UI/UX Design
+                - DevOps
+                - IT
+                - (Language Server) dev
+                - QA 
+              - Ideally with 3 columns of checkboxes, junior-medior-senior
+            - Which areas would you like to contribute to? (select all that apply):
+              - List should be:
+                - SW dev
+                - Marketing/Content creation
+                - Project management
+                - Documentation            
+                - QA
+                - Developing Partnerships
+                - Devops
+                - Education & Training
+            - Profit-Sharing Model: 
+              - An important highlight:  
+                - profit-sharing cooperation also means that the role does NOT offer immediate monetary compensation, instead, it provides a share of profits proportional to the contribution and current risks. We'll probably introduce a mixed model as well at later stages though - where there's a base salary
+              - ☐ Yes, I acknowledged and accepted the profit-sharing model.
+            - What are your goals with joinng this project (money, experience, save the world, challenge, interesting stuff)
+  Cancelled .Deepdive section development:
+    CancelReason: Shadow lost the source code because he wouldn't fucking commit despite nagging. Or, this is just an excuse... anyways, we don't have it.
+    Id: Deepdive
+    Cancelled .Create requirements:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 134040, By: everyone }
+      CancelReason: we're going the other way around, meaning some test ideas are implemented and then we review and upgrade them; a bit more "agile".
+    Done -->Tasks\Software\F2FileToHtmlConverter\.."F2FileToHtmlConverter"..Development..FirstPhase<:
+    Cancelled .Create the deepdive section on the website which works by using json as datasource:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 134109, By: Shadow }
+    Cancelled .Create ToC for Deepdive:
+      +: { CreatedBy: Hana, CreatedAt: 20250721 T 184222, By: Shadow }
+InProgress .Back to original:
+  Id: BackToOrigi
+  Done .Work this Task out:
+    Details:
+      Base it on:
+        - $@-->!PublicWorkspaces\Hana\Websiterephase1\.."Reorganize the -->Backlog\Development\..Website<"<@$:
+      Make sure that these are also included:
+        -->Tasks\Website\.."Phase1".."Deepdive section development"<:
+        -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Implement the non-deepdive pages".."Phase2".."SupportUs page".."BuyUsACoffee".."Set up the account".."Put the credentials to the PasswordsAndAccesses.dat in the Truecrypt repo".."BuyUsACoffee"<:
+        -->Tasks\Website\.."Phase1".."Redesign the website Version 2"<:
+        -->Tasks\Website\.."Back to original".."Do intermediate solution".."Shadow site todos".."Change the "Building fair systems through Collaboration" to the one we decided"<:
+      Include:
+        - old engine with new design
+        - revised content
+        - deepdive included, in them:
+          - Daily updates like standups
+          - Requirements, Tasks, etc.
+          - process descriptions so that one can work "without even talking to us"
+        - funding option(s)
+        - videos (or link to youtube)
+        - products descriptions      
+  Done .Agree on the parts and the design with the team on a meeting:
+    Id: DecidePartsAndDesign
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162256, By: all}
+    Milestone: BarbaPapa
+    Done .Schedule a Website design meeting:
+      Milestone: BarbaPapa
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 163138, By: Hana, Tags: }
+    Done .Agree on the baseline design guidelines:
+      Id: AgreeOnGuidelines
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 161205, By: all }
+      Cancelled .Find the video(s) and parts where the design was showcased:
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162539, By: all, Tags: }
+        Milestone: BarbaPapa
+        Details:
+          Put it into the Result of this task (so a link to the video and the from-to timestamp)
+      Done .Decide with the team what design to apply:
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162637, By: all}
+        Milestone: BarbaPapa
+        DependsOn: -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting".."Agree on the baseline design guidelines".."Find the video(s) and parts where the design was showcased"<
+          We go "on the fly" - i.e. we sit in front of a baseline-designed site and change until we are happy.
+    Done .Agree on the parts and their priorities:      
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162744, By: Bobi, Tags: }
+      Milestone: BarbaPapa
+      DependsOn: -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting".."Schedule a Website design meeting"<
+      Details:
+        - update the tasks below in the $@--->Tasks\Website\.."Back to original".."Implement".."Implement the parts"<<@$
+      Result:
+        Goal:
+          The parts needed before (or shortly after, like in 2 weeks) we start publishing the videos.
+        Parts:
+          - giveusmoney:
+          - deepdive yamls:
+            - current tasks we're working on
+            - +related material, like requirements, etc.
+            - standup content
+            - mind model
+          - links to repositories (any public, like the site itself)
+          - personal pages:
+            - hana
+            - bobi
+          - articles
+          - videos
+        Todos:
+          TODO .Move the top menu items to the left:
+          TODO .Remove the "TF2P" text:
+          TODO .Redesign the main site to black:
+          TODO .Remove the fucking animationshits:
+            Details:
+              - Article bzzzzs:
+              - Boxes should be "merged" in Articles:
+              - No animation for boxes in Articles:
+  Cancelled .Research and approach website development companies/options:
+    Id: ResearchWebDevs
+    CancelReason: We're doing it ourselves with Codex.
+    OnHold .Initial research:
+      +: {CreatedBy: Bobi, CreatedAt: 20250918 T 204950, By: everyone, Tags: }
+      Details:
+        Roughly:
+        - Goal is to have have a ballpark estimation
+        - Steps:
+          - Find a few companies which do websites            
+          - Maybe ask on other forums - some junior who wants to do this like how Shadow was?            
+          - Ask them - e.g. in an email - with the following content:
+            - We're looking for a developer who could do our website now + updates later
+            - The site:
+              - Simple, static website, hosted on cloudflare
+              - pure html + css; we don't want "engines"
+              - we provide a specification in a quite formal form
+              - Our "role model" is yaml.io
+            - [Project description]
+            - Situation explained - so our previous developer lost the code and disappeared; we're scrapping the current site and going back to "simple"
+  Deleted .Implement:
+    +: {CreatedBy: Bobi, CreatedAt: 20250910 T 134045, By: Bobi}
+    DependsOn: -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting"<
+    Milestone: BarbaPapa
+    Comments:
+      [Bobi, 20251202, "Deleted: we're doing this through a different set of tasks"]
+    Blocked .Implement the parts:
+      Id: Parts
+      Blocked .Placeholder for further elements:
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 161933, By: Bobi, Tags: }
+        DependsOn: -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting"<
+      Blocked .Landing page + content:
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 161943, By: Bobi, Tags: }          
+        Details:
+          - Mostly the current one      
+        Blocked .Top section:
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 161943, By: Bobi}            
+          Details:
+            The headline should - maybe - be "Work optimally and share fairly through computed management".
+          Blocked .Placeholder for implementation:
+            +: {CreatedBy: Bobi, CreatedAt: 20250908 T 161943, By: Bobi, Tags: }
+            DependsOn: -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting"<
+        Blocked .FAQ:
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162011, By: Bobi, Tags: }
+          DependsOn: -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting"<
+      Blocked .Articles section:
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162024, By: Bobi, Tags: }
+        DependsOn: -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting"<
+        Details:
+          The current articles on the current site
+          Maybe some "coming soon"
+      Blocked .Product descriptions section:
+      Blocked .Videos (or link to youtube) section:
+    Blocked .Apply design:
+  InProgress .Do intermediate solution:
+    Id: Intermediate
+    Details:
+      - The Shadow website links to the OriginalConcept one
+      - We're gradually moving all content from the Shadow one to the OriginalConcept
+    InProgress .Create the OriginalConcept site:
+      Id: CreateSite
+      +: {CreatedBy: Bobi, CreatedAt: 20250925 T 004837, By: Bobi, Tags: }
+      Done .Have the concept:
+      Done .Set-up and try Codex:
+        Done .Get some Reddit answers about how good it is:
+          Result:
+            seems promising
+        Done .Try it out in VS Code:
+      Done .Decide what we want on the site:
+        Details: basically the result of -->Tasks\Website\.."Back to original".."Agree on the parts and the design with the team on a meeting"<
+      InProgress .Implement:
+        Done .Generate site structure:
+          Details:
+            - top menu
+            - bottom:
+              - left ToC
+              - content on the right              
+        Done .Favicon and Title:
+          Result:
+            Used https://realfavicongenerator.net/your-favicon-is-ready
+          Done .Fix on the other htmls as well:
+        Done .Replace the logo and the text next to it:
+          Details: make it just the logo
+        Done .Decide and action if yes:_ is it worth subscribing to an AI agent?:
+          Result:
+            - Subcribed to ChatGPT Plus, including Codex.
+            - Due to:
+              - I have good experience with Codex (and bad with Copilot)
+              - Briefly checked other options; no obviously better one found
+        Done .Make the logo lead you to the homepage:
+          Estimation: 10m
+          Importance: Must
+        Done .Revise the ToC:
+          Estimation: 80m
+          Importance: Must
+          Done .Decide:_ What do we want to include there:
+            Details:
+              - Create a hierarchy about the "yamls" and their categories to be displayed on the site (and basically as the ToC)
+            Done .Create baseline:
+              +: {CreatedBy: Bobi, CreatedAt: 20251125 T 161456, By: Bobi}
+              Estimation: 30m
+              Done .Rethink concept:
+                Workspace:
+                  Goals:
+                    - Stream: 
+                        Details:
+                          Support streaming - so we reference the content there                                                
+                    - Marketing:
+                        Details:
+                          Support marketing - so we can reference content on the site
+                    - EasyPublish:
+                        Details:                            
+                    - Showcase: Showcase what we do and that we're doing it
+                  Current considerations:
+                    - The DeepDive section should contain basically all "text" content - so including articles
+                    - See the 
+              Workspace:
+                Summary:
+                  Link to the main page summary
+                Articles:
+                  The 1-2 already available, with "Maturity" displayed next to the menu items
+                Updates:
+                  20251201:
+                  20251202:
+                  ...:
+                The Yamls:
+                  See in the task $@-->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Clean, create or migrate the yamls"<<@$
+            Done .Review baseline with Hana:
+              +: {CreatedBy: Bobi, CreatedAt: 20251125 T 161549, By: [Bobi, Hana], Tags: }
+              Estimation: 30m
+          Done .Create the structure:
+            +: {CreatedBy: Bobi, CreatedAt: 20251125 T 161750, By: Bobi, Tags: }
+            Estimation: 20m
+          Done .Upgrade the ToC engine so that some items can be disabled:
+          Done .Upgrade the ToC engine so that non-leaf elements can also point to a file:
+        InProgress .Implement the Phase1 Deepdive (Read) page engine:
+          Id: Phase1ReadEngine
+          Done .Upgrade the YamlToHtmlConverter with the new header:
+          Done .Make it wide:
+          Done .Reduce tabulation:
+          Cancelled .Each LI marked with "Sequence" should be rendered with a "dash" in front:
+            Priority: 2-Low
+            Details:
+              Try it with codex; if doesn't work, doesn't work.
+          Done .Upgrade color coding:
+          Done .Add some space in between the end of a key and the beginning of its value (like "Details: Number of members")
+          Done .YamlToHtmlConverter:_ Fix color rendering:
+          Done .Sticky navigation bar:
+          TODO .Make the yaml downloadable:
+            Id: MakeYamlsDownloadable
+            Cancelled .As a single file:
+            TODO .Make the yamls downloadable as a package:
+              Id: AsAPackage
+              Done .Decide:_ Maybe we should just link to the new repo?:
+                Result: yes
+              TODO .Implement:
+                Id: Impl
+                +: {CreatedBy: Bobi, CreatedAt: 20251203 T 152205, By: Bobi, Tags: [CSVDONE, OCWSPhase2], Estimation: "20", RemTime: "20"}
+                DependsOn: -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Create a new repository for the new set of yamls"<
+                Details:
+                  - Simply add a link (with some text) to the Overview section
+                  - Ensure and test that git is set up in a way that it's "read-only" for the public
+          TODO .Add Fold All and Unfold ALl buttons:
+            Id: FoldAll
+            TODO .Try with a codex prompt:
+              Id: Codex
+              +: {CreatedBy: Bobi, CreatedAt: 20251203 T 153012, By: Bobi, Tags: [CSVDONE, OCWSPhase2], Estimation: "20", RemTime: "20"}
+              Details:
+                Make sure that any change can be rolled back easily - so test it properly before building on it.
+            NEXT .If the previous didn't work bug-free, do it manually:              
+              +: {CreatedBy: Bobi, CreatedAt: 20251203 T 153135, By: Bobi, Tags: [CSVDONE, OCWSPhase2]}
+          InProgress .Ability to follow links:
+            Id: LinkFollowing
+            +: {CreatedBy: Bobi, CreatedAt: 20250811 T 144049, By: Bobi, Estimation: 120, RemTime: 30}
+            Estimation:
+              - Pages are generated so that there are anchors: 40m
+              - Update the generator: 80m
+              - Total: 120m
+              - Plusminus: 80m
+            Details:
+              - The F2Yaml links on the website should work as links - so (if the file it's pointing to is also there) it should go to that yaml AND scroll to the element
+              - In this stage we do the link generation manually, only the site needs to be able to support it
+            Done .Figure out what needs to be generated:
+              Details:
+                - How should we handle the paths
+            Done .Update the site:
+              Details:
+                - So that it supports navigation inside the pages
+            Done .Update the generator:
+              Details:
+              - Create anchors
+            Done .Perform the site setup as per the recommendations of ChatGPT:
+              +: {CreatedBy: Bobi, CreatedAt: 20250901, By: Bobi, Tags: [CSVDONE, OCWSPhase2], Estimation: "60", RemTime: "0"}
+              Details:
+                https://chatgpt.com/share/6935da5e-e66c-8005-ae72-40435447f846                  
+        Done .Do design:
+          Importance: Must
+          Done .Do baseline - use the old colors:
+          Done .Revise the design with Hana:
+            Estimation: 20, timeboxed
+            Details:
+              sit together and change the colors, etc.
+            Result:
+              Green should be changed to the VS Code colors.
+          Done .Implement the final colors:              
+        Done .Revise the top menu:
+          Done .Generate engine:
+          Done .Create phase1 structure:
+            +: {CreatedBy: Bobi, CreatedAt: 20251126 T 012635, By: Bobi, Tags: }
+            Workspace:
+              Include:
+                - \"Documents" - so the yamls
+                - Videos - including the streamed and the others as well
+                - Articles (at least link to the previous site)
+                - Contact
+                - Support us
+              Structure:
+                Read: 
+                  - The home page content of the Shadow site
+                  - The articles on the Shadow site
+                  - Explanations about the yamls
+                  - the yamls
+                Watch:
+                  - Videos and other media                  
+                Contact:
+                  - Email
+                  - Discord
+                Support:
+                  - With work
+                  - With monies
+          Done .Review phase1 structure:
+            +: {CreatedBy: Bobi, CreatedAt: 20251128 T 022154, By: [Bobi, Hana], Tags: }
+          Done .Implement phase1 structure:
+        InProgress .Implement the non-deepdive pages:
+          Id: NonDD
+          Done .Phase1:
+            Done .Create the Big Summary page AND remove unnecessary menu items:
+              +: {CreatedBy: Bobi, CreatedAt: 20260409 T 151628, By: Bobi}
+              Details:
+                - Try making it short.
+                - Include:
+                  - the who we are looking part - so you need to be cooperative, helping any bugs you encounter
+                  - That this site is to give you access to the progress, it's not "as a service"; our aim is not to perfect, but to provide "good enough"
+              Done .Remove the "Updates" and "Articles" menu items (we can add them back later):
+                +: {CreatedBy: Bobi, CreatedAt: 20260411 T 194723, By: Bobi, Tags: [CSVDONE], Estimation: "10", RemTime: "0"}
+                Result:
+                  Disabled them.
+              Done .Write the baseline:
+                +: {CreatedBy: Bobi, CreatedAt: 20260411 T 194739, By: Bobi, Tags: [CSVDONE], Estimation: "80", RemTime: "0"}
+                Workspace:
+                  History:
+                    - we're developing the system, we started 
+                  Plan:
+
+                  
+            Done .Create Watch page:
+              +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143440, By: Bobi, Tags: [OCWSPhase1]}              
+              Done .Create baseline:
+                Id: Baseline
+                +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143550, By: Bobi, Tags: [CSVDONE]}
+                Details:
+                  - stream and/or video links (youtube, twitch)
+                  - we'll put some videos probably later
+              Done .Review:
+                Id: Review
+                +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143553, By: [Hana, Bobi], Tags: [CSVDONE], Estimation: "60", RemTime: "60"}
+                Done .Figure out the content - without the links:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260407 T 195931, By: [Bobi, Hana], Tags: [CSVDONE], Estimation: "40", RemTime: "0"}
+                  Id: Content
+                  Workspace:
+                    Things to include:
+                      Stream on Twitch:                    
+                        TF2P:
+                          Link: 
+                            Description:
+                            - Meetings - standup, planning, retrospective
+                            - Talks and discussions about project related topics, even if just losely
+                            - The "interesting" topics will be streamed from here
+                        Bobi:
+                          Link:
+                          Description:
+                            Watch me work and ask questions:
+                            - Development: The F2Tool and everything else
+                            - Management
+                            - Core concepts and decisions
+                        Hana:
+                          Link:
+                          Description:
+                            Watch me work:
+                            - Management and Administration
+                            - Health (helping members function physically and mentally)                    
+                      Youtube:
+                        - Link: coming soon
+                        - Description:
+                          - Podcast-style talks about more "interesting" topics. 
+                      Reddit:
+                        - Link: coming soon
+                        - Description: 
+                          - Articles, discussions - basically the podcast topics, just in a text form.
+                      X:
+                        - Link: coming soon
+                    Menu structure:
+                      - no menu.                  
+                  Result:
+                    See in -->Documents\WebsiteContent\Watch\Watch\.Overview<
+                Done .Get the links:
+                  Id: Links
+                  +: {CreatedBy: Bobi, CreatedAt: 20260407 T 195931, By: Hana, Tags: [CSVDONE], Estimation: "20", RemTime: "0"}
+                  Details:
+                    Put them into -->Documents\WebsiteContent\Watch\Watch\.."Our streams on Twitch"<
+                  Done .Twitch:
+              Done .Finalize and publish:
+                Id: Publish
+                +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143606, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+                Details:
+                  Including creating the menu structure
+            Done .Create Contact page:
+              +: {CreatedBy: Bobi, CreatedAt: 20251203 T 161548, By: [Bobi, Hana], Tags: [OCWSPhase1]}
+              Done .Create baseline ideas:
+                +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143326, By: Bobi, Tags: [CSVDONE]}
+                Workspace:
+                  - email addresses
+                  - Twitch
+                  - Discord
+              Done .Review it:
+                +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143339, By: [Hana,Bobi], Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+                Workspace:
+                  Things to include:
+                    Overview:
+                      - Reiteration that:
+                        - purpose of this stage is to show how we do things and answer questions of those who want to understand deeper                        
+                      - Feel free to ask questions in our Discord channel or during watching our streams
+                      - Emails are for "more serious" 
+                    Contacts:
+                      Discord: 
+                        Invite link: LoremIpsum.LinkToBeGenerated
+                        Description:
+                          Please use this as the primary method of contacting us
+                      Twitch:
+                        todoInviteLink
+                      Emails:
+                        Description:
+                          For more serious questions, contributions, etc.
+                        Addresses:
+                          General questions: questions@tf2p.org
+                          Members:
+                            Bobi: bobi@tf2p.org
+                            Hana: hana@tf2p.org
+                Result:
+                  See in -->Documents\WebsiteContent\Contact\Contact\.Contacts<                
+              Done .Implement, finalize and publish:
+                +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143447, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+                Details:
+                  Including creating the menu structure
+                Done .Provide the links into the document:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260408 T 132939, By: Hana, Tags: [CSVDONE], Estimation: "10", RemTime: "0"}
+                  Details: -->Documents\WebsiteContent\Contact\Contact\.Contacts<
+                Done .Final touches and generation:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260408 T 133535, By: Bobi, Tags: [CSVDONE], Estimation: "20", RemTime: "0"}
+            Done .Create SupportUs page:
+              +: {CreatedBy: Bobi, CreatedAt: 20260328 T 155827, By: [Bobi, Hana], Tags: [OCWSPhase1]}
+              Details:
+                Just some text explaining what will be here
+              Done .Rename "Support" to something less confusing:
+                +: {CreatedBy: Bobi, CreatedAt: 20260328 T 154321, By: [Hana, Bobi]}
+                Done .Try finding something better than "Support us":
+                  +: {CreatedBy: Bobi, CreatedAt: 20260328 T 154433, By: Hana, Tags: [CSVDONE], Estimation: "10", RemTime: "0"}
+                  WorkSpace:
+                    Other names:
+                      - Help us Build
+                      - Make it possible
+                      - Fuel the work
+                      - Build with us/contribute 
+                      - Join the mission
+                      - COntribute
+                      - Participate
+                      - Engage
+                      - Collaborate
+                  Result:
+                    \"Join the mission" is the one chosen
+                Done .Rename it:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260328 T 154448, By: Bobi, Tags: [CSVDONE], Estimation: "5", RemTime: "0"}
+              Done .Create content about what will be here:
+                +: {CreatedBy: Bobi, CreatedAt: 20260328 T 155652, By: [Bobi, Hana]}
+                Done .Create baseline ideas:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143550, By: Bobi, Tags: [CSVDONE], Estimation: "20", RemTime: "0"}
+                  Workspace:
+                    - Work: 
+                        - we're preparing the processes so that you can:
+                          - pick a Task
+                          - clarify it
+                          - do it
+                          - edit it (including setting it to "Done")
+                          - report your hours
+                        - at the moment, if you want to work, please contact us with your idea and/or which Task(s) do you think you could do
+                    - Invest/Support:
+                      - we're planning this to be an investment, at the moment the assurances are just our promises though
+                      - we'll need proper:
+                        - accounting (including that it's trusted)
+                        - finance processes, including the F2FinanceHelper (see the requriments)
+                      - this is not "now"  
+                Done .Work it out:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143553, By: [Hana, Bobi], Tags: [CSVDONE], Estimation: "40", RemTime: "0"}
+                  Workspace:
+                    Content points:
+                    - Explain that this is mostly "coming soon"
+                    - What is planned here, what are the goals
+                    - If you insist, these are the ways
+                    Content:
+                      Overview:
+                        This section is about providing the information needed for anyone interested in eiter being part of the system or investing into it.                         
+
+                      At this initial stage being able to join is still "coming soon": 
+                        The Tasks about developing the necessary processes - the steps one needs to perform - are still pending; the resulting processes should enable new members to be able to work effectively and give some guarantees that one would receive the fair share (proportional to the value of their contribution/investment) of the value generated (~profit).
+
+                      If you're very interested though: please write us an email, explaining your understanding of the project and how you would like to help or contribute.
+                      
+                      A reminder, our aim is to create the largest possible community where: We work together, compute our decisions and share fairly.
+                    Result:
+                      See in -->Documents\WebsiteContent\Support\Support\.Overview<
+                Done .Finalize and publish:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143606, By: Bobi, Tags: [CSVDONE], Estimation: "20", RemTime: "0"}
+          InProgress .Phase2:
+            InProgress .SupportUs page:
+              +: {CreatedBy: Bobi, CreatedAt: 20251202 T 143450, By: Bobi, Tags: [OCWSPhase2]}
+              Estimation: 4h
+              InProgress .BuyUsACoffee:
+                +: {CreatedBy: Bobi, CreatedAt: 20250811 T 144137, By: Bobi, Tags: [OCWSPhase2]}
+                Done .Research :
+                  +: {CreatedBy: Bobi, CreatedAt: 20250908 T 162202, By: Hana, Tags: [CSVDONE]}
+                InProgress .Set up the account:
+                  +: {CreatedBy: Hana, CreatedAt: 20251125 T 232703, By: [Hana, Bobi], Tags:}
+                  TODO .Create a bio for the account:
+                    +: {CreatedBy: Hana, CreatedAt: 20251125 T 233524, By: Bobi, Tags: [ OCWSPhase2], Estimation: 30}                    
+                    TODO .Create a baseline:
+                      +: {CreatedBy: Hana, CreatedAt: 20251125 T 233618, By: Bobi, Tags: [CSVDONE]}
+                    TODO .Review it with the team:
+                      +: {CreatedBy: Hana, CreatedAt: 20251125 T 233703, By: [Hana, Bobi], Tags: [CSVDONE]}             
+                    TODO .Finalize and upload it:
+                      +: {CreatedBy: Bobi, CreatedAt: 20251203 T 161951, By: Bobi, Tags: [CSVDONE]}
+                  Done .Add the payment info:
+                    Done .Create a stripe account:
+                      By: Hana
+                    Done .Fight it through with fucking support and solve the issue:
+                      +: {CreatedBy: Bobi, CreatedAt: 20251202 T 145201, By: Hana, Tags: [CSVDONE, OCWSPhase1]}
+                      Estimation: 2h
+                      Details:
+                        "This stripe connection is already in use, please choose another one"
+                      Result:
+                        Solved through creating a new account
+                  Done .Put the credentials to the PasswordsAndAccesses.dat in the Truecrypt repo:
+                    +: {CreatedBy: Bobi, CreatedAt: 20251127 T 142905, By: [Bobi, Hana], Tags:}
+                    Done .Stripe:
+                    Done .BuyUsACoffee:
+                    Result:
+                      For both we use 1 credential
+                NEXT .Implement:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251125 T 164959, By: Bobi, Tags: [CSVDONE, OCWSPhase2], Estimation: "30"}                
+                  Details:
+                    Integrate their embeddable into the support page
+              TODO .Crypto:
+                +: {CreatedBy: Bobi, CreatedAt: 20260328 T 154708, By: Bobi, Estimation:, RemTime:}
+                TODO .Resurrect Monero:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260328 T 160615, By: Bobi, Tags: [CSVDONE], Estimation: "", RemTime:""}
+                TODO .Decide do we need anything else:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260328 T 160617, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}                  
+              TODO .Placeholder for further tasks:
+                +: {CreatedBy: Bobi, CreatedAt: 20260328 T 155739, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+          Done .Disable/remove the ones planned later/not planned:
+      Done .Create a new repository for the new set of yamls:
+        +: {CreatedBy: Bobi, CreatedAt: 20251203 T 162459, By: Bobi, Tags: [CSVDONE, OCWSPhase1,], Estimation: "15"}
+        Result:
+          Created the file structure
+          Also added a license - extra 15 minutes.
+      Done .Revise the structure of the Deepdive section:
+        +: {CreatedBy: Bobi, CreatedAt: 20260112 T 203542, By: Bobi, Tags:, Estimation: , RemTime: 0}
+        Details:
+          Context: A new folder and file structure was created in Management.Public
+          Tasks: rewrite the everything to support the new structure    
+        Done .Rewrite the app.js to show the revised Management.Public structure:
+          +: {CreatedBy: Bobi, CreatedAt: 20260112 T 222627, By: Bobi, Tags: [CSVDONE], Estimation: "45", RemTime: "0"}
+        Done .Rewrite the generator settings:
+          +: {CreatedBy: Bobi, CreatedAt: 20260112 T 225625, By: Bobi, Tags:  [CSVDONE], Estimation: "20", RemTime: "0"}
+        Cancelled .Rewrite the generator to support giving file names to the result:
+          +: {CreatedBy: Bobi, CreatedAt: 20260112 T 225700, By: Bobi, Tags: , Estimation: "16", RemTime: "0"}
+        Done .Create the knots files and their content for it:
+          +: {CreatedBy: Bobi, CreatedAt: 20260130 T 223353, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}        
+      InProgress .Clean, create or migrate the yamls:
+        Id: CreateYamls
+        Details:
+          - According to the structure here: -->Tasks\Website\.."Back to original".."Do intermediate solution".."Create the OriginalConcept site".."Implement".."Revise the ToC"<
+        InProgress .Write content for the leaves:
+          Id: Leaves
+          InProgress .Learn to Dive:
+            Id: LearnToDive
+            Done .Overview:
+              Importance: 5-VeryHigh
+              Done .Work out baseline:
+                Result:
+                  Intro: 
+
+                    In "The Abyss" section you can find the management data we're using to manage the project, mirrored to the site quite frequently (we hope we can reach at least daily updates).
+
+                    With this you can at least have some idea about how to manage a (not necessarily just software) project with just a few free tools and well structured yamls, but our main goal is to allow you to experience the daily life of the project, and hopefully soon or later be convinced that this is something you at least root for, or, better, you want to support and become part of.
+
+                  The management system general overview:
+
+                    Our current - temporary, until the main tool, The F2Tool reaches basic capabilities - management system consists of these yamls in a folder structure stored in a Git repository and read/edited using VS Code (with a few extensions so that we have color coding and reference following). Even though this setup is temporary, the current "interface" of the system - i.e. "reading/editing/querying yamls by VS Code plus a few extensions" - is to stay at least in the first stages of the project: the first versions of The F2Tool will only enhance the experience by adding code completion, error checks, templates, permissions, query and report generation, etc. - and, very importantly, server-side F2Yaml script execution so that we can start automating stuff.
+
+                    Imagine the system as a task/bug tracking (like JIRA) or ALM system (like codebeamer) replacement - where one works with "Items" (e.g. a "Task", "Bug", "Requirement", each with their own fields, like "Description", "Importance", "Status") which are referencing each other in various ways, can be queried and automated, etc. - with a few important differences:
+                      coding-like experience: instead of clicking on websites, you type, using your favorite IDE. Waaaay faster and waay less annoying; you might even start liking management. You can use your favorite text editors, mass replace, mass edit, forget the mouse. No 500 errors, downtimes, "loading"s, bugs.
+                      ~total freedom: 
+                        - all Item types are yours to change or define; unlimited nesting, full automation possibilities. Even at this current stage it's very easy to automate certain tasks - especially if you use some AI to query those yamls and generate some scripts - but the main reason we're developing a dedicated tool for this is to make automation as easy as possible (as our final goal is to automate everything, including all management processes into it).
+                        - no platform or software restrictions - the core of the system is mostly just the conventions and rules, you're free to use any editor, repository or way to edit the files. Even in the era when we'll be using The F2Tool for these, the yamls will look the same and serve the same purpose so you can even choose to go off-grid and do everything manually or by using your own software running on your computer you made from sticks and stones.
+                      aimed for total automation: The end goal of the project is to have everything fully automated, that is, that the system perfects itself without the need of human involvement - apart from asking the wishes of the users (~=us). This is almost a "magical" state and therefore is in the very distant future, still, one of the main design considerations is the ability to increasingly easier automate the Tasks we perform.
+              Done .Review:
+                +: {CreatedBy: Bobi, CreatedAt: 20251201 T 213915, By: [Bobi, Hana], Estimation: "10", RemTime: "0"}
+              Done .Finalize and release:
+                Id: Finalize
+                +: {CreatedBy: Bobi, CreatedAt: 20251203 T 162537, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "20", RemTime: "20"}
+            InProgress .Syntax:
+              Id: Syntax
+              +: {CreatedBy: Bobi, CreatedAt: 20251203 T 162557, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "180", RemTime: "60"}
+              Importance: 5-VeryHigh
+              Details:
+                - only the most important things
+                - ideally in a short summary
+                - refer to -->.."The Abyss".."Documents".."Specifications".."Barba.Types"<
+              Workspace: 
+                Intro: |
+                  It was a key consideration during the design of the language to make it as easy to read and handle for humans as possible, also, to be able to use widely available software for handling/displaying the f2yaml documents, still, making it relatively easy to process by computer algorithms. F2yaml therefore is based on yaml - i.e. f2yaml documents are also yaml documents - and the syntax is quite loose, allowing the user to express the same thing in multiple ways.
+
+                  Information is stored in entities we call "Items" of various kinds, such as Tasks, Requirements, Articles. Each Item is basically a dictionary - as in a collection of key+value pairs - with some "syntax sugars" to make things easier to read/write.
+                  If you have basic object oriented programming knowledge, you can think of Items as instances of objects and we use similar concepts and terminology here - such as the "key"-s are called properties, there's inheritance, we refer to the definition of Items as classes (we call them ClassDescriptions).
+
+                  For example a Task stores information about something which needs to be performed, such as one about cooking a meal could look like:
+                    InProgress Cook a succulent chinese meal:
+                      Type: Task
+                      CreatedBy: Hana
+                      By: Bobi
+                      Details: Make it spicy and dishwashing included! Love, Hana
+                      CreatedAt: 2025-12-03                                           
+                  Here the "CreatedBy" (and the rest in light blue) are properties written in a standard way, the "TODO" and "Cook a succulent chinese meal" parts are values of special properties - the "Status" and "Summary" ones in particular; the syntax sugars.
+
+                  Item kinds and their structure can be freely defined by the user - so for example we could create a "Recipe" type of Item containing the instructions about how to make "Bobi's sludge":
+                    Bobi's sludge:
+                      Type: Recipe
+                      Details: A very easy to digest, gut healing, SIBO friendly but still tasty strawberry-vanilla meal-replacement ice-cream
+                      Ingredients:
+                        - 700g frozen!!! strawberries
+                        - 200g dextrose
+                        - 350ml yogurt
+                        - 60g coconut fat
+                        - 60g hydrolized whey powder
+                        - 20g l-glutamine powder
+                        - 15g partially hydrolized guar gum
+                        - 350ml water
+                        - optional: vanilla for flavor if the whey powder is unflavored
+                      Instructions: |
+                        1: add everything in a large bowl
+                        2: mix it with a hand blender for ~3 minutes until it becomes a bit whipped
+                        3: store it in the freezer - but best before it fully freezes (otherwise microwave it a little)          
+                      Notes:
+                        - high protein content supporting an active lifestyle; hydrolized = pre-digested
+                        - dextrose instead of table sugar for digestibility and inflammation reduction
+                        - l-glutamine for restoring gut lining
+                        - phgg for feeding the beneficial bacteria in the right place
+                        - yogurt for supplying some beneficial bacteria
+                        - coconut fat: one of the easiest to digest fats; for energy and lowering glycemic load
+                        - strawberries: low sugar; provides texture and taste + antioxidants
+
+                  The Item definition (we call it Class Description) for the above would look like the following - which is also an Item:
+                  
+                    Recipe:
+                      Inherits: Item
+                      Details: this defines the Item type "Recipe"
+                      Type: ClassDescription
+                      Properties:
+                        - PropertyId: Ingredients
+                          PropertyType: string 
+                          IsList: true
+                        - PropertyId: Instructions
+                          PropertyType: string
+                          IsList: false
+
+                  Explanation:
+                    - "Inherits: Item": on top of the properties defined in this ClassDescription it include the properties defined in Item - such as "Type" and "Details"; quite handy if we do not want to always re-define commonly used properties
+                    - "Details:...": the details (this property is actually defined in Item)
+                    - "Type: ClassDescription": this Item is a ClassDescription, used to define other items (also defined in Item)
+                    - "Properties: ...": each list entry defines one of the properties of the Recipe Item
+                    - "PropertyId: ...": the name (id) of the property
+                    - "PropertyType: string": the type of the property is "string"; for non-programmers: this means that it can hold some text (Number would mean it should be a number, Boolean would mean its either "true" or "false", etc.)
+                    - "IsList: true": the property is a list
+
+                Now some commonly used notations:
+                  Note: 
+                    - For the (hopefully or at least soon) complete syntax please check the -->F2YamlSpecification<.
+                    - For the definition of the Items used throughout The Abyss see the -->System.Types< and --><
+
+                  <Status> <Summary> as header:
+
+                  Preceding "." as child Item: TODO
+                  Plus sign as property id: TODO
+                  F2Links: TODO        
+          InProgress .The Abyss:
+            Done .Tasks:
+              Done .Software Development:
+                Done .The F2Tool:
+                  +: {CreatedBy: Bobi, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: 20m (timeboxed)} 
+                  Importance: 5-VeryHigh
+                  Details:
+                    The F2ToolDevelopment.yaml.
+                    Including tasks about Requirements and Bugs
+                Done .Website:
+                  +: {CreatedBy: Bobi, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: 30m (timeboxed), RemTime: "5"}
+                  Importance: 5-VeryHigh
+                  Details:
+                    Basically this section
+                  Comments:
+                    [Bobi, 20251207T2346, "Created the structure and copied the current. We should start using it from there but before we do, re-copy everything."]
+                Done .F2ToolsExtension:
+                  Importance: 2-Low
+                Done .F2FinanceHelper:
+                  Importance: 2-Low
+                Done .Processes:
+                  Importance: 3-Average
+              Done .PublicRelations:
+                Importance: 4-High
+              Done .Documents:
+                Done .Articles:
+                  Importance: 3-Average
+                Done .Specifications:                      
+                  Importance: 3-Average
+              Done .Management:
+                Importance: 4-High
+            InProgress .Documents:
+              Done .Articles:
+                +: {CreatedBy: Bobi, CreatedAt: 20250901, By: Bobi}
+                Importance: 4-High
+                Details:
+                  This Task is about the ~10 "Article" Items in the old repo, NOT the already published ones
+                Done .Migrate them from the old repo:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260330 T 175132, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "10", RemTime: "0"}
+                Done .Decide:_ which ones should be published:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260330 T 175211, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "15", RemTime: "0"}
+                  Details:
+                    - Go through them and see which ones should be published.
+                    - Idea: the ones on which I'll be working on + any which are "good enough"
+                  Result:
+                    None - or, rather, the ones already published on the Shadow site
+                Cancelled .Publish the ones decided above:
+                  +: {CreatedBy: Bobi, CreatedAt: 20260330 T 175332, By: Bobi, Tags: [OCWSPhase1], Estimation: "10", RemTime: "0"}
+              Done .Processes:
+                Importance: 4-High
+              InProgress .Specifications:
+                InProgress .F2Yaml:
+                  +: {CreatedBy: Bobi, By: Bobi, Tags: [OCWSPhase2]}
+                  Done .Plan:
+                    Result:
+                      The task structure below
+                  Done .Create intro:
+                    Details: |         
+                      The language serves the purpose of...
+                      Design considerations: suitable for human and machine processing as well; see the text in the Overview
+                      Mention that this is rather a sketch than a complete specification; we'll add sections by request from now on - i.e. if someone needs some explanation
+                  Done .Create overview:
+                    Done .Item:
+                    Done .Yaml representation:
+                  Done .Syntax, semantics and Barba.Types should not be mixed:
+                    +: {CreatedBy: Bobi, CreatedAt: 20250901, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                    Details:
+                      - Make sure that syntax, semantics and currently used types and conventions are not mixed and/or it's clear what is part of what
+                      - See: -->Documents\F2YamlSpecification\F2Yaml\."3-Detailing Must .F2Yaml.MVP Rules Sketch"<
+                  TODO .Overview:
+                    TODO .Summary:
+                      TODO .Create a ToC like thing from this:
+                        +: {CreatedBy: Bobi, CreatedAt: 20251220 T 011726, By: Bobi, Tags: [CSVDONE], Estimation: "20", RemTime: "20"}
+                        Details:
+                          - See: -->Documents\F2YamlSpecification\F2Yaml\."3-Detailing Must .F2Yaml.MVP Rules Sketch"."4-AlmostDone Must .Overview"."4-AlmostDone Must .Summary"<
+                  TODO .Specifics:
+                    TODO .BelongsTo:
+                      +: {CreatedBy: Bobi, CreatedAt: 20251220, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                    TODO .InternalId:
+                      +: {CreatedBy: Bobi, CreatedAt: 20251220, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                    TODO .Workspace and Command Line differences:
+                      +: {CreatedBy: Bobi, CreatedAt: 20251220, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                    TODO .The dot notation:
+                      +: {CreatedBy: Bobi, CreatedAt: 20251220, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                  TODO .Review and organize the rest:
+                    +: {CreatedBy: Bobi, CreatedAt: 20251220, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                  TODO .F2Link:
+                    +: {CreatedBy: Bobi, CreatedAt: 20251220, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                Done .Barba.Types:
+                  +: {CreatedBy: Bobi, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: 30m (timeboxed)}
+                  Importance: 5-VeryHigh
+              Done .Requirements:
+                Done .The F2Tool:
+                  Importance: 4-High
+                Done .F2ToolsExtension:
+                  Importance: 3-Average
+                Done .F2FinanceHelper:
+                  Importance: 3-Average
+                Done .Processes:    
+                  Importance: 3-Average
+            Done .Meetings:
+              Done .Standup Reports:
+                +: {CreatedBy: Bobi, By: Bobi, Tags: [CSVDONE], Estimation: 10m (timeboxed)}
+                Importance: 5-VeryHigh
+                Details:
+                  A plain file, with some description on top, gradually including the standups we have every day (we need to keep it clean therefore)
+              Done .Plannings:
+                +: {CreatedBy: Bobi, By: Bobi, Tags:, Estimation: 60m (timeboxed)}
+                Importance: 5-VeryHigh
+                Done .Create baseline:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251201 T 220536, By: Hana, Tags: [CSVDONE]}
+                  Details:
+                    - Find the previous planning-data (if any)
+                    - Decide whether any should be in the new repo; if so, create the new file and tailor the content into it
+                  Result:
+                    - We're not including the previous.
+                Done .Review:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251201 T 220557, By: [Bobi, Hana], Tags: [CSVDONE]}
+                Done .Finalize and publish:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251201 T 220610, By: Bobi, Tags: [CSVDONE]}
+              Done .Retrospectives:
+                +: {CreatedBy: Bobi, By: Bobi, Tags: ,Estimation: 60m (timeboxed)}
+                Importance: 5-VeryHigh
+                Done .Create baseline:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251201 T 220536, By: Hana, Tags: [CSVDONE]}
+                  Details:
+                    - Find the previous retro-data (if any)
+                    - Decide whether any should be in the new repo; if so, create the new file and tailor the content into it
+                  Result:
+                    We're not inlcuding the previous.
+                Done .Review:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251201 T 220557, By: [Bobi, Hana], Tags: [CSVDONE]}
+                Done .Finalize and publish:
+                  +: {CreatedBy: Bobi, CreatedAt: 20251201 T 220610, By: Bobi, Tags: [CSVDONE]}
+            Done .Move my PublicWorkspace:
+              +: {CreatedBy: Bobi, CreatedAt: 20260325 T 105300, By: Bobi, Tags: , Estimation: , RemTime: }
+              Details:
+                - figure out how to handle this in the new repo:
+                - implement
+              Done .Figure out how to handle this in the new repo:
+                +: {CreatedBy: Bobi, CreatedAt: 20260326 T 114312, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}
+                Result:
+                  - PublicWorkspace renamed to CurrentWork
+                  - We have to separate our private tasks from our public/publishable ones:
+                      Because:
+                        Analysis:
+                          Pros:
+                          - It's noise: there are lots of things to understand so let's limit it to the core; also, if it's "only for us", they wouldn't really understand - or, we 
+                          - Extra stress on us: could drain us, risk of postponing
+                          - Extra work: we'd "beautify" things, spend too much time on it (see how I spend looots of time on articles, like 10 or 100* as much as I'd spend if I'm writing some notes only for myself)
+                          - Point of attack: \"bad" people could ridicule us
+                          - Risks: some things should not be public, like private businesses
+                          Cons:
+                          - Would show that the project can be applied to other types of work as well
+                          - This "big brother" thing, that we might get audience who's just interested in our private life (the part where we do chores)
+                        Result:
+                          Pros seem to be more (not just in numbers, but effect), the uncertainties are very high though as this is "how society would react" and it's very-very hard to model the behavior of it
+                  - At the moment only 2 files:
+                    - the Workspace one. This should be periodically cleaned.
+                    - the TasksToBeSorted one
+                  - Ideally, the file structure for the Workspace.yml:
+                      SRYYYYMM[D-1][D-1]:
+                        Was:
+                        Next:
+                        AOIB:
+                      YYYYMMDD:
+                        -->Link.To.Task<:
+                          Workspace:
+                          Result:
+                        Lorem ipsum dolor sit:
+                      SRYYYMMDD:
+                        Was: /#continuously updated while working, i.e. using the time tracking feature of the extension#
+              Done .Implement:
+                +: {CreatedBy: Bobi, CreatedAt: 20260326 T 114336, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+                Done .Move the current PublicWorkspace and Tasks for both of us:
+                Done .Modify app.js:
+                Done .Modify the generator config:
+                Done .Update the description:
+                Done .Generate, check and fix:
+            Done .Move the Bugs:
+              +: {CreatedBy: Bobi, CreatedAt: 20260325 T 105354, By: Bobi, Tags: [CSVDONE], Estimation: "15", RemTime: "15"}
+              Details:
+                Include them into their respective "Tasks" file
+            Done .Fix the file locations in converter setup:      
+            Done .Move anything else:
+              +: {CreatedBy: Bobi, CreatedAt: 20260325 T 105402, By: Bobi, Tags: , Estimation: "30", RemTime: "0"}
+              Details:
+                Go through the existing files and see what needs to be moved
+              Done .Move .vscode folder:
+              Done .Move the F2FileToHtmlConverter related tasks:
+                +: {CreatedBy: Bobi, CreatedAt: 20260326 T 184340, By: Bobi, Tags: [CSVDONE], Estimation:"", RemTime:""}                                  
+        Done .Write content for the knots:
+          +: {CreatedBy: Bobi, By: Bobi, Tags: [OCWSPhase1], Estimation: 60, RemTime: 60}
+          Done .Decide the format and process:
+            Details:
+              - So separate html files, right?
+              - Should they just be yamls?
+              - How should I make them - generate?
+            Workspace:
+              - Yes, Separate htmls
+              - Yes, Yamls
+              - Yes, Generate
+              - Q:_ Where should I put them:
+                - A: Into the same repo as the site                
+          Done .Create the html files with lorem ipsum:
+            Details:
+          Done .Write the actual content:
+        Done .Upload the phase1 yamls:
+          +: {CreatedBy: Bobi, CreatedAt: 20251203 T 163444, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "30"}
+      NEXT .Manually create the yaml links:
+        +: {CreatedBy: Bobi, CreatedAt: 20260328 T 231100, By: [Bobi, Hana], Tags: [CSVDONE, OCWSPhase2], Estimation: "180", RemTime: "180"}
+        Details:
+          Go through the f2yaml links and replace them with html ones.
+          Bobi should show it first
+      NEXT .Generate the yaml links automatically:
+        +: {CreatedBy: Bobi, CreatedAt: 20251206 T 013317, By: Bobi, Tags: [CSVDONE, OCWSPhase2], Estimation: "180", RemTime: "180"}
+    InProgress .Shadow site todos:
+      +: {CreatedBy: Bobi, CreatedAt: 20250819, By: Bobi, Tags: [OCWSPhase1]}
+      Done .Revise the homepage:
+      OnHold .Revise the other pages:
+        +: {CreatedBy: Bobi, CreatedAt: 20250925 T 004133, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+        Comments:
+          [Bobi, 20251202, "Onhold because we might just move everything to the OriginalConcept site"]
+      Done .Change the "Building fair systems through Collaboration" to the one we decided:
+        +: {CreatedBy: Bobi, CreatedAt: 20250819 T 161509, By: everyone, Tags: [CSVDONE], Priority: 5-VeryHigh}
+        Details:
+          - To "Work optimally and share fairly through computed management".
+          - -->Tasks\Website\.."Back to original".."Do intermediate solution".."Shadow site todos".."Change the "Building fair systems through Collaboration" to the one we decided"<
+        Done .Change it in the title bar:
+          +: {CreatedBy: Bobi, CreatedAt: 20260328 T 162004, By: Bobi, Tags: [CSVDONE], Estimation:"30", RemTime:"0"}
+      Done .Integrate Shadow's site with the Deepdive one:
+        +: {CreatedBy: Bobi, CreatedAt: 20250925 T 004842, By: Bobi}
+        Details:
+          - do DNS setup
+          - add CTAs to the originalConcept site
+        Done .DNS setup:
+          +: {CreatedBy: Bobi, CreatedAt: 20251205 T 183424, By: Bobi, Tags: [CSVDONE]}
+        Done .Add CTAs leading to the OriginalConcept site:
+          +: {CreatedBy: Bobi, CreatedAt: 20251205 T 183349, By: Bobi, Tags: [CSVDONE,  OCWSPhase1],  Estimation: "30", RemTime: "0"}
+      Done .Relearn how to edit Shadow's site:
+        +: {CreatedBy: Bobi, CreatedAt: 20260401 T 185241, By: Bobi, Tags: [CSVDONE], Estimation: "60", RemTime: "0"}
+        Result:
+          Repo is: https://github.com/TheForty2Project/TF2PWebsite.git
+          IF install is needed then I think: npm install
+          Deploy steps:
+            Build: npm run build 
+            Login: npx wrangler login
+            Deploy: npx wrangler pages deploy out --project-name=tf2p-project-wrang
+      TODO .Move the top menu items to the left:
+        +: {CreatedBy: Bobi, CreatedAt: 20260402 T 163406, By: Bobi, Tags: [CSVDONE], Estimation: "10", RemTime: "10"}
+        Importance: Could
+        Estimation: 10m
+      Done .Remove the "TF2P" text:
+        +: {CreatedBy: Bobi, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "5", RemTime: "0"}
+        Importance: Must
+      TODO .Redesign the main site to black:
+        +: {CreatedBy: Bobi,  By: Bobi, Tags: [CSVDONE, OCWSPhase2], Estimation: "60", RemTime: "60"}
+        Importance: Should          
+      TODO .Remove the annoying animations:
+        +: {CreatedBy: Bobi, By: Bobi, Tags: [CSVDONE, OCWSPhase2], Estimation: "60", RemTime: "60"}
+        Importance: Could          
+        Details:
+          - Article bzzzzs:
+          - Boxes should be "merged" in Articles:
+          - No animation for boxes in Articles:
+    InProgress -->Tasks\Software\F2FileToHtmlConverter\.."F2FileToHtmlConverter"..Development.."SecondPhase"<:
+    InProgress .Go live:
+      Estimation: 120m
+      +: {CreatedBy: Bobi, CreatedAt: 20251125 T 171107, By: Bobi}
+      Details:          
+        Including last touches
+      Done .Go live Phase1:
+        +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152742, By: [Bobi]}
+        Done .Decide:_ What should be included in this phase:            
+          +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152822, By: [Bobi, Hana]}
+          Done .Create baseline:
+            +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152858, By: [Bobi, Hana], Estimation: 40}
+          Done .Review:
+            +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152917, By: [Hana, Bobi]}
+          Result:
+            - tagged them with "OCWSPhase1"
+            - Transferred the ones tagged to CSV: OCWSPhase1.csv
+        Done .Go live:
+          +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152938, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "60"}
+          Details:
+            - Supposedly just a commit to the repo + the deploy command(s) for the other
+            - If bugs... then fuck.
+      Cancelled .Go live Phase2:
+        +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152742, By: [Bobi]}
+        Done .Decide:_ What should be included in this phase:
+          +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152822, By: [Bobi, Hana]}
+          Result:
+            - we tag them with "OCWSPhase2"
+            - Approach - after finishing go live phase1 - is that we'll be doing incremental updates, not a one time push.
+        Cancelled .Go live:
+          +: {CreatedBy: Bobi, CreatedAt: 20251202 T 152938, By: Bobi, Tags: }
+          CancelReason: we'll be doing incremental roll outs, not a one time big push.
+    Done .Setup Discord permissions and channels:
+      +: {CreatedBy: Bobi, CreatedAt: 20260408 T 133135, By: [Hana, Bobi], Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+      Details:
+        - Basically a clean up
+        - New joiners should be able to see only the "General" and maybe some "Q&A" channels.
+        - Decide whether we should clean everything from those channels or the previous messages should be kept (Bobi thinks cleaning is better maybe, or creation or brand new channels)
+      Done .Create none expiry invite for TF2P:
+        Details: 
+          - Invite Code: XqzbpVyKXr
+
+    OnGoing .Bugs: 
+      +: {CreatedBy: Bobi, CreatedAt: 20251205 T 182129, By: Bobi}
+      Cancelled .Fix the live site inception bug:
+        +: {CreatedBy: Bobi, CreatedAt: 20251205 T 182354, By: Bobi, Tags: [OCWSPhase1], Estimation: "30", RemTime: "0"}
+        Details:
+          - in the "content" section the site itself is repeated again.
+          - might be unecessary as it only happens if a file is missing
+        CancelReason: it's unnecessary as it only happens if a file is missing
+      Fixed .Some colors are missing from colors.json:
+        +: {CreatedBy: Bobi, CreatedAt: 20251209 T 161315, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "30", RemTime: "0"}
+        Details:
+          So far discovered:            
+          - Maturity
+          - 4-AlmostDone, etc.
+          - \"TODO" and "Done"                      
+          - PropertyType, Type
+          Go through Barba.Types:
+      Fixed .Fix scrolling bug:
+        +: {CreatedBy: Bobi, CreatedAt: 20260331 T 004208, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "60", RemTime: "0"}
+        Details:
+          When both the left and the right side contains more content than one page (e.g. on the left most of the categories are open), then the bottom of the left side is visible only if the right side is fully scrolled to the bottom
+      Fixed .NonDD pages inception-like behavior:
+        +: {CreatedBy: Bobi, CreatedAt: 20260413 T 205859, By: Bobi, Tags: [CSVDONE, OCWSPhase1], Estimation: "60", RemTime: "0"}
+        Details:
+          The Watch, Contact, Support pages are loading the main site itself instead of the proper content
+      Fixed .Cloudflare hides emails due to some email protection feature; disable this:
+        +: {CreatedBy: Bobi, CreatedAt: 20260415 T 130134, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+      Fixed .Sidebar shrinks if the content is too wide:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 185853, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+        Result:
+          \"overflow: auto" was the solution.
+      Fixed .Some more colors are missing from colors.json:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 190318, By: Bobi, Tags: [CSVDONE], Estimation: "10", RemTime: "0"}
+        Details:
+          - EstTODO
+      TODO .Colors missing and incorrect - again:
+        +: {CreatedBy: Bobi, CreatedAt: 20260421 T 130738, By: Bobi, Tags: [CSVTODO], Estimation: "10", RemTime: "10"}
+        Details:
+          - Actors:, Situation:, Prerequisites:
+          - Check the spaces in front of properties - they should have.
+          - Closed and 0-Dont should be "92,92,92" (decimal)
+TODO .Improvements:
+  Id: Improvements  
+  Done .ToC:
+    Done .Make a decision - should we do it and how?:
+      Priority: 2-Low
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131658, By: everyone }
+      Result:
+        We're doing a ToC per "topic"
+  Done .Add the part we recorded during our smoking session to the Summary:
+    +: {CreatedBy: Bobi, CreatedAt: 20260414 T 124226, By: [Hana, Bobi], Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+    Details:
+      - transcript the recording
+      - chatgpt it
+      - add it to the summary - or ask Bobi if you're not sure where/how
+    Location:  https://drive.google.com/drive/folders/1kBjpBQyFXLlqaGZWS2bfV9pU5Qu0Uo5I?usp=drive_link
+    Cancelled .figuring out how to install Audicity:
+    Done .Transcribe the recording:
+      +: {CreatedBy: Hana, CreatedAt: 20260418 T 070000, By: Hana, Tags: [CSVDONE], Estimation: "60", RemTime: "0"}
+      Workspace:
+        
+        Transcription (Hana):
+          History:
+            The fisrst stage: we thought that people had the same idea 
+            The second stage: 
+              - Article development ( we realized we have more knowledge about it than others ) 
+              - Little marketing Team
+              - Site was focused on these people who can just understand it from an article
+              - Who hardly want to read and understand how the system will work
+            Summary:
+              It seems that its hard to find these people who can do it from an explanation
+            The third stage:
+              - Third website, will be able to show how the system works, so not just explaining
+            How to help:
+              - Send us a review and send it to others and ask questions
+              - Advance help is sending us yamls and create a bug reports
+              - in contribution section askes us first how to do the things 
+          Strategy:
+            - in this current stage (3rd stage): trying to fine tune our things, gather enough audience, performing marketing activities.
+            - Marketing learn:  
+              - we improve the site up until we have contributers (people who are interested)
+              - After the above, we will be developing the processes about how 
+              - Summary: contributers will wait a bit -> developining the processes -> more contributers -> high priority in process development ( obviously will prioritise hese people who helps us more and provide them one to one process )
+    Done .Fine-tune the transcription:
+      +: {CreatedBy: Hana, CreatedAt: 20260418 T 070000, By: Hana, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+      Workspace:
+        Chatgpt (Fine-tuning):
+        Public:
+          progress:
+            stage_1:
+              title: "Assumption"
+              description: 
+                We started with the belief that many people already shared this idea.
+
+            stage_2:
+              title: "Explanation"
+              description: 
+                We focused on explaining the system through articles and built a small
+                marketing effort around it.
+              insights:
+                - "Even strong explanations are not enough"
+                - "Understanding requires more than reading"
+                - "People need to see the system in action"
+
+            stage_3:
+              title: "Demonstration (Current)"
+              description: 
+                We are building a new version of the platform that demonstrates how the system works.
+                Instead of explaining concepts, we aim to make them observable and testable.
+          how_to_help:
+            basic:
+              - "Share feedback and ask questions"
+              - "Introduce the project to others"
+              - "Contribute ideas or test cases"
+            advanced:
+              - "Submit YAML configurations"
+              - "Report issues and inconsistencies"
+            note: 
+              If you want to contribute more deeply, reach out and we will guide you.
+          current_focus:
+            - "Refining the system"
+            - "Improving clarity through demonstration"
+            - "Growing a community of engaged contributors"
+          contributors:
+            note: >
+              Early contributors receive more direct support and involvement as the system evolves.
+
+        Internal:
+          history:
+            stage_1:
+              summary: 
+                We overestimated how many people already think this way.
+            stage_2:
+              summary: 
+                We tried to solve the problem with explanations (articles).
+                This failed as a primary strategy.
+              observations:
+                - "We understand the system better than the audience"
+                - "Most people will not invest effort to understand abstract explanations"
+                - "If it is not immediately clear, it is ignored"
+              conclusion: "Explanation-first is not scalable"
+            stage_3:
+              summary: 
+                Shift from explaining the system to demonstrating it.
+              note: "This is a strategic shift, not just a UX improvement"
+          execution:
+            priorities:
+              - "Build a demonstrable system, not just content"
+              - "Use the product as the main communication tool"
+              - "Attract contributors through interaction"
+          marketing:
+            reality:
+              - "Contributors do not come from theory"
+              - "They come from clarity, proof, and interaction"
+            approach:
+              steps:
+                - "Make the system self-evident"
+                - "Attract contributors"
+                - "Develop processes around contributors"
+          contributors:
+            strategy:
+              - "Early contributors are high value"
+              - "Prioritize them with faster onboarding"
+              - "Provide direct communication"
+              - "Offer tailored processes"
+            note: "Selective prioritization is intentional"
+  TODO .Manually convert the urls in the NonDD pages to html links:
+    +: {CreatedBy: Bobi, CreatedAt: 20260415 T 130443, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+    Details:
+      - Repo is theforty2project.org, files are under content\Contact\, content\Watch, etc.
+      - Remove the conversion of the file from the htmlconverter setting as well 
+  InProgress .Publish the Reports (currently in CSVs) on the site:
+    Id: PublishCSVs
+    +: {CreatedBy: Bobi, CreatedAt: 20260415 T 131636, By: Bobi}
+    Done .Decide:_ how should we do this:
+      Id: Decide
+      +: {CreatedBy: Bobi, CreatedAt: 20260415 T 131709, By: Bobi}
+      Details:
+        Options so far:
+          - google spreadsheet
+          - csvtohtml converter
+          - image    
+      Done .Make a PoC about the csvtohtml converter:
+        Id: CsvToHtmlPoC
+        +: {CreatedBy: Bobi, CreatedAt: 20260415 T 131910, By: Bobi, Tags: [CSVDONE], Estimation: "60", RemTime: "0"}
+      Done .Make the actual decision:
+        Id: ActualDecision
+        +: {CreatedBy: Bobi, CreatedAt: 20260415 T 132002, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+        Result:
+          Integrate it into F2Yaml2HtmlConverter
+      -->Tasks\Software\F2FileToHtmlConverter\.."F2FileToHtmlConverter".."Development".."SecondPhase".."Implement CSV converting feature".."Ability to specify which columns to be converted in config"<:
+      Done .Convert the CSVs:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 191447, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+        DependsOn: -->Tasks\Management\.."General management".."Task list reports (CSV)".."Update our approach of handling the CSVs as of 20260415 mehh"<
+        Details:
+          Include:
+            - F2FileToHtmlConfig edit            
+  TODO .Coming soon section on the website:
+    Details: A section listing what our next "Big Potatoes" are
+    TODO .Create the content:
+      TODO .Collect the bigpotatoes and create baseline content:
+        +: { CreatedBy: Bobi, CreatedAt: 20250607 T 134553, By: Hana }
+      TODO .Review:
+        +: { CreatedBy: Bobi, CreatedAt: 20250607 T 134553, By: everyone }
+    TODO .Figure out how to put it on the site:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 134553, By: Hana }
+      Details:
+        - Hold a meeting about it and reach a reasoning based decision - so not voting
+        - Note: It should relatively be prominent, so not just a footer element (especially if there's no footer yet)
+    TODO .Implement:
+  TODO .Social media bar:
+    Priority: 2-Low
+    Details: the social media buttons would be visible on each page, maybe on the - fixed - header
+    TODO .Make a decision about what to include and when:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131754, By: everyone }
+  OnHold .Footer section:        
+    +: { CreatedBy: Bobi, CreatedAt: 20250331 T 222026, By: Shadow }
+    ForRequirement: -->Documents\Requirements\Website\..Website..SecondPhase.."Site Elements".."Basic".."Landing page".."Footer"<
+  TODO .Create Roadmap section:
+    +: { CreatedBy: Hana, CreatedAt: 20250701 T 124532, By: [Shadow, Hana] }
+    Dependend on .Response, quantity and quality of the applicants:
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

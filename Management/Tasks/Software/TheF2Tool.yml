@@ -1,0 +1,1147 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+Done .MVPDoneAsOf20241113:
+                      
+InProgress .MVPLeftAsOf20250730:
+  Id: MVPLeft250730
+  +: {CreatedBy: Bobi, CreatedAt: 20251030 T 222050, By: [Bobi], Tags: [CSVTODO]}
+  Details:
+    - The remaining tasks left to reach an MVP-level product.
+    - MVP meaning that The F2Tool:
+      - can be at least showcased to illustrate what it should be able to do when reaching Basic capabilities
+      - ideally, IF connected to a VS Code extension, it's on a level that it's better to use this than the current Git + VS Code extension based approach
+  Notes:
+    - This is currently a "one man army" approach, meaning the management of the work is done through Tasks (this and its children), focusing only on the currently left ones (until the MVP or until a proper team is assembled). Maintenance of Requirements, Test Cases, Tests, etc. are done on an "if needed" basis, which is quite rare.:
+    - Due to:
+        - The dev (Bobi) created the concepts, he wrote the Requirements, the code, the specification, etc.
+        - he's using the project management system continuously and The F2Tool MVP version is about automating the tasks he's performing here.
+        - he's playing all the roles - Business, Business Analyst, Arhictect, Developer, QA, devops, etc.
+  OnGoing .Create and maintain specifications for the MVP version:
+    Id: SpecsForMVP    
+    Done .Create behavior specs for editing - so what action does what:      
+    Done .Create initial specification for F2Yaml.MVP:
+      Id: CreateInitialSpec
+      Details:
+        Include:
+          - Items without Id, like a WorklogEntry
+          - Default format - so the most basic
+          - Nested Items
+          - Referencing
+      Cancelled Work out Excel mode vs non-Excel (Code) mode:
+        <-Workspace-:
+          Excel style:
+            Done .Decide:_ about "=" and "--><" things:
+              Result:
+                - we support both
+                - The "--><" is for backward compatibility only and only for Item references
+                - The "=" is the "real" Excel style
+                - \"--><" only for Item references
+            Description:
+              Scalar strings: 
+                - as-is; basically it's not required to put them into quotations                      
+              Non-scalars (Items and references) must be:
+                Or():
+                  - preceded by an "=" character:
+                  - their key surrounded by the "-->" and "<" character sequences:                            
+              Escaping:
+                If a value must start with an "=" character or "-->" character sequences then we escape it with the usual backslash character ("\") put in front of it, like:
+                  <SomeItemType>:
+                    SomeProp: \= #the SomeProp will contain only the "=" (equals) character as a value                      
+            Example:
+              <MyType>:
+                AnotherStringProp: =MyFunctionCall()
+                AnotherStringProp2: -->MyFunctionCall()<
+                AnotherStringProp3: 
+                  -->MyFunctionCall()<:
+                    Param1: blah                      
+                ItemProp: =RootItem..MyProject..MyItem
+                ItemProp2: -->RootItem..MyProject..MyItem<
+                YetAnotherStringProp: =RootItem..MyProject..MyItem.StringProp
+                AnotherItemProp: 
+                  =<Task>:
+                    Id: blah
+                YetAnotherItemProp:
+                  =TODO MyBlah:
+                    Summary: blah blah
+          \Code (non-Excel) style:
+            Description:                    
+              Scalar values:
+                - Must be in quotations or any explicit string scalar notations should be used - like the "|", ">", etc.
+              Non-scalars (Items and references) must be:
+                - Must NOT be in quotations
+            Example:
+              <MyType>:
+                StringProp: "value"
+                NumberProp: 1.0
+                AnotherStringProp: RootItem..Functions..MyFunctionCall()
+                AnotherStringProp3: 
+                  MyFunctionCall():
+                    Param1: blah                   
+                ItemProp: RootItem..MyProject..MyItem                      
+                ItemProp3: 
+                  RootItem..MyProject..MyItem:
+                    Prop: First updating this prop, then assigning the value of the item here #well, this should be an advanced behavior though...
+                YetAnotherStringProp: =RootItem..MyProject..MyItem.StringProp
+                AnotherItemProp: 
+                  =<Task>:
+                    Id: blah
+                YetAnotherItemProp:
+                  =TODO MyBlah:
+                    Summary: blah blah
+      Done .Go through the requirements and check the little features I was planning to include:
+      Result: -->Documents\F2YamlSpecification\F2Yaml\."3-Detailing Must .F2Yaml.MVP Rules Sketch"."3-Detailing Must .F2Yaml syntax detailed"<
+    OnGoing .Update specification for F2Yaml.MVP:
+      Id: UpdateSpecs
+      Details:
+        Include:
+          - explicit notations for item reference, new item
+          - reorganization and cleanup
+      TODO .Add the Flag Enum handling to the specification:
+        Details:
+          - A list of strings
+          - Or, a number
+          - A function can return:
+            - long - that's fine
+            - list of enumeration members  
+  OnGoing .General Fixes:
+    Id: GeneralFixes
+    Done .Make the app run again 20250730:
+      Id: MakeAppRunAgain
+      Estimation: 
+        2h: normal
+        30m: PAR time
+      Summary:
+        - fix dependency injection
+        - fix circular references in dep. inj.
+        - that's it?
+      Done .TextUICommandRegistry and GeneralCommandRegistry to be lazy-loading the functions:
+      Done .Stricter Item InternalId handling:
+      Done .Fix BelongsTo problems:
+        Done .New Itemreferences to be collected and resolved together if requested:
+          Cancelled .Collect the ItemReferences to be resolved:
+            Details:
+              Including:
+              - ItemReferences are required to be constructed instead of being singletons
+              - Each created ItemReference is put into a static list
+              - ItemReferences to have a ReferencingItem prop
+              - Items to register themselves (in Item constructor) if receiving an ItemReference into its ReferencingItem prop                
+              - Static function to go through the list and trigger the Referencing Items to resolve their BelongsTo references - then remove the ref from the list.              
+          Done .Collect the Items to be triggered to resolve their references:
+            Details:
+              - Items, when receiving an ItemReference as BelongsTo, register into a static list
+              - A public static function on the Item triggers the resolvation of the references and removes the Items from the list
+        Done .RootItem to create its default Folders during static construction time instead of lazy-loading them:
+        Done .DummyDescriptor to be the only "no belongsto" Item:
+          Done .Create class ItemStaticsAndConsts for storing its Ids:
+      Done .All properties of Items using ItemReferences to work like the BelongsToReference:
+        Details: 
+          - Item descendants using ItemReferences as props:
+            - Mostly (or only):
+              - TypeInfoForEnumerations
+              - TypeInfoForItemTypes                
+            - Implement props the same way as BelongsTo and BelongsToReference
+      Done .Fix Dependency injection:
+        Done .Upgrade IoC registration verifier to create better reports:          
+        Done .First batch - make it run:
+        Done .Second batch - make it able to display Items:
+      Done .Fix no internalId problems:
+        Done .FunctionBody, ParameterDescription, TypeInfoForLists to create a new one during construction time:
+      Done .Fix BarbaYamlFileBasedPErsistenceProvider to support converterManagerStore:
+      Done .Fix some converters to accept IItem instead of Item:
+      Done .Fix converters to support the new Enumerations:
+        Done .Flags:          
+      Done .Create and upgrade Debug-time tools:
+        Done .Upgrade BelongsTo verifier:
+        Done .Create ISimpleConsoleIO for Debug-time console operations:
+        Done .Upgrade ISimpleConsoleIO to support indenting:
+          Details: Implement ability to increase/decrease the indenting of console writes.
+        Done .Move the IoC registration check here:
+      Done .enums to be Int64:          
+      Done .ExtendsClass should not be specified as list:
+      Done .Upgrade IoCRegistrationVerifier to support reports and diagnostics:
+      Done .SimpleConsoleIO for simple console handling:
+      Done .Test IoCRegistrationVerifier:
+      Done .ItemTypeTI should always be Dummy and should be updated from the TypeDescriptor init:
+      Done .Check what's with ICurrentSession AspNetCurrentSession and SimpleCurrentSession:
+        Details:
+          We register AspNetCurrentSession to ICurrentSession in WebAPI project, and in Core we use SimpleCurrentSession. The AspNet one is missing some dependencies; how is this supposed to work?
+        Result:
+          Well, probably during the WebAPIGovernor init we put it there... seems to work.        
+    Done .Make the app run again at 20251017:
+      Done .Fix AllCreatedItems:
+      Done .Fix circular IOC:
+      Done .Temporary fix for F2Link type as parameter:
+      Done .StandardItem TypeDescriptor fix:
+      Done .ItemManager.TryGetObjectByItemReference fix:
+      Done .Quick fix to make yaml converting work with nulls:
+      Done .TypeConvertingManager fix:
+    Done .TextUI TryGetValueThroughCommandLine does not work:
+    Paused .Fix TypeDescriptors:
+      Done .Fix TD inits:
+        Done .TypeDescriptor hiddennes check:
+          Done .What's with CurrentUser?:      
+      TODO .Implement TDs for the remaining classes:
+        Details:
+          As of the time of writing:
+            ProgrammingLanguageBasedFunctionBody
+            StepsBasedFunctionBody
+            ConditionalFunctionStep
+            FailStep
+            FunctionCallFunctionStep
+            ReturnStep
+            SetVariableFunctionStep
+            WhileLoopFunctionStep
+            EnumerationMemberExpressionItem
+            FunctionCallExpressionItem
+            ItemExpressionItem
+            ReferenceExpressionItem
+            ScalarExpressionItem        
+    TODO .Check if during resolving F2Links we use the BelongsTo hierarchy; fix if not:
+  OnGoing .Refactorings, Consolidations and Changes:    
+    Id: RefactorsAndChanges
+    Ongoing .Refactorings:
+      TODO .Test whether everything works if we do not initialize all the type descriptors in one go:
+      TODO .Move all the checks and shit from the Starter to some better place:
+      TODO .Move the initialization of IoC to some static constructor maybe?:      
+      Blocked .Refactor the passing around of "values":
+        DependsOn: -->Tasks\Software\TheF2Tool\.."MVPLeftAsOf20250730"..Decisions.."Internal type handling refactoring".."Taskify and estimate"<
+        Details:
+          - So what do we get after expression evaluation (the return value of IExpressionEvaluator.TryEvaluatingExpression())
+    Done .Merge ItemWithID into StandardItem:
+      Done .Remove (I)ItemWithID completely:
+      Done .Change the DB Schema and merge ItemWithID into StandardItem:
+    Done .Replace IdPath to ItemReference:
+      Done .Fix ItemManagerService.TryGetItemByItemReference:
+      Done .Fix ItemBase.TryGetValue():
+      Done .Fix GetFullId():
+      Done .Fix ItemBase.TrySetValue():
+      Done .Remove all IdPath references:
+      Done .ItemReferenceExpression to be consolidated:
+        Details:
+          There's only one: the Itemreference - the "InternalId" based one is just one with one InternalId part
+      Done .Write ToString function for ItemReference:
+      Done .Rename ItemReference to something which shows that it can point to a property as well:
+        Result: It became F2Link
+    Done .Revise and fix DateTime converting:
+      Details:
+        Currently we support "pattern" based one.
+        We should rather support some ISO one, or, better, some "smart" one allowing omitting certain things, adding spaces here and there - but what smartness should we use...
+      Result:
+        Stayed with pattern based, supporting the ISO patterns as well.
+    Done .Temporary IdString consolidation:
+      Result:
+        - Constructor cleanup
+        - Revised isValidIdString - now it's alphanumeric, "_", "-", but "-" can't be first; number can - to support Guid as InternalId (which is an IdString)
+        - Probably later we need to remove allowing them to be numbers - i.e. the first char has to be a non-numeric character - but right now a guid is considered to be an idstring
+    Done .Temporary InternalId consolidation:
+      Result:
+        - They have to be valid IdStrings
+        - Well... later probably they should not be, as allowing a number to be the first character can mess up expression processing.
+    TODO .Consolidate TextCommandProcessor:
+      TODO .Make sure that all "built-in" functions are handled as a Function-type item:
+      TODO .How are function parameters supposed to be handled?:
+      TODO .Implement "public CommandProcessingResult Process(ItemReferenceItemRefExpression command, ExecutionContext? executionContext, ICollection<ItemBase>? usings = null, params ICommandRegistry[] additionalCommandRegistries)":
+    Done .BarbaConsoleIO small fixes & upgrades:
+      Done .Add the "Ctrl+V" functionality to the textinput:
+        Result: it works by default...
+      Done .Multiple lines support fix:
+      Done .Backspace does not delete character:
+      Done .Make ctrl+enter end the input, not enter:
+        Details:
+          Actually, think it through and check the 2 modes I have there
+    Paused .Add CreatedBy and CreatedAt to ItemBase:
+      Done .Add CreatedAt:
+      Done .Add CreatedBy:
+      TODO .Fill CreatedBy:
+        Details:
+          - figure out the concept of automatically filling it
+          - we'll probably need to add some "system" user - or leave it "null"?
+          - Should we add it to those constructors?
+    TODO .Consolidate the checking of Item values:
+      Details:
+        - there are like 3 places: in parser/evaluator, in ItemManager and in the Item itself. Decide where and it should be there only.
+    TODO .Solve the problem that Duration is TimeSpan based:
+      Details:
+        Problem:
+          - And Timespan is fraction of a second based, therefore we're not able to handle situations where the user wants an event to happen every x month/year on the same day
+        Ideas:
+          - Make it custom struct based and implement the functionalities as static methods which add the current timespan to a date (or if possible, override the "add"? operation )
+    TODO .ITextCommandProcessor.Process should handle the "exception happened" case:
+      Details:
+        So what if there is an exception during " _processManager.ExecuteFunction(...)" 
+    TODO .F2Link upgrades:
+      TODO .Make F2Link support pointing to an Item in the default list property of the preceding Item:
+        Details:
+          See @ $@-->Documents\F2YamlSpecification\F2Yaml\."3-Detailing Must .F2Yaml.MVP Rules Sketch"."3-Detailing Must .F2Yaml syntax detailed"."1-SomeProgress Must .Item references or Links"..F2Link.Tasks.."Problem:_ Linking to an element in the default list property and an element belonging to, having the same Id."<@$
+    TODO .FunctionGenerator.GetFunctionFromStaticMethodInfo(MethodInfo? method) should ask for BelongsTo:
+    TODO .The parser should expect that in later stages there will be meta info coming along the yaml:
+      Details: |
+        So the situation is that we can render things in different formats, like in the "STATUS SUMMARY: {MyProp: blah, MyOtherProp: blahblah}" way, also, we often omit the Type information. These should be present though in the "meta" we store about those sections somewhere in a different place (file, location)
+      Workspace:
+      #- The parser should also accept information about what is the "displayformat" for the currently parsed section, so like:
+      - It can happen that something can be parsed to 2 things as well:
+        - In this case we should ask the user about the intention
+        - I'd say that this should be a later "improvement"
+  InProgress .Console-based UI + services:
+    Id: ConsoleUI
+    InProgress .F2Yaml Parsing and Evaluating For Console:
+      Id: F2YamlParsing
+      Done .Check its current state and make a plan about fixing:
+        Id: CheckAndPlan
+        Estimation: 
+          1h: normal
+        Done .Check what's with the displayformat in the Requirements:
+        Done .Create a plan:
+          Done .Refactor and document the current Parser things:
+          Result:
+            - Starting from scratch and using the previous parser implementation wherever it's advisable
+            - No tokenization; we do string manipulation.
+      Done .Parsing remainings:
+        Done .YamlParsingException should return row, col as well:
+        Done .Remove the old parser:
+        Done .Split the ValueExpressionParsers into two and move the functionality in TextUI to the "with type info" one:
+          Details:
+            - one that parses without Type information
+            - one that parses with Type information
+        Done Decide:_ Do we evaluate the expression and see whether the returned type matches the ValueExpression's type?:
+          Result: yes, but only in the expressionevaluator
+      Done .Expression evaluation first batch:  
+        Id: ExpEvalRound1
+        Done .Scalar:
+          Done .Basic:
+          Done .As return value of function:
+        Done .List:      
+        Done .Object:
+        Done .Item:
+          Done .ItemDefinition:
+          Done .ItemReference:
+        Done .Enumeration:
+        Done .EvaluateNonParsedNonExplicitYaml:    
+        Done .Move the long to enum conversion to the function call processing:
+        Done .EvaluatePartiallyParsedItemExpressionAs without Custom header support:
+          Done .Check what we expect if we return an Item:
+            Result:
+              - Checks:
+                - ItemManager returns IItem
+                - OldExpressionEvaluator returns - well, nothing.
+              - We should return ItemData:
+          Done .Implement:
+            Done .Type as header:
+            Done .Id as header:
+            Done .No header:
+        Done .EvaluatePartiallyParsedItemExpressionAs fixes:
+          Id: EvalPPIEFixes
+          Done .Check what's with ItemReference and fix things:
+            Details:
+              So do we handle the 2 different cases:
+                - it points to an Item
+                - it points to a property of an Item
+            Done .Check:
+              Result:
+                ItemReference was assumed to point to an Item during expression evaluation, while it can point to anything basically. So this needs to be fixed.
+            Done .Fix ItemManager.TryGetObjectByItemReference:
+            Done .Fix expression evaluator:
+          Done .Set BelongsTo to the parent Item if evaluating the value of an Item - if not set explicitly:
+        Done .Cleanups:
+          Done .Remove the externally not used methods from IExplicitValueParser:
+        Done .Missed parts:
+          Done .Process flag-type enumerations:
+            Done .Expression is long:
+              Details: do it in the EvaluateLongAsEnumeration method
+            Done .Expression is array of strings:
+            Done .Function return values:
+      Done .Developer Tests And Fixes:
+        Id: TestAndFix
+        Done .Simple Enumeration:
+          Details: 
+            Test with this and fix any bugs (record them as sub-Tasks):
+              "<Enumeration>: {Id: b}"
+            Done .SplitToParts does not work on string which have no separator (i.e. they are a single element) in them:        
+            Done .F2Link wrongly classifies during parsing a simple Id as PropertyId:
+            Done .ClassDescriptionForHardcoded.IsAssignableFrom fix:
+            Done .Temporary solution for "using" System.Types at all times:
+            Done .Small fixes in EvaluatePartiallyParsedItemExpressionAs:
+              Details:
+                - Class instead of ItemType
+                - effectiveClassDescription wrong order
+            Done .Unnecessary (and wrong) check of return value in TextUI after IExpressionEvaluator.TryEvaluatingExpression(..) call:
+        Done .User:
+          Details: 
+            Test with this and fix any bugs (record them as sub-Tasks):
+              <User>:
+                CreatedBy: 
+                  new <User>:
+                    Id: createdByUser
+                CreatedAt: 2025-10-20T20:35
+                BelongsTo: -->F2Tool..System..Users<
+                Id: testuser
+                Summary: "Lorem ipsum dolor"
+                InternalId: asdfasd-asdfasd-asdfadsf
+          Done .DateTime is parsed as InternalId:
+            Details:
+              So the cause is that:
+                - we don't recognize it as datetime
+                - InternalId wrongly parses it as a valid one
+          Done .InternalId parsing does no work with the current yaml parser:
+            Details:
+              The current yaml parser does not support {blah} format...
+            Result:
+              InternalIds can be represented as simple strings now, do not need to be enclosed by "{" and "}"
+          Done .BelongsTo evaluation throws error:
+          Done .User has wrong ExtendsClass in its TypeDescriptor:
+          Done .The TypeInfo for Enumeration has wrong InternalId:
+          Done .ItemBase.TryGetValue does not return "true" if an owned item is found:
+        OnGoing .Miscellaneous:
+          Id: Misc
+          Done .Parse F2Links even if they are not explicit:
+            Details:
+              Such as: 
+                BelongsTo: F2Tool..System..Users
+        TODO .Check and if we don't, support "flat" definitions of Items:
+          Details:
+            So like:
+              new:        
+                Id: Blah
+                Type: Folder  
+    CurrentFocus .Create Item:
+      Id: CreateItem
+      Done .FunctionGenerator to support ItemData and SpecificItemTypeAttribute:
+        Details: 
+          - due to the decision in -->Tasks\Software\TheF2Tool\.."MVPLeftAsOf20250730"..Decisions.."Decide:_ Function and their parameters in the MVP, especially ItemData vs IItem vs ItemBase"<
+          - create the attribute and make FunctionGenerator use it
+      Done .Fix SpecificItemTypeAttribute so that it accepts a Type:
+      Done .Create and apply the SpecificItemTypeAttribute on static methods used by the FunctionGenerator:
+      Done .Write crude ToString for ItemData_New:
+      TODO .Check and fix ItemBase descendant constructors accepting ItemData:
+        Details:
+          In most of the ItemData based constructors the PropertiesAndValues are not processed - process them.
+      TODO .Write the actual "New" function:
+        Id: WriteActual
+        Details:
+          - Mostly:  Make ItemManager process the ItemData
+          - Some error handling around it though
+        TODO .Remove the mandatoriness of Id in ExtractAndVerifyItemData(ItemData_New item...):
+        Done .Check what's with "custom" classes:
+          Details:
+            - So they are "Item"s, right
+            - What if they are descendants of a StandardItem though - is it a problem? Well, probably not... we do not "C#" descend from it, we only use the TypeDescriptor
+        TODO .Rewrite ItemManager to accept ItemData_New (and rename ItemData_New) only:
+          Details:
+            - mostly no "WebAPIObjects.Item"
+            - return value should be also not WebAPIObjects.Item
+    EstTODO .Update property value of Item:
+      Id: UpdateProp
+      Estimation: 8h
+      Summary:
+        - Include the "soft delete" case - where "IsDeleted=true"
+        - Console based change property - so like: |
+          MyRoot.MyItem.Burp: bumm
+        - Decide on some notation, so, which one? Probably first though, maybe second?:
+          - MyRoot.MyItem.Burp : bumm
+          - MyRoot.MyItem.Burp =: bumm
+          - MyRoot.MyItem.Burp = bumm
+    EstTODO .Soft and Hard Delete Item:
+      Id: DeleteItem
+      Estimation: 6h      
+      Details:      
+        Simple commands: \"HardDelete" and "Del"; 
+        Types:
+        - Soft delete:
+          - ID is changed to its FullId
+          - BelongsTo is changed to System/DeletedItems
+          - IsDeleted set to true
+        - Hard delete:
+          - Item is deleted.
+        - Both:
+          - Check if it can be deleted at all - i.e. no references. If yes, and/or force, then:
+            - remove all the references to it as well
+            - everything belonging to it should belong to its parent
+        Notes:
+        - Services are there, so we just call them
+      EstTODO .Delete commands:
+        Estimation: 3h
+      EstTODO .Item hard delete services:
+        Id: ItemHardDelete
+        Estimation:
+          3h: 1+2
+          30m: sum PAR time (15m+15m)
+        EstTODO .Delete Item baseline:
+          Id: DelItemBaseline
+          Estimation: 
+            2h: easypeasy.
+            15m: PAR time.
+          Summary:
+            - Check if it can be deleted at all - i.e. no references. If yes, and force, then:
+              - remove all the references to it as well
+              - everything belonging to it should belong to its parent
+        EstTODO .Delete ClassDescription baseline:
+          Id: DelClassDescBaseline
+          DependsOn: ~->.Delete Item baseline<
+          Estimation: 
+            1h: provided we did the Delete Item
+            15m: PAR time.
+          Summary:
+            - Check if it can be deleted at all - i.e. no references. If yes, and force, then:            
+              - remove all the references to it as well
+              - everything belonging to it should belong to its parent        
+  EstTODO .Make the DB work:
+    Id: MakeDBWork
+    Estimation: 
+      Normal: {Value: 10.5h, Comment: 1+3+2+1+0.5+3; normal case}
+    Summary:
+      - Upgrade the DB
+      - Initialization and check-db at start
+      - Test a few writes-reads   
+    OnGoing .Update the DB structure according to the latest plans:
+      TODO .First batch:
+        Details:
+          - include versioning support
+          - StandardItem
+          - Whatelse?
+    EstTODO .Upgrade the driver to the latest:
+      Id: UpgradeDriver
+      Estimation: 1h
+    EstTODO .F2WebAPIGovernor initialization tasks:
+      Id: GovernorInit
+      Estimation: 3h
+      Summary:
+        - Test database connection by reading the System Folder
+        - Restore the DB if needed
+      Done .Decide:_ Create initial DB structure:
+        Summary:
+          Question:_ Do we need to mirror the memory structure to the DB?:
+            Answer: Yes
+            Reason: \"Cleaner".
+            Details: 
+              We need:
+                Root Item
+                System and Types folder
+                Types
+                Projects
+                Users
+          F2Root:
+            .System Folder:
+              .Users Folder:
+                .User List:
+              .Types Folder:
+                .Scalars Folder:
+                  .ScalarTypes List:
+                .Functions Folder:  
+                  .Function List:        
+            .Projects Folder:      
+      Done .Decide:
+        Done Should we create DB objects directly, or should we create Items and then DB objects from them?:
+          Result:
+            Items first. Build a memory structure, then write them to DB.        
+    EstTODO .Optional:_ Solve storing nulls in non-ordered cases:
+      Id: NonOrderedNull
+      Importance: 2-Low
+      Estimation: 2h
+      Summary:
+      -  (maybe store them in an ordered manner anyways - so if DisallowNull is not enabled):
+    EstTODO .Solve circular references:
+      Id: CircularRefs
+      Estimation: 1h
+      Summary:
+        In case Item A references Item B and B references A. In this case:
+            - first creating the Items
+            - then create the connections
+    EstTODO .Fix DBStatus:
+      Id: DbStatus
+      Estimation: 30m
+      Summary:
+        Read something from it, like a "SimpleType" - or write, read and delete something simple?
+    EstTODO .Strategy to write to database:
+      Id: DbStrategy
+      Estimation: 3h
+      Summary:        
+        - we probably don't want immediate writes, rather in batches after an update (action) is done, due to Items triggering modifications of other Items, in circular fashion maybe
+      Done .Question:_ Is it better to do immediate writes at first and then do deferred ones later?:
+        Summary:
+          - maybe. So after each Action, we save to DB.
+          - but, probably with the "modified" flag; it doesn't seem to be hard.
+        Result: No.
+      Done .Items to have a "modified" flag:
+      EstTODO .DB strategy - when to write to it? And implement.:
+        Id: Implement
+        Estimation: 3h
+        Summary:
+          - Collect Items with the "modified" flag, convert them to DBNodes.Item and write them to DB, based on a trigger.            
+          - Figure out when to write to the db (but:_ immediately after each CUD operation at first)
+          - Figure out how to check if an Item is changed (but:_ worst case is brute-force, so we check everything starting from the root. Probably better if ItemManager keeps track of them by maintaining a list of changed Items, to which each Item should be subscribing. This would need some changes in the constructor (of Items)).     
+    EstTODO .Fix DateTime, etc. handlings:
+      Id: ScalarHandling
+      Estimation: 4h
+      Summary:
+        - Figure out a strategy - so a "decide" task
+        - DateTime and Duration are the questions
+  EstTODO .Workspace support:    
+    Id: Workspaces
+    Estimation: 
+      29h: 1    + 1   + 5.5  + 11  + 10.5
+      9h:  0.25 + 0.5 + 1.25 + 4.5 + 2.5; PAR time
+    Requirement: -->Documents\Requirements\TheF2Tool\..F2Tool.."F2Console".."Workspaces"<
+    EstTODO .Item Versioning support:
+      Id: Versioning
+      Estimation: 
+        1h: if I'm blurry minded.
+        0.5h: PAR time
+      Summary:
+        At each update, the version of the Item is incremented.
+      Implementation notes:
+        Supposedly a new field only. 
+        With type descriptor - a computed field, long, starting from 0.                    
+        At each property update we increment it - so not just at each action.
+    EstTODO .Create the WorkspaceDescriptor and Meta Items:
+      Id: WSDescAndMeta
+      Estimation: 
+        1h    : simple class creations; little thinking through maybe.
+        0.25h : PAR time - if I type fast and nothing to think through
+      Summary:
+        The C# objects - the classes and their ClassDescriptions, like: |
+          class WorkspaceDescriptor: Item
+          {
+            public ClassDescription ClassDescription = new ...
+          }
+    EstTODO .Storing Meta files:
+      Id: StoreMeta
+      Estimation: 
+        1h  : create/change/delete the files and their content; basically should be part of other tasks, so this is mostly about the decisions to be made.
+        0.5h: PAR time (kind of if we are lucky and no need to think it through much)
+      Summary:
+        Background:
+          - We store "meta" information about the files in the workspace in the TF2P Folder
+          - The information we store:
+            - What file contains what and where it is located - e.g. the "Barba" file is located in the "Roots" folder and contains Items belonging to the Item "Barba"
+            - What Item versions do we have stored in the files
+            - ClassDescriptions for each Item - as they might be changed on the server side without the client being notified
+          - The information we store is in the form of WorkspaceDescriptor Items. Every change to them is a change in an Item, therefore it's stored on the server side as well. This comes handy if the descriptors are tampered with as in this case they can be restored from the server side.        
+        Notes:
+          - Decision to make: each workspace file can also store its own meta info; it might even be enough, especially that we store the meta infos on the server side, therefore it should be decided whether we store them in meta files as well or just in the files in the workspace + on the server.
+    EstTODO .Merge or updating Items (in files) which are updated in memory:
+      Id: MergeAndUpdateItems
+      Estimation: 
+        5.5h: 2 + 3.5; normal time
+        1.25h: 45m + 30m; PAR time
+      Summary: |
+        In-memory updates can happen due to the Item updated in one location or by another user through the server; in this case all locations should be updated with the latest Item version. Problem is if the instance to be updated is changed; in this case, we merge.      
+      EstTODO .Implement simple update process:
+        Id: SimpleUpdate
+        Estimation: 
+          2h: notifying the user is a Console.WriteLine thingie, 15 mins tops. Parsing Items is an existing functionality; comparing the parsed is simple, then writing the file is also a simple thing.
+          30m: PAR time
+        Summary: |
+          In case there's no local change AND in case there are changes which do not cause conflict.          
+          Includes:
+            - Notifying the user that there is update
+            - Parsing the local Items, checking for change
+            - In case of change, deciding whether that's a conflict/not; if so: $@.Implement merge process@$
+            - Updating the Items
+      EstTODO .Implement merge process:         
+        Id: Merge
+        Estimation:
+          3.5h: 90 + 30 + 60 + 30; normal time
+          45m: 30 + 5 + 10 + 0; PAR time
+        Summary:
+          Task: In case there are conflicts, perform the merge process.
+          General example: 
+            MyItem:
+              Prop1: myLocallyChangedProp1Value
+              Prop1.Orig: originalProp1Value
+              Prop1.Master: MasterPropValue
+              Prop2: unchanged
+              -Prop2.Master: #this means Prop2 is deleted
+              +Prop3.Master: newValue #this means Prop3 is newly added
+        EstTODO .General process:
+          Id: General
+          Estimation:
+            90m: this is just the framework; the individual cases are different tasks. MIGHT include some nice solution for outputting the strings - time permitting.
+            30m: PAR time
+          Summary:
+            Process:
+            - Notify the user (e.g. in a message on the console) that there are conflicts, there should be merge
+            - Update the workspace Items
+            Notes:
+            - The user should then manually (or, with some help from the plugin app) choose which value should be the accepted one by editing the files
+            - At save - so when processing the files - the system should check whether any merging is left by checking for the ".Master", ".Origi", etc. suffixes. If so, FailQuestion().   
+            - if there's a change to a property which is deleted and the user wants to add it back, the user must re-add the property in the ClassDescription. 
+        EstTODO .Item delete:
+          Id: ItemDelete
+          Estimation:
+            30m: simple string manip
+            5m: PAR time
+          Summary:
+            Situation: The Item is HARD deleted but we have local changes. Soft delete is just a change in properties - so ".Item change" case.              
+            Requirement:
+            - The "Key" of the Item is surrounded with the "-DELETED-" string
+            - Example:
+                -DELETED-MyItemId-DELETED-:
+                  Prop1: local value
+        EstTODO .Item change:
+          Id: ItemChange
+          Estimation:
+            1h: simple strgin manip, just a bit more.
+            10m: PAR time
+          Summary:
+            In all cases a property with the ".Orig" suffix is added after the property name to show the original value of the property:
+              MyItem:
+                Prop.Orig: originalValue
+                Prop: localValue
+            Properties added/removed:
+              Description:
+                A "-" sign is added in front of the property name in case of removal, plus ".Master" after
+                A "+" sign is added in front of the property name in case of addition, plus ".Master" after
+              Example:
+                MyItem:
+                  Prop2.Orig: originalValue
+                  Prop2: unchanged (or changed; doesn't matter)
+                  -Prop2.Master: #this means Prop2 is deleted
+                  +Prop3.Master: newValue #this means Prop3 is newly added
+            Property value changed:
+              General case: we add a property with the suffix ".Master" with a new value
+              Example:
+                MyItem:
+                  Prop1: ChangedOriginalValue
+                  Prop1.Orig: OriginalValue
+                  Prop1.Master: ChangedOriginalValueInMemory
+            Item Id changed:
+              - MyItemId:
+                  Id.Master: MyItemNewId
+        EstTODO .Item location change:
+          Id: ItemLocationChange
+          Estimation:
+            30m: because 30m is the minimum. Basically included in the $@.Item change@$
+            0m: PAR time
+          Summary:
+            The Item belongs to another Item now, so for example it should not appear in the particular file any more.
+          Result:
+            It's treated as a "BelongsTo" property change:
+              MyItem:
+                .MyOriginallySubMyItem:
+                  BelongsTo: MyItem
+                  BelongsTo.Orig: MyItem
+                  BelongsTo.Master: MyOtherItem          
+    EstTODO .Read:
+      Id: Read
+      Estimation:
+        11h: 6+2+2+1
+        4.5h: PAR time
+      EstTODO .Clone/Load workspace command:
+        Id: CloneLoadWS
+        Estimation:
+          6h: becaue I expect shit.
+          2h: PAR time
+        Summary:
+          - Create the command, 2 params - one is an Item, the other is a path
+          - Get the Workspace Item from ItemManager by Id
+          - Folder creations:
+            - Go through the folders/files and create if necessary; if they exist, abort.
+          - Fill the folders/files with the Items:                    
+            - For roots, have a special "request" - GetItemsUnder
+            - For queries, have a special "request" - tbd.
+          - Update the WorkSpace Items with the "meta" information:
+            - what Item is what version, in what file, from what to what row, in what format                        
+          - Processes, Logs: later.
+      EstTODO .Pull:
+        Id: Pull
+        Estimation: 
+          2h: checking if everything is commited "engine" is included here; services.
+          1h: PAR time
+        Summary:
+          - Checks if everything is "commited" - so that the file contents match with the descriptions in the Workspace Items
+          - Asks the server for updates based on the Workspace Items
+      EstTODO .Periodic queries/keepalive:
+        Id: KeepAlive
+        Estimation:
+          2h: engine, services, etc. 
+          1h: PAR time
+        Summary:
+          - The client periodically sends a query to the server, serving 2 purposes:
+            - keeping the session alive
+            - checking whether anything has changed; if so, downloads the Actions resulting it, applies to the memory rep and either asks the user or automatically updates the files
+      EstTODO .Individual Item update:      
+        Id: ItemUpdate
+        Estimation:
+          1h: command and writing the files
+          30m: PAR time
+        Summary:
+          Process:
+          - Command for updating an Item by e.g. Id
+          - Updates the files.
+    EstTODO .Write:
+      Id: Write
+      Estimation:
+        10.5h: 9+1+30
+        2.5h: PAR time
+      EstTODO .SaveAll or CommitAndSync:
+        Id: SaveAll
+        Estimation:
+          9h: 6+2+1
+          105m: PAR time sum
+        Summary:
+          Situation is: the user changed a few Items residing in various files in the workspace, then the user issues the "SaveAll" command.
+          Notes:
+            - The process is broken down into Actions for rollback and partial processing purposes:
+              - Each update of an Item is one Action.
+              - Renaming of an ID and updating the references is one Action (so NOT each an Action)
+              - Each processing of an Action can end in "success" or "fail", no in-between - so no partial processing of Actions.
+              - An Action can contain multiple other Actions
+            - If "success", results in updates:
+              - in local memory            
+              - in the workspace meta files
+              - on the server
+              - if Items appear multiple times in the workspace: in the workspace files
+            - If it ended in "fail":
+              - no updates
+              - the changes are present only in the local workspace files (as per the "baseline" functionalities)
+            - Reminder:_ 3-4 types of files, we focus on Root and maybe on Workspace ones:
+              - Query results:
+                  Summary: containing the results of queries; read-only at baseline - you should copy an Item to a workspace file to edit. So no actions coming from here.
+              - Root:
+                  Summary: 
+                    - containing ALL the Items (in case of reverse BelongsTo, ALL the Items belonging to an Item) under a certain Property/Item
+                    - meaning that if an Item which was there before is not present now:
+                      - it should be removed
+                      - if it's not present anywhere else, ~deleted
+                  .BelongsTo based:
+                  .Reverse BelongsTo based:
+                  .Other property (like "SubTasks") based:
+              - Workspace:
+                  Summary: a file used like a command line (+you can scroll up, edit things, etc.)
+          Process:
+            - FailQuestionResult FailQuestion()=:
+                Summary: 
+                =>:
+                  - Display the error
+                  - Does the user want to continue? (Y)es/Yes for (A)ll/(N)o/(R)ollback:
+                    - yes: continue processing, skip this
+                    - Yes for All: continue processing and skip any future errors as well
+                    - no: Exit()
+                    - Rollback:     
+                      - RollBack(ExecutedActions)
+                  - Exit()
+            - RollBack(List<Action> actions)=:
+                =>:
+                  - ForEach(var action in actions.Reverse()):
+                    - restore the Items to their "before" state on the client side
+                    - handle this as a new "Change" - so no rollback on the server side, only new Actions which are the opposite of the ones to be rolled back.
+            - ProcessLocalChange()=:
+                Summary: 
+                  - the main process of the SaveAll command.                
+                =>:       
+                  - LocalVariables.New(): List<Action> ExecutedActions
+                  - For each Root file in the workspace:
+                    - Is it a yaml? If not: FailQuestion()
+                    - Parse the Items into ItemData and ClassDescriptionData. If cannot: FailQuestion()
+                  - For each Item/ClassDescriptionData:
+                    - Is it a valid Item?:
+                        If not: FailQuestion()                             
+                    - we update:                              
+                      - the "memory" representation - therefore we use this from now on
+                      - every instance about it in the Workspace
+                      - the workspace meta
+                    - Create an Action action from what happened and:
+                      - ExecutedActions.Add(): action
+                    - we update the server side, which returns success/failure, the changed Item and optionally a list of Actions triggered by this change which were executed on the server side:
+                      - if the returned Item is different than what we have on the client side: FailQuestion()
+                      - if there are triggered Actions:
+                        - we execute them and log them into the Action list:
+                        - if the Action would conflict with a change the User has made: ItemMergeQuestion()
+                        - there are triggered Actions by default if the Item is a ClassDescription and property Id is changed or properties were added removed:
+                          - the Items which need to be updated (so their properties renamed, removed or added) come as Actions.
+                    - Extra - so MVP+Basic; kind of separate commit+sync, like in Git:
+                      - we execute any triggered functions:
+                        - We note the changes made by these triggers as Actions by the System into the Action list.
+                      - we update the server side:
+                        - We process the returned Action and change list; if they do not match with what we have:  
+        EstTODO .The main process:
+          Id: MainProcess
+          Estimation:
+            6h: I expect "troubles" with the concept.
+            1h: PAR time.
+          Summary: see the summary of the parent Task.     
+        EstTODO .Create means for sending the Actions to the server:
+          Id: MeansForActions
+          Estimation:
+            2h: I fiddle too much with these things usually... includes the concept as well - having to think through the other functionalities and their API needs. Needs a clean mind.
+            30m: PAR time
+          Summary: 
+            Refactor the REST Api to support Actions instead of CUD.
+        EstTODO .Logging the Actions for later rollback and history:
+          Id: LogActions
+          Estimation:
+            1h: Not much, right... so I think PAR time is closer.
+            15m: PAR time
+          Summary:
+            - Finding a place for them
+            - Creating the Actions Items and maintaining them
+      EstTODO .SaveItem:
+        Id: SaveItem
+        Estimation:
+          1h: if the SaveAll is done, this is pieceofcake.
+          30m: PAR time
+        Summary:
+          Summary: Saving an individual Item.
+          Needs:
+            - Command for saving, requiring an Id            
+            - Finding the Item in the files and performing the save - like in SaveAll
+      EstTODO .SaveFile:
+        Id: SaveFile
+        Estimation:
+          30m: if SaveItem and SaveAll is done, this is pieceofcake.
+          15m: PAR time
+        Summary:
+          Summary: Saving an individual File
+          Needs:
+            - Command for saving, requiring a path
+            - Finding the Item in the files and performing the save - like in SaveAll
+    Blocked .Test Consolidate and Bugfix Workspace-based version:
+      Id: BugFixWorkspaceUI
+      Estimation:
+        Normal: 12h
+        PAR: 4h
+  OnGoing .Decisions to make:
+    Id: Decisions
+    Done .Decide:_ What type to use internally for storing Item (and other) data outside of ItemManager:
+      Details:
+        - We do NOT want to use ItemBase descendants; they should be only for the "internal, safe" handling of stuff, only ItemManager should be able to handle these
+        - Therefore, ItemManager should accept and return something else.
+        - Candidates:
+          - IItem implementations
+          - ItemData 
+          - WebAPIObjects.Item
+          - something new
+      Result:
+        Considerations:
+          - for hardcoded functions it would be good to be able to specify the Type of the Item in the parameters - so what ClassDescription they should match.:
+            - one option is to use the Hardcoded types - so like "User", etc.
+            - other is to have an attribute in which we specify its ItemReference (e.g. IdPath or InternalId)
+        Options:
+          IItem implementations:
+            Analysis:
+              - too complicated, having lots of "unnecessary outside ItemManager" features
+          ItemData:
+            Analysis:
+              - super simple - just props and values
+              - can be upgraded - so moving certain fields to a property, thingslikethat:
+                - but probably we don't need to; this is just a data holder, no functionalities are needed in it for which strongly and statically typed properties with access modifers, guards, getter-setter functions would be needed
+          WebAPIObjects.Item:
+            Analysis:
+              - nah, it's made for REST API communication; it would be quite ugly to make it serve 2 purposes
+          Something new :
+            Analysis:
+              - ItemData would probably suffice so no need to create a special approach - or, it would probably be like ItemData
+        Choice:
+          ItemData seems to be the winner.
+
+    Done .Decide:_ Should we return some "wrapper" object around the values the IValueExpressionEvaluator.EvaluateValueExpressionForTypes() returns:
+      Details:
+        - purpose would be better type safety - so we know what it can return, it's not just "object":
+          - things like the ValueExpressions, like:
+            - ObjectValue, ItemValue, EnumerationValue, etc.
+      Workspace:
+        IValue:
+          pros:
+          - safer, nicer
+          cons:
+          - extra coding
+          - a little overhead in processing time
+          - we'd eventually need to unwrap and return just "object" at some point - but probably that function would be very simple (like just returning the "Value" part of the IValue)
+          Conclusion: would be probably nice, but maybe in a future refactor
+
+    TODO .Decide:_ Reconsider using GUIDs as InternalIds AND also requiring that InternalIds are IdStrings:
+      Details:
+        Allowing numbers to be IdStrings can mess up expression processing (so a number there - is it a number or a variable name...)        
+    TODO .Decide:_ Concept about date and time handling:
+      Details:
+        Mostly time zone problems: we store UTC I guess and display local time?
+        Idea: use a struct for this, in which we store the year, month, time, etc. values separately, along with the time zone
+    TODO .Decide:_ Work out the concept of not having to explicitly include the System.Types folder in usings:
+    Done .Decide:_ Function and their parameters in the MVP, especially ItemData vs IItem vs ItemBase:
+      Details:
+        - pressing problem: how to implement "new" - should it receive ItemData or ItemBase
+        - in the mvp: we support "built-in" functions for sure; what is the parameter type they get if they want to receive an Item, especially if they want to receive a special Item?
+        - further, in mvp+ : if user defines their own functions, e.g. through using F2Yaml or C# function body, what should the user expect?
+      Workspace:
+        - Idea1: 
+          - in the "generated function" case we could use attributes + ItemData, attributes specifying what type we should get
+          - in general, functions should work on ItemData - not on "IItem"-s. 
+          - later, in mvp+, we could generate types, like "Task", etc to provide a strongly and statically typed programming environment
+      Result:
+        We go with Idea1.
+    Paused .Decide:_ Are we strongly and statically typed:
+      Details:
+        - Hopefully yes, but it might be hard(er) to implement.:
+          - Pros:
+            - Easier to decide when checking whether some expression is valid - so we don't need to go and actually check the value, call the function, but can just determine from the type information
+          - Cons:
+            - Type casting is an extra operation - so from "object" to "something".:
+              - Can be done maybe through a special "function", the "Cast" one, handled specially. 
+              - Or, better maybe, through a special notation in the expressions: 
+                - ValueExpressions: a TypeCastExpression, containing the "to" type and a ValueExpression which should be cast
+                - F2Yaml notation: -Result->TODO Figure something out, like the usual MyType myVar = (MyType)otherVar maybe<
+      Workspace:
+        We're going with "yes" at the moment.
+    Paused .Internal type handling refactoring:
+      Paused .Decide:_ Should we and how:
+        Details:
+          - What to return during expression evaluation - the .Net type (currently) or some proper type?
+        Workspace:
+          - Considerations:
+            - Do we need "extra" information around it? Like type info, parser information, source, etc.?
+            - Even if we don't need the extra - for type safety, should we still use some wrapper?
+            - IItem-based things for Items? Or ItemData? Or repurpose the Expressions?:
+                And what for:
+                  - Scalars - a ScalarItem maybe?
+                  - Lists - IItemList? What's the benefit over a simple Array?
+                  - For Objects?
+            - Items store C# types (long, string, etc.), they return them as such. Should we then wrap them when asking ItemManager to resolve a reference?          
+          - Collect use cases, like:
+            - custom (=user defined) functions
+            - built-in functions
+            - command processing
+            - ItemManager return values and parameter values - so should they return some "object", or should they return the wrapper
+          - Feeling about the result:
+            - passing "object?"-s feels ugly
+            - passing nicely typed things feels less ugly, but it's probably loots of refactoring + there's some computational overhead there (which should not be a problem as we ONLY OPTIMISE IF NEEDED)
+            - soo, we do it in an ugly way first, then we refactor
+      Blocked .Taskify and estimate:
+        DependsOn: -->Tasks\Software\TheF2Tool\.."MVPLeftAsOf20250730"..Decisions.."Internal type handling refactoring".."Decide:_ Should we and how"<
+        Details:
+          - Collect the places we need to rewrite. Include:
+            - Expression evaluation          
+            - "IsObjectProperType"
+            - Converters
+            - Function generation
+            - Context
+            - ItemManager
+          - Go through the usecases above
+    Paused .Work out the "custom property" concept:
+      Details:
+        - Meaning: one can add "custom" properties to Items, ones that are not defined in their types. 
+        - This is not new - we are already planning this way, see the CustomProperties in WebAPIObjects
+      Workspace:
+        - Ideas:
+          - format is (BNF): <type> <PropertyId> ":" <Value>
+          - such as: 
+              .EstimationsAndRelated:  
+                Type: Folder
+                integer DefaultMultiplier: 2
+          - by default they are "public" - meaning they can be referenced from the outside
+          - we can have support for access modifiers, with a "Visibility" property        
+    TODO .Decide:_ how to define the numerical value of the flags:
+      Details:
+        - we'd need a "syntax sugar" way of defining flag enums        
+    
+DraftTODO BasicOrMVPPlus:
+  .Features:
+    Paused .Workout:_ the "Children" feature - how they should be displayed in Workspaces setting:
+      Tags: [Workspaces]
+      Details:        
+        - Problem: what if Item A has Children (they BelongTo A) which sit (their definition is) in another file, as an e.g. SubTask of Item B. Where and how do we display the children?
+        - I think there's something in the Requirements already about this
+      Workspace:
+        - Idea1:
+          - both places, fully.
+          - the files get updated - maybe on focus change
+    Paused .Workout:_ Templates in Workspaces setting, or, specifically, handling Tasks and their Result fields written inside texts:
+      Tags: [Workspaces]
+      Details:        
+        - So like $@-Result->Done blah:_ {Result:_ "lorem"}<@$
+        - What to do with these:
+          - the Item BelongsTo by default to what?
+          - What if there's a Result already:
+            - We can't just discard the Task, but it would be good to only display the result
+        - Also, more generally, what to do with expressions there - do we show the expression or its evaluated value?
+      Workspace:
+        BelongsTo:
+        - Idea1:
+            - The Item BelongsTo: The Item containing the text
+        Display:
+        - Idea1:
+            For Tasks:
+            - Display:
+              - With some IDE support we'd display the "Result" only, but it would be underlined/different color/somethingonit, and one could do some action using the extension to swith in between how it's displayed
+              - If no IDE support then we could put some special characters around the text from the Result and one could do the extension action staying on those characters - like @$...$@
+            For expressions:
+            - similar fashion as above        
+        - Idea2: 
+          The property would have either some special character after it or, if there's some cool IDE support, it would be displayed in a special way to signal whether it's displaying the "rendered" or the "template" version of the content. Like the (R) sign, for example: 
+            - MyArticle:
+                Content(R): This is the rendered version
+            - MyArticle:
+                Content(R): This is the $@=MyLibrary.Echo("rendered")@$ version
+  .Implement Yaml parsing and Expression evaluation remainings:
+    OnHold .PropertyOf cases:
+    InProgress .Collect the cases which are still required to be able to process the current yamls:
+      TODO .Think it through what needs to be supported for console and what for workspace files:
+    TODO .Semantic sugars:
+      TODO .Folder to inherit its parent folder's DefaultTypes property:      
+    TODO .Syntax sugars:
+      TODO .The "+" sign:
+        Details:
+        TODO .Add to the specification:
+        TODO .Implement in parsers:
+      TODO .Custom headers:
+        TODO .Work out the custom header concept:
+          Details:
+            - to support the current representation of Tasks mainly            
+            - only enum, string and IdString ones can appear there
+            - maybe a number as well?
+            - string can only be the last one
+            - strings should be enclosed in between quotation marks
+            - either all are present or it's not a custom header based definition
+            - we want some strings to be NOT enclosed, like the current Tasks - but what if it's just one word, therefore it could be an Id?:
+                in that case it's an Id. If you want it to be a Summary, but still one word - then put that quotation mark around it.
+        TODO .Custom header support for expression evaluation:
+          Details: 
+            - This will be supported in later phases.
+      TODO .Defining classes with the "class" keyword:
+        Details:
+          - \"class" keyword
+          - <type> <propertyId> format of defining properties
+          - array type is placing a [] after the type
+      TODO .Defining enums with the "enum" keyword:
+        Details:
+          - \"enum" keyword
+          - etc.
+      TODO .Defining subitems for the default list starting with a dot:
+      TODO .Map as array:
+        Details:
+          Elements of arrays can be represented as mappings and not jut sequences.
+    TODO .Add document position information to the F2ValueExpressionEvaluationException:
+      Details: 
+        - so that it can be displayed where the error is
+        - this also means that we probably need to add this position information to the ValueExpression-s as well
+    TODO .Refactor the BarbaYamlParsing/Evaluating:
+      Value:
+        20251013: 2-Low
+      Details:
+        - Barba means kind of "first try". Now we have something, so refactor it so that it's "nice" and easy to handle - if it's possible at all.      
+    TODO .EvaluateArithmOrBoolExpressionAs:
+    TODO .ExpressionAsValue:  
+  TODO .ExecutableFunctionBody should be finished:
+    Details:
+      ComputerExecutionMethodPath should contain the path to the method in a way that the BodyForComputerExecution can be loaded from it.
+  TODO .Add support for Expression as a value:
+    Details:
+      - see at -->Documents\Requirements\TheF2Tool\..F2Tool.."F2Core".."Object model".."OOP - Basic level, including algorithmical data".."Item Programmability - Basic level".."Expression as a value"<
+  TODO .Services:
+    Id: Services
+    Estimation: 
+      Normal: {Value: 3h}
+    TODO .Check whether we need Change Item at all:
+      Id: DecideIfWeNeedChangeItem      
+      Estimation: 1h
+      PreviousStatuses: [EstTODO]
+      Details:
+        probably implement (and use a little) the first Console services:
+    Blocked .Change Item baseline:
+      Id: ChangeItem
+      DependsOn: -->Tasks\Software\TheF2Tool\."DraftTODO BasicOrMVPPlus"..Services..DecideIfWeNeedChangeItem<
+      PreviousStatuses: [EstTODO]          
+      Estimation: 2h
+      Summary:
+        - Check what's with this
+        - Probably we'll need to support some property-based update, not a full replace of Item
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

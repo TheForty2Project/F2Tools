@@ -1,0 +1,11 @@
+Background: |
+  A reminder, that we - the members and the computers together - form a system, a machine which does work in order to progress towards its goals; both humans and computers are treated as "processing units", performing Tasks; humans are just very error-prone, slow - but in return, can perform all Tasks. 
+  At this initial stage almost all Tasks are performed by humans.
+Folder content: 
+  Details:
+    The folders contain the current workspace or context for the members, the "human processing units"; one folder for each member.
+  The recommended files:
+    Workspace.yml:
+      This is the "main" file and should be used as a workspace - a desk - into which most of the work related scribblings, notes, progresses should be recorded and periodically - e.g. at the beginning of the workday - cleaned up.
+    TasksToBeSorted.yml:
+      A Task "sink", into which one shovels into the Tasks emerging during work, to be sorted and cleaned up at a later point. 

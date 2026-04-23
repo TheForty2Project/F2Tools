@@ -1,0 +1,95 @@
+Things I (Bobi) scribbled:
+  Summary 2ndPart originally:
+    After summary:
+      Done Some explanations:
+        Done Title: 
+          | 
+          Some explanations
+        Done Cooperation:               
+            |
+            Cooperation:
+
+            We work together to help ourselves, distributing the work in a way that individually we get more than if we worked alone
+            Such as:
+              - if I can bake better and you can cook better, then I'll bake your stuff, you'll cook my stuff - we both end up with better meals than if we did it alone
+              - if I'm making a software we'd both need and you're making a software we'd both need then we share the results - so we both end up having both (with a negligible additional cost for sharing them)
+        Done Fair cooperation: 
+          Content: |
+            Fair cooperation:
+          
+            Simply: how you'd feel it's fair if you worked together to achieve something for the common good with your friends - well, with the non-asshole ones at least.
+            
+            Formally: we share the "profit" - or, rather, the value we created as it's NOT only about money - in a way that your share is proportional to the value of your contribution to its creation (so NOT the time you invested but the result, incentivising you to work more efficiently, valuing your effort you put into learning skills, caring about your mind and therefore your body, being healthy and well, as a side effect, to be able to enjoy life more)
+            A formal example:
+              We created a software for which the development cost using market rate would have been TOTAL_MR_COST, which is then sold for REVENUE amount of revenue. You developed a component for it, which could have been developed for COMPONENT_MR_COST amount of money by hiring a developer from the market. In this case your share can be computed as the followings: 
+                YOURSHARE = COMPONENT_MR_COST / TOTAL_MR_COST * REVENUE                  
+              (Note: this situation is super simplified, not taking into account a vast variety of costs and modifying factors, but it shows how the value of the work matters and not e.g. the time one spent on it, or worse, how much one marketed themselves or whined or befriended the boss)
+
+          <--Maybe as a separate article: |
+            C:\!F2GitRepos\Management\DocsAndArticles\Documents.yaml\"Definition of "Fairly"".Content"
+
+      Cancelled Optimal cooperation:
+          # Optimal cooperation:
+          #   - we're doing:
+          #     - "the best possible way considering our current information and capabilities"
+          #     - or, "always doing the most important task"
+          #   - which, as an algorithm:
+          #     10: the members (or, rather, computing units, including our management software) work on the next "most important" Task
+          #     20: 
+          #       we continuously/periodically check how our work can be serving our goals better - meaning how we can produce better results with less work/cost OR increase the available capacity:
+          #         Such as:
+          #         - higher quality decisions (more likely to yield the expected result, higher granularity, etc.)
+          #         - automation possibilities
+          #         - process improvements
+          #         - improving this actual step - the way, frequency and triggers of checking how our work can be serving our goals better
+          #     30: we evaluate each option of improvement, compute the cost/value ratio
+          #     40: we re-prioritize the Tasks based on this evaluation
+          #     42: GOTO 10 
+    TODO .How we do it actually:
+      Details:
+        - At first we resemble to a hierarchically managed "software company", using the latest available methods (~Agile) to manage ourselves, focusing on developing the first version of The Tool into which we can start automating our processes.
+        - Everyone is a "shareholder", with the right (or, rather, duty) to involve themselves into decision making
+        - We do "projects", or, rather, things which would help the group:
+          - e.g.: software development - websites - services; anything.
+        - At 
+    TODO .High level plan explained:
+  TODO In this stage:
+    Details:
+      - This is the "second wave" of letting in people - after trying it out with just a few
+      - First phase:
+        - Gaurav, Utkarsh: learned programming with us, now they are productive in it, in management; they are smart people but this is a big success for us
+      - We'd need mostly senior developers, but juniors (or wannabe programmers) are very welcome,
+      - Explain where we are exactly and what we need
+      - Include personal situations
+      - 
+  TODO Investment:
+    Details:        
+    <-Workspace-:
+      - Need to figure out how our (Bobi, Hana, Gaurav, Shadow, Giselle, Sokabetu, t) contribution is counted:
+          Founders:
+            Situation:
+              Bobi:           
+                - Founder: main idea, working it out from scratch, research, establishment of theories; all roles, kind of "one-man-army" role; 99% of the important work up until now (and 95% of the hours spent as well).
+                - The past 10 years were mostly spent on this project. Sacrificed almost everything - a successful carreer, wealth, we have debts only, living in a temporary accomodation we escaped to from our parents', sacrificed friends, life, health, everything.
+                - Having to deal with the consequences of becoming the public face of the project, many failed attempts to get funding/members/support until now. I have to play the role of the central figure here, my face would be public, I'll be the no.1 target for many crazies - despite I just want a peaceful life, for which I just want this project to succeed                
+              Hana:
+                - The past 5 years were spent 100% on the success of the project, even if through supporting Bobi mostly. Sharing the same problems and situation.
+            Compensation:
+              Bobi, Hana: 
+                Explanation:
+                  As we could have spent our skills and resources on building a business, it should be fair if we owned a "share" of the project in return for founding it - if it was a business entity, like a company.
+                  It's not, so for the establishment of the project, we should have a share of _all_ profit made - like if we were part of the team and provided x% of the value necessary for producing the "product".
+                The first ideas:   
+                  - 0.42% (~= 1/238) of profit, of which:
+                    - 42% for Bobi
+                    - 22% for Hana
+                    - 24% for the BobiHana family
+                    - 1-1-1-1-1% for the current and former team members
+                    - 6% for further allocation
+        # - Our contributions:            
+        #   Founders:
+
+  TODO Contribution:
+      - We need mostly programmers who can finish the first version of The Tool, which allows us to be able to efficiently manage 10+ people.
+      - This means:
+        - 

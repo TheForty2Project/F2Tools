@@ -1,0 +1,19 @@
+#Instructions for RainbowCSV:
+# 1: Comment fix: Select the "#" character, right click->Rainbow CSV->Set selection as Comment Prefix
+# 2: Line generation: Generate your CSV lines and paste them; mass-fix the columns if needed using the alt+shift+click multi-row select feature
+# 3: Order and sum: 
+# 3.1: Convert to minutes: IF there are estimations/remTimes in "h" => convert them to m(inutes)
+# 3.2: Prepare to sum: Remove the "m" after all the time values (both Estimation and RemTime): alt+shitf+click select all in the column, ctrl+h, switch on the "in selection" (three horizontal lines", "m" in first box, second box empty, press Replace all 
+# 3.3: Open the query window: Press 'Query' (next to CSVLint button in the bottom), check 'Input table has header'
+# 3.4: Order: Put "SELECT * ORDER BY a3, a6" to the textbox, press run then copy the result back to this one
+# 3.5: Sum: Queries are "SELECT sum(a2)" for sum of Estimation and "SELECT sum(a5)" for sum of RemTime; Run each and put the results as a new line like the example below
+*, Estimation, Status    , By          , RemTime, IdLink                                                                                                                             , DependsOn
+ ,         30, TODO      , Hana        ,      30, "-->Tasks\Management\..""OCWSPhase1""..""Clean up the CSVTODO tags""<"                                                             , 
+ ,         90, InProgress, Hana        ,      90, "-->Tasks\Management\..""General management""..""Task list reports (CSV)""..""Creation""..""Create OCWSPhase2 task list reports""<", 
+ ,         30, TODO      , "Bobi, Hana",      30, "-->Tasks\Processes\..Miscellaneous..PwdManagement<"                                                                               , 
+ ,         30, Done      , Hana        ,       0, "-->Tasks\Management\..""General management""..""Task list reports (CSV)""..""Maintenance""..""SyncAt20260402""<"                  , 
+ ,         10, Done      , Hana        ,       0, "-->Tasks\Management\..""General management""..""Task list reports (CSV)""..""Maintenance""..""SyncAt20260403""<"                  , 
+ ,         70, Done      , Hana        ,       0, "-->Tasks\Management\..""General management""..""Task list reports (CSV)""..""Creation""..""Create Management task list reports""<", 
+ ,         30, Done      , Bobi        ,      30, "-->Tasks\Management\..""OCWSPhase1""..""Cleanup workspace""..""Bobi""<"                                                           , 
+ ,          0, Done      , Hana        ,       0, "-->Tasks\Management\..""OCWSPhase1""..""Cleanup workspace""..""Hana""<"                                                           , 
+ ,           , OnHold    ,             ,        , "-->Tasks\Management\..""OCWSPhase1""..""Collect the tasks for the live management""<"                                             , 

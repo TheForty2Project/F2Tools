@@ -1,0 +1,1824 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+Comments:
+  - Content: 
+    - At the time of writing the development is a "one man army" approach, therefore Task centered, i.e. changes in scope are reflected in the Tasks and the Requirements (the below) are only updated occassionally.
+    - The current version is closer to the initial version and is missing many updates and concept changes.
+    - This approach will change as soon as there's a significant increase in number of participants.
+  - CreatedBy: Bobi
+  - CreatedAt: 20260422 T 124200
+
+.F2Tool:
+  Details:
+    Background: 
+      Background: |
+        We're using computed management to make decisions for the group, that is, instead of letting key people organized in hierarchies make decisions "as they please" we compute them from the data the group possesses.
+        For this we need:            
+          - information to be stored in a central store
+          - a computer which computes the decision (i.e. what action we should perform) in a way that according to this data, performing the decided action would yield the highest expected utility (=value, e.g. highest likely profit). In layman's terms: the decisions are logical.
+
+        Notes:
+          - although a "computer" can be a human, we obviously want to use the electronic ones as they are insanely better in computations (i.e. executing IF (conditions) THEN (consequence) computations, not feeling based ones like current AIs)
+          - but, for using computers we need all the information (both static and algorithmic) to be transferred from the minds to the storage of our computer systems
+
+        We therefore use a gradual approach, where at first people compute all decisions in a way that these are distributed amongst the members to increase quality and speed, and we gradually formalize each to reach full automation (and max out precision, complexity, speed, reliability, etc.).
+
+        As a summary, we are building a self-improving and automating, human-electronic hybrid distributed decision computing system.
+      Summary:
+        The whole thing:   
+          Environment:
+            The group and the software together form a continuously running system working with abstract objects, a "running object oriented program", consisting of computers and humans, both types storing object oriented data (as in OOP) and performing computations with them.
+            Humans do the computations with their minds, from a "computer system" perspective being just another process performing computations assigned to them by the system - even if slowly, prone to errors; we can manipulate the objects, call other functions; we have our own process context, local variables, etc. 
+            The F2Tool software provides the human-computer interface, the central information storage and the "electronic" computation functionalities to the system, with the final aim that all Tasks performed by human (computers) are in the end formalized (=implemented) into it and performed by it.
+          Processes:
+            The purpose of this system is to run a self-improving decision-making process which aims to 
+        The F2Tool package:
+          This is the computer part, storing data and doing the computations (mainly) with its F2Server component.:
+          Interface in between humans and the F2Server is through the clients, at first:
+            The local F2Tool environment:
+              F2Console console application providing:
+                - a Console interface allowing:
+                  - CRUDE of the OO data the F2Server stores
+                  - controlling the behavior of the F2Server or other connected components - like start/stop/config, etc.            
+                - services for the F2IDEServices
+              F2IDEServices and F2LanguageServer: 
+                - For supporting the main interface, an IDE such as VS Code with a special Language Server Implementation for providing language services - code completion, verification, code actions, etc. - and command execution.
+
+        Local F2Tool environment:
+          It's like a locally running program, memory is the local F2Tool storage in memory. We, as human processes - acting like a process, doing memory manipulation and function execution - modify and query these memory objects through e.g. the following ways:
+            Modify:
+              Console interface: by issuing commands
+              Workspace files: by modifying the content of the file(s) and notifying the F2Tool to update itself based on them
+            Query:
+              Console interface: by issuing query commands and receiving the result to the console/into a file
+              Workspace files: by issuing query commands and receiving the result into the files                  
+  Drafting .Infrastructure:
+    Drafting .Minimal Local:
+      Details: F2Server run locally, accessed through some port forwarding
+  Reviewed .Terminology:
+    Reviewed .Item Directory: 
+      Details:
+        - the tree structure the Items form through their BelongsTo properties. See @$@Mandatory hierarchy of Items - the Item Directory@$
+    Reviewed .BelongsTo: an Item belongs to another if the other item is its parent.
+    Reviewed .Owns: the opposite of BelongsTo
+    Drafting .FullId:
+      Details:
+        Summary:
+          A unique identifier of an Item, constructed as walking through the Item Directory from the Root to the Item and noting the Id-s of the Items we encountered. In a format [RootItem.Id][...].[ItemBelongintTo.Id].[Item.Id].[ItemWithoutId.InternalId]; like a yaml path. 
+        Example: BarbaRoot.Backlog.MyTask1 
+      Comments:
+        - 20250715 Bobi: This is now superseded by the F2Link. TODO update the above.
+    Reviewed .InternalId: A system-wide unique identifier of Items (currently it's a UUID)
+    Drafting .Names and explanations:
+      Details:
+        - F2VSCExtension: The VS Code extension
+  Reviewed .Concepts:
+    Reviewed .Mandatory hierarchy of Items - the Item Directory:
+      Details: 
+        Summary:
+          All Items  must be part of a directed tree of Items, i.e. each Item - except the root - must have exactly one "parent" Item (which cannot be itself).
+          Similar to file system structures, especially that Item permissions are inheritable on the Tree.
+          We do not allow orphan Items therefore and no "garbage collection" is necessary. 
+        Required for:
+          - Permission handling
+          - Addressing an Item with FullIdPath
+          - TODO
+      Comments:
+        - 20250715 Bobi: It is NOT required that the Ids of the Items belonging-to a parent item are unique. It is therefore possible that F2Links pointing to an Item become ambiguous after creating another Item with the same Id and pointing to the parent as BelongsTo, but it should only be a "display" problem as the "real" target should be present in the metadata of the workspace file.
+        - 20251222 Bobi: Well... the above (non uniqueness of Ids belonging to an Item) might have been a too hasty decision; not sure though so there should be a "Decide:_" Task opened for this soon or later.
+    Reviewed .Both-way tracking of references:
+      Details:
+        All Item references are stored on both sides - so a referenced Item knows which Items reference it.
+    Reviewed .Deleting - hard and soft:
+      Details:
+        - We do allow hard delete - so an Item can be permanently removed. Deleting is similar as for a file system folder:
+            - If there are Items which BelongsTo it, we ask whether these should also be deleted.
+            - If the Item is referenced, the InternalId of the referenced Item should be kept at the referencing side - converted maybe to some DeletedItemReference, the user should see something like that an Item with InternalId x should be here, but it cannot be found.
+        - The system should support soft delete as well:
+            Kind of almost user setting dependent; e.g.:
+            - The Items deleted get some special character in their Ids WHEN DISPLAYED - like every letter is in between dashes, like if the Id is "alma" then it would become "-a-l-m-a-"
+            - Displayed with a different color (if the editor supports)
+            - We do not display them in Lists
+  Estimated .F2Core:
+    Estimation: 
+      145h:
+        <-Note-: 5*6+4*6+75+12    
+    Details:
+      Functionalities which are shared across - e.g. object model and architectural things.
+    Estimated .Technical Architecture:        
+      Estimation: 16h
+      Implemented .IOC and loader system:
+        Implemented .IOC system:
+          Implemented .Missing IoC registration checker:
+          Implemented .GetRegistrationNames:
+            Details: Returns the names with which types are regigistered to a type (so the names of the named registrations)
+            <-Task-:
+              Implement .GetRegistrationNames:
+                Status: Done
+                Estimation: 30m
+                Spent: {30m, Bobi}
+      Estimated .Basic Starter and Governor based architecture:
+        Estimation: 
+          - CoreBasic: 0h    
+          - Nice: 6h
+        Details:
+          Overall:
+            Starter: $@~.\.Starter.Summary@$
+            Governor: $@~.\.Governor.Summary@$
+        InProgress .Basic Starter:
+          Details: 
+            Overall:
+              A project is a "Starter" project if it can be run by the operating system (as an application or a service) and through which the functionalities of the app can be started. A starter should start the functionalities by calling their respective IGovernor.
+            Details:
+              - The starter is responsible for initializing the referenced project(s) - e.g. calling their DependencyInjection.Initialize() methods in the correct order - and typically starting the IMainGovernor, for which they should typically register their own implementation.
+              - The starter should initialize the referenced project(s) before starting the IMainGovernor - and hence it should allow the IMainGovernor to be replaced.
+          Implemented .Basic Starters w/o dynamic loading:
+            .-->Documents\Requirements\TheF2Tool\..F2Tool.."F2Console".."Technical architecture".."Starter functionalities"<:
+          Estimated .Dynamic loading of projects:            
+            Estimation: 
+              1d:
+                <-Note-: timebox
+            Details:
+              Starters should provide functionality with which one can load an already compiled assembly (e.g. ~a dll) without the need of compilation. 
+        Implemented .Governor:
+          Details:
+            A "Governor" is a class responsible for driving major functionality groups of the app, like starting and overseeing a module like F2Server (starting its services and governing its behavior), F2CmdLine (watching for commands, etc.), F2ClientServices, etc. They're like applications in the application.                  
+          Implemented .Basic Governor:
+            Details:
+              - Implements IGovernor, having at least 2 functions: 
+                - "void Start()": Starts the governor
+                - "void Stop()": The governor stops its services
+              - Each governor should be registered into the IOC container as a named registration for IGovernor, with their class name as name
+              - IMainGovernor is an "empty" IGovernor descendant interface; Governors capable of being the "main" governor - which can start others and perform general initialization, etc. - should implement this instead of IGovernor
+            .-->Documents\Requirements\TheF2Tool\..F2Tool.."F2Core".."Technical Architecture".."Basic Starter and Governor based architecture".."Governor".."Basic Governor"<:
+            .-->Documents\Requirements\TheF2Tool\..F2Tool..F2Server..Governor..Basic<:
+        <-Task-:
+          Done Clean up the previous loaders and things:
+            WorkLog:
+              - {1h, Bobi, "removed ILoader, cleaned up BarbaGovernor"}                
+              - {10m, Bobi, "Moved login functionalities into ILoginLogoutService from IMainGovernor to ILoginLogoutService"}
+              - {10m, Bobi, "BarbaGovernor.Start() now displays its status"}
+      Estimated .Meaningful exceptions:
+        Estimation: 2h
+        Summary: Some minimal effort into making exceptions meaningful.
+      Estimated .Engine Event Log:
+        Estimation: 4h
+        Details:
+          Events by the system - so no Item change events. Startup, errors, warnings, etc.
+        Implemented .Engine:
+        Implemented .File based simple event log: 
+        Estimated .Placeholder for missing items at 2024.04.08.:
+          Estimation: 4h
+          Details: We'd probably need to log more things, in a better way. 50% done.
+      Implemented Architectural update triggered by the addition of the F2Server component:
+        Details:
+        - cleaner commands
+        - cleaner project structure
+        - moved things from Barba to Core and Console
+        <-Task-:
+          Implement "Architectural update triggered by the addition of the F2Server component":
+            Estimation: { Value: 2h, EstimationType: Afterwards, By: Bobi}
+            WorkLog: {2h, Bobi}          
+      Draft .Dynamic loading of services - i.e. you write a plugin, you reference it during startup (or by a command) and its available to you as commands.:
+      Estimated .Placeholder for missing items at 2024.06.15.:
+        Estimation: 4h
+        Details: Any cleanups, etc.
+    Estimated .Object model:
+      Estimation: 75h
+      Details:
+        Handling information in an OO way:
+          - both static + algorithmical data
+          - same type of behavior like how OO programs handle classes and objects: you can freely define the types and structures (like Requirement), including methods and events inside them, and create instances of them
+          - \"Item" is like an "object" in C#, "ItemType" is like a class
+        Only basic functionalities.:
+      Implemented .Basic Types support:
+        Implemented .Simple types:
+          Details: support for integer, string, bool;
+        Implemented .Enumeration:
+      Implemented .OOP - Minimal:
+        Implemented .Item as Object, ClassDescription as Class:
+          Details: engine of it - so how do we create one, access its properties, etc.
+        Implemented .Basic Item options:
+          Details: IsActor, IsSingleton, DoNotPersist, IsAbstract, IsReadOnly
+        Implemented .Inheritance:
+          Implemented .Declaring:
+          Implemented .Handling first part:
+        Implemented .properties:
+          Implemented .Basic Property options:
+            Details: IsReadOnly, IsWriteOnly, IsMandatory, DoNotPersist, IsHardcoded, DefaultForToString, ListIsOrderedSet, DoNotDisplay
+        Implemented Item programmability - Minimal level:
+          Implemented .Standalone function definitions:
+          Implemented .Item functions:
+        Implemented .Item features:
+          Implemented .InternalId as globally unique id: 
+          Implemented .FullId and IdString support: 
+          Implemented .Minimal ToString: 
+          Implemented .ToYamlRepresentation: 
+      Implemented .CustomItem for runtime declared types: 
+        Details: so it does not need compilation.                          
+      Implemented .Mandatory Hierarchical structure of Items:
+        Implemented .BelongsTo Property:
+          Details: Including OwnedItems
+        Implemented .Root Item based Item structure:
+      Estimated .OOP - Basic level, including algorithmical data:
+        Estimation: 46h            
+        # Estimated .Extension Property:
+        #   Estimation: 1h
+        #   Details: As this is said to be just some syntax sugar, it's about introducing a new Item option mostly - like IsExtensionProperty
+        Estimated .Static - classes, properties, functions:
+          Estimation: 4h
+          Details: as in e.g. C#. Think it through, etc. Should not be hard - so instead of calling a function on an Item, it would be called on the ItemTypeDesc.
+        Estimated .Visibilities - private, public, etc. - for both classes and their members:
+          Estimation: 6h
+          Details: as in e.g. C#. Think it through, etc.
+        Estimated .Item Programmability - Basic level:
+          Estimation: 33h
+          Estimated .Constructor:
+            Estimation: 
+              2h:
+                <-Note-: Supposedly simple - so like a few mins.
+            Details: 
+              ClassDescription level (obviously). 
+          Estimated .Destructor:
+            Estimation: 2h
+            Details: Supposedly simple - so like a few mins.            
+          Estimated .Events:
+            Estimation: 13h
+            Estimated .Item change:
+              Details:
+                See at $@Requirements..F2Tool..F2Server..Global events@$
+            Estimated .Custom events + engine:
+              Estimation: 8h
+              Details: |
+                Like e.g. in C#. 
+                Custom events can be declared (similar way as e.g. properties) and triggered from code. 
+                Events can be subscribed/unsubscribed to/from.
+                There's an engine keeping track of the subscribers and handling the calls.
+            Estimated .List events - Add, etc.:
+              Estimation: 2h
+              Details: Lists should have default events to which one can subscribe. Including RefAsBelongsTo (so reverse).
+            Estimated .Something is referencing the current Item:
+              ReqReq: -->.List events<
+              Estimation: 3h
+              Details: 
+                - So "Item A is about to be referenced by Item B's MyProperty Property". No extras; a function call in which one can throw exception in the worst case. 
+                - The name of the Property should be included
+                - Maybe special care to the BelongsTo-OwnedItems thingy;
+          Estimated .Computed properties:
+            Estimation: 8h
+            Details: 
+              One can declare a property to be computed by providing a function (in the ClassDescription)
+            Estimated .Basic:
+              Estimation: 4h
+              Details: the basics - declaration and handling.
+            Estimated .Caching:                
+              Estimation: 4h
+              Details: the field can be marked as cacheable. In this case the system stores the version of the item(s) it relied on, along with the calculated value and if the version(s) are not changed, the cached value would be used.
+          Estimated .Property Getter + Setter:
+            Estimation: 4h 
+            Details: 
+              Like in C#. Concept is that if a property with type T is a get/set one, then we mark it like this and in this case 2 functions must be provided with the signature of:
+              - T GetterFunction(T value)
+              - T SetterFunction(T value)
+          Estimated .Expression as a value:
+            Estimation: 4h
+            Details:
+              One can provide an expression instead of a value to a property of a CustomItem, effectively converting a non-computed field to a computed one (for that particular instance).
+              The function gets the Item as "this".
+            <-F2YamlSyntax-:
+              Example:
+                Setting:
+                  MyItem:                                          
+                    MyProperty: ="TimeAndDate:_" + this.MyOtherProperty
+                    MyOtherPoperty: =System.TimeUtils.Now()
+                Getting:
+                  MyItem:
+                    MyProperty: 
+                      ="TimeAndDate:\\_" + this.MyOtherProperty:
+                        "TimeAndDate: 2025-07-25 00:00"
+                    MyOtherProperty: 
+                      =System.TimeUtils.Now():
+                        "2025-07-25 00:00"
+
+      Estimated ."Everything is an Item" concept:
+        Estimation: 
+          =: 18h
+          <-Note-: 
+            This is intentionally (seemingly) overestimated - but this is a very core concept, breaking the OOP rules (at least referencing properties) - so concept changes can happen. The original concept though:
+              For property referencing:
+                One way is if for Custom Properties we create a new Item - called maybe "Property" - for each property and these can of course be referenced. This should be quite easy.
+              For boxing:
+                We need the facilities for boxing/unboxing - a little bit of thinking but I think that's it.
+        Details:            
+          For full flexibility, even the properties and values (including primitive ones like a number) should be an Item - and hence another Item can reference it or it can reference another item. So, like:
+            There's an Item with a property, having a value:
+              MyItem:
+                MyProperty: 5
+            Here I should be able to:
+              reference the "MyProperty" (of the concrete Item) - like creating a Note which points to "MyProperty" saying for example that "this property should be filled in":
+                MyItem:
+                  MyProperty: 
+                    =: 5
+                    <-Note-: this property should be filled in
+                    <-Workspace-: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+              add a Note to the value "5" - like "I'm not sure":
+                - MyItem:
+                    MyProperty: {5: {<-Note-: I'm not sure if it's really 5, <-Workspace-: I'm using workspace yeyy }}
+                - MyItem:
+                    MyProperty:
+                      5: 
+                        <-Note-: I'm not sure if it's really 5
+                        <-Workspace-: I'm using workspace yeyy
+      Estimated .Constraining the number of references pointing to an Item:
+        Estimation:            
+          3h:
+            <-Notes-:
+              We can have some Property on the ClassDescription of the Item (let's call it "SourceItem") with the signature something like "PropertyInfo[] SingularReferenceOnlyBy"; any PropertyInfo put here means that only one Item can reference SourceItem with a property described by this PropertyInfo. Checking this is relatively easy. We throw some exception if bad.
+        Details: Possibility to limit how many other Items can reference an Item (single or many) in a certain way, such as a Folder can be referenced as a Folder.SubFolder by only 1 Item.
+      Estimated .Placeholder for missing items:
+        Estimation: 3d
+        Details:
+          - This is to be re-estimated each time there's a review 
+          - 2024.04.08: 20% might be left; nothing seems to be missing though (on top of Requirements marked as todos)
+    Estimated .F2Yaml rendering and parsing configuration:        
+      Estimation:
+        - {1d, Basic (timeboxed)}
+        - {4d, Nice}
+      Details:                      
+      - Configuration can be provided which controls how the Yaml rendering is performed on what Items and how to parse Item yamls.:
+          SomethingLikeThis:
+            class ItemRenderingConfig:
+              Properties:
+                YamlRenderingSelector RenderingSelector:
+                RenderingOptions RenderingOptions:
+
+            class YamlRenderingSelector:
+              Properties:
+                ClassDescription ItemType:
+                  Mandatory: true
+                Item BelongingUnderItem:
+                Item ForItem:
+          
+          Placing the Config in designated places controls the rendering of a case, such as:
+            - Default settings for an ItemType: The property "RenderingSettings ClassDescription.DefaultRenderingSettings" points to it
+            - Workspace and workspace folder based settings: |
+                The 
+                  "RenderingSettings[] Workspace.RendererSettings" or 
+                  "RenderingSettings[] WorkspaceItem.RendererSettings" 
+                Items referencing it
+      - class RenderingOptions:
+          Summary:
+            - The configuration for rendering
+            - used both ways - so the parser will take this into account and will expect the Item in this format.
+          Points:                            
+            - Should enable some inheritance or a way to use another RenderingOptions and redefine things - maybe
+            - Ways:
+              - Most universal and seemingly easiest (if code interpretation is already implemented) - but probably hardest to use/configure - option is to let the user define the function, so for an Item of type MyItem: "string GenerateYamlString(MyItem item)"
+              - Templating:
+                - For the whole Item
+                - Per property
+              - Providing options:
+            - Probably all of the above, so somethinglikethis - nothing is mandatory:
+
+                abstract class RenderingOptions:
+
+                class FunctionBasedRenderingOptions: 
+                  Inherits: RenderingOptions
+                  Properties:
+                    Func<Item, string> GenerateYamlString:                                    
+
+                class TemplateBasedRenderingOptions: 
+                  Inherits: RenderingOptions
+                  Properties:
+                    string Template:
+                    
+                class OptionsBasedRenderingOptions:
+                  Inherits: RenderingOptions
+                  Properties:
+                    RenderingOptions BasedOn:
+                    ItemwideRenderingOptions ItemWide:
+                    IHeaderRenderingOptions Header:
+                    IPropertyRenderingOptions[] Properties:
+      Estimated .Basic:
+        Estimation: 
+          1d:
+            TimeBoxed.
+        Summary:
+          - Somethinglike:
+            class ItemwideRenderingOptions:
+              PropertyDescription[] RenderAsPlus:
+
+            class IHeaderRenderingOptions HeaderRenderingOptions:
+
+            class IPropertyRenderingOptions PropertyRenderingOptions:
+              bool .ShouldRender: see @$@~Partial render@$
+              bool .OnlyValue: Renders the Property as a value-only IF it is not part of a block mapping.
+          - The engine + the most important few, timeboxed.
+          - Including rendering and parsing for each.
+      Estimated .Nice:
+        ReqReq: -->.Minimal<
+        Estimation: 4d
+        Summary:
+          - Expect like 40 options for Basic.
+      <-Workspace-:
+        Notes: 
+          - We preserve order for mappings as well
+        Some cases:
+        - Id: ChosenPropertyValue
+        - Id: ChosenPropertyValue ...
+        - Id:
+            +: {ChosenPropertyValue}
+            AnotherProp: PropValue
+            ...:
+        - ChosenPropertyValue Id:
+            AnotherProp: PropValue
+            ...:
+        - Id: {Prop1: Value1, Prop2: Value2}
+        - Id: [Prop1: Value1, Prop2: Value2, ...]            
+        Reviewed .Overriding default format for the type for a property:
+          Details:
+            One should be able to override the rendering configuration for a type if the type is rendered as part of an Item, such as:
+              Both MyTask and MySubTask1 have the type "Task"; MyTask is rendered "normally", the Tasks in its SubTasks property are rendered as key-value pairs:
+                MyTask:
+                  Status: InProgress
+                  Details: Bar barr barba rabarb.
+                  AnotherProp: Value
+                  SubTasks:
+                    InProgress MySubTask1: ...
+                    Done MySubTask2: ...
+                  ...:
+        Reviewed .Force Sequence/Mapping format:            
+          Details:
+            Item properties can be forced to be rendered as lists and Itemlist or List type properties can be forced to be rendered as maps, such as:
+              - 
+                MyTask:
+                - Status: Done
+                - Details: Bar RabRbar.
+              - 
+                ConferenceDetails:
+                  AttendeeList:
+                    John Doe: ...
+                    John Dow: ...
+                    #John Dow: #this would force them to be rendered as a sequence
+                  ...:
+            Note: if the resulting keys in the forced mapping would not be unique, this setting is not taken into account.
+        Reviewed .Provide order of properties:
+          Details:
+            Properties can be configured to be rendered in the provided order.
+        Reviewed .Render into the "OneLiners" - the one with the "+" sign - section:
+          Details:
+            Properties can be chosen to be rendered into the "OneLiners" - the one with the "+" sign - section.:
+              Example:
+                MyTask:
+                  +: {Status: Done, Type: Task}
+                  Summary: My Task
+        Reviewed .Id instead of Type in header:
+          Details:              
+            For Items inherited from ItemWithId, in place of the Type, the Id of the Item is rendered as the header:
+            Example:
+              The Item in the default format:
+                <Task>:
+                  Id: MyTask
+                  Summary: My Task
+              Would be rendered as:
+                MyTask:
+                  Id: MyTask
+                  Status: InProgress              
+        Reviewed .Summary instead of Id in header:
+          Details:                             
+            In place of Id, the summary of an Item can be chosen to be rendered for an Item in the header, such as:
+              Item:
+                <Task>:
+                  Id: MyTask
+                  Summary: My Task
+              Would be rendered with the summary as the header:
+                My Task:
+                  Id: MyTask
+                  Type: Task                   
+            See: 
+        Reviewed .Single or multi-line render:
+          Details:
+            Example:                
+              this:
+                MyTask:
+                  Type: Task
+                  Summary: My Task
+                  Status: Done
+              can be rendered as: 
+                MyTask: {Type: Task, Summary: My Task, Status: Done}
+            Note: in cases it would not be possible - e.g. some properties must be rendered in multiple lines - this setting is discarded.
+        Drafting .Id-Value Pairs:
+          Details: 
+            - Items can be rendered as pairs of Item.Id and the value of a chosen property in 2 ways: |
+                [Item.Id]: [Item.ChosenProperty.Value]
+                OR [Item.ChosenProperty.Value] [Item.Id]
+            - Example:
+                - MyTask: InProgress #if "MyTask" was a type with exactly one additional property having the value "InProgress"
+                - MyTask: InProgress ... #if "MyTask" had additional properties other than the one with the value "InProgress"
+                - - InProgress MyTask 
+                - - InProgress MyTask ...                  
+                - InProgress MyTask:
+                - InProgress MyTask: ...
+        Reviewed .Grouping of properties:
+          Details:
+            - One can define groups into which the properties of an Item are grouped when (yaml) rendering. Order can also be defined (but "ordering" is not necessarily part of this requirement)
+            - Example:
+                MyTask:
+                  (Group1):
+                    Details:
+                    Alma:
+                  (GRoup2):
+        Reviewed .Scalar rendering options:
+          Reviewed .Providing Format for numbers and datetime:
+            Details:
+              A format string (like e.g. in Excel) can be provided, like "#,#.##" - which should render 12345.6789 as 12,345.68
+          Reviewed .Format options for strings:
+            Details:
+              One can specify what yaml style the string should be rendered:
+                - w/o quotations:
+                - with quotations:
+                - \">" format:           
+                - \"|" format:
+                - as a yaml:
+                    Details:
+                      Example:
+                        MyStringProperty:
+                          So this:
+                            is a yaml mapping stored as a string.
+                      Note: if it cannot be parsed as a proper yaml, it will be stored and rendered as non-yaml
+        Reviewed .Render <null> for null values:
+          Details:
+            If switched on, empty Properties will be rendered as:
+              MyItem:
+                MyProperty: <null>
+        Reviewed .Partial render:
+          Details:
+            - Properties can be marked to be not rendered; in this case a "..." would be displayed additionally for the Item as a mapping entry key, a sequence entry or a separate "word":
+            - Examples:
+              - Id:
+                  Prop: Value
+                  AnotherProp: PropValue
+                  ...:
+              - Id: {Prop1: Value1, ... }
+              - Id: ChosenPropertyValue ...
+            - Parsing: an Item yaml containing ... can be used only for Update and Delete operations; in the former case only the properties explicitly declared are updated.
+        Reviewed .Basic Item Template:
+          Details:
+            A - basic - template can be provided to render any ItemType, where Item Property Ids and Item Function calls in square brackets are replaced with the respective values, like:
+              Template: "This is the Summary and the return value of the GetString function for the Item with Id [Id]:\nSummary: [Summary]\nGetString() :{GetString()}"          
+        Reviewed .Basic Property Template:
+          Details:
+            A - basic - template can be provided to render any Property, where:
+              - for scalar properties, [value] is replaced by the value of the already formatted value of the scalar.
+              - for Item values, it acts like a a Basic Item Template.
+            Template: "This is the Summary and the return value of the GetString function for the Item with Id [Id]:\nSummary: [Summary]\nGetString() :{GetString()}"
+    Estimated .ItemManager:
+      Estimation:
+        5d:
+          <-Note-: Sum of all the below
+      Details:
+      - Every Item request goes through an ItemManager:
+        So that:
+          - logging is easy - so there's only 1 entry point
+          - event handling is easy
+          - permission handling, etc.
+          - caching is possible - so we do not have to go to the db for every Item
+      - The manager provides:
+          - CRUDE access to Items
+      - This is just the engine, a framework, no "real" functionalities by itself.:
+      Estimated .Supporting local and remote storages of Items:
+        Estimation: 1d
+        Details:
+          - Connection-string handling
+          - Local storage and workspace integration
+          - Memory model - at least - for local storage
+      Cancelled .Resolving FullId:
+        Estimation: 3h
+      Estimated .Resolving F2Links:
+        Estimation: 5h
+        Details:
+          Including:
+            - InternalId, Id and Summary elements as Link parts
+            - Property support
+            - Owned and IsDefault property support
+      Estimated .Getting Items:
+        Estimated .Single Items:
+          Estimation: 2h
+          Details:
+            Basic Get. 
+        Estimated .Querying Items:
+          Estimation: 1d
+          Details:
+            Supporting the Query engine - so that it does not need to call the function for getting a single Item while trying to walk through the graph of Items.
+      Estimated .Updating Items:          
+        Estimated .Basic - Full Item update:
+          Estimation: 1d
+          Details:
+            Note: We replace the Item as a whole - so all the properties of it to the provided one.
+            Steps:
+              - Resolve Item by FullId or Id
+              - Check if the User has permission to the Item (see at $@~..Permission handling@$)
+              - In a DB transaction:
+                - Get Item from DB (or cache, later)
+                - Check the version of the Item
+                - Raise event: Updating Item 
+                - Write the Item (or update local and write later if caching or something)                  
+        Estimated .Property update:                          
+          Estimation: 
+            2h:
+              <-Note-: Assuming $@~Basic - Full Item update@$ is implemented
+          Details:
+            Additional functionality: Updating only selected properties of the Item.
+      Estimated .Deleting Items:
+        Estimation:
+          2h:
+            <-Note-: Assuming $@~Basic - Full Item update@$ is implemented
+      Estimated .Creating Items:
+        Estimation:
+          3h:
+            <-Note-: Assuming $@~Basic - Full Item update@$ is implemented
+      Estimated .Item versioning:
+        Estimation: 
+          1h:
+            <-Note-: Server side only; should be like 10m though.
+        Details: Each Item has a version - a number, incremented when there's a transaction updating the Item. The client stores this version and sends with the "Push"; if the version is the same, the update is done, otherwise it fails with "version mismatch".      
+      Comments:
+        - Gaurav: What is a Manager ln-1242
+        - Bobi: corrected it to ItemManager
+  Estimated .F2Server:
+    Estimation: 309h
+    Implemented .F2Server scaffoldings:
+      Details:
+        Project creation, architecture building, starting it, building the hello world version.
+      Implemented .Project creation, basic architecture, governor:
+        Details: |
+          As in title. Including IOC, Governor creation. 
+        <-Task-:
+          Implement "F2Server scaffoldings..Project creation, basic architecture, governor registration":
+            Estimation:
+              =: 30m              
+              <-Note-:
+                - PAR time: 5m
+            WorkLog: {15m, Bobi, "Including concept changes while implementing"}
+      Implemented .Governor:
+        ReqReq: -->.Project creation...<
+        Details:
+          Governor concept: $@Requirements..F2Tool..F2Core..Technical Architecture.Experimental Starter and Governor based architecture.Summary@$
+        .Basic:
+          Details:
+            The governor announces that it has started in server mode, calls its initialize method and then announces whether it was successful or error.
+            The governor has a method with which the server is initialized and started - from config reading, db init, etc..
+            You can stop it - in thich case it calls its "stop" method.
+            Implementing the initialization and the stop methods are not in scope of this Requirement.                    
+          <-Task-: 
+            Implement F2Server..Governor..Basic:
+              +: {Done}
+              Estimation: 
+                =: 30m
+                <-Note-: 
+                  PAR time: 10m
+              WorkLog: {20m, Bobi}
+    Estimated .Webservices interface - maybe REST:
+      Estimation: 12h
+      Details:
+        The web service layer only - so definition, generation and calling (most probably) the ItemManager service. 
+      Estimated .Basic:
+        Estimation: 8h
+        Estimated .Login?:
+          Estimation: 3h
+          Details: If necessary; decide about login though (and check in FrstPpl)
+        Estimated .CRUD of Items:
+          Estimation: 4h
+          Details: 4 services basically.                     
+        Estimated .Executing commands:
+          Estimation: 1h 
+          Details: 
+            1 service, returning some json or yaml, 1 parameter having the Command in it, which is basically some meta info about the command - most importantly, what language - and the command itself as a string (which then will need to be parsed first before execution). 
+      Estimated .Additional:
+        Estimation: 
+          =: =GetItem("..\.Basic").Estimation * 0.5
+          <-Note-: 50% of the Basic
+        Details:
+          Any additional services for convenience and optimization purposes - like bulk operations.
+    Estimated .Global events:
+      Estimation: 18h
+      Estimated .Global events engine:
+        Estimation: 2d
+        Details: 
+          So it is possible to run functions triggered by basically everything the event log should know about + timer.:
+            - Events need to be defined
+            - There should be functionalities with which the user can assign functions to these events - and remove, manage, etc.
+            - Permission handling - so who can add/remove what events - should be taken into account      
+      Estimated .Notification engine - so something which sends out emails/notifications:
+        Estimation: 
+          1d:
+            <-Note-: Timeboxed
+        Details:
+          - Email - connect to some service:            
+          - Anything else fitting
+    Estimated .Algorithm handling:
+      Estimation: 
+        113h:
+          <-Note-: 1*6+38+2*6+2*6+45
+      Details:
+        Scope: This covers the topics of commands, functions
+        Steps:
+          Trigger: 
+            - User command received, e.g. through the Web interface; a textual command - like "PrintItem(GetItem("alma"))"
+            - OR a function call is triggered, e.g. by an event on an Item
+          Parsing:
+            - If the algorithm is in a text format (so not precompiled), it is first determined what language it is written (F2Lang, LUA, C#, etc) and it is parsed. A function call will be created from it, accepting parameters
+            - If cool, then next step, otherwise return some error
+          Executing:
+            - A context is put together and the function is either run or compiled and run.
+          Wrap up:
+            - Results are wrapped and sent back
+            - The compiled algorithm might be saved somewhere - so that next time we don't need to parse again.
+        Functions can be hardcoded (only for hardcoded Items) and custom:
+          - Custom: 
+            - run with special parameters (or global variables? TBD), containing:
+              - the variable "this" in case of a member function 
+              - a context, containing (at least):
+                - user: for permission support, logging, etc.
+                - Item manager for CRUDE
+                - I/O services classes
+                - Any utilities
+                - System libraries
+            - is separated from the application context (as much as possible).
+          - Hardcoded: run "as is", i.e. no context and/or restrictions, works as part of the software. Ideal for "core" functionalities.
+      Estimated .Function parameter handling and converting:
+        Estimation: 
+          1d:
+            <-Notes-: Just expecting trouble with this topic, so although it should be copy/paste, it can be complex. Including "thinking through"
+        Details:
+          - Like in FrstPpl:
+            - ItemStub and similar features 
+            - ItemReference
+      Estimated .F2Lang parser:
+        Estimation: 
+          38h:
+            <-Note-: 4+8+8+3*6
+        Estimated .Item as parameter parsing:
+          Estimation: 4h
+          Details:
+            - Commands can "pass" serialized Items as Item parameters - i.e. no need to parse the Item yaml string into an Item, the system would automatically do it.            
+        Estimated .Minimal - only functions:
+          Estimation:
+            =: 8h
+            <-Note-:
+              Junior dev on this level; maybe build an AST - but custom method can suffice. Maybe spend like 30 mins on research, ChatGPT generate, etc.
+          Details: 
+            - Everything is a function. So like "Equals(Add(2,5),Divide(MyItem, 4))".
+            - Parameters:
+              - parenthesis: it's a string
+              - numbers are numbers
+              - no parenthesis: 
+                  - it's an identifier
+                  - ends with brackets: it's a function            
+        Estimated .Basic function implementation:
+          Estimation:
+            =: 8h
+            <-Note-: Timeboxed; also, use the ones in F2Tool.FrstPpl
+          Details: Arithmetic, Statistical, etc.
+        Estimated .Basic - loop, if, expressions:
+          ReqReq: 
+            - -->~\.Minimal - only functions<
+            - -->~\.Basic functions<
+          Estimation: 
+            3d:
+              <-Note-: Use the implementation in FrstPpl
+          Details: 
+            - Support of F2Lang syntax for "for", "if"
+            - Expressions:
+              - comparison (<, >, =)
+              - math (/*-+, )
+              - boolean (AND, OR, NOT)
+              - string concat
+              - /?
+            - Array indexing
+            - Anythingelse?                    
+      Estimated .Minimal LUA code execution:
+        Estimation:
+          =: 2d
+          <-Note-: there's an implementation in FrstPpl; use that.
+        Details:
+          So that we can run LUA scripts.
+      Estimated .Minimal C# code execution:
+        Estimation:
+          =: 2d
+          <-Note-: we're in c#, right, so shouldn't be that hard.
+      Estimated .Process Manager and context handling:          
+        Estimation: 
+          45h:
+            <-Note-: 2*6+3+5*6
+        Details:
+          Executes the - already parsed - algorithms:
+            - provides context
+            - process management
+            - interpretation and conversion of results
+        Implemented .Minimal - no context:
+          We just run the commands the same way as internal functions - no context, nothing. We catch the exceptions at least and convert the results.
+        Estimated .Basic ProcessManager providing context:
+          Estimation: 2d
+          Details:
+            - There's a -->*\Barba.Types.ProcessInfo< Item in a special Folder ("RunningProcesses") about each running process:
+            - Each process runs in its own thread
+            - Each is provided with a context - either by providing it through some global variables or through a parameter. Containing (at least):
+                - "this": a variable containing the Item the function is part of (if any)
+                - user: for permission support, logging, etc.
+                - Item manager for CRUDE                  
+                - Utilities, libraries, I/O services
+            - A special Item is placed under somewhere in the System Folder containing:
+              - Info about the process, e.g.:
+                - User started
+                - Date started
+                - Parent process
+                - State: e.g. running, waiting, paused, etc.
+              - its context:
+        Estimated .Support for local variables and contexts:
+          Estimation:
+            3h:
+              <-Notes-: 
+                - See the $@Requirements..F2Tool..F2Console..Console based command processing..Engine..Local Variable support@$
+          Details:
+            - What if inside a function AND we're using F2Lang engine.
+            - Should we store the local variables in the Item Directory?:
+              - Kind of yes...
+              - Pros:
+                - we do not break the "everything is stored in the Tree" rule
+                - ability to save it - thus continue where you left
+              - Cons:
+                - the functionality needs to be implemented... increased complexity... bullshit.
+              - Seems fine, so:
+                  - we need a command for saving the variables, which is maybe:
+                    - CreateVariable
+
+            - Figure out how to store the context:
+              - So whenever we declare local variables, they'll be part of the context:
+                  Meaning: 
+                    One can use these variables later in the "code", like:
+                      var alma = "alma"
+                      GetItem(alma)
+                  Technical handling - baseline idea:
+                    <-Note-: This should be under the process execution context thing
+                    Idea:
+                      We use a design pattern like this maybe - so no problemo. https://www.geeksforgeeks.org/interpreter-design-pattern/
+          <-Workspace-:
+            Braindump:            
+              - Behavior:
+                  General:
+                    - Local F2Tool environment is like a locally running program, memory is the local F2Tool storage in memory. 
+                    - We, as human processes - acting like an algorithm taking steps of memory manipulation and function execution - modify and query these memory objects through e.g. the following ways:
+                      Modify:
+                        Console interface: by issuing commands
+                        Workspace files: by modifying the content of the file(s) and notifying the F2Tool to update itself based on them
+                      Query:
+                        Console interface: by issuing query commands and receiving the result to the console/into a file
+                        Workspace files: by issuing query commands and receiving the result into the files                  
+                  Notes:
+                    - Each F2Tool can serve only 1 "project" - so if you want to manage 2 projects, like "MyNiceBusiness" and "Joeshoes", you need to launch 2
+                  Example memory storage structure:
+                      F2Root:
+                        \System:
+                          .Users:
+                            #
+                          .Processes: 
+                            .Local:
+                              .Context: #mapped to inside a folder in the local Barba workspace folder 
+                        \Barba:
+                          Summary: the "Barba" project, its Items located on a remote F2Server
+                          .!PersonalWorkspaces:
+                            .Bobe: ...
+                            .Bobi:
+                              Type: Folder
+                              .MyWorkspace: 
+                                Type: WorkspaceFile #so a file containing Items, Notes, commands and garbage.
+                                FileName: MyWorkspace.yaml
+                                .Part1:
+                                .Part2:
+                                ...:
+                              .BarbaWorkspace:
+                                Type: WorkspaceDescriptor
+                                ...:
+                              ...:
+                            .Bobo: ...
+                          .Backlog: ...
+                          ...:
+            Postponed .Resource management and command health analysis:
+              Details:
+                - Configurable running time limit, max time limit
+                - Resource management; wait states
+                - Functionalities which ensure that the system is stable and optimal. Kind of TBD.    
+        Estimated .AnythingMissed as of 2024.04.21.:
+          Estimation: 5d
+          Details: expect quite a few things.
+          .IHumanProcessManager related:
+            .
+          .Rest:
+    Estimated .Query execution, report generation and bulk edit:
+      Estimation: 78h
+      Details:
+        - Queries can be run by providing a Query Item containing the conditions of the query to the query engine - a function call with a Query parameter.
+        - The function returns an ItemList
+        - A report can be generated from the ItemList by the Report engine by providing a ViewDescription to it            
+      Implemented .Hardcoded special queries:
+        Details:
+          Queries can be written as "code", part of the application (so compilation is needed for each change), then run as a command. Any configuration is through special parameters.          
+      Estimated .Basic:
+        Estimation: 
+          =: 2d
+          <-Note-:
+            .Understand the old code: 1h
+            .Creation of the Query Item and sub-Items: 1h
+            .Query engine executing the query and organizing the results: 4h
+            .Running queries and displaying their results: 2h
+            .Anythingelse: 4h
+        Details:
+          An Item (named e.g. "Query") can be created, containing the options for the query, and then "run". Similar options as in the FirstPoCs one.
+          The basic functionalities only.
+      Estimated .Advanced:
+        Estimation: 5d
+        Details:
+          The (planned) features of the query in the FirstPoCs one - returning trees, graph, whatever.
+          (The system does not provide UI for displaying them, rather, one can generate files which could then be opened by 3rd party apps.)
+      Estimated .Bulk edit support:
+        Estimation: 
+          =: 1d
+          <-Note-: seems super simple
+        Details: 
+          - \"Actions" can be provided which are executed on each element a query returns
+          - an action is a simple function, accepting and returning an Item        
+    Estimated .Authentication:
+      Estimation: 3h
+      Implemented .Minimal:
+        Implemented .Basic Engine:
+          Implemented .User handling: 
+            Implemented .CurrentUser:
+          Implemented .Login-Logout:
+          Implemented .Password hash handling:
+        Implemented .Login through Console:
+      Estimated Basic:
+        Estimation: 
+          3h:
+            <-Note-: including testing, etc.
+        Details: 
+          As in FrstPpl; username-password, cookie and httpcontext. The main C# code: |
+            [AllowAnonymous]
+            public override async Task<LoginResponse> Login(UsernamePassword usernamePassword)
+            {
+                LoginResponse result;
+
+                if (_currentSession.CurrentUser != null)
+                    result = new LoginResponse{LoginResult = LoginResult.AlreadyLoggedIn};
+                else
+                    result = await _authenticationService.Login(usernamePassword);
+
+                if (result.LoginResult == LoginResult.Success)
+                {
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme
+                        , new ClaimsPrincipal(
+                            new ClaimsIdentity(
+                                new[]
+                                {
+                                    new Claim(ClaimTypes.Name, usernamePassword.Username)
+                                }
+                                , "cookie")));
+
+                    _currentSession.SetUser(result.UserDetails);
+                }
+                return result;
+            }          
+    Estimated .Persistence:
+      Estimation: 45h
+      Estimated .DB based:
+        Estimated .Basic Neo4J:
+          Estimation: 5d-10d
+          Details:
+            Migrate the Neo4J implementation from FrstPpl.          
+          .DB concept:
+            Details: We basically store Items only.
+          .Draw database:
+          .NEO4J updates - it was a long-long time ago:
+          .Update generator scripts:
+          .Generate and integrate the code:
+    Estimated .Event Log:
+      Estimation: 14h
+      Estimated .Full Change Log:
+        Estimation:
+          10h:
+            <-Note-: The toughest part seems to be making sure that all Item writes and updates are caught; shouldn't be hard though as everything is routed through CustomItem and Item.
+        Details: 
+          - Logs every change in every Item; Item based.
+          - Things to log:
+            - User (or process)
+            - TimeStamp
+            - Part of Command: e.g. if a command modifies x items, the id of the command  
+          - Creates ItemChange Items into the RootItem graph - to be defined where exactly. Options are on the Items themselves or in a separate storage - first seems to be better though. 
+          - In general, the logs are expected to be used continuously - so for version history, analyses, automatic learning, etc.
+          - Optionally - if it's not hard - it is configurable on an Item or at least Itemtype level.
+      Estimated .Full Event Log:
+        ReqReq: -->~\Full Change Log<
+        Estimation:
+          4h:
+            <-Notes-: Hook at the command execution 
+        Details:
+          - On top of the changes, it logs reads, queries and command executions as well.
+    Estimated .Permission handling:
+      Estimation: 14h
+      Estimated .Basic:
+        Estimation:
+          10h:
+            <-Note-: Assuming that "every Item request goes through ItemManager". So this is about creating the Rights objects, 
+        Details:
+          - See the concept in FirstPoCs, but basically hierarchical and inheritable:
+            - Item based - so ObjectEntitlement objects BelongTo an Item:
+                class ObjectEntitlement:
+                  Integer RightsBitField:
+                  bool Propagating:
+                  User ForUser:                    
+            - Rights:
+                Types:
+                  Create: 
+                  - If the Item is ItemTypeDescription, then can create Items of this type
+                  - If the permission is Propagating, then can create Items of the types directly or indirectly belonging to the Item.
+                  Read: 
+                  - Can read the properties of an Item, including the list of the Ids of its referenced Items (including OwnedItems, so the Items belonging to it)
+                  - But: 
+                      One can always read the Id and InternalId of an Item, regardless of having a Read permission or not.:
+                        So this allows:
+                          - Displaying the (list of) Id of the Items one does not have Read right to, but referenced by an Item to which one does.
+                        Similar to be able to see the name of the Directory one does not have right to if it's in a Directory one does have right.:
+                  - It should be decided whether the ItemType of an Item should also be always readable; 
+                  Change: Can change the properties of the Item
+                  Delete: Can delete - if there are no Items belonging to it
+                  Execute: 
+                  - If the Item is a Function, then can execute the specified Item. 
+                  - If the permission is to be inherited, then can execute Functions belonging to the Item.                    
+            - Flag whether the right applies to the Items belonging to the Item:
+      Estimated Separate Change permission for the OwnedItems property:
+        Estimation:
+          4h:
+            <-Note-: PAR Time is like 20m. So expecting complications, but no idea what it could be.
+        Details:
+          Summary: One would need a separate permission than Change to add/remove Items belonging to the Item in question - so a Change right would not allow you to change the OwnedItems property of an Item.
+          Types:                  
+            Add: Can make an Item BelongTo it - so can "add" to the OwnedItems list of an Item
+            Remove:
+              - Can make an Item ("ReferencedItem") originally BelongingTo the Item in question (OwnerItem) not BelongTo OwnerItem.
+              - for this one needs "change" right to the ReferencedItem as well due to having to change its BelongsTo property
+    Estimated .Transaction handling:
+      Estimation: 12h
+      Details:
+        - Copy the idea from FrstPpl - it is also neo4j.
+        - Bulk change REST interface for it
+  Estimated .F2Console:
+    Estimation: 101h
+    Details:
+      F2Console console application:
+        - hosting the components - F2Server, F2IDEServices, etc.
+        - through CmdLineGovernor, providing a command line interface allowing:
+          - CRUDE of the OO data the F2Server stores through commands
+          - controlling the behavior of the F2Server or other connected components - like start/stop/config, etc.
+        - providing Workspace services
+    Estimated .Scaffoldings:
+      Estimation: 2h
+      Implemented .Project creation, basic architecture, governor:
+        <-Note-: Requirement created after implementation.
+      Estimated .Cleanups as of 20240503:
+        Estimation: 2h
+        Details:
+          remove PoC code, upgrade where possible.
+    Ongoing .Technical architecture:
+      Details: Architectural parts mostly
+      Implemented .Minimal Starter and Loaders:
+        Details: Support for multiple Starters - programs which host the engine in a Console window, in a webservice, etc.  
+        Implemented .Basic Engine:
+        Implemented .Console-based starter:
+          Implemented .Command-line parameter handling:
+      Implemented .Minimal Governor:
+        Details: The governor governs the components of the system - starts processes, listens to commands, etc. 
+      Implemented .Starter functionalities:
+        Details:
+          $@Requirements..F2Tool..F2Core..Technical Architecture<..Experimental Starter and Governor based architecture..Starter.Summary@$
+        Implemented .Basic:
+          Details:
+            - Registers the F2ConsoleGovernor as the IMainGovernor in IoC before loading any other projects:
+              - $@~..\F2ConsoleGovernor@$ provides a command for listing and starting the other available governors
+            - \"Loads projects" by performing Dependency Injection initializations of the projects its referencing:
+              - Note that the registration for IMainGovernor can be overridden in this step by the subprojects
+            - Provides command line parameter functionality for replacing the IMainGovernor
+            - Starts the IMainGovernor          
+          <-Task-:
+            Done Implement Basic Sarter functionalities:
+              Summary: Half of it is done, so refactor + implement
+              Estimation: 30m
+              WorkLog: {30m, Bobi}
+      Implemented .Governor:
+        Implemented .Basic:
+          Details:
+            - Governor: $@Requirements..F2Tool..F2Core..Technical Architecture<..Experimental Starter and Governor based architecture..Governor..Basic Governor.Summary@$
+            - It is an IMainGovernor
+            - Should initialize, load modules and start listening to commands
+            - Should have a command for starting (and listing) other governors
+          .-->Documents\Requirements\TheF2Tool\..F2Tool.."F2Console".."Console based command processing".."Basic commands"..Governor.."StartGovernor"<:
+          <-Task-:
+            Done Implement Basic Governor:
+              Estimation: 30m
+              WorkLog: {1h, Bobi, "Including cleanups"}
+      <-Task-:
+        OnGoing Small tasks and refactors:
+          Estimation: 4h
+          Summary: tasks for which it would be overkill to create a separate Requirent or Task
+          WorkLog:
+            - {Bobi, 30m, "Renamed Console to CmdLine, Moved ConsoleIO and TextInput/Output to CmdLine, nicer Program.cs"}
+            - {Bobi, 20m, "Bug: CurrentUser fixed belongsto, InternalId, etc."}
+    Estimated .Initialization, Profiles and interface:
+      Estimation: 8h
+      Details:
+        What happens when the F2Console app starts:
+      Estimated .Initialize and load:
+        Estimation: 
+          1h:
+            <-Note-: command line processing and governor handling is done. Reading app config + profiles + call load profile command.
+        Details:
+          Steps:
+          - Done Initialize basics (which should be mostly in core though...):
+            - type descriptors
+            - IoC container
+            - Item internalIds
+          - Done Wrap as much as possible in a big try-catch, log and display if caught. (Done)
+          - Done Say Started and when finished, stopped. (Done)
+          - Done Process command line parameters:
+            - (at the moment only for replacing the Main Governor)
+            - put params under System
+          - Read config:
+            - General app config: At the time of writing this Req, there's none though.
+            - Profiles from it: see $@~.Profile handling@$
+            - Put profiles to System/Profiles in the Item Directory
+          - Done Load governor:
+          - <-Note-: from this down we assume that the Main Governor is the CmdLineGovernor
+          - Loads basic Items            
+          - if there's a default profile OR the user issues a LoadProfile command, loads the profile:
+                see $@Requirements..F2Tool..F2Console..Initialization..Profile handling..Load Profile@$
+          - starts listening to commands
+          Notes:
+          - if there's no profile or workspace in it, the user can manipulate Items by:
+            - using the app in console mode: 
+                - set the server by the $@~\..Basic commands..Basic..SetServer@$ command
+                - log-in with the $@~\..Basic commands..Basic..Login@$ command
+                - use the $@~\..Basic commands..Basic CRUD@$ commands
+            - creating a workspace - in case $@~\..Workspaces@$ is implemented:
+                - create a workspace by $@~\..Basic commands..Basic CRUD..CreateItem@$ command into the System/CurrentUser/Workspaces folder
+                - load a workspace by $@~\..Basic commands..Workspaces..LoadWorkspace@$ command
+      Implemented .Basic Command line arguments engine:
+        <-Note-: Requirement created after implementation
+        Details:
+          There is an engine for handling command-line arguments: 
+            - One can introduce new paraemters by introducing a constant, a property and a few lines
+            - The arguments - including any unprocessed ones - are then stored in the SettingsFromCommandLineArgs Item under Root.System
+      Implemented .Ability to replace the IMainGovernor through command line argument:
+        <-Note-: Requirement created after implementation
+        Details:
+          There should be a command line argument ("G", "GOV", "GOVERNOR") for which if one provides the class name of an IMainGovernor implementation, then the IMainGovernor will be replace in the IoC container to this in a way that this implementation of IMainGovernor would serve as the main governor.        
+      Estimated .Profile handling:
+        Estimation: 6h
+        Details:
+          An AppProfile Item contains the project and user settings of the application:
+            class AppProfile:
+              IdString Id: #profile Id
+              string WorkspacePath: # local file system path for the workspace descriptor
+              string F2serverUrl:
+              IdString username:
+              string password: # login credentials if available - supposedly encrypted
+              bool shouldAutoLogin:
+              bool isDefault:
+          They are stored under System/Profiles.:
+        Estimated .Load Profile:
+          Estimation:
+            4h:
+              <-Note-: Anticipating complications, otherwise seems to be very simple
+          Details:
+            Notes:
+            - There's a command for it: $@~\..LoadProfile@$
+            - if error, display and log it
+            Steps:
+            - Get the AppProfile from the profile passed as parameter
+            - if there's a server set, creates an F2ServerConnection Item under System with the server url
+            - if there's workspace, call $@~\..Workspaces..LoadWorkspace@$:
+            - Tries to Log In to the server:
+              - If:              
+                  there's encrypted credentials in the profile AND its not the default password:
+                    Asks for password
+                  Else: Asks for credentials (username, password)
+              - If credentials were provided:
+                  call $@~\..login@$              
+        Estimated .Create and Update Profile:
+          Estimation: 
+            15m:
+              <-Note-: so this Req is basically just about creating the AppProfile Item and its ClassDescription
+          Details:
+            - User does a simple AppProfile Item modification or creation into System.Profiles.
+        Estimated .SaveProfiles:
+          Estimation:
+            2h:
+              <-Note-: PAR time 15m.
+          ReqReq: 
+          Details:
+            - There's a command for it; optionally, whenever changes are done to the Items or Items are added (the system listens to these) it can happen automatically
+            - The system saves the System.Profiles into the config file
+      Estimated .SetServer:
+        Estimation: 1h
+        Details:
+          Sets an "environment variable" - so a value in some Item under System - and notifies the services. If necessary, checks whether this can be changed and displays a message accordingly.
+    Estimated .Authentication:
+      Estimation: 6h
+      Implemented .Minimal:
+        Details:
+          Locally stored plain text password and login info.
+      Estimated .Basic Login:
+        Estimation: 
+          3h:
+            <-Note-: Calling the webservice basically with the provided credentials, then setting certain objects. Use the sample code in FrstPpl.
+        Details:
+          Server-side login. From this point on the F2Tool system is in a logged-in state.
+      Estimated .Encrypted profile and autologin:
+        Estimation: 3h
+        Details:
+          - We save the login info in the profile, encrypted:
+            - If the user provides a password, then encrypted with that password
+            - Otherwise we tell the user that it's "unsafe" and we encrypt it with a default password
+    Estimated .CRUD:
+      Estimation: 13h       
+      Estimated .Create Item:          
+        .Basic:
+          Estimation: 
+            2h:
+            <-Note-: This is only a command... the command interpreter, the multiline editor, yaml parser, etc. are different reqs.
+          Details:
+            \"CreateItem" command, accepting the yaml representation of an Item.
+      Implemented .Minimal GetItem:
+          Details:
+            \"GetItem" command, accepting an Id, returning the yaml representation of the Item.
+      Estimated .GetItem Basic:
+        ReqReq: -->~\.Minimal GetItem<
+        Estimation:
+          3h:
+            <-Note-: Timebox. Do not immplement another query engine here.
+        Details:
+          Various ways to get an Item - by InternalId, etc.
+      Estimated .Update Item: 
+        Estimation: 6h
+        Estimated .Minimal:
+          Estimation:
+            3h:
+          Details:
+            UpdateItem command, accepting 2 parameters:
+              - reference/Id of the Item to be updated
+              - old content or version of the Item - ?
+              - new content (as yaml?)
+      Estimated .Delete Item:
+        Estimation: 2h
+        Details:
+          The command, accepting the Item's FullId or InternalId (or maybe reference...)            
+      Estimated .Bulk Change Items:
+        Estimation: 0
+        Details: Covered in $@~Bulk edit support@$
+    Estimated .Multiline Console Text Editor:
+      Estimation: 6h
+      Implemented FirstPart:
+        Details: everything which was done until 2024.04.08.
+      Estimated Finishit:
+        Estimation:
+          1d:
+            <-Note-: The hardesd parts are probably done. Connect it, etc. Feeling like 60% is done.          
+    Estimated .Console based command processing:
+      Estimation: 34h
+      Estimated .Engine:
+        Estimation: 26h
+        Implemented .Minimal Engine:
+          <-Bug-:
+            ExecuteFunction double-wrapping of BarbaFuncOutput:
+              Estimation: 30m
+              WorkLog: {Bobi, 30m}
+          <-Task-:
+            Small Tasks, Refactors:
+              Status: OnGoing
+              Estimation: 4h
+              Summary:
+                Small tasks, refactors for which creating a separate Req+Task would be an overkill.
+              WorkLog:
+                - {10m, Bobi, "CommandProcessingResult GetSuccessResultFromFuncOutput"}
+        Implemented .Parameterless commands:
+        Estimated .Parameter Handling:
+          Estimation: 3d
+          Estimated .On demand parameters:
+            Details: The system asks for the value of each parameter
+            Implemented .FirstPart:
+              Details: everything which was done until 2024.04.08.
+            Estimated .Finishit:
+              Estimation:
+                1h:
+                  <--Note-: basic engine is done, but the "toughest" types are not. 30% done let's say. This is not tough at all on the other hand.  
+              Details:                     
+          Estimated .Escaping support:
+            Estimation: 1h
+            Details: 
+              - C# style string escape (so backlash ) 
+          Estimated .NewLine support:
+            ReqReq: -->~\.Multiline Console Text Editor<
+            Estimation:
+              1h:
+                <--Note-: I think we get it with the ReqReq.      
+            Details:
+              - Ctrl+Enter inserts a new line. 
+          Drafting .Command with parameters:
+            Details: 
+              - The command contains the parameters
+              - Options:
+                - Command ParamValue1, "Param Value2", "ThisIsEscaping\"\\\"" 
+                - |
+                    Command ParamNamex: ParamValuex, ParanNameY: "Param ValueY"
+                - Command(ParamValue1, "Param Value2")
+          Drafting .Nested command support:
+          Drafting .Item referencing support:
+          Drafting .Anonymous Item creation support:
+            Details:
+              - Like:
+                  Command(new Task(""))   
+        Estimated .Local Variable support:
+          Estimation: 
+            6h:
+              <-Note-: Finding a way for storing in the context and handling this during interpretation and execution
+          ReqReq: 
+          - -->~\Process Context support<
+          - -->~\Workspaces<
+          Details:
+            - The commandline is F2Lang interpreted.
+            - One can store values - Items, ItemLists, etc. - in "local" variables
+            - Syntax:            
+              - var myVariable = GetItem("alma"): for new variables
+              - myVariable = GetItem("alma"): for existing variables
+            - Which syntax in a "pure" yaml - so no F2Yaml syntax:
+                CreateVariable():
+                  Name: myVariable                
+                  Value: 
+                    =GetItem():
+                      Id: Alma
+                AssignValue():
+                  Name: myVariable
+                  Value:
+                    =GetItem():
+                      Id: Alma
+            - Local variables are stored in the Context - which is then stored in the (local) Workspace, which is then on the F2Server (if any)
+            - There should be ways to:
+              - clean up the Context: 
+              - list all local variables
+        Estimated .Resolving FullId:
+          Estimation: 2h
+          Details:
+            Parsing the FullId string to get InternalId and Property Id.
+      Estimated .Basic commands:
+        Estimation:
+          8h: 
+            <-Note-: It's basically just command creation and calling a function.
+        .Basic:
+          Estimated .SetServer:
+          Estimated .Login:
+            Estimation: 
+              30m:
+                <-Note-: Creating the command itself which calls the login function
+            Details:
+              See @ $@Requirements..F2Tool..F2Console..Authentication..Basic Login@$
+          Implemented .Logout:              
+          Implemented .Exit:              
+          Implemented .PrintAllCommands:
+        
+        .Governor:
+          Implemented .StartGovernor:
+            Details:
+              Command: \"StartGovernor", the name of the IGovernor - i.e. with which it is registered in the IoC container - is the parameter. Engine change is a separate Req
+              Behavior: 
+                If the name is empty, lists all the available governors.
+                Gets the IGovernor from IoC with the provided name and calls its "Govern" function.
+            <-Task-:
+              Implement StartGovernor:
+                Estimation:
+                  =: 30m
+                  <-Note-:
+                    PAR time: 10m
+                WorkLog: {Bobi, 10m}
+
+        .Workspace:          
+          Estimated .LoadWorkspace:          
+            Details: see @$@~\.Workspaces.Basic.LoadWorkspace@$
+          Estimated .SaveAll:
+            Details: see @$@~\.Workspaces.Basic.SaveAll@$
+          Estimated .Commit:
+            Details: see @$@Requirements..F2Tool..F2Console..Workspaces..Git-like Commit-Push-Pull@$
+          Estimated .Push:
+            Details: see @$@Requirements..F2Tool..F2Console..Workspaces..Git-like Commit-Push-Pull@$
+          Estimated .Pull:
+            Details: see @$@~\.Workspaces.Basic.Pull@$
+          Estimated .UpdateItem:
+            Details: see @$@~\.Workspaces.Basic.UpdateItem@$
+        .Profiles:
+          Estimated .LoadProfile:
+          Estimated .SaveProfiles:
+        .Basic CRUD:
+          Estimated .CreateItem:
+          Estimated .GetItem:
+          Estimated .UpdateItem:
+          Estimated .DeleteItem:     
+    Estimated .Workspaces:
+      Estimation: 26h
+      Details:
+        Overview:
+          - Workspaces are a set of folders and files, described by a workspace descriptor Item $@~Barba.Types.WorkspaceDescription@$. If managed by the F2Tool, they serve as an interface for manipulating and querying Items and running commands; a file based interface for manipulating and querying Items.:
+          - Workspaces are somewhat similar to workspaces + git in VS Code:
+            - The workspace can be "cloned" into a local folder, like in "git clone":
+              - "GetWorkspace wsName targetFolder"
+            - There's an TF2P folder in the targetFolder for storing meta information - like the .git or .vs folders - containing for example:
+              - the Workspace descriptor Item(s), continuously updated to reflect the current state as the user makes actions
+              - logs about the actions of the user
+              - the local process context(s) (for running F2Processes)
+            - One edits the Items in the files and then instructs the tool to process it - like the "commit" and "sync" commands in Git.
+        Details:
+          Workspace descriptor Item:
+            There's a workspace descriptor Item -->~Barba.Types.WorkspaceDescription<, describing:
+              - a file structure organized into folders
+              - where files contain Items (parts), Queries (and their results) and commands
+          Files and folders:
+            In general, have 3 main types of workspace files:
+              \"console.yaml"(s) to serve as a file based command-line interface:
+                - one can issue commands there:
+                  - in "code" form:
+                      Details:
+                        By specifying the command/function one wants to execute and issuing the general
+                      Examples:
+                        - FindItemById("MyBeautifulItemId")" which, if executed, would cause the Item with "MyBeautifulItemId" Id to appear in place of the command (or an error message).
+                        - Update(): {-->Root..SomeItem<: {SomeProp: newValue}}
+                        - var myItem: -->Root..SomeItem<
+                  - in "command form:
+                      Details: 
+
+                - multiple files can serve this purpose, organized into some folder structure - e.g. different file for different type of work.
+              Reports - supposedly read-only files for query results and reports:
+                - in a special directory - e.g. Reports
+                - each file contains the query and the result
+              Roots - files and folders reflecting the tree structure created by the BelongsTo (or, in case other hierarchy:
+                Summary:                              
+                  - in a special directory - e.g. Roots
+                  - think of it like cloning a certain folder from Git - so you get the files in the folders, you modify them, remove, add, and then commit+push the whole thing.
+                  - Programmability: Excel-like replacement commands can be issued here
+                Details:
+                  - Under the Roots folder, every file system folder and file represents an Item:
+                    If the type of the Item is not "Folder" then there's a file "next to it" (in the same folder), containing the Item itself, with the name "[Id of the Item].yaml":
+                      MyTask:
+                        SubTask1:
+                          SubSubTask1.yml:
+                        SubTask1.yml:
+                      MyTask.f2yml:
+                  - Contents of a file system folder:
+                      Items belonging to the Item the folder represents.:
+                        The folder itself is simply the Id of the Item.                          
+                      Items referenced by the Item the folder represents:
+                        - The folder itself is ItemId.PropertyName. For example:
+                            if "MyTask" is the Item, "SubTasks" is the property, then:
+                              MyTask.SubTasks
+                Notes:
+                  There can be multiple folders referencing the same Item:
+                    Such as:
+                      MyTask:
+                        #containing all the Items where their BelongsTo property references MyTask
+                      MyTask.SubTasks:
+                        #containing all the referenced Items by its SubTasks property
+                      MyTask.Implementers:
+                        #containing all the referenced Items by its Implementers property
+                    Problem is that the same Item can be thus found under multiple folders - as it can be referenced by multiple Items, therefore:
+                        - when modifying one - so one modifies its yaml representation and makes the F2Tool know about it:
+                          10: F2Tool updates the memory representation of the Items
+                          20: 
+                            - F2Tool either:
+                              - automatically updates all the yaml representations in the files/folders
+                              - or the user is notified that a manual update is necessary
+                            - Either way, if the user wants to update the memory model from another yaml representation of the Item later, the system checks if the "original" is the same as the one in the memory model and rejects the update if not.                          
+                Example file structure:
+                  \[RootDir]\Barba: #Folder
+                    TF2P: #Folder
+                      BarbaWorkspace.Folders: #Folder
+                        Reports: #Folder
+                          MyTasks.yaml #File; containing the metadata about the report named MyTasks - such as the query
+                        Roots: #Folder
+                      Logs:
+                      Processes:
+                        Local:  #context, etc. goes here
+                        <More>:                      
+                    Reports:
+                      MyTasks.yaml #Containing the result of a query
+                    Roots:
+                      ExampleItemWithOwnedItems: #The system keeps track of what Item is this exactly in the BarbaWorkspace folder
+                        OwnedItemWithFurtherOwnedItems.yaml #The Items owned by the "Owned Item" go here
+                    Workspace.F2yml: #File; A "console" type F2Yaml file                          
+      Estimated .Basic:
+        Estimation: 
+          3d:
+            <-Notes-:                
+              - No namespace, using support
+              - PAR time: 1d
+        Details:
+          - There are $@WorkspaceDescription@$ Items, stored under System/CurrentUser/Workspaces
+          - One can create and modify these Items and then $@LoadWorkspace@$ them into the folder specified in its RootDirectoryAbsolutePath property:                        
+          - Include:
+            - Loading workspace and Pull
+            - SaveAll
+          - Continuous processing of the files is out of scope - that's a ~language server capability.
+        Estimated .LoadWorkspace:
+          Details:
+            Note:
+            - There's a command for this, accepting the workspace file path as parameter
+            Steps:
+              - Check the workspace, process it and the file structure:
+                  are the referenced files there, is their content what it should be.
+              - Displays report            
+        Estimated .UpdateItem:
+            Details:
+              Updates a single Item (unlike Pull, which updates all)
+        Estimated .Pull:
+          Details:
+            Steps:
+            - Checks if everything is "committed", if not, say so and fail
+            - Update the Items in the Workspace - queries and the Items in the Roots directory
+        Estimated .SaveAll (Commit - or process files - and push):              
+          Details:
+            Notes:
+            - There's a command for this: SaveAll
+            - This does not include changes categorizing into "commit"-s (see @$@~\..Git-like Commit-Push-Pull@$)
+            Steps:
+            - The system checks for changes in the Roots folder - so new, updated, deleted items
+            - Creates a report, displays it
+            - Updates the local storages:
+              - memory
+              - localworkspace
+            - Asks whether the changes should be pushed to the server, if so:
+              - changes are pushed to the server:                  
+              - The server:
+                - checks if everything is correct
+                - Updates the internal objects, etc. with the changes
+                - executes the functions triggered by the change
+                - keeps track what Items changed
+                - returns the ids of the items changed (optionally)
+              - Displays the Items changed
+              - Pulls
+      Estimated .Git-like Commit-Push-Pull:
+        ReqReq: -->~\..Basic<
+        Estimation:
+          8h:
+            <-Note-: Including the engine on the server side - so we need to accept these "commits" and store data about them.
+        Details:
+          - Set of changes can be packaged into "Commit"-s, these then can be pushed to the server in one package and transaction.
+          - Kind of a layer over the basic CRUD, that changes are further categorized into commits (and you can add some summary and other meta to a set of change)                
+    Implemented .Console based direct access for PoC purposes:
+      <-Note-: Requirement created after implementation.        
+      Details:
+        - Run by a console Starter, which provides the interface as well.
+        - Direct manipulation of Items, not routed through an ItemManager.
+        - 1 user
+        - for early testing of concepts      
+    Estimated .Yaml export-import:
+      Estimation: 6h
+      Details: Maiden name is "yaml based persistence".
+      Implemented .Basic Item:
+      Estimated .Item Finish:
+          Estimation: 
+            6h:
+              <-Note-: It's a mess, so cleanups, refactors included. Timebox!!.
+          Details: 
+          - Anything missed:
+              Functions?
+              Save/Load strategy
+              Testing it and seeing
+          - 30% left maybe.
+  Estimated .Basic Mobile interface:
+    Estimation: 60h
+    Details:
+      Basic, mostly for notifications and form filling (=Item edit). 
+  Estimated .Minimal Web interface:
+    Estimation: 60h
+    Details:
+      Minimal, only the most needed functionalities _we_ need, such as automatic generation of some html file from templates, based on some queries.
+  Estimated .Basic Editor interfaces:
+    Estimation: 
+      99h:
+        <-Note-: sum of the below is 66h AND typescript inexperience = 99h
+    Details:
+      CRUDE support in 3rd party text editors, such as Notepad++ and Visual Studio Code
+    Estimated .Basic - VS Code Minimal extension + support:
+      Estimation: 
+        66h:
+          <-Note-: 11d
+      Estimated .Basic F2VSCExtensionService Module:
+        Estimation: 23h
+        Details:
+          Hosted in F2Console.
+          Provides (web)services to the F2VSCExtension extensions through $@F2Server.ItemManager@$ and other services.
+        Estimated .Architecture and Initialization:
+          Estimation: 6h
+          Details:
+            - Project setup, Governor and IoC, registering commands
+            - Communicates through the ITextOutput - as everything
+            - Steps:
+              - Registers the webservices and waits
+              - Displays some messages here and there:
+                - Maybe some "verbosity" setting if fits into a half an hour work.
+            - At connection sets up the communication channels, checks the F2Server, etc.
+        Estimated .Authentication:
+          Estimation: 
+            2h:
+              <-Note-:  Should be 0; 2h is for suprise needs.
+          Details:
+            No auth, we let everyone in.
+        Estimated .Services:
+          Estimation: 15h
+          Details:
+            Webservices.
+          Estimated .Refresh and SaveAll:
+            Estimation: 1h
+            Details:
+              Basically calls the relevant functionality and relays messages back:
+              - $@Requirements..F2Tool..F2Console..Workspaces..Basic..Pull@$
+              - $@Requirements..F2Tool..F2Console..Workspaces..Basic..SaveAll (Commit - or process files - and push)@$
+          Estimated .Follow link:
+            Estimation:
+              4h:
+                <-Note-: PAR time 1h
+            Details:
+              Accepts a string as the link url, decodes it and returns the location of the link:
+                - a file path 
+                - and row/column 
+                - maybe status
+                - some message to display 
+                - or some error message.
+          Estimated .CRUDE:
+            Estimation: 
+              4h:
+                <-Note-: PAR time 1h
+            Details:
+              Proxies the calls basically.
+          Estimated .Rename and .Relocate:
+            Estimation: 6h
+            Details:
+              Performs the necessary Item updates and asks back questions if necessary.
+      Estimated .Basic F2VSCExtension:
+        Estimation: 
+          43h:
+            <-Note-: 7.1d
+        Details:
+          Summary:
+            A Visual Studio Code extension (package) supporting $@Requirements..F2Tool..F2Console..Workspaces@$, CRUDE operations, providing a console-in-file and various conveniences for working with Items through the F2Tool.              
+          Details:
+            - Communicates with the F2VSCExtensionService through webservices; callback-type of architecture (so no polling) preferable.
+            - Works mostly as a proxy in between the F2VSCExtensionService and the VS Code interface.                
+            - Small amount of Parsing and Generating activities - it should be relatively dumb, the logic should be on the F2LanguageServices side.              
+          Features:
+            - Workspace operations - Refresh All and Save All context menus on the Explorer:                  
+                No Git-like behavior supported yet ($@Requirements..F2Tool..F2Console..Workspaces..Git-like Commit-Push-Pull@$)
+            - Editor commands - through keyboard shortcuts or commands o the Command Palette:
+              - CRUDE:
+                  CRUDE on the Item under the cursor.
+              - Renaming and relocation (changing "BelongsTo") support:
+                  And update references at Rename, checking permissions for BelongsTo (and rejecting if no write on target, asking if no read)
+              - Follow link:
+                  So the -->< and $@@$ types
+              - Show/hide properties:
+                  On the current Item only or on all Items with this type
+              - Evaluate expression:
+                  E.g. the "=GetItem()"                
+        Estimated .Architecture and Initialization:
+          Estimation: 
+            6h:
+              <-Note-: Sounds like tutorial copy-paste (or ChatGPT generated code). PAR time 2h, 4h is for surprises.
+          Details:
+            - 1 VS Code extension most probably
+            - Communicates through some Terminal or Hints
+            - Steps:
+              - Reads settings from json - including the connection string
+              - Tries to connect automatically to F2VSCExtensionService, if unsuccessful, displays something. There's a button registered for trying again.:
+                - if necessary, creates some callback web service or does some channel-setup on which 2 way communication is possible.
+              - Registers the commands and waits
+        Estimated .Settings:
+          Estimation: 
+            2h:
+              <-Note-: Sounds like tutorial copy-paste (or ChatGPT generated code)
+          Details:
+            - only a few, like connection string, login - in later stages, encryption related things maybe.
+            - Default VS Code Extension setting handling.
+        Estimated .Authentication:
+          Estimation:
+            2h:
+              <-Note-: In case something comes up. Should be 0 though.
+          Details:
+            None really. Maybe throw-in some password crap and https - but this should be localhost only really.
+        Estimated .Interactivity of the commands:
+          Estimation:
+            2h:
+              <-Note-: It should be google actually.
+          Details:
+            Background: There should be a way to run commands interactively - so that they can ask back questions, e.g. at the follow-link command if the Item is not in the Workspace, should it download it yes/no.
+            Task:
+              - Find a way applicable for all commands, like message box.
+        Estimated .Services:
+          Estimation:
+            31h:
+              <-Note-: 3+2+2*6+4+6+2+2
+          Estimated .VS Code Explorer Context Menu options:
+            Estimation:
+              3h:
+                <-Note-: Basically just calls the webservice with the path, waits for result callback, asks questions. So just the interface for both.
+            Reviewed .Refresh All:
+              Details:
+                Refreshes all Items in the folder/file. Asks if problems.
+                Relies on the $@Requirements..F2Tool..F2Console..Workspaces..Basic..Pull@$ service.
+            Reviewed .Save All:
+              Details:              
+                Saves all Items in the folder/file - creates, updates and deletes. Asks if problems.
+                Relies on the $@Requirements..F2Tool..F2Console..Workspaces..Basic..SaveAll (Commit - or process files - and push)@$
+          Estimated .Follow link - like the one ending with @$ and starting with $@ or in --><:
+            Estimation: 2h
+            Details:
+              Parsing the text and calling the webservice. If the link is not in the workspace, asks if it should download it.
+          Estimated .Show/Hide on Properties, Values:
+            Estimation:
+              2d:
+                <-Note-: Some tricky parsing, some Item operations, expecting bugs.
+            Details:
+              On the current Item only or on all Items with this type.
+              Logic be done on both F2VSCExtension and F2VSCExtensionService side.
+            .Show:
+              Details:
+                Displays a textbox into which you can enter the name of the property and whether this should be an Item only or ItemType wide change, then it writes it into the relevant DisplayOptions in the Workspace and refreshes the Items affected.
+            .Show All:
+              Details:
+                Like $@.Show@$, but no questions asked.
+            .Show Default:
+              Details:
+                Like $@.Show@$, but using the default display options - so not the Workspace stored ones.
+            .Hide:
+              Details:
+                Updates DisplayOptions by removing the Property under the cursor. Includes some parsing.
+          Estimated .Evaluate expression - so like "MyItem = GetItem("Root.myItem")":
+            Estimation: 4h
+            Details:
+              Calls the relevant service and replaces the expression with the result. Some parsing included, but this can almost be done on the F2VSCExtensionService side.
+          Estimated .Create, Reload, Update, Delete Item:
+            Estimation: 
+              6h:
+                <-Note-: PAR time 1h.
+            Details:
+              - basically calling the webservices with the yaml entry.
+              - The system can determine if an Item is new or existing by the combination:
+                - its Id and location in the yaml structure
+                - its InternalId - if it exists, it must be existint
+                - the value of its BelongsTo property
+              - If unsure, we ask back                                
+          Estimated .Rename Item and update references:
+            Estimation: 2h
+            Details: 
+              Calls the relevant service and displays questions/messages if necessary
+          Estimated .Relocate Item and update references:
+            Estimation: 2h
+            Details:
+              Calls the relevant service and displays questions/messages if necessary
+  Drafting .Ideas:
+    Drafting .Losely defined types for abstract members:
+      Details:
+        - One can define an abstract member in a way that its flagged with a loosely defined type:
+          - In descendant classes the type of it can be a type inheriting from the one declared in the base
+          - For example, if the base type is ItemWithId, in the descendants it can be ItemWithIdAndSummary
+        - For enumerations, the "base" type must be "Enumeration", from which all enums are considered to be inherited
+    Drafting .Overriding the return type of a function with a type inheriting from the original:
+      Details:
+        - One can override a function of an Item in descendants with a Function returning a type inherited from the one defined in the base class
+        - For example, if the base function returns ItemWithId, in the descendant it can return ItemWithIdAndSummary
+    Drafting .Yaml files dedicated for console-like use:
+      Details:
+        - we can issue queries or other commands by the press of a key-combo (like alt+Enter):
+            Examples:
+              - GetItemsUnderWithType("itemId", System.Types.Task.TypeDescriptor)
+              - ReplaceInItems(GetItemsUnder("itemId"), "PropertyId", "Value")
+        - the app would replace the line with an Item containing the results:
+        - these files could be:
+          - all yaml files under the folder Console 
+          - or yamls with a certain extension (e.g. cyml) found anywhere in the Workspace
+          - or yamls with a certain header
+          - or any yaml marked as such in the meta
+.F2Tool Configuration:
+  Drafting .Queries:
+    .Current task list for the user:
+      Details: e.g. highest prio In-Progress, then Todo.
+    .Current sprint items:
+    .All backlog items:
+  Drafting .Processes:
+    Details:
+      Basic processes enabling the system to progress towards its goals. Including setting the goal(s), evaluation of action-candidates; the basic decision-making process.      
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

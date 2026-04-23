@@ -1,0 +1,23 @@
+The Items which a "human computer" (= you) should "execute" (=work on), which are either Tasks or Items derived from it, such as Bugs.:
+  In the structure:
+    In the form: 
+      <Status> <Summary>:
+        +: {<Prop1>: <ShortValue1>, <Propn>: <ShortValuen>}
+        <Property1>: <Value1>
+        ...:
+        <Propertyn>: <Valuen>          
+    Explanation: 
+      First line: the status of the Task (e.g. TODO, Done, InProgress) and the short description of it
+      Second line: the properties having a short value, such as CreatedBy, By, etc.
+      Rest: the properties having a longer value, such as the Details, etc.        
+  Containing:
+    Status: The one word status of the Task (e.g. TODO, Done, InProgress)    
+    Details: Description of what needs to be done
+    By: Who should execute the task
+    Workspace: Space for scribblings while working the Task out
+    Result: The result of the "execution", e.g. if the task is about answering a question, then the answer
+    Worklog: How much time was spent by whom doing what when
+    Additional properties: such as Id, CreatedAt, etc.
+
+Note: since most Items are user defined and a Task is one of them, the above might be obsolete; please refer to the Barba.Types for the ClassDescription of a Task or Bug.
+

@@ -1,0 +1,588 @@
++: {Type: Folder, DefaultTypes: [ProcessDescription, Article, Folder]}
+
+
+.General Descriptions:
+  .Point and Achievement System:
+    .Achievements:
+      .Member Level 1:
+        Details:
+          Something arund the lines of:
+          - Ability to self-PM:
+              Include:
+              - Add the present tasks to your standup report SRGigi20250904
+              - Estimation time in finishing the task
+              - Apply the Specify, Select Task, Stop Task on your standup report:
+                - Reasons: 
+                  - You get use to the process 
+                  - Check if there are any bugs, VSIX tool should be subjected to marketing soon
+      .PM Level 1:
+        Details:
+          Something around the lines of:
+          - Ability to hold standups:
+              Can do the steps in the -->Documents\ProcessDescriptions\.."Process Descriptions"..WorkProcesses.."General Management Duties".."Holding Standup"<
+
+
+  .Roles:
+    Summary: The roles we use throughout the project
+    Notes: Initial version created at 20250203.
+    Type: Article
+    Details:
+      Bobi:
+      - special role for the founder of the project, Bobi
+      - acts as the "father" of the system: 
+        - ensures that it grows into "adulthood" by gradually "teaching" strategical and process knowledge and transferring responsibilities to the system (of the  project); at first guiding every step, taking full responsibility for everything the project does.
+        - deputy of the Hana
+      - in some ways similar to the CEO role in hierarchical managements
+      Hana:
+      - special role for the founder-partner of the project, Hana
+      - acts as the "mother" of the system: 
+        - ensures that the community and people in the project are the healthiest from psychological, physical and interpersonal perspectives
+        - deputy of the Bobi
+      - in some ways similar to the assistant CEO role in hierarchical managements
+      PM (Project Manager):
+        Details:
+          Responsible for the "machine" to operate:
+            - Has the plans:
+              - what needs to be done by what time
+              - hiearchical plans with dependencies
+            - Manages the resources:
+              - ensures that they are working optimally:
+                - have tasks
+                - have the environment
+                - have the "motivation"
+            - Continuously analyses the machine and verifies work:              
+              - for this proper administration has to be enforced:
+                - statuses of Tasks
+                - time reporting
+              - has his reports:
+                - burndown chart
+                - scope creep
+                - efficiency of resources
+                - time spent/task, /resource, /time period                
+            - All problems are his problems initially BUT can and should delegate them:              
+            - A mix of mother and father, slave and master:
+              - serves the team, pleases them so that they operate
+              - if the above does not work, tough but logical guy
+          Most important tasks:
+            - Push the "business" for the plan to be created and up to date
+            - Chase people for schedule of work and verify that they did work:
+              - Standup helps a lot in this - so chase for standups
+            - Verify the work they did:
+              - Administration:
+                - There are Tasks for everything they are doing
+                - Time is reported
+              - They work on the Tasks they should be working:
+                - Ideally on what was agreed (on a Standup)
+                - But, there will be changes: 
+                  - it should be the logical consequence of the information that they switched to another Task
+                  - if unsure, they should check with you whether they can switch
+            - Initially: 
+          PM Tasks:
+            .Ensure that each activity is part of a (PM) task and important information is recorded:
+            .Standups:
+              .Before the standup:
+                - Check/Analyze the standup file of the members:
+                  - Check each task of each member
+                  - Check priority and estimation
+                  - In case it is late add it is in the current AOIB and discuss it in the standup when members turn comes. 
+                  - Make sure the tasks are present in the CSV
+              .After the standup:  
+                - Check the standup reports:
+                  - Create tasks for the points that are not taskified yet
+                  - Ensure that the standup reports are fixed
+                - Follow up on issues with progress:
+                  - If there's no progress:
+                    - ask why, what's the plan
+                    - if repeatedly happening, raise it with Management, create a plan about solving the issue
+                - Check the priorities:
+                  - ideally, everyone should be working on the highest prio tasks
+                  - if not, ask why not and try to create solutions:
+                    - acceptable reasons are that the member doesn't have e.g. environment access, the "mind" for it, etc.
+                    - create a solution, e.g.:
+                      - assign the high prio task to someone else
+                      - if it will be done a bit later (but not causing problems) then it's actually fine                        
+            .Weekly/Bi-weekly:
+              - Retrospective Meeting
+              - Planning Meeting 
+              - Statistics and analysis of progress
+            .Creation of reports:
+        Project management process:
+          Requirements:
+            - The project should be healthy:
+              - The goal is something valuable, achievable in the foreseable future:
+                - e.g.: 
+                  - bad example: producing a stupid app in ten years is not
+                  - positive exmaple: reaching profitability in a few months is yes
+                - The project manager should only flag this to the "management" if this is not the case
+                - Otherwise he/she should just keep checking it 
+            - There should be a healthy plan to achieve the goals by the deadline:
+              - There should be steps in a way that there's a high likelihood that if you perform them, then the goal is achieved
+              - There should be a way to make the resources perform the tasks with the speed that the tasks are done by the deadline
+            - Resources should be working as effectively as possible on the most important tasks.      
+      PR (People  Relations):
+      - anything people related, including HR, Public Relations
+      Dev (Developer):
+      - software development and related
+      Architect:
+      - software architect
+      IT (Information Technology):
+      - all computer related topics
+      SM (Sales and Marketing):
+      - sales and marketing related topics
+      Student:
+      - studies to be able to perform one of the non-student roles
+
+  .Current roles assigned to:
+    Type: Article
+    Details: 
+    Content:
+      Bobi: Bobi
+      Hana: Hana
+      PM: Bobi, Hana, Gaurav
+      PR: Hana
+      Dev: Gaurav, Bobi, Shadow
+      SWA: Bobi
+      IT: Bobi
+      S&M: Bobi
+      Student:
+
+.Process Descriptions:
+  .EnvironmentSetups:
+    Type: Folder
+    DefaultTypes: [ProcessDescription]
+    Summary: Environment setup descriptions - i.e. what steps do you need to follow if you want to set up your environment
+    .VSCodeWinGit:
+      Type: ProcessDescription    
+      Actors:
+        - you: you, who wants to work in the project, including doing administration duties as well
+        - RepoAdmin: one who can include you into the TF2P team and grant you the accesses into the git repos
+      Summary: Setting up a Windows computer for work using VS Code and Keybase
+      Variables:
+        GitRepoDir: The file system directory into which the Git repository will be/is cloned into      
+      Steps:
+        - Install:
+          - VSCode:
+            - VS Code itself:
+            - The following VS Code extensions:
+              - Custom Coloring: 
+                  Details: https://marketplace.visualstudio.com/items?itemName=Altrue.CustomColoring
+              - YAML: 
+                  Details: https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
+              #- Yaml Path Extractor: https://marketplace.visualstudio.com/items?itemName=jtcontreras90.yaml-path-extractor
+              - Vallentin.vscode-bnf: 
+                  Details: https://marketplace.visualstudio.com/items?itemName=Vallentin.vscode-bnf
+              - Rainbow CSV: 
+                  Details: https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv
+          - IF (developing as well):
+            - Visual Studio Community Edition:
+              - Install Visual Studio Community Edition
+              - Make sure to tick the ".Net Desktop Development" package
+          - GitSetups:
+              - Optional but recommended: Install Notepad++
+              - Git:
+                - next-next-next, except NOT vim, but Notepad++ as editor (or something you know if you didn't install Notepad++ in the previous step)
+              - Optional but recommended: Install TortoiseGit
+          - Total Commander: 
+            - Optional but recommended: If on Windows, install Total Commander (it's an "IT professional" file manager, leaning towards programmers.
+          - TrueCrypt 7.1a:
+            - Optional but recommended: To access the encrypted password storage.
+          - GoodToHaveSoftware:            
+              - Launchy: set it up to include the executables in Program Files and Program Files (x86) folders (inside its Setting/Catalog), along with the folder in which you copy your little programs which do not need installation (like the "Program'" folder you created above).
+              - Winamp: because Winamp whips the Llama's ass (ok, this is super optional, but according to Bobi, real coders use Winamp and mp3s for listening to music)
+        - Setups:
+          - Git:
+              GitHub:
+              - Register a user on GitHub.com and notify RepoAdmin about the username you just registered
+              - After RepoAdmin added you to the group:              
+                - clone the Repositories:
+                  - Create GitRepoDir: Create a folder in which you will store the repositories, such as "_F2GitRepos"
+                  - Open a command prompt (shell, terminal) in a way that its working directory is in GitRepoDir:
+                    - if using Total Commander, you can do this by navigating inside this folder by it and then typing "cmd" into its command bar and pressing "enter"
+                  - and issue the following command in the folder:
+                      - git clone https://github.com/TheForty2Project/Management.git
+          - VS Code custom coloring setup:
+              - in VS Code:
+                - go to File/Open Folder and open the "!F2GitRepos\Management" folder
+                - press the "Explorer" button in its top left corner
+                - in the Explorer tab, find the "Technical.dat/CustomColoringSettings.json", open it
+                - select all its contents and copy it to the clipboard
+                - in the bottom bar of vs code on the left section, press the rightmost little button with the tooltip "Custom Coloring settings"
+                - paste the clipboard content into the bottom (NOT the one above it!!!) textbox
+                - press on "Load profiles"
+
+  .WorkProcesses:
+    Type: Folder
+    Summary: Work process descriptions - i.e. what steps do you need to follow if you want to work
+    .Planning meetings:
+    .General Management Duties:
+      .Standups:
+        Actors:
+          User[] Participants: 
+            Summary: participants of the standups
+          User PM: 
+            Summary: project manager
+        Variables:
+          DateTime StandupTime: 
+            Summary: the start time of the standup
+          Workspace Workspace:
+            Summary: the current workspace of the project
+        .Preparing:        
+          Steps:          
+            .RemindTeamMembers:
+              Summary: PM reminds Participants long before the standup to keep their SR updated (see:_ time tracking part of the work process)
+              Flags: Optional
+              PseudoCode:              
+                MakeActionAt():
+                  At: =StandupTime - 4h
+                  Action:
+                    SendMessage():
+                      From: PM
+                      To: Participants
+                      Channel: Discord
+                      MessageText: "Please don't forget to keep your SR updated!"
+            .CheckForPush:
+              Summary: PM checks whether all the SRs are pushed 10 mins before the standup, IF not, reminds the ones responsible for the missing ones to push
+              PseudoCode:              
+                MakeActionAt():
+                  At: =StandupTime - 10m
+                  Action:
+                    - User[] noSRParticipants = GetListOfUsersWithouthSRPushed()
+                    - IF:
+                        Condition: 
+                          isNonEmpty(): 
+                            List: noSRParticipants
+                        Then:
+                          SendMessage():
+                            From: PM
+                            To: noSRParticipants
+                            Channel: Discord
+                            MessageText: "I'll murder you!!!! You madafaggers."
+            .CreateMMEntry:
+              Summary: 
+                - PM creates a -->Barba.Types\."namespace Barba.Types"."class StandupMeetingMinutes"< entry into the -->Meetings\Standups\< file
+                - PM analyses the previous standups and based on this, fills the meeting minutes
+              Pseudocode:
+                - =new Barba.Types.StandupMeetingMinutes:
+                    BelongsTo: Workspace.Meetings.Standups
+                    ScrumMaster: PM
+                    Participants: Participants
+                    ScrumMasterQuestions: CollectQuestions()
+                    NextStandupPlannedAt: GetNextStandupTime()
+                    NextStandupScrumMaster: GetNextStandupScrumMaster()
+        .Holding:
+        .Post:
+
+      .Holding Standup:
+        Type: ProcessDescription
+        Summary: 
+        Workspace:
+          Existing scribblings:
+            Gaurav's notes:
+              - Estimation_tracking:
+                - Every task that can be completed within the estimated time.
+                - Management must track all tasks are completed on time.
+                - If a estimated time is missed:
+                  - Discuss the reasons with the responsible team member and log the discussion.
+                  - If the issue is solvable, implement a solution and document it.
+              - task_allocation_monitoring:
+                - Maintain an overview of all available tasks.
+                - Assign tasks based on team members' skills and availability.
+                - Keep track of all active tasks
+                - If a task does not align with a participant's skill set, reallocate it appropriately
+            Hana's ideas:
+              - Check the Tasks before StandUpReport
+              - Record notes on AOIB or personal Public workspace
+              - Discuss the notes taken with members on StandUp
+            FromAbove:
+              .Before the standup:
+                - Check/Analyze the standup file of the members:
+                  - Check each task of each member
+                  - Check priority and estimation
+                  - In case it is late add it is in the current AOIB and discuss it in the standup when members turn comes. 
+                  - Make sure the tasks are present in the CSV
+              .After the standup:  
+                - Check the standup reports:
+                  - Create tasks for the points that are not taskified yet
+                  - Ensure that the standup reports are fixed
+                - Follow up on issues with progress:
+                  - If there's no progress:
+                    - ask why, what's the plan
+                    - if repeatedly happening, raise it with Management, create a plan about solving the issue
+                - Check the priorities:
+                  - ideally, everyone should be working on the highest prio tasks
+                  - if not, ask why not and try to create solutions:
+                    - acceptable reasons are that the member doesn't have e.g. environment access, the "mind" for it, etc.
+                    - create a solution, e.g.:
+                      - assign the high prio task to someone else
+                      - if it will be done a bit later (but not causing problems) then it's actually fine            
+            FromTheStandupProcessBelow:
+              .Preparation - scrum master:
+                - prerequisite: everyone pushed
+                - pull and add the things into the respective backlog in the correct form (status done, time recorded, participant recorded)              
+              .Standup - everyone:
+                - sm asks everyone for the 3 things: was, next, problems. sm goes first (or whoever the team decides)
+                - each participant goes through the items they recorded, explains what happened with a few words, the team discusses it shortly if necessary, sm updates if necessary              
+                - sm: in case the tasks the team is planning to work on are not prepared properly - e.g. no estimation, wrong summary - then sm makes sure that this happens before actual work on them starts by executing the necessary steps (there should be a process for this as well).
+          StandupProcessCreationMeeting20250910:          
+            Goals:
+              - There's a correct report about the activites of everyone for the previous period (=since the previous standup)
+              - The team members get informed about the activities of the other members:
+                  Importantly, management gets this information and has the chance to adjust/intervene
+              - There's a chance for discussing (or at least flagging) problems
+            Requirements:
+              - The standup is on average less, than 15 minutes:
+                  Reason: we don't want to waste the time of ppl on meetings
+            Pre:
+              Done Include:
+                - asking the team members before the standup to send it
+                - reading them through along with the previous standup's "next" part and collecting notes, e.g. questions about why Task A was worked-on and not the planned Task B, etc.              
+                - creating a standup meeting minutes
+              Done Steps:
+                - Optional: PM reminds the team members long before the standup to keep their SR updated (see:_ time tracking part of the work process)              
+                - PM checks whether all the SRs are pushed 10 mins before the standup:
+                  - IF not, reminds the ones responsible for the missing ones to push
+                - PM creates a meeting minutes entry into the [file] using the [Barba.Types meeting minutes class (if doesn't exist, specify!)]
+                - PM analyses the previous standups blahblah puts things into the meeting minutes
+            During:
+              Done Include:
+                - Something like the -->Documents\ProcessDescriptions\.."Process Descriptions"..WorkProcesses.."General Management Duties".."Holding Standup".Workspace."Existing scribblings"<
+                - Does small edits to the SRs of ppl:
+                  Requirements:
+                    - SRs are commited before the meeting
+                - Taking notes about points which need to be discussed later and things which need to be done (e.g. preparing a task properly, etc.) into the meeting minutes
+              Done Steps:
+                - PM starts with their own reports, first mentioning the Was, Next parts
+                - PM mentions name to report at the end of his/her own report and so on with the turn of the next participants
+                - Each participant goes through the items they recorded, explains what happened with a few words, the team discusses it shortly if necessary, pm updates if necessary
+                - PM takes notes in meeting minutes file in case there are additional tasks, Important matters that requires a meeting schedule for a certain departments or topics.
+                - PM summarizes the stand up topics at the end of the session
+            Post:
+              Done Include:
+                - Commit and sync the meeting minutes
+                - Creates Tasks about the things to be done (recorded in the mmeting minutes) OR just actions them if they are simple
+              Done Steps:
+                - PM finalizes the meeting minutes notes
+                - PM commits and syncs the meeting minutes notes and inform the participants in the forum
+                - PM creates new tasks in its respective backlog
+                - PM migrate the tasks to CSV
+                - PM Check the estimation of each task and prepare pre notes for the next standup (this can happen in pre standup process)
+            
+
+    Reviewed .SoftwareTesting:
+      Details:
+      Actors:
+        - Implementer: the one who implemented the software (or part of it)
+        - Tester: the one who'll be testing it
+        - Business Analyst: the one responsible for the Requirements of the software
+      Variables:
+        .TotalSetOfImplementedReqs: The total set of requirements implemented in the software
+        .CurrentlyImplementedReqs: The set of requirements implemented by Implementer in this current iteration      
+        .ClearEnoughReqs: The set of requirements (or parts of them) which are defined clearly enough to be tested
+      Situation:
+        .FeatureCompleted: Implementer finished implementing CurrentlyImplementedReqs 
+      General instructions:
+        - If Tester encounters any Bugs (during this process, e.g. during showcase or his/her own testing activities) then he/she records it (see the $@-->RecordBug<@$ process)        
+      Steps:        
+        - Implementer informs Tester which Requirements belong to the:
+          - CurrentlyImplementedReqs
+          - TotalSetOfImplementedReqs
+        - InAnyOrder():                  
+          - Tester ensures that Requirements in CurrentlyImplementedReqs and in TotalSetOfImplementedReqs are sound:
+            - Tester reads them through, testing whether they are clear, no contradictions, no obviously missing parts, ambiguities
+            - If found any, discusses them with Implementer to resolve them
+            - If still not clear, they raise the questions with the Business Analysts
+            - Tester and Implementer agree on which parts of the REquirements are clear enough to be tested while the parts - these will be the ClearEnoughReqs
+          - Implementer showcases the CurrentlyImplementedReqs to Tester:
+            - Implementer goes through the main flow and some important edge cases and shows it through a video call to Tester that it works            
+        - Tester goes through the ClearEnoughReqs:
+          - Runs the test cases defined for it (if any)
+          - Tests the main flow
+          - Tests the defined edge cases
+          - Does ad-hoc testing, tries to "break" the software by presenting it unusual conditions, edge cases (this heavily relies on the skill and experience set of the Tester, his/her knowledge about what can be the conditions the Implementer might have missed). If no ideas, asks around (from Implementer, project members) what edge cases can be present, what to test.          
+    .RecordBug:
+      $@=TODO Write the RecordBug process@$
+    .GitBasedF2Workspace:
+      Type: ProcessDescription
+      Summary: Git (so no F2Tool) and F2Workspace based work process
+      Actors:
+        - you: you, the one who wants to work
+      Situation:
+        .HasComputerSetUp:
+      Prerequisites:
+      Steps:
+
+  .Technical:
+    Type: Folder
+    Summary: Performing special Tasks - like transcribing a video with whisper
+    .WhisperCpp:
+      Summary:
+        - How to transcribe a video called FILENAME.mkv using whisper.cpp          
+      Prerequisites:
+        - there is a video file called FILENAME.mkv in VIDEOFILEPATH folder
+        - ffmpeg.exe is in the PATH (or in the folder where the FILENAME.mkv is)
+        - whisper.cpp is set up:        
+          - it is located in the WHISPERCPPROOT folder (so cloned from https://github.com/ggerganov/whisper.cpp):
+              - go to the above website
+              - press the green button (code)
+              - copy the git path
+              - open total commander
+              - go to a folder to which you want to clone the whisper
+              - either:
+                  - issue the following command in the command line of Total Commander: git clone [ctrl+v]
+                  - - issue the following command in the command line of Total Commander: cmd
+                    - type "git clone" and press ctrl+v, then enter                
+          - the base-en library is downloaded as per the instructions here: https://github.com/ggerganov/whisper.cpp
+          - its binaries are in the WHISPERCPPROOT/build/bin/ folder
+      Steps:
+        - Execute the following scripts in a Bash prompt:
+          Notes:
+            You can run 
+          Steps:
+          - in the VIDEOFILEPATH folder: |
+              ./ffmpeg -i "FILENAME.mkv" -ar 16000 -ac 1 -c:a pcm_s16le FILENAME.wav
+          - in the WHISPERCPPROOT folder : |
+              ./build/bin/whisper-cli -f "VIDEOFILEPATH/FILENAME.wav" >"VIDEOFILEPATH/whisper-cpp_base-en_FILENAME.txt"
+
+  .StandupProcess:
+    Type: ProcessDescription
+    Summary: Description of the standup process along with preparation for it
+    Actors:
+      you: you, the expected participant of the standup
+    .ManualStandupPreparation:
+      Situation:
+        .GitBasedF2Workspace: you're working as per the $@WorkProcesses.GitBasedF2Workspace@$ work process
+        .PreparingForStandup: you're preparing for a standup on which you'd like to participate.
+      Prerequisites:
+        .Synced: you are synced, nothing should have been left unpushed from previous day so ideally this is just a pull
+        .StandupPrepTask: there is a Task for it to which you can record your time - such as a "Standup Preparation" Task somewhere in Management
+        .YamlPathExtractor: if using VS Code, we recommend having the Yaml Path Extractor plugin to be installed so that you can easily extract paths to a property
+        .BarbaCRLF: again, if using VS Code, you should have the little tool called "BarbaCRLF" running, which will allow you to convert the path extracted by the Yaml Path Extractor to a proper IdPath by the press of ctrl+shift+4
+      Details: Follow the steps and make sure to finish everything at least 10 mins before the standup.
+      .CreateSRItem:
+        Summary: Creating the -->StandupReport< Item 
+        Actors: you
+        .Create a new -->StandupReport< Item in your StandupReport.yml file under your workspace file:
+          Details:
+            At the moment you can copy-paste this template: |
+              [yyyymmdd][username]:
+                Was:
+                  - 
+                Next:
+                  -
+                AOIB:
+                  -
+        .name it SR[yyyymmdd][username], such as SR20250114Bobi:
+          Details:
+            - In the (hopefully rare) case there are multiple standups during the day, add the number of the standup preceded by an underscore, such as SP20250114Bobi_1 and SP20250114Bobi_2. (No, we should not start the numbering with "0", we are humans, first = 1st).
+        .Fill in its properties:
+          Details:
+            Fill the Item according to this template - or follow the steps: |                  
+              Was:  
+                - OPTIONAL_STATUS YAML_PATH:[TIME_SPENT, OPTIONAL_DESCRIPTION, STARTDATETIME_IN_ISOFORMAT]
+                ... 
+              Next:
+                - OPTIONAL_STATUS YAML_PATH:[OPTIONAL_DESCRIPTION, TIME_ESTIMATED]
+                ... 
+              AOIB:
+                - textual description of Any Other Important Business
+            Notes:
+              The properties:
+                - The "Next" field should contain a similar list but instead of spent time, the estimated time.
+                - The "AIOB" field should contain a list of the textual descriptions of what you did
+              The recommended way for retrieving the IdPath of an Item, if using VS Code with YamlPathExtractor and BarbaCRLF:
+                - navigate to the Item in VS Code
+                - right click on its Id and select "Extract Key" from the context menu; this should copy its yaml path to the clipboard
+                - press ctrl+shift+4 to format the clipboard content to a link
+          .Fill the "Was" field as:
+            Details:
+              Report what Tasks you worked on by adding a line for each:
+                in the following format:
+                  - "[yaml path]:{[optional description], [time spent]}"
+                where:
+                  - yaml path: IdPath (or yaml path) pointing to the Item you worked on
+                  - optional description: what did you do, in a few words; optional.
+                  - time spent: how much time you spent on it
+          .Fill the "Next" field as:
+            Details:
+              Report what Tasks you are planning to work on by adding a line for each:
+                in the following format:
+                  - "[yaml path]:{[optional description], [time estimated]}"
+                where:
+                  - yaml path: IdPath (or yaml path) pointing to the Item you worked on
+                  - optional description: what are you planning to do, in a few words; optional.
+                  - time spent: how much time you are planning to spend on it
+      .LogTime: Find the Standup preparation Task (as in ) $@StandupProcess..StandupPreparation.Prerequisites..StandupPrepTask@$ and log the time taken to prepare
+      .CommitAndPush:
+    .StandupPreparationUsingF2Tool:
+      Summary: Tracking your time spent on Tasks and creating your standup report
+      Situation:
+        .GitBasedF2Workspace: you're working as per the $@WorkProcesses.GitBasedF2Workspace@$ work process
+        .PreparingForStandup: you're preparing for a standup on which you'd like to participate.        
+      Prerequisites:
+        .F2ToolsExtension: The F2Tools extension is installed
+      Steps:
+        - CreateAndSpecifySRItem:
+            Summary: Creating the -->StandupReport< Item and signaling to the extension that this is the one it should log the time spent
+            Actors: you
+            Situation: 
+            Steps:
+              - Create a new -->StandupReport< Item in your StandupReport.yml file under your workspace file:
+                - name it SR[yyyymmdd][username], such as SR20250114Bobi:
+                    Details:
+                      - In the (hopefully rare) case there are multiple standups during the day, add the number of the standup preceded by an underscore, such as SP20250114Bobi_1 and SP20250114Bobi_2. (No, we should not start the numbering with "0", we are humans, first = 1st).
+                - Specify StandUpReport:
+                  - Place the cursor on the SR
+                  - Issue the command "Specify Standup Report" from the command palette (Ctrl + Shift + P)
+                  - Choose or type "Specify standup report" or the shortcut(Ctrl+S+R)  
+        - StartOrSwitchToTask:
+            Summary: Start working on/switching to a new Task
+            Prerequisite: $@CreateAndSpecifySRItem@$
+            Situation: You want to start working on a new Task
+            Steps:
+              - Place the cursor on the Task you want to start
+              - Issue the command "Select Task" from the command palette (Ctrl + Shift + P)
+        - StopTask:
+            Summary: Stop working on a Task you already started working on
+            Situation: You want to pause/stop working on a Task
+            Steps:
+              - Place the cursor either:
+                - On the link pointing to the Task (e.g. in your SR)
+                - On the Task itself
+              - Issue the command "Stop Task" from the command palette (ctrl + shift + P)
+        #     Steps:                
+        #       - Place the cursor on the Task you are working on under your standup report
+        #       -  Issue the command "Specify Standup Report" from the command palette (Ctrl + Shift + P)
+        #       - Choose or type "Stop Task/Timer" 
+
+                
+                
+          Note: The tasks will automatically be placed in the Was part of the SR.
+
+    .Standup:
+      .Prerequisites:
+        - $@..\..\.StandupPreparation$@ is done
+      Content:
+        .Preparation - everyone:
+          - add the result into its Result in the following format: |
+              Was:  
+                - [yaml path]:{[optional description], [time spent]}" 
+                - [yaml path]:{[optional description], [time spent]}"
+                ... 
+              Next:
+                - [yaml path]:{[optional description], [time estimated]}" 
+                - [yaml path]:{[optional description], [time estimated]}"
+                ... 
+              AOIB:
+                - textual description of Any Other Important Business
+          - add the time taken to prepare, close the task
+          - commit and push
+          - make sure to finish everything at least 10 mins before the standup
+        .Preparation - scrum master:
+          - prerequisite: everyone pushed
+          - pull and add the things into the respective backlog in the correct form (status done, time recorded, participant recorded)
+          - create a task for everyone for participating in the standup
+        .Standup - everyone:
+          - sm asks everyone for the 3 things: was, today, problems. sm goes first (or whoever the team decides)
+          - each participant goes through the items they recorded, the team discusses it shortly if necessary, sm updates if necessary
+          - sm updates the tasks, sets the status to done and records the time
+          - sm: in case the tasks the team is planning to work on are not prepared properly - e.g. no estimation, wrong summary - then sm makes sure that this happens before actual work on them starts by executing the necessary steps (there should be a process for this as well).

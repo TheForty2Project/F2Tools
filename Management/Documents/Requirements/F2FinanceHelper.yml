@@ -1,0 +1,44 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+Comments:
+  - [Bobi, "This is very in the middle, lots of garbage as well.", 20260420 T 210600]
+
+Drafting .F2FinanceHelper:
+  Summary:
+    - A (n at first) console app which enables the safe handling of blockchain-based financial transactions, using a cryptographical method in a way that X number of people must approve a transaction out of Y (it's important that the "must" here is mathematical must, not the "I promise" type)
+    - Core idea is that the app creates a crypto address and the private key (the one required to make a transaction with it) is "split up" and distributed to the members, where "split up" is creating information pieces out of the private key in a way that any X number of pieces are enough to reconstruct it - but (obviously) any less than X is not enough.
+  Details:           
+    - server:
+      - stores login information (encrypted, so e.g. hash+salt + maybe the public key part of a key)
+      - stores history:
+        - log-in and related events
+        - transaction:
+          - the transaction descriptor yaml
+          - the user name of the approvers of the transaction
+          - the results of the transaction:
+            - success
+            - timestamp
+            - keys distributed successfully
+      - Functionalities:
+        - log-in and related
+        - does transactions:
+          - MinApprovers number of clients have to send an encrypted (with their private key) transaction descriptor yaml (they have like 5 min from the first package to send it all)
+          - ensures that the minimum number of clients/users have a consensus about what transaction should happen:
+              In other words:
+                checks:
+                  if:
+                    NoOfLoggedInClients > Math.Max(3, minApprovers)
+                  where:    
+                    minApprovers specifies minimum how many users should be agreeing to the transaction.
+          - if MinApprovers all sent the same description:
+            - crypto address creation:
+              - creates the crypto address
+              - encrypts the private part of the crypto address and splits it up into NoOfLoggedInClients pieces in a way that MinApprovers no of splits is enough to be able to reconstruct the private key, but not less.
+              - the split is included into the transaction response yaml, which the server sends back encrypted with the client's public key to each client.
+            - crypto transactions:
+              - TODO
+          - TODO            
+          - the server sends back a transaction respone.yaml
+          - the clients have to confirm it back that they received the response          
+          
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

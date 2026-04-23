@@ -1,0 +1,29 @@
+namespace System.Types.Processes:
+  Comments:
+    Bobi: This is mostly a plan, here only to give some idea about what's planned and how the system would work. Very-very work in progress.
+
+  class ProcessInfo:
+    Inherits: Item
+    Properties:
+      string ProcessName:
+      ProcessDescription OriginalProcessDescription: 
+      RunMethod RunMethod:
+      ProcessWorkspace ProcessWorkspace:
+      User StartedBy:
+      ProcessStatus Status:
+      DateTime StartedAt:
+      
+  enum RunMethod:    
+    Members:
+      OSProcess:
+        Summary: 
+          - for processes which are run as a separate "application", as an operating-system process. 
+          - If the app is restarted, the process context (position, variables, etc.) is lost therefore. 
+          - Suitable for short lived processes or ones which do not depend on user input. 
+      F2Interpreted:
+        Summary: 
+          - for processes which are run by the ProcessExecutor;
+          - If the app is (properly) restarted, the process context is kept
+          - Suitable for processes which often wait for user input.        
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)

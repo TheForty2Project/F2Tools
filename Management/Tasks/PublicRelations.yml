@@ -1,0 +1,1358 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+.Marketing ideas:
+  Id: Marketingideas
+  +: { CreatedBy: Hana, CreatedAt: 20250803 T 125325, By: All }
+  Workspace:
+    Drafting .Distributing the project summary to categories of people we create:
+      - Music listener of the same taste of music:
+          - Platforms:
+              - SoundCloud
+              - Badminton
+    Drafting .Community of Hanas project:
+    Drafting .Live channels of focusmate while the members are working: 
+      TODO .create a stable schedule first for focusmate
+.WrittenMarketing:
+  Id: WrittenMarketing
+  +: { Type: Folder, DefaultTypes: [ Folder, Task ] }
+  InProgress .Approach Reddit groups:
+    Details:
+      - Due to that the posters are members of the TF2P subreddit, it'd be good if each had some posts, so ideally the posts should be done from different accounts - well, if it works, so don't force it.
+    TODO .Coopgroup:
+      +: {CreatedBy: Bobi, CreatedAt: 20250819 T 154152, By: Bobi, Tags: [CSVTODO], Priority: 5-VeryHigh}
+      Details:
+        Name: Cooperatives
+        Goals: 
+          - To gather practical relevant co-op operational information, perhaps the scenarios / struggles we haven't encountereed, or the successful / failed experiences from the organization under same category & similar structure
+          - To promote & sell the tool
+      InProgress .Post an intro and then gradually ask questions:
+        Done .Create a file for the questions and intro under Business Analysis folder:
+          +: {CreatedBy: Hana, CreatedAt: 20250820 T 182410, By: Gigi, Tags: [CSVTODO], Priority: 3-Average}      
+        TODO .Create the baseline content:
+          Id: CreateBaseline
+          +: {CreatedBy: Bobi, CreatedAt: 20250819 T 155957, By: [Hana, Giselle], Tags: [CSVTODO], Priority: 3-Average}
+          Estimation: 
+            - 2 hour (timeboxed, for one person)
+            - 4 hours (timeboxed, for 2 person)
+          Details:
+            - Create a post, keeping it in mind that not all questions need to be asked in the first post
+            - Include - maybe:
+              - Link to our website: should we? To be decided.
+              - Introduce ourselves, what we're doing and the situation in 1-2 sentences:
+                - e.g. "we're doing computed decision-making in a cooperative form" 
+                - State that we need real world examples we can focus on
+              - We're doing "points" system, roughly:
+                - team gives initial points-value to each task
+                - members decide if they want to do it for that many points:
+                  - if no one does the task but team finds that it's important, points are increased
+                  - if multiple people fight for the task, points are decreased
+                - share of profits are based on how many points you collected
+                - this is in "initial trials" phase
+              - Questions:
+                - What are the problems they are facing:
+                - What are their goals:
+                - Why they chose to proceed as CO-OP instead of a corporation:
+                - What's their current management system, tool they are using:
+                - What are their main obstacles:            
+                - Fundraising relevant procedure, sources and struggles:                    
+          Done .Hana to create her version of the post:
+            +: {CreatedBy: Bobi, CreatedAt: 20250819 T 173749, By: Hana, Tags: [CSVTODO], Priority: 5-VeryHigh}
+            Estimation: 1 hour (timeboxed)
+            Deadline: 2025-08-19 18:00
+          Done .Gigi to create her version of the post:
+            +: {CreatedBy: Bobi, CreatedAt: 20250819 T 173800, By: Gigi, Tags: [CSVTODO], Priority: 5-VeryHigh}
+            Estimation: 1 hour (timeboxed)              
+            Deadline: 2025-08-19 18:00
+          Done .Hana and Gigi to merge their versions:
+            +: {CreatedBy: Bobi, CreatedAt: 20250819 T 173740, By: [Hana, Gigi], Tags: [CSVTODO]}
+            DependsOn:
+              - -->.Hana to create her version of the post:<
+              - -->.Gigi to create her version of the post:<
+            Estimation: 2 hours
+        InProgress .Have the baseline reviewed by the team and create final:
+          Id: ReviewBaseline
+          DependsOn: -->CreateBaseline< 
+        TODO .Post the first post:
+          Id: PostFirst
+          DependsOn: [-->ReviewBaseline<, -->-Result->new TODO Find the task about completing the website with the deepdive section<]
+        Blocked .Reply, update the post we want to post and post the rest:
+          Id: ReplyAndOrPostTheRest
+          DependsOn: -->PostFirst<
+        Blocked .Create analysis and statistics in the post marketing file:
+          Id: Postmarketinganalysis
+          +: {CreatedBy: Hana, CreatedAt: 20250820 T 182659, By: [Gigi, Hana], Tags: [CSVTODO], Priority: 3-Average}
+          DependsOn: -->ReplyAndOrPostTheRest<
+    TODO .CSharp group:
+      +: {CreatedBy: Bobi, CreatedAt: 20250819 T 154213, By: marketing, Tags: [CSVTODO], Priority: 2-Low}        
+      Details:
+        Name: CSharp
+        Ideas: well... later?
+      Inprogress .Collect C# related questions:
+        +: {CreatedBy: Bobi, CreatedAt: 20250819 T 164537, By: Bobi, Tags: [CSVTODO], Priority: 3-Average}
+    TODO .Startups:
+      +: {CreatedBy: Bobi, CreatedAt: 20250819 T 154222, By: marketing, Tags: [CSVTODO], Priority: 3-Average}
+      Details:
+        Name: Startups
+        Targets to achieve: To sell the tool or to get potential invetors
+        Execution plans (To be finalized): 
+          - Introduction of The Forty2 project: can use the same introduction materials as materials for the co-op subredit group
+          - Questions to ask maybe:
+            - What's their current management system, tool they are using ?
+            - What are their main obstacles ?
+            - Fundraising relevant procedure, sources and struggles
+    TODO .Developers:
+      +: {CreatedBy: Bobi, CreatedAt: 20250819 T 154228, By: Bobi, Tags: [CSVTODO], Priority: 4-High}
+      Details:
+        Name: Developers
+        Targets to achieve: Aside from getting to know people like us, getting some audience/follower/contributors
+        Ideas:
+          - Try to show that receving a share is better than receiving salary:
+              Posts:
+              - Post / Tweet "how do you receive their pay in current company":                
+              - Post / Tweet "What do you think of profit-share based on the value of the contribution mechanism"
+              - Post to a comparison table of current pay system v.s. contribution or can make a vote/poll on reddit
+              Notes: 
+                - mention that as a "small freelancer" you have big disadvantage against big companies with lots of money and power
+                - hence, we're aiming big - i.e. instead of making small software for little companies, we're creating a huge one which can be sold to big money to lots of customers
+  TODO .Write thoughts on X:
+    +: { CreatedBy: Hana, CreatedAt: 20250727 T 115910, By: all }
+    TODO .Definition of Fair:
+      Id: FairDefinitionX
+      +: {CreatedBy: Hana, CreatedAt: 20250804 T 225922, By: All, Tags: [CSVDONE]}
+      TODO .Write the definition of Fair:
+        +: {CreatedBy: Bobi, CreatedAt: 20250811 T 135100, By: Bobi, Tags: [CSVTODO], Priority: 4-High}
+      Blocked .Publish the definition of Fair:
+        DependsOn: -->Tasks\PublicRelations\..WrittenMarketing.."Write thoughts on X".."Definition of Fair".."Write the definition of Fair"<
+  TODO .Do regular updates on SM:
+    +: {CreatedBy: Bobi, CreatedAt: 20250908 T 120529, By: marketing, Tags: [CSVTODO]}
+    Id: RegularUpdates
+    TODO .Create a strategy/process about what needs to be done:
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 120700, By: marketing, Tags: [CSVTODO]}
+    TODO .Create and schedule tasks for the team:
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 120722, By: pms, Tags: [CSVTODO]}
+      Details:
+        - So that e.g. Bobi knows what needs to be done, when
+        - And - who does it; like Bobi creates a summary and someone else does the actual post?
+  Onhold .Creating short description on[meet up]:
+    - Definition of the TF2P
+    - What we do as a team
+    - The Goals
+  TODO .Go through the existing material (articles, etc.) and share it with the current team:
+    Id: GoThroughMaterial
+    +: { CreatedBy: Hana, CreatedAt: 20250727 T 160745, By: Hana, Tags: [CSVDONE] }
+  TODO .Publish written articles on different platforms:
+    Id: Writtenarticlesplatforms
+    +: { CreatedBy:Hana, CreatedAt: 20250727 T 163116, By: All }
+    Notes:
+      - LinkedIn:
+          Purpose:
+            - Workers to gain more insight of what the project is
+            - potential companies who would hire us
+      - Reddit:
+          Purpose:
+            - Improve our processes and analyse the target audience
+      - https://medium.com/:
+          Purpose:
+            - used for Popular for tech blogs, tutorials, and project showcases.
+            - Good for visibility and SEO.
+  Blocked .Create project updates as of 20250730 on the site:
+    Id: ProjectUpdate20250730
+    +: { CreatedBy: Bobi, CreatedAt: 20250730 T 140236, By: Bobi, Tags: [CSVDONE] }
+    TODO .Create the content:
+      +: { CreatedBy: Bobi, CreatedAt: 20250730 T 140917, By: Bobi }
+    Blocked .Format it to the website:
+      +: { CreatedBy: Bobi, CreatedAt: 20250730 T 140921, By: Bobi }
+      DependsOn: -->Tasks\PublicRelations\..WrittenMarketing.."Create project updates as of 20250730 on the site".."Create the content"<
+  InProgress .Approaching the general public - Switching Earth On:    
+    Id: SwitchingEarthOn
+    InProgress .Create a summary about "Switching Earth On" side of the project:      
+      Id: SummaryAboutIt
+      InProgress .Article:
+        Done .Write baseline:
+            see $@-->Documents\PublishableArticles\SwitchingEarthOnSession.Content<@$
+        InProgress .Review, give feedback:          
+          +: {CreatedBy: Bobi, CreatedAt: 20250804 T 185906, By: everyone, Tags: [CSVDONE]}
+          Details:
+            - is it understandable?
+            - the statements are properly reasoned - so you can also see why it's true from the points provided. If not, why not
+            - what's missing
+            - any questions?
+        Blocked .Finalize the article:
+          +: {CreatedBy: Bobi, CreatedAt: 20250804 T 185921, By: Bobi, Tags: [CSVDONE]}          
+          DependsOn: -->Tasks\PublicRelations\..WrittenMarketing.."Approaching the general public - Switching Earth On".."Create a summary about "Switching Earth On" side of the project".."Article".."Review, give feedback"<
+        Blocked .Publish:
+          +: {CreatedBy: Bobi, CreatedAt: 20250804 T 185930, By: Bobi, Tags: [CSVDONE]}
+          DependsOn:
+      InProgress .Video content about it:
+        Id: Video
+        Done .Do and record the first call:
+          +: {CreatedBy: Bobi, CreatedAt: 20250804 T 185622, By: [Bobi, Hana, Gigi], Tags: [CSVTODO]}
+          Details:
+            - kjhgfs;h
+        TODO .Review, give feedback:
+          +: {CreatedBy: Bobi, CreatedAt: 20250804 T 185955, By: Bobi, Tags: [CSVTODO]}                
+        TODO .Create strategy about what to do with it:
+          +: {CreatedBy: Bobi, CreatedAt: 20250804 T 191718, By: marketing, Tags: [CSVTODO]}
+          Details:
+            Put it to youtube? Reshoot? How good it is, how good it should be?
+        Blocked .Market the content:
+          +: {CreatedBy: Bobi, CreatedAt: 20250804 T 191748, By: Bobi, Tags: [CSVTODO]}
+          DependsOn: -->Tasks\PublicRelations\..WrittenMarketing.."Approaching the general public - Switching Earth On".."Create a summary about "Switching Earth On" side of the project".."Video content about it".."Create strategy about what to do with it"< 
+.VisualMarketing:
+  Id: VisualMarketing
+  +: { Type: Folder, AllowedTypes: [ Folder, Task ] }
+  .Current Stage:
+    Done .Work on Topic 3 and 2 of the Mind Model:
+      Done .Create Task for the above:
+        +: {CreatedBy: Hana, CreatedAt: 20251003 T 000933, By: Hana, Tags: [CSVDONE], Priority: 6-ASAP}
+        Estimation: 2.5 hours
+      Done .Review this task format:
+        +: {CreatedBy: Hana, CreatedAt: 20251002 T 235634, By: Bobi, Tags: [CSVDONE], Priority: 6-ASAP}
+        Estimation: 30 min
+        Done .Edit task format of the -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Work on Topic 3 and 2 of the Mind Model"<:
+          +: {CreatedBy: Hana, CreatedAt: 20251003 T 000731, By: Hana, Tags: [CSVDONE], Priority: 6-ASAP}
+        Done .Discuss with the PM the changes in the StandUp:
+          +: {CreatedBy: Hana, CreatedAt: 20251002 T 235813, By: Bobi, Tags: [CSVDONE], Priority: 6-ASAP}
+      Done .Summarize Topic 3 and 2:
+        +: {CreatedBy: Hana, CreatedAt: 20251002 T 233549, By: Bobi, Tags: [CSVDONE], Priority: 6-ASAP}
+        Id: Topic3KickoffSummary
+        Location: https://docs.google.com/document/d/1BnP5vPgNP0wd6VAlpp2TiEdR-CfYW6rAx-U_trWGKjc/edit?usp=drive_link
+        Estimation: 2 hours
+        Notes: This is a Kickoff teaser video for the Brain Model stream (TheForty2Project)
+        Done .Read topic 3 & 2 and summarize the content:
+          +: {CreatedBy: Hana, CreatedAt: 20251003 T 001411, By: Bobi, Tags: [CSVDONE], Priority: 6-ASAP}
+        Done .To be reviewed by PM:
+          +: {CreatedBy: Hana, CreatedAt: 20251002 T 233907, By: Hana, Tags: [CSVDONE], Priority: 5-VeryHigh}
+          Done .Discuss the amd follow up: 
+            +: {CreatedBy: Hana, CreatedAt: 20251003 T 001817, By: [Hana, Bobi], Tags: [CSVDONE], Priority: 5-VeryHigh}
+          Done .Edit Topic 3 summary:
+            +: {CreatedBy: Hana, CreatedAt: 20251003 T 000553, By: [Hana, Bobi], Tags: [CSVDONE], Priority: 5-VeryHigh}
+          Done .Finalize Topic 3 summary:
+            +: {CreatedBy: Hana, CreatedAt: 20251003 T 000659, By: Hana, Tags: [CSVDONE], Priority: 5-VeryHigh}
+        Done .Add the summary to the folder $@https://drive.google.com/drive/folders/1gK_CQ9iibK-L0TRkTdB0FeEVrfFQK8XG?usp=drive_link@$:
+          +: {CreatedBy: Hana, CreatedAt: 20251003 T 001850, By: Bobi, Tags: [CSVDONE], Priority: 4-High}  
+    InProgress .Release the kick-off video:
+      Done .Upload the kick-off video to drive:
+      Done .Transcribe using Whisper:
+      Done .Categorize the kick-off video into topics:
+        Done .Draft the topics in VisualStudio code: 
+        Done .Apply it in a google doc:
+          Done .Categorize the topics to sub topics:
+          Done .Add the timestamps about each topic and subtopic:
+          Done .Fix the wording and errors in the transcript:
+            Done .Fix wording of thinkings part in the document:
+              Done .Topic TF2P:                  
+              Done .Topic Summary: 
+              Done .Topic Conclusion and Intro to TF2P:
+            Done .Fix wording of the love and sex part in the document:
+        Done .Review it with the team:
+        TODO .Create further explanations for certain parts:
+          Details:
+            - For unfinished topics, things which need to be explained more, etc.
+            - Parts:
+                - | 
+                  Hana to explain what is "Robi opened this world to me"
+                  "Yeah, Robi opened this world to me and I was like 
+                  R:, oh, I opened the world? Ahh, I just just showed you that this world exists where people can be…"
+                - |
+                  finish the sentence by saying stg like "you don't have a chance to have proper logical reasoning skills".
+                  "Without the knowledge, without that lucky event that you fall in love with programming at a very young age and then become a mathematician, well, start a mathematician in university which you actually hate, I hated it so much"
+          TODO .Create a document about it:
+          TODO .If feasible, create further videos and edit them into the main one:
+        TODO .Add it to the new official file under the DocsandArticle Folder:        
+        Done .Cut the video into different topics - round1:
+          Details:
+            - Location of the video:
+              - Video 1 main clear: $@ https://drive.google.com/file/d/1XCwTtUlBTc_JNsbg8C9Aehf8bDf3hE0p/view?usp=drive_link @$
+              - Video 2: $@ https://drive.google.com/file/d/1fCKC1zMlBrl7wwSQQN3on-ZUeSZLaZLX/view?usp=drive_link@$
+              - Audio $@ @$
+          Done .Extract voice from the video:
+          Done .Add the voice that syncronize both videos:
+            Done .Reduce noise using Audicity:
+            Done .Add the audio file to Devinci:
+            Done .Syncronize the processed audio file to the from camera kickoff video:
+        InProgress .Categorize the topics into what level of what to publish first:
+          InProgress .Topic2:
+            Details:
+              - Title: Love and Sex
+              - ID: Topics00020420
+            Done .Extract topic 2 from original video:
+            Done .Add subtitles to topic 2 video:
+              Done .Correct the subtitles manually:
+              Done .Extract the .srt file:
+                Details: 
+                  Location: https://drive.google.com/file/d/152MxXfs-UbnYud3Jmf5_oE8QRkjfjB3o/view?usp=drive_link
+              Done .Correct the subtitles:
+                Details:
+                  Use the Google Doc file as "source"
+                Cancelled .Robi to do some experimenting whether something can be automated:
+                Done .Do the actual correction:
+            Paused .Add thought bubble on the side:
+              Paused .Add meaning of the term Vanilla @ 10>06:
+              Paused .Add ones mentioned here:
+                Details: -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Release the kick-off video".."Categorize the kick-off video into topics".."Create further explanations for certain parts"<            
+        TODO .Create strategy:
+          Details:
+            - What to publish on what platforms
+            - Use the ChatGPT answers: https://chatgpt.com/share/6911b6b8-b22c-8005-861c-12cfffd47434
+            - Think about including:
+              - subscriptions
+              - short clips here and there
+              - public (free) and private content
+          InProgress .Search for possible platform to publish:
+            Workspace:
+            - Platforms:
+              - OnlyFans:
+                - Write a bio about Robert and you
+                - Card added
+              - Fansly:
+              - Reddit:
+                - https://www.reddit.com/r/Marriage/:
+                  - 741K weekly visitor
+                  - 26k weekle conribution
+                - https://www.reddit.com/r/FetishLife/:
+                  - 21k weekly visitor
+                  - 348 Weekly contribution
+                - https://www.reddit.com/r/fetish/:
+                  - 77K Weekly visitors
+                  - 1K Weekly contributions
+              - X:
+              - Patreon:
+                - UserName: Hanak42 
+
+          TODO .Create baseline - just points:
+            +: {CreatedBy: Bobi, CreatedAt: 20251110 T 105241, By: Hana, Tags: [CSVTODO]}
+          TODO .Work it out with Bobi:
+        TODO .Create descriptions:
+          Details:
+            - Create title:
+            - Create an intro or Summary:
+          TODO .Baseline points from Hana:
+            Details:
+              - Thoughts about it, in points
+              - What information you'd like to include in them - in points
+              - A baseline copy
+          TODO .Work it out with Bobi:        
+      NEXT .Release Retrospective Video:
+                  
+
+          
+
+        Blocked .Embed the videos to our website:
+          BlockedBy: -->Tasks\Website\.."Back to original".."Do intermediate solution"<
+      Blocked .Website Technicalities:
+        +: {CreatedBy: Hana, CreatedAt: 20251003 T 002135, By: Bobi, Tags: [CSVDONE], Priority: 3-Average}
+        DependsOn: 
+          - -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Work on Topic 3 and 2 of the Mind Model"<
+        TODO .Create a task to add Summary 2 and 3 to TF2P website:
+          +: {CreatedBy: Hana, CreatedAt: 20251003 T 002742, By: Bobi, Tags: [CSVTODO], Priority: 3-Average}       
+        TODO .Create a page in the website that should serve as source of clip:
+          +: {CreatedBy: Hana, CreatedAt: 20250826 T 163923, By: FrontendDeveloper, Tags: [CSVTODO], Priority: 3-Average}
+    InProgress .Do streamings:
+      Id: DoStreamings
+      +: {CreatedBy: Hana, CreatedAt: 20250826 T 164703, By: [Bobi, Hana], Tags: [CSVTODO, TasksDone20250908], Priority: 3-Average}
+      OnGoing .Research:  
+        Done .Research:_ platforms and methods:
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 113832, By: Hana, Tags: [CSVTODO]}
+          Details:
+            Platforms channels:
+              - Twitch ( main): 
+              - Youtube:
+          Workspace: 
+            - Summary of the code can be displayed. while coding. Youtube and twitch are good source.          
+            - Ask coders where do they stream there codes:
+              - through reddit
+            - Platforms on which we use the stream:
+              - OBS - Uses one stream at a time:
+                - Set up a local RTMP server using Nginx with the RTMP module. for multistream -->https://thestreambridge.com/obs-multistream<.
+              - restream.io -  uses multiple streams at once - requires payment
+            - No specific platforms for standups. 
+            - We need to create our own stand up stream process
+            - Clips or advertisements or reels can be published:
+              - Statistics:
+                - Countries With the Highest Share of Threads Users:
+                  - Armenia - 48.26%
+                  - USA - 17.32%
+                  - Germany - 7.91%
+                  - Vietnam - 5.23%
+                  - Philippines -5.07%
+                - Web Traffic Share by Country:
+                  - Taiwan - 18.07%
+                  - USA - 17.33%
+                  - Vietnam - 9.01%
+                  - Germany - 8.02%
+                  - Brazil - 5.67%
+                - Summary:
+                  - Armenia dominates in terms of active and engaged users.
+                  - India, Brazil, and the USA lead in install numbers, shaping future user growth.
+                  - Taiwan and the United States capture the largest share of web-based Threads traffic, followed by Vietnam and Germany.
+              - Notes:
+                - much easier to reach to the target audience eg. Project management that are not our followers.
+                - Algorithm is much easier and cleaner 
+                - Sharing a clip/reel about the topic (video) 
+          Result:
+            - See the Workspace
+            - A little bit about the experience of "streaming coding": https://www.reddit.com/r/Twitch/comments/w8fi61/does_livestreaming_programming_has_a_high_demand/
+            - And the basics - well, kind of nothing new, so just for confirmation that we were planning it right: https://medium.com/flutter/best-practices-for-hosting-a-live-streaming-coding-session-18d28b3a8d93
+            - The Twitch coding streams: https://www.twitch.tv/directory/collection/software-game-development-streams
+        Done .Research:_ can we record+stream and how?:
+          +: {CreatedBy: Bobi, CreatedAt: 20250919 T 160416, By: Hana, Tags: [CSVTODO]}
+          Details:
+            - We should be able to keep a recording of whatever was streamed
+            - Can OBS studio do it?
+            - Or, if not, what are the ways?
+      OnGoing .Idea and topic development:
+        InProgress .Create the topics to be posted and questions to be asked:
+          Tags: [PodcastTopics]
+          Workspace:
+          - Simple topics:
+              Details:
+                - \"Confirmation-bias" people:
+                    Details:
+                      - the ones like Andreas, Giselle, Hashim
+                      - the way they make conclusions are that:
+                        - they feel the answer
+                        - they then search their mind for "supporting evidences"                      
+          - Major contents:
+            - Introduction of the project:
+              - 
+          - Topics:
+            - Project Management:
+              - Standups
+              - Meetings Qs based on the topic:
+                idea: any meetings we conduct, we ask people some questions as an Ad and schedule the time of the stream for people to join if interested. 
+                eg: 
+                  topic: marketing meeting "going public"
+                  Ad Qs: what are the steps you take with your team to market a prodcut
+                  Platforms: X, Thread, etc.
+                  Schedule: Marketing meeting on 20250909 on Twitch and youtube.
+                  Notes: Summary and agenda of the meeting should be prepared and reviewed
+            - Successes and Failures:
+              - Team successes and failures:
+                - Success:
+                  - The F2Tool has been created and being used
+                  - Website was out
+                  - Project management method started to be implemented
+                - Failure:
+                  - Slow progress on development. Thinking to provide the timeline of how the idea of project was started, core memebr was recruited, and how tool was developed and first version of wedsite was created 
+                  - Low productivity Self-management. The struggles each of us is having, health condition, finance, different style of working  
+              - Personal successes and failures 
+            - Decision making:
+              - How decisions are made in small team, small interprises and businesses, mid companies and corporations
+            - Goals:
+              - The effect of goals management in life and businesses
+        Done .Create some general ideas about creating video/streaming materials and getting audience:
+          Id: GetGeneralIdeas
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 112814, By: marketing, Tags: [CSVTODO]}
+          Workspace:
+            Ideas:
+              Possible Process:
+                - Select a topic that will be posted then streamed:
+                  eg: marketing meeting "How to go public with complex project"
+                - Create stream topic structure:
+                  - Collect the topics from videos, agendas and articles:                  
+                  - Review the materials 
+                  - Create and prepare the materials              
+                - extract Qs that needs to be published from the materials
+                - Review Qs and agreement
+                - Choose platforms with its respective group eg.Startups group for the Qs
+                - Create the Ad, schedule and set of Qs
+                - Publish the questiosn
+                - Collect the responses and analyse ( With this step we can collect the audience)
+              Process for general streaming to standup or planning meeting:
+                - Confirm the schedule of the next streaming about either standup or planning. Need to make a regular streaming schedule
+                - Post on official account informing about the streaming schedule & the topics that will be discussed
+            After discussion with Bobi:
+              - Mind model and G&H topics:
+                - we should do videos first
+                - then we advertise the videos, by e.g.:
+                  - asking questions (we covered in the videos) on various platforms
+                  - posting the videos there somehow
+                - as soon as we get questions/audience, we can do streamings, involving the audience
+                - Goals:
+                  - getting a broader audience:
+                    - feedbacks
+                    - followers
+                    - supporters
+                    - maybe we can monetize this
+                    - potential contributors in later stages (so not at this, "strictly formal logic" stage)
+                  - \"teaching":
+                    - i.e. since we're building a system in which people are computing units, it is in our interest for these computing units to be as Bug-free as possible
+                    - it is in the interest of these computing unites - i.e. you - to be as optimal and Bug-free as possible to be able to live the best life, to be able to reach your goals and be happy as easily as
+              - Coding:
+                - we do streaming:
+                  - it helps in creating some schedule and pressure on us to do it regularly
+                - hopefully there would be some audience soon or later
+                - goals: 
+                  - to engage the "real coders" who are deeply interested in programming
+              - Standup, planning and general "we work" meetings:
+                - we do streaming:
+                  - it helps in creating some schedule and pressure on us to do it regularly
+                - hopefully there would be some audience soon or later
+                - goals: 
+                  - increase the concentration and the quality (we expect from ourselves); we whine less
+                  - give some chance for anyone who's interested to get some insights about what we are doing (and how)
+                  - finding potential contributors
+
+          Blocked .For coding:
+            +: {CreatedBy: Bobi, CreatedAt: 20250908 T 112944, By: marketing, Tags: [CSVTODO], Priority: 3-Average}
+            DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Do coding streaming".."Create a summary about what we would be doing"<
+          TODO .For planning meetings:
+          Blocked .For standups:
+            +: {CreatedBy: Bobi, CreatedAt: 20250908 T 115032, By: marketing, Tags: [CSVTODO]}
+            DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Do StandUp streaming".."Create a summary about what we would be doing"<
+      OnGoing .Preparation:
+        InProgress .Prepare Twitch Accounts:
+          .TF2P:
+          .Bobii42:
+            Done .About:
+              Result:
+              - I'm Bobi (say: bobby), a founding member of The Forty2 Project - which is about fair cooperation through computed decision-making. My mission is to showcase how we do it and to expand the cooperation until everyone is included, benefiting us all, until we Switch Earth On. Wish us strength at least!
+            TODO .Boxes:
+              TODO .Decide what topics:
+              NEXT .Workout the topics:
+          .HanaK42:
+            Done .About:
+              Result:
+              - I'm Hana, a founding member of The Forty2 Project - which is about fair cooperation through computed decision-making. My mission is to showcase how we do it and to expand the cooperation until everyone is included, benefiting us all, until we Switch Earth On. Wish us strength at least!
+            TODO .Boxes:
+              TODO .TF2P:
+              TODO .TF2P-MindModel: |
+                # TF2P-MindModel
+                ## Intro:
+                 - Robert, I and future members (looking forward to) are building our universe by understanding how the mind—the core of everything—works. 
+                 - I extensively have interest in formalizing my thinking into computational logic and develop algorithms based on that structure to reach my goals faster and efficiently.
+
+                ### MindModel Categories
+                  
+
+                 Category: Myself
+                    - Hana thoughts and actions analysis.
+                    - Build algorithms that help me grow closer to the Hana I am building.
+                   
+
+                Category: My Partner
+                   Understanding, analysing and improving our thoughts and actions algorithms and work towards being each other backbone (the better Adam and Eve (Robi and Hana))
+
+                Category: Early Development Stage
+                    - Understand how infants and young children's brains develop in practice
+                    - Instinctive Behaviors: What early actions reveal about innate human tendencies
+                    - Premotherhood training for Hana
+                    Source: Babysitting
+
+                Category: People
+                    Gender Differences: Comparing male and female thoughts patterns
+                    How culture, religion, environment, and diet shape thinking
+                    Source: Tinder, parties, Airbnb experiences, friends, family, Robi and Hana
+              TODO .Possible methods to reach our goals: |
+                - Technical: 
+                   We are currently building a system (TF2P) designed to manage and categorize data. In this Mind Model stream I'll use my thoughts as a data with the goal of eventually automating the process
+                - Socials/ PeerPressure: 
+                    - Work: 
+                      I'll need to work live to to motivate myself to sit down and publish our work publicly. I often struggle with low self-esteem and negative thoughts like “I can't do this” and “I'm not good enough,” so I am experimenting with this approach to try maintain my productivity. 
+                    - Constructive criticism: 
+                      Our work is open source and will contain mistakes. Your constructive feedback can help us refine areas we may have overlooked or misunderstood.
+                    - Support: 
+                      Having emotional support greatly helps us psychologically, making it easier to increase our motivation, focus and stay productive. Something like a family that remind us when you fail, you get back up... You got this! 
+
+              TODO .Project Management:
+                Details:
+                  My current role in this life: Managing our life from health, work and finances perspective. Well..I have tonz to learnin this role. Wish my strength!
+                
+                Categories:
+                  - TF2P:
+                  - MindModel:
+                  - Health:
+                  - Finances:
+                  - 
+
+              
+              Health:
+                - Diet:
+                - Activities:
+                  
+              TODO Goals:
+                  
+                  Reach ultimate cooperation with Robi
+                  Understand what femininity is
+                  Analyse how thoughts processes work in Human Mind
+              TODO .Decide what topics:
+              NEXT .Workout the topics:
+      OnGoing .Stream:
+        TODO .Do coding streaming:
+          Id: Coding
+          +: {CreatedBy: Hana, CreatedAt: 20250826 T 164818}
+          Details:
+          TODO .Create a summary about what we would be doing:
+            Id: CreateSummary
+            +: {CreatedBy: Bobi, CreatedAt: 20250908 T 112909, By: Bobi, Tags: [CSVTODO]}
+          TODO .Plan and advertise the first streaming:
+            Id: PlanAndAdvertise
+            +: {CreatedBy: Bobi, CreatedAt: 20250919 T 131228}
+            TODO .Plan the first streaming:
+              Id: Plan
+              +: {CreatedBy: Bobi, CreatedAt: 20250919 T 131726, By: marketing, Tags: [CSVTODO]}
+              Details:
+                - Create some schedule - so when would Bobi be coding
+                - Make up our minds about how the streaming would be done
+                - Advertise - where?
+            Blocked .Advertise:
+              Id: Advertise
+              +: {CreatedBy: Bobi, CreatedAt: 20250919 T 131728, By: Hana, Tags: [CSVTODO]}
+              DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Do coding streaming".."Plan and advertise the first streaming".."Plan the first streaming"<
+          Blocked .Do first streaming:
+            Id: DoFirst
+            +: {CreatedBy: Bobi, CreatedAt: 20250919 T 131313, By: Bobi, Tags: [CSVTODO]}
+            DependsOn: 
+              - -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Do coding streaming".."Plan and advertise the first streaming"<
+              - -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Do coding streaming".."Create a summary about what we would be doing"< 
+          Blocked .Placeholder for streamings continued:
+            Id: Placeholder
+            +: {CreatedBy: Bobi, CreatedAt: 20250919 T 131325, By: Bobi, Tags: [CSVTODO]}
+            DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Do coding streaming".."Do first streaming"< 
+        InProgress .Do Meetings streaming:
+          Id: Meetings
+          Done .Create a summary about what we would be doing:
+            +: {CreatedBy: Bobi, CreatedAt: 20250901 T 135207, By: Bobi, Tags: [CSVTODO], Priority: 3-Average}
+            Result: 
+              Background: |
+                The Fort2 Project is about two things:
+                - Building the means to be able to do "computed management" for large groups - i.e. a company where there is no management, rather, the decision-making tasks are distributed in between computing units: at first people and by replicating the steps people do with scripts, computers.
+                - Doing this in an open, welcome everyone community, where instead of you being an employee, you get the share of the profit based on the value of your contributions'.
+
+                As part of our gradual "opening to the public", we're at the moment both doing test -runs and giving an opportunity for the future members to have an idea how this "fair cooperation using computed management" works, what the daily life of us is at this initial stage.
+                During this meeting we are planning (and taskifying, estimating, scheduling) our next milestone in a "proper" way, at the moment resembling as an Agile managed little software company. 
+                In the series you can learn how to do proper-management and planning for a small project/company, from idea formation through analysis, planning and execution, how to do distributed decision-making (basics); all in an "Agile" way, meaning the plans react to new information - nothing is set in stone.
+
+                If you're interested in being a team member or have questions, ideas - let us know!
+          Done .Do the first trial streamings:
+          -->Tasks\Processes\..Marketing.."Create a process about streaming the meetings"<:
+        TODO .Do StandUp streaming:
+          Id: Standups
+          TODO .Create a summary about what we would be doing:
+            Id: CreateSummary
+            Milestone: BarbaPapa.PreWebsite
+            +: {CreatedBy: Bobi, CreatedAt: 20250908 T 112909, By: Bobi, Tags: [CSVTODO], Priority: 3-Average}
+            Details:
+              Since this is a Pre-Website activity, a proper description should be provided which summarizes the project.:
+                Include:
+                  - The site is coming-soon        
+            -->Tasks\Processes\..Marketing.."Create a process about streaming the meetings"<:
+        InProgress .Do thoughts and Tasks of the members:
+          Id: ThoughtsOfMembers        
+          Details:
+            Idea:
+            - to record it and then stream the recording at a later time
+            Purpose:
+            - Chance for people like us who could find us
+            - Get closer to who we talk to
+            - start creating a community if the 2 points succeeded
+          OnGoing .Stream on Friday about Successes and Failures:
+            Workspace:
+              - Stream should not be more than one hour
+              - Agenda should be created before the preparation of the streaming Ad plan 
+              - Streams process should be more contrsuctive:
+                - 1.Decide the goals to achive or Purpose of doing the streams:
+                  - Decide the topics we will be discussing, so we can prepare ourselves and prepare for the incoming streamings
+                  - Goals be like, to gatehr others opinion who are going the same routes or resinoate with certian group, e.g. people who struggle with project management... 
+                - 2.Items to be included in agenda:
+                  - Brief introduction. If we are gonna stream to public then we should introduce to them who we are and what we are doing
+                  - Main topics & Q&A. Main topics suggest not more than 3, Q&As should be more than 5 each from oen party
+                  - Outlines. Which main topic, which party to start with first, Q&A
+                  - Program estimate time for each topic. Let's say whole streaming is 30 mins, then each topic should be less than 10 mins
+                - 3.Being presentable:
+                  - Our look presents ourselves, and aslo a way to tell people who we are
+                - 4.The recording and the notes after streaming:
+                  - To documentary all the infromation
+            InProgress .Gather the subtopics/agenda in regards the topic:
+              +: {CreatedBy: Hana, CreatedAt: 20250911 T 104529, By: [Hana, Giselle], Tags: [CSVTODO], Priority: 4-High}
+              Done .Collect the topics:
+                +: {CreatedBy: Hana, CreatedAt: 20250915 T 084217, By: Giselle, Tags: [CSVTODO], Priority: 4-High}
+                Details:
+                  - The changes:
+                    - What I udnerstood & learned since arrival
+                    - The diffenece between friends & friends who work together. :
+                    - Realization after things that were happening, the death of grandfatehr, the relationship with parents
+                    - Thoguths and Perspective after vacation from France & Germany
+                    - Struggles with business & finance :
+                    - Thoughts after speaking to Gaurav & Ukarsh
+                    - Priorities:
+              Done .Choose the topics:
+                - The diffenece between friends & friends who work together
+                - Struggles with business & finance
+                - Priorities
+              Done .Review it with the team:
+                Notes: The topics has been approved by the parties [Giselle, Hana]
+                
+              TODO .Advertise the streaming:
+                TODO .Create the ad:
+                  +: {CreatedBy: Hana, CreatedAt: 20250911 T 104512, By: Giselle, Tags: [CSVTODO], Priority: 3-Average}
+                TODO .Choose platforms to advertise:
+                TODO .Review with the team:
+                TODO .Implement the ad:
+                  +: {CreatedBy: Hana, CreatedAt: 20250911 T 104621, By: [Hana, Giselle], Tags: [CSVTODO], Priority: 3-Average}
+            Done .Answer the below:
+              +: {CreatedBy: Hana, CreatedAt: 20250915 T 090053, By: Gigi, Tags: [CSVTODO], Priority: 3-Average}
+              Done .Let Hana know if you are fine with the chosen topics above:
+                Note: The rest we can make it as topics for the next streams. 
+              Done .Read the -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Do thoughts and Tasks of the members".."Stream on Friday about Successes and Failures"<:
+              Done .Contact the 2nd party of the stream and agree on the next action plans.:
+        InProgress .MindModel stream:          
+          Id: MindModel
+        InProgress .Prepare:
+          +: {CreatedBy: Bobi, CreatedAt: 20250919 T 130050, By: Bobi, Tags: [CSVTODO]}
+        InProgress .Initial recording:
+          Id: DoFirst
+          +: {CreatedBy: Bobi, CreatedAt: 20250919 T 130050, By: Bobi, Tags: [CSVTODO]}
+          DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Prepare"<
+          Done .DoInitial:
+            +: {CreatedBy: Bobi, CreatedAt: 20250924 T 214954, By: Bobi, Tags: [CSVTODO]}
+          InProgress .Process the recorded video:            
+            Id: Process
+            +: {CreatedBy: Hana, CreatedAt: 20250922 T 010817, By: Hana, Tags: [CSVTODO], Priority: 6-ASAP}
+            Done .Download the videos to the GDrive:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 010921, By: Hana, Tags: [CSVTODO], Priority: 6-ASAP}
+            Done .Transcript the videos through whisper:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 011007, By: Hana, Tags: [CSVTODO], Priority: 6-ASAP}
+            Done .Transcript the Audios through Whisper:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 235933, By: Bobi, Tags: [CSVTODO], Priority: 6-ASAP}
+            CurrentFocus .Create topics from the videos:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 011515, By: Hana, Tags: [CSVTODO], Priority: 6-ASAP}
+              InProgress .Create Topics from MindModel/GOT Video:
+                +: {CreatedBy: Hana, CreatedAt: 20250923 T 142121, By: Hana, Tags: [CSVTODO], Priority: 3-Average}
+            TODO .Collect the (Transcripted videos, Voice recordings) into it's respective file (Topic based):
+              Id: CollectRecordingsTopicBased
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 011432, By: Hana, Tags: [CSVTODO], Priority: 6-ASAP}
+            OnGoing .Share the updates with Giselle on 20250922:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 011904, By: All, Tags: [CSVTODO], Priority: 6-ASAP}
+            Done .Create a meeting minutes notes for the meeting:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 012040, By: Hana, Tags: [CSVTODO], Priority: 4-High}                
+            TODO .Review the material and and Analyse:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 012154, By: [Giselle, Hana], Tags: [CSVTODO], Priority: 3-Average} 
+            TODO .Review with the team the analysis and conclusion:
+              +: {CreatedBy: Hana, CreatedAt: 20250922 T 012400, By: [All], Tags: [CSVTODO], Priority: 3-Average}
+          TODO .Create a process for publishing:
+            +: {CreatedBy: Hana, CreatedAt: 20250922 T 013919, By: [Hana,Bobi], Tags: [CSVTODO], Priority: 3-Average}
+        InProgress .Placeholder for further tasks:
+          +: {CreatedBy: Bobi, CreatedAt: 20250919 T 130050, By: Bobi, Tags: [CSVDONE]}
+          DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings".."Stream".."Prepare"<  
+    Blocked .Advertise the videos and streams:
+      Id: Advertise
+      DependsOn: -->Tasks\PublicRelations\..WrittenMarketing.."Go through the existing material (articles, etc.) and share it with the current team"<
+      +: { CreatedBy: Hana, CreatedAt: 20250727 T 162400, By: Hana }
+      Details:
+        Clips of us for people to grasp who we are in Reels and stories in different platform; insta, threads, fb
+  .Next stage:
+    TODO .Go through the existing material and share it with the current team:
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 120418, By: Bobi, Tags: [CSVTODO]}
+      Id: GoThroughMaterial
+      TODO .Organize the folders and files:
+        +: {CreatedBy: Bobi, CreatedAt: 20250811 T 141901, By: Hana, Tags: [CSVDONE], Priority: 3-Average}
+        Details:
+          Create a folder structure
+          Check each file - maybe take a quick look - and rename them accordingly
+      Blocked .Organize the video and voice recordings in one file in GoogleDrive:
+        +: {CreatedBy: Hana, By: Hana, Tags: [CSVDone], Priority: 3-Average}
+        DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Next stage".."Go through the existing material and share it with the current team".."Organize the folders and files"<
+        Id: OrganizeRecordings
+        Details:
+          Analyze each file deeper, check for valuable content and put the result int some yaml
+    TODO .Advertise the clips to different platform; linkedIn, X, Youtube:
+      Id: AdvertiseOnXEtc
+      DependsOn: -->Tasks\PublicRelations\..WrittenMarketing.."Go through the existing material (articles, etc.) and share it with the current team"<
+      +: { CreatedBy: Hana, CreatedAt: 20250727 T 162102, By: All }
+      TODO .Research where videos with the same sort can be published:
+        +: {CreatedBy: Hana, CreatedAt: , By: marketing, Tags: [CSVTODO]}
+        Details:  
+          - Analyse the videos that are published by others
+          - Decide where to publish
+      TODO .Publish the 20250818 video about motivation:
+        Id: VideoPublish
+        +: { CreatedBy: Hana, CreatedAt: 20250818 T 203922, By: Hana, Tags: [ CSVTODO ], Priority: 4-High }
+        TODO .Watch and analyze the video:
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 115907, By: marketing, Tags: [CSVTODO]}
+          Details:            
+            - create timestamps about important topics
+            - decide which part should be included and how and where
+        Blocked .Any next steps based on the analysis:
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 115914, By: marketing, Tags: [CSVTODO]}
+          DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Next stage".."Advertise the clips to different platform; linkedIn, X, Youtube".."Publish the 20250818 video about motivation".."Watch and analyze the video"<
+      TODO .Publish Summary of switching earth on:
+        +: {CreatedBy: Hana, CreatedAt: null, By: Hana, Tags: [CSVTODO]}
+        Details:
+          - watch the video
+          - see if it can be used and how
+        WorkSpace:
+          - Location -->https://drive.google.com/drive/folders/1HYveJSNAnk6frLw5WGprDqCeD8hDiyoI?usp=sharing<:      
+        TODO .Watch and analyze the video:
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 115907, By: marketing, Tags: [CSVTODO]}
+          Details:            
+            - create timestamps about important topics
+            - decide which part should be included and how and where
+        Blocked .Any next steps based on the analysis:
+          +: {CreatedBy: Bobi, CreatedAt: 20250908 T 115914, By: marketing, Tags: [CSVTODO]}
+          DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Next stage".."Advertise the clips to different platform; linkedIn, X, Youtube".."Publish Summary of switching earth on".."Watch and analyze the video"<
+    TODO .Create posts:
+          Id: CreatePosts
+          InProgress .Search the potential platform for posts:
+            Details:
+              - Search and analyze potential platforms
+            Workspace:  
+              - X:
+                - Statistics:
+                  - United States: ~103.96 million
+                  - Japan: ~70.92 million
+                  - India: ~24.09 million
+                  - United Kingdom: ~22.87 million
+                  - Germany: ~21.63 million
+                  - Turkey, Mexico, Brazil, Saudi Arabia follow closely 
+                - Summary: 
+                  - The United States consistently ranks #1 by a significant margin, holding approximately 100–106 million X users.
+                  - Japan ranks #2, with ~70 million users—an impressive figure given its population.
+                  - Following countries include India, Indonesia, the United Kingdom, Germany, Turkey, Mexico, Brazil, and Saudi Arabia, each with user bases ranging from roughly 15 to 25 million.
+              - Reddit:
+              - Facebook:
+              - Instagram:
+              - Thread:
+    TODO .Create animations:
+      Id: Animations
+      TODO .Computed management vs. hierarchical:
+        TODO .Create the story Board / Idea of the animation:
+          Id: CreateStoryBoard
+          +: {CreatedBy: Bobi, CreatedAt: 20250811 T 142657, By: Bobi, Tags: [CSVDONE], Priority: 3-Average}
+          Details:
+            The main idea is to explain (visually) why "computed management" is better:
+              - show the "information flow" in hierarchical vs computed management
+              - show the computing power difference
+      Blocked .Contact Anket for StoryBoard:
+        +: {CreatedBy: Hana, CreatedAt: 20250811 T 142858, By: Hana, Tags: [CSVDONE], Priority: 3-Average}
+        Id: ContactAnket
+        DependsOn: -->Tasks\PublicRelations\..VisualMarketing.."Next stage".."Create animations".."Computed management vs. hierarchical".."Create the story Board / Idea of the animation"<
+      Blocked .Search for animators/animation producers:
+        Id: SearchForAnimators
+        +: {CreatedBy: Bobi, CreatedAt: 20250811 T 142726, By: Bobi, Tags: [CSVDone], Priority: 3-Average}
+      Details:
+        - videos and voice recordings in Drive
+.InPerson Marketing:
+  Id: InPersonMarketing
+  +: { Type: Folder, DefaultTypes: [ Folder, Task ] }
+  OnGoing .Attend MeetUp or events in Budapest and nearby; we can join meetups and talk to people:
+    +: { CreatedBy: Hana, CreatedAt: 20250727 T 161822, By: All }
+    InProgress .Potential thinkers:
+      Done .Tinder:
+        - Andreas:
+          Result: Can think, sees the world problems, advertising thoughts through social media, Agreement on what society are. 
+  Done .Organize Girls night:
+    +: { CreatedBy: Hana, CreatedAt: 20250728 T 083701, By: [ Giselle, Hana ] }
+    Details: getting to know how young women think
+.Collect Marketing Ideas:
+  Id: CollectMarketingIdeas
+  ForRequirement:
+  Details: Write it to $@-->Backlog\PublicRelations\..MarketingPhase1..Marketingideas<@$
+  InProgress .Work out and execute marketing strategy:
+    Id: WorkOutAndExecute
+    Details:
+      Develop marketing strategy, including:
+        - Goals of each stream - so like attracting contributors, investors, general "know the brand"
+        - Social media presence like Twitter, Facebook, Insta, Reddit
+        - Recruitment site presence like Linkedin, WellFound,
+        - Frequency and types of updates on which site by whom         
+      Concrete ideas: 
+        - progress about the project (e.g. the weekly update I started)
+    InProgress .Create baseline:
+      +: {CreatedBy: Bobi, CreatedAt: 20250905 T 161838, By: marketing, Tags: [CSVTODO], Priority: 5-VeryHigh}
+      Workspace:
+      Done .Collect and review the baseline ideas with the team:
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 154534, By: marketing, Tags: [CSVTODO]}
+        Result:
+          Ideas:
+          - -->Tasks\PublicRelations\..VisualMarketing.."Current Stage".."Do streamings"<
+          - -->Tasks\PublicRelations\..VisualMarketing.."Next stage".."Advertise the clips to different platform; linkedIn, X, Youtube"<
+          - -->Tasks\PublicRelations\..WrittenMarketing.."Go through the existing material (articles, etc.) and share it with the current team"<
+          - -->Tasks\PublicRelations\..WrittenMarketing.."Do regular updates on SM"<
+          - -->Tasks\PublicRelations\..WrittenMarketing.."Approach Reddit groups"<           
+      TODO .Create a rough plan about how to execute the ideas in the previous task:
+        Id: CreateRoughPlan
+        +: {CreatedBy: Bobi, CreatedAt: 20250908 T 154846, By: marketing, Tags: [CSVDONE]}
+        Details:
+          Answer these questions:
+          - collect what dependencies each have - so e.g. do they need the new site to be up?
+          - how effective they seem to be - so how much "valuable" people we'd get, how much chance for monetary support; 3-5 categories (e.g. low-mid-high)
+          - roughly how much effort they'd need
+          - do they need Bobi's contribution
+    Blocked .Review:
+      DependsOn: -->Tasks\PublicRelations\.."Collect Marketing Ideas".."Work out and execute marketing strategy".."Create baseline"<
+      +: {CreatedBy: Bobi, CreatedAt: 20250905 T 161853, By: all, Tags: [CSVTODO], Priority: 4-High}
+      Details:
+        - involving the whole team
+    Blocked .Taskify and prioritize:
+      +: {CreatedBy: Bobi, CreatedAt: 20250905 T 161926, By: pms, Tags: [CSVTODO], Priority: 4-High}
+      DependsOn: -->Tasks\PublicRelations\.."Collect Marketing Ideas".."Work out and execute marketing strategy".."Review"<
+    Blocked .Execute:
+      +: {CreatedBy: Bobi, CreatedAt: 20250908 T 154756, By: marketing, Tags: [CSVTODO]}
+      DependsOn: -->Tasks\PublicRelations\.."Collect Marketing Ideas".."Work out and execute marketing strategy".."Taskify and prioritize"<
+  Done .Create marketing execution plan as of 20250819:
+    +: {CreatedBy: Bobi, CreatedAt: 20250819 T 174151, By: marketing, Tags: [CSVTODO], Priority: 3-Average}    
+    Result: -->Tasks\PublicRelations\.."Marketing plan as of 20250819"<       
+  Done .Giselle Marketing Ideas:
+    Id: GMarketingIdeas
+    +: {CreatedBy: Hana, CreatedAt: 20250804 T 234750, By: Gigi, Tags: [CSVDone]}              
+  OnHold .Material for the 2nd reviewers:
+    Id: 2ndReviewers
+    ForRequirement: ~->MstEnoughResourcesForPMToolOnlineMVP..MstReadyFor2ndWaveOfPeople..MstBaselineOfGoingPublicPackage<
+    Done .Create Requirement for this Task:
+      Importance: 5-VeryHigh
+      Estimation:
+        - [ 1h, timeboxed ]
+      By: Bobi, Hana
+      Summary:
+        Use this - amongst other descriptions:
+          - We should reach lots of people - and then we selectively let in the first batch, from then on the growth is incremental - so the first batch prepares the things for the next batches.
+          - We should be in the leadership roles, NOT the ones doing work (so like we explain to people what needs to be done mostly, not that we do it):
+              - If we do low-level work it's ineffective; us "working" too much (this way) would waste our time, the time of everyone, risk '84.
+          - The main thing is: we enforce logical decisions in groups.
+          - Do the "marketing" up until we have enough people + money
+    InProgress .Podcasts:
+      OnGoing .Iteratively work out, shoot, review, do q&a recording:
+        Summary:
+          - There should be a Task created under the subtasks of this for each topic
+          - We should start recording the topics which are ready - and not finishing the structure of all first - so that we get experience about how well it works and can incorporate learnings as soon as possible
+        OnGoing .Create a structure about each topic:
+          By: Bobi
+          Summary:
+            - It should be points only, not complete sentences - I should _not_ read up the things
+          Done .Create the structure about the most important topics:
+            Summary:
+              - The "core" for sure:
+                  - = what I was explaining in the last 10 minutes + a little more.
+              - Maybe 1-2 others:
+                  - important "core" parts - so instead of just stating things like in the "core", I actually explain things
+            Done .Develop the "Core summary - of what we are doing" topic structure baseline:
+              By: Bobi
+              Summary: A "short" summary in which we explain all the important knowledge about the project
+              Result:
+                Intro:
+                  Garbage: and continue to the subsequent ones simply about expanding the group and increasing the decision-making power to reach practical perfection in benefiting the members.
+
+                  FirsSentences:
+                    - |
+                      We're currently a small community centered around "building the best possible cooperation", our next milestone being to have the tools and methods with which, instead of having managers to decide, we have the ability to compute at first our most important, then gradually, all management decisions.
+
+                    -  #From another perspective:
+                    - we're a community:
+                        - centered around cooperating in the 21st century way - so we work together as fairly and efficiently as possible to help ourselves by using computers to do the computation of management decisions instead of the ancient hierarchical or democratical managements where someone in power makes the decisions.
+                        - This is at first mostly about building the tools and processes with which we can break-up and distribute the computations needed to make the decisions amongst the members (us) and the algorithms.
+                        #   - instead of using the ancient hierarchical or democratical managements where someone in power makes the decisions, 
+                        #   - we break-up and distribute the computations needed to make them amongst:
+                        #     - the members (us) and the algorithms
+                        # #- in a way: that the computation of decisions are distributed amongst us and the algorithms 
+                        # - After a short hierarchical period, we become increasingly automated, self-improving, expected to vastly outperform our contemporary methods.
+                        # - the 21st century way where we use computers for computations finally at the management layers as well.
+                  Example:
+                    - Let's see an example: Imagine it like what if there were 4, reasonable friends on vacation, discussing where and how to buy the ingredients for breakfast. Everyone explains the information they have to the group - one saw 2 shops nearby, the other knows which shops sell the best bread, the third what is the shortest route to which, etc. - and after a 10 minutes long discussion and thinking, they all agree that the best is to do it in a certain way. If they did it well, they made an optimal decision - meaning they couldn't have chosen an action benefitig the group more from the information the group had.
+                    - So what happened here was:
+                        - By telling-listening to each other they "loaded" all the relevant information to their minds
+                        - By thinking the options through they "computed" the consequences of the action-candidates ("IF this would happen THEN that is the consequence) and picked the one with the best consequences
+                        - By listening to each-other, they verified the computations (of each-other)
+                    - Now what if:
+                        - There was 40 people? 40000?: How can you input that data? How can you compute with it?
+                        - Non-cooperative, corrupt, illogical? Highly complex situation, probabilistic, no time?
+                    - unlike us, puny humans, computers can:
+                        - perform those IF - THEN-s billions of times faster
+                        - on billions of times more complex data
+                        - with GBytes/s information transfer rates
+                        - error-free
+                        - without biases,
+                        - non-bribable
+                        - scalable, upgradeable
+                        - self improving
+                        - etc.
+                  The problem is: the methods and software tools do not exist and therefore the community neither.
+                  So we're building it - merging with any other centered around the same.:
+                  Where we are:
+                    - a small team using the methods for years to govern ourselves
+                    - researched and built the theories, requirements, estimations, process drafts to a level that we now need a small software team to reach the state where it would be self-improving
+                    - around 200 manhours away from finishing the first version of The Tool with which we can manage the aforementioned team
+                SomeSentences:
+                  - This is cooperation, not "free work" or "producing a software":
+                      - you are a member, an investor and a decision-maker
+                      - we work together and share fairly
+                      - it just happens that at first we mostly work on The Tool
+                  - This is not AI:
+                      - or, rather, this is closer to the conscious layer, the "reasoning" one
+                  - Aim is:
+                      - the fairest sharing and most optimal production of value
+                      - welcoming all people having the same goals.
+                  - No competition:
+                      - any group with the aim of optimal and fair cooperation will be seeking to merge with us as it is in their and our interest.
+                  - Make over Take:
+                      - We are utilizing that we are now mostly and increasingly producing what we use and not taking from a limited resource pool - therefore an optimal cooperation is in our interest over fighting for the resources. A very good example is software.
+                  - We now have the means:
+                      - mostly the computation power, communication infrastructure and software environments - to be able to do it, unlike e.g. 100 years ago. This lack of computing power was one of the main reasons e.g. communism failed, so you can think of it actually if this was the good stuff from communism - but then it's the good stuff from democracy ("people rule"), capitalism ("efficient production"), dictatorships ("logic dictates") as well, so we can say that we're using all the good stuff to create the ultimately good.
+                  - Incremental, iterative and exponential growth:
+                      - starting as a hierarchically managed group, with basic tools and processes - little automation yet; this is where we are.
+                      - gradually moving the "power" of the decisions to the algorithms, starting with a strict process with which any member can dispute a decision and force a formal way of computation; enforcing logic.
+                      - ending where everyone joined and everything is automated, when we Switched Earth On, when the world surely remains saved.
+                What we need:
+                  - workers: roughly 1-2 dozen people with a goal, logical mindset, some programming skills (or willingness to learn) and free time who can invest those manhours.
+                  - resources: money always helps, we can convert it to work (or just food).
+                  - supporters: we, humanity need this - so support us at least; share, say a few good words or at least ask constructive questions.
+        OnGoing .Do structure reviews:
+          Summary: Distribute the material in between the members for review and question collection
+          Notes:
+            By Hana:
+              - copied it to a google sheet got approval of the members
+              - members:
+                  - Done Hana
+                  - Done Gaurav
+                  - todo Giselle (within today)
+        OnGoing .Reshoot the topics with just Hana first:
+          Summary:
+            Structure:
+              - I explain the topic, based on the structure I created
+              - Make sure that I use the technique of "if I was stuttering, then I say "and now properly" and I say it properly" so that we can cut the good parts together
+              - Hana is in a "supporting" role - she basically manages me, ensures that I'm keeping the structure and I can talk to
+          Done .Reshoot the "Main" podcast - Trial5:
+          Done .Reshoot the "Main" podcast - Baseline1:
+            Details: Do trials until we have (good) enough material we can publish
+        OnGoing .Do video reviews:
+          Done .Analyze the Trial 5 video:
+            Done .10 Make transcription; proper one:
+              Done .00 Make the transcription:
+                WorkLog:
+                  - 25m, Bobi, "", 20250303
+              Cancelled .10 Make it into a formatted "script":
+                Details:
+                  - mark the funny stuff as well
+              Cancelled .20 One where the umm and everything is there:
+              Cancelled .30 One where these are removed:
+              Cancelled .40 Organize the content into parts:
+            Cancelled .20 Analyze each part:
+              - What is the topic
+              - how good they are
+              - could be used for what
+          Done .Analyze the Baseline video:
+            Details: Do the subtasks IF no better idea
+            Done .10 Make transcription; proper one:
+              Done .00 Make the transcription:
+              Done .10 Organize the content into parts:
+            WorkLog:
+              - [ 2h, hana, "" ]
+        OnGoing .Cut together some uploadable video:
+          Done .Cut together the baseline "Main" video:
+            WorkLog:
+              - [ 2h, hana, "" ]
+        OnGoing .Reshoot the topics with Q&A from audiences:
+          Summary:
+            - They should collect questions
+            - These questions are presented to us beforehand so that we can prepare
+            - We do the session, probably in a way that:
+                - I summarize the topic at the beginning - shorter version than original
+                - The participants ask the questions (or I read the question up), involving the participants
+          OnHold Organize and Reshoot the "Main" video with Q&A and audiences:
+            - Send for reviews
+            - Collect Q&As and work them out
+            - Organize the re-shooting
+            - Re-shoot
+    InProgress .Website:
+      Id: Website
+      Done .Review and plan:
+        Done .Plan content:
+          Done .Create baseline:
+            Estimation: 30m
+            By: Bobi
+            Details:
+              - Create a place for it in Management - so where we keep the ideas about the site
+              - Use the material created in the past weeks; so a few points here and there
+              - Include these:
+                  - Requirements
+                  - Source code maybe - maybe not
+                  - Daily standup content
+                  - Detailed explanation, basically the content of the podcast detailed
+          WorkLog:
+            - [ 60m, Bobi, "", 20250306 ]
+        Done .Create design and structure ideas:
+          Done .Create baseline structure idea:
+            Estimation: 30m
+            By: Bobi, Gaurav
+            Details: See in the $@BusinessAnalysis\Requirements..MstEnoughResourcesForPMToolOnlineMVP..MstReadyFor2ndWaveOfPeople..MstBaselineOfGoingPublicPackage..Website..Basic structure"@$
+          Done Review baseline:
+      Done .Create plan about publishing Daily Standup:
+        Id: PlanDailyStandupPublish
+        Done .Create a method with which we can regularly do it:
+          Result: we'll use the deepdive sections
+    InProgress .SocialMedia:
+      Done .Create TF2P channels in the respective platforms:
+        CreatedBy: Hana
+        Done .X:
+        Done .9Gag:
+        Done .Reddit:
+        Done .Thread:
+        Done .Instagram:
+        Done .Facebook:
+        Done .LinkedIn:
+      Done .Activate the LinkedIn of the members:
+        Done .Gather the tasks and roles of the members:
+        TODO .Confirm it with the members ( meetings or emails):
+        TODO .Add the tasks and roles to the respective LinkedIn account:
+        TODO .Recommendation ( To be discussed with members):
+      TODO .Link members social media with each other including the Dummy accounts:
+    InProgress .Update the roles:
+      +: { CreatedBy: Hana, CreatedAt: 20250329 }
+      InProgress .Update linkedIn roles:
+        Done .LinkedIn project Page:
+          - Status set to preparing for going public
+          - Summary of the project included
+        Done .Robert:
+        Done .Hana:
+        TODO .Gaurav:
+          TODO .Skills:
+            Responsible: Gaurav
+            Details:
+              Add the following skills:
+                - Agile Project Management
+                - Agile Methodologies
+                - YAML
+              Add the following roles (optional):
+                - Junior Project Manager Role:
+                    - Ensure optimal resource utilization and efficiency.
+                    - Drive the creation and maintenance of the business plan.
+                    - Act as a Scrum Master to facilitate workflow.
+                    - Verify resource effectiveness:
+                        - Administration:
+                            - Ensure tasks exist for all activities.
+                            - Confirm time tracking is accurate.
+                        - Task Alignment:
+                            - Ensure work aligns with agreed-upon priorities (e.g., from Standups).
+                        - Managing Changes:
+                            - Task switches should logically follow available information.
+                            - If uncertain, resources should consult with you before switching tasks.
+                - Junior Dev:
+        TODO .Utkarsh:
+          By: Shadow
+          TODO .Skills:
+            - Front-End Development
+            - Front-End Design
+    InProgress .Audience round 1:
+
+Done .Marketing plan as of 20250819:
+  Id: MarketingPlan20250819
+  +: {CreatedBy: Bobi, CreatedAt: 20250819 T 174130, By: Bobi, Tags: [CSVTODO], Priority: 3-Average}
+  Done .Create subreddit for The Forty2 Project:
+    +: {CreatedBy: Bobi, CreatedAt: 20250819 T 162126, By: marketing, Tags: [CSVTODO], Priority: 4-High}
+  Done .Update Gigi's Reddit account:
+    Details:
+      - It should be believable that she's a real person
+  -->The task Hana created for posting the retro and planning<:
+    Details+:
+      - Cut the main video - mostly cut out the disgusting/stupid/uninteresting parts:
+        - for this watch it and take notes - what part is interesting, what's funny, what should be removed
+        - cut it
+      - Post the whole video on e.g. youtube?
+      - Create clips out of it and post it on various platforms (X? Maybe the funny parts on Instagram? Maybe to Linkedin as well)
+
+.AfterOCWSPhase1:
+  Details:
+    Revised marketing and "reaching to the public" strategies and tasks after the initial release of the 3rd version of the site - the OCWSPhase1
+  InProgress .Initial brainstorming and analysis of marketing ideas:
+    +: {CreatedBy: Bobi, CreatedAt: 20251227 T 163547, By: [Bobi, Hana]}
+    Details:
+      - List of marketing channels, such as Coding streaming, management streaming, talks (about what topics?), sex, talk before we go to the party, contact certain people, involving Jessica and boyfriend, talks about logic (what we started), 9gag, Reddit
+      - For each:
+        - What would be the steps we'd need to do; if there are different cases - then for each case.:
+            Example:
+            - Step1:
+                Details:                    
+                  So we do X, then by making sure that y, we blah
+                  optional because lorem ipsum
+                  Good if the article X in the site is blah
+            - Step2
+            - IF condition:
+              - Step1
+              - Step2
+            - ELSE: #if needed
+              - Step1
+              - Step2
+        - What do we need for it, especially:
+          - content on the website
+          - any other preconditions ("good health", drugs, software ready, etc.)
+        - Expected reach: #what type of audience and why, how - so if Facebook organic spread then from the initial reach and conversion we can have growing number of followers/viewers reaching 1000-100000? in 1-5? months
+        - Expected conversion: #to what - supporter (who at least shares), non-working member, working member (in what role), money, big money
+    Done .Create first draft:
+      +: {CreatedBy: Bobi, CreatedAt: 20251227 T 170414, By: Hana, Estimation: "0", RemTime: "0"}
+      Result:  
+        Marketing Ideas:
+          5-VeryHigh Coding Streaming:
+            Details: 
+              Robert should be streaming 2 hours per day on F2Tool Development
+            Steps:
+              - Set up the platforms:
+                - Twitch (Science & Technology / Programming) — Live coding  streams + chat:
+                  - Account Created:
+                    - Bobii42
+                    - TheForty2Project
+                - YouTube Live — Longer-form coding streams or workshops:
+                  - Account Created:
+                    - Theforty2project@gmail.com
+                - Discord Servers — Study rooms, coding voice channels, community projects:
+              - advertise about the stream to the respective channels:
+                - X
+                - Reddit
+                - 9Gag (maybe programmers section)
+                - Midnight network
+            Requirements:
+              - Website
+              - Done Account Creation
+              - Done Testing the platform
+            Target Audience: 
+              - Programmers
+              - Coders
+            Goals:
+              - To market the main stream of marketing which is coding TF2P Tool
+            Done .Go through our past data about coding streaming task and check what are the new updates from Reddit and chat gpt:
+          5-VeryHigh Management Streaming:
+            Details: Hana should stream management daily at a certain time if possible
+            Steps: 
+              - Management and Coding can be streamed together
+              - Set a schedule on Twitch 
+              - Advertise on Reddit 
+            Requirements:
+              - Management Time should be early morning when the brain is at its most thinking capabilities
+              - Peer pressure required Set schedule on Twitch
+            Target Audience:
+              - Programmers
+              - Softwares Managers
+              - Managers
+            Goals:
+              - To show how TF2P project is managed 
+              - To attract programmers and managers
+          5-VeryHigh Reddit:
+            Details: Can be an important source for articles and discussions
+            Steps: 
+              - Collect the topics/ questions that we need to share 
+              - Find communities that we can ask or share articles with 
+            Requirements:
+              - DeepDive section should be published
+            Target Audience:
+            Goals:
+          5-VeryHigh Midnight Network:
+            Details: putting some intro about us here and there
+            Target Audience: programmers/blockchain enthusiasts
+          5-VeryHigh Talks about Logic (what we started):
+              Details:
+              Steps:
+                - Collect the articles in regards Logic
+                - Search for Videos 
+              Requirements: 
+                - Videos that are saved in Robert's Computer should be saved in Drive ( for me to edit and upload it online)
+              Target Audience: All
+              Goals: Show the world how computed decisions are made (in TF2P)
+          4-High Contact certain people:
+            Details: Contact people who are in the field of Logic, Programming, Coding
+            Steps:
+              - Find the list of people to be contacted in VSC
+              - Collect the names and the organization of people that need to be contacted
+            Requirements:             
+            Goals: Searching for members       
+          4-High 9gag:
+            Details: There are some decent communities in 9Gag based on the comments sections that can be beneficial for the project 
+            Steps:
+              - Choose the topic
+              - Plan the ad
+              - Select the interest/group
+            Requirements:
+              - Website (DeepDive) should be published 
+            Target Audience:
+              - Programmers, Coders, Logicians, Community builders
+            Goals: 
+              - To find members
+              - To familiarize the world with the project concept         
+          4-High Music listener of the same taste of music:
+            Details: 
+              - People with similar music taste can be target audiences
+              - Through comments on Youtube, maybe soundcloud
+            Steps:
+              - Need to research more about it
+            Requirements:
+            Target Audience:
+              - Same music listener
+            Goals:
+          3-Average Talks about Drugs:
+            Details: mention how drugs affect our daily life in work, personal and health
+            Steps:
+            Requirements:
+            Target Audience: Scientist, Enthiusaist, people who use it for certain purposes
+          3-Average Talks(about what topics):             
+          1-VeryLow Sex:
+            Details: 
+              - Doing actual things
+              - Talks about experiences, how important it is
+            Steps:
+              - Collect the videos about it
+              - Collect pictures 
+              - Collect voice notes 
+              - Have some talk shows in certain platforms:
+                - OnlyFans
+            Requirements:
+              - Ds
+            Target Audience: 
+              - Onlyfans
+              - Males in general + females who are interested
+            Goals: 
+              - This can give us income as the project consist of work and entertainment
+              - Show people how much we love each other and how we are using logic to manage our life. 
+              - Have income
+            1-VeryLow Involving Jessica and boyfriend:
+              Details: Have some marketing ideas from Jessica, share the party and convert it to income
+              Steps:
+                - Have a discusion with Robi about it
+                - Prepare the marketing plans
+                - Contact Jessica and share the plans with her
+              Requirements:
+              Goals:          
+          X:
+            Details: Need to search more about it
+            Steps: 
+            Requirements:
+            Target Audience:
+            Goals:
+          Videos and Audio marketing:
+            Details: Collect the Audios and Videos for publishing
+            Steps:
+              .Audio:
+                - Audios are saved in the Drive already
+                - Need to give titles to the Audios
+                - Categorize it based on the topics
+                - Save the videos and Audios to the TF2P Drive
+              .Video:
+                - Locate the videos
+                - Save all the videos on Drive
+                - Categorize it based on the topics
+            Requirements:
+              - Videos should be in the Drive before 20260103
+            Target Audience: Depend on the video content
+            Goals: Publish who we are            
+          5-VeryHigh KurzGesagt:
+            Details:
+              - We can contact them to make an episode about how the project would work
+              - Including:
+                - Animation about hierarchical vs. computed decision-making (what we planned originally)
+            Target Audience: \"smarter", more logical people - so opposite of Tiktok
+          4-High Job portals:
+            Details:
+              - There are way better options than 9gag and wellfound. We can try this again once the site is out.
+              - https://9gag.com/gag/agg5B6v
+    Done .Involve Robi:
+      +: {CreatedBy: Bobi, CreatedAt: 20251227 T 170433, By: [Hana, Bobi], Tags: [CSVTODO], Estimation: 45, RemTime: 45}
+      Details:
+        Work out the most important/likely/urgent parts of the plan ideas, taskify them, etc.
+      Result:
+        - We prioritized them
+        - Main target audience is programmers
+    TODO .Collect people for the Contact Certain People topic:
+      +: {CreatedBy: Bobi, CreatedAt: 20251229 T 221959, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+      Details:                  
+        - Shamanth (the one who was interested in our podcast about logic)
+        - The rest of the people we started collecting - where is it  
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

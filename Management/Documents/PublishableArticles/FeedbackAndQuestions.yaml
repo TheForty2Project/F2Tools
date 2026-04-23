@@ -1,0 +1,81 @@
+Type: Article
+.HighLevel:
+  Type: Article
+  Maturity: 6-Reviewed
+  Details:
+    Ask questions about the content and the project in a way:
+      - at the end "it is in my interest to join and participate, to make this project succeed and that I'm taking a big part of it"
+      - but the questions should be leading to it
+  Title: Feedback And Questions
+  Content:
+    .Background:
+      Title: Background
+      Content: |
+        We believe it should be in your interest to see this project (or others based on similar principles) succeed—and also in your interest to participate, at least at some point.
+
+        That said, we expect that you might not agree right away. This could be because we haven't explained everything clearly—this project is based on some unusual ideas, and everyone brings different background knowledge. We're also still in the process of developing the articles and almost surely made mistakes.
+        To help us understand where we stand, we've put together a few questions focused on the key points. Your answers would be incredibly helpful in showing us what we need to clarify or where did we make a mistake in the explanation.
+
+        Even if you're already convinced, we'd still appreciate your responses to make sure we're really on the same page.          
+    .How: 
+      Title: How
+      Content: |
+        If you agree to all, then hopefully we can welcome you soon as one of our members (here is the contribute page $[the contribute page link]$).
+
+        If you do not or just would like to recommend things, please send your feedbacks to feedbacks@tf2p.org.
+        
+        As this will count as "work", please include the time spent on writing it  and make sure that you can identify yourself if you want in the future (e.g. do not send it from an email address you won't be able to access); obviously you can omit this and do it "for free" - but it just doesn't really makes sense.
+        
+        Please take it into account that only "proper" feedbacks help us, meaning if you do not agree, then please explain why you do not think it is true (due to reasons based on what information), point to an exact part which is not clear or there's not enough information to see why - as opposed to just stating feelings and beliefs (yeah, we got things like "I don't know, but it doesn't feel like", "Smart Person said it's not", "I'd rather believe in something else", "it's too long, can you summarize it").        
+    .Questions:
+      Title: Questions
+      Content:
+        .Broadly:
+          Title: Broadly
+          Content:
+            - It is possible to write software which, on today's computers, can perform enormously better (computation speed, error rate, influencability etc.) in tasks a human mind would solve by conscious thinking, therefore in consciously made (=reasonable) management decisions.
+
+            - It is practically possible and optimal to gradually move the computation of management decisions from the minds of managers to the computers.
+
+            - It is in the interest of an average person to make the project succeed.
+
+            - It is in the interest of even the most powerful to make the project succeed:              
+                Note: 
+                  This is building heavily on your general knowledge about the current world, but some hints - and please e.g. chatgpt if you think you need to:
+                  - the "there can be only one" principle stemming from the "more power makes it easier to get more power" behavior of capitalistic-enough economic models:
+                    - makes it unlikely for anyone to stay in top positions, i.e. fewer and fewer super rich will hold more and more power
+                    - makes it likely that towards the end the most powerful will have to fight it out, even if knowing that this would cause devastating damage to the world and themselves (a type of prisoners dilemma); the "Terminator" scenario.
+                  - the efficiency provided by the project would likely make their life better quicker - even if they become just "average citizen" compared to what they could achieve if they won the race (likely resulting in an all-destroying WW3) in the current model - the same way a current middle class person has a better life than a king in the middle ages; the "Heaven on Earth" scenario.
+        .OurWays:
+          Title: Our Ways
+          Content:
+            - The methods we sketched is likely doable
+            - In general, there is no better way to do the project (apart from the practical details)
+            - The community is likely to be attracting wide support, investment and then benefiting the members (~making profit) in the foreseable (months, max few years) future
+        .Your interests:
+          Title: Your Interests
+          Content:
+            - It is in your interest to be a member of the project as early as possible (roughly when there are Tasks you can do AND you can support yourself somehow until there's enough income from the project)          
+            - It is in your interest to see the project succeed even if you do not take part (for some - at the moment unimaginable - reasons)
+            - As soon as the project can safeguard it properly, you should invest your money here and not anywhere else:
+                Note: we're not there yet, e.g. if we received lots of money then it would make us a big target and could snuff us out. We'd need to do it gradually and in peace, first a little team (where we are now), then stabilization of our processes, then a little opening to the public, then accepting small invesments, then growth and process improvements, then creating the ways to safeguard larger investments, then growth... hopefully this would be progressing exponentially though.
+
+    # - In a capitalistic economic model it is true that "With more money it's easier to acquire more money", therefore it's easier for the rich to get more rich; a runaway process which, if left undisturbed, results in a very few people get almost all the money=power.
+    # - It is high time for humanity to move from the model of "employees work for a market-rate salary to maximize the profit of the shareholders, under a hierarchical management where people with power make decisions" and switch to "people cooperate to maximize the profit of the group and share fairly, under a management where the management decisions are increasingly and self-improvingly optimal and automated into computers".
+    # Your interests:
+    #   Background: 
+    #     - 
+    #   Questions:
+    #     - If you're not convinced - why? What is missing or what do you not agree with?
+
+    #   - It is in your interest to be part of this community:
+    #     - At the current stage:
+    #       - As a:
+    #         - student/junior developer: <-TODO Article about our current "student developer program"
+    #         - senior developer:
+    #         - administrator/manager:
+    #         - other - please specify:
+    #       - To:
+    #         - have a share of the profit
+    #         - contribute to the development of the tools and methods with which a large scale cooperation of this kind can be accomplished, hopefully to                 
+    #     - At future stages, when - please specify

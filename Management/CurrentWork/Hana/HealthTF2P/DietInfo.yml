@@ -1,0 +1,108 @@
++: { Type: Folder, AllowedTypes: [ Task, Folder ] }
+
+Meals Macro nutrients average proportion:
+    Notes: 
+      - To be customized after data collection
+      - In eating meal take into account "MMC mechanism":
+        - Definition:
+          - MMC = Migrating Motor Complex,  It's a cyclical, housekeeping wave in your digestive system that clears out the small intestine between meals.
+        - Duration: 
+          - 90 - 120 mins
+        - Action: 
+          - Sweep leftover food, bacteria, and debris
+          - Prevent bacterial overgrowth (SIBO)
+          - Prepare the gut for the next meal
+        - Importance: 
+          - Prevents SIBO (Small Intestinal Bacterial Overgrowth)
+          - Improves digestion and absorption
+          - Reduces bloating
+          - Keeps the gut lining clean
+          - Regulates hunger rhythms
+        - Mechanism:
+          - Trigger:
+            - When the stomach and small intestine are empty
+            - Ghrelin (hunger hormone) rises → stimulates MMC
+            - Motilin (hormone from the small intestine) → initiates MMC phase III (strong contractions)
+          - 4 Phases of the MMC (important for activity planning, Focus and clean Intestiness (SIBO)):
+            - Phase I — Quiet Phase (45-60 min):
+              - Almost no contractions
+              - Resting period
+              - Prepares the muscle and nerves for the next wave
+            - Phase II — Intermittent Contractions (30 min):
+              - Irregular, mild contractions
+              - Starts moving small particles along
+              - Nervous system “warms up”
+            - Phase III — Big Sweep (5-15 min):
+              - Powerful rhythmic contractions every few minutes
+              - Moves debris, bacteria, and undigested food toward the colon
+              - This is the strongest and most important phase
+              - Motilin spikes here
+            - Phase IV — Transition:
+              - Short reset before returning to Phase I
+              - A full cycle takes 90-120 minutes.
+.Meals:
+  - Breakfast:
+    Details:
+      - Carbohydrates: 40-50% → for energy (oats, whole grain bread, fruit, Brown rice).
+      - Protein: 20-30% → for muscle repair and satiety (eggs, Greek yogurt, protein shake).
+      - Fat: 20-30% → for hormone balance and sustained energy (avocado, nuts, nut butter).
+      - Fiber: 8-10g → supports digestion and blood sugar control (berries, chia, flax, veggies).
+  - Lunch:
+    Details:
+      For normal Training days not cardio:
+        - Carbohydrates: 40-50% → for energy (oats, whole grain bread, fruit).
+        - Protein: 20-30% → for muscle repair and satiety (eggs, Greek yogurt, protein shake).
+        - Fat: 20-30% → for hormone balance and sustained energy (avocado, nuts, nut butter).
+        - Fiber: 8-10g → supports digestion and blood sugar control (berries, chia, flax, veggies).
+      For VO₂ Max / Training Days:
+        - Carbs: 45-55% → to refuel glycogen.
+        - Protein: 20-25%.
+        - Fat: 20-25%.
+        - Lighter fats at lunch → avoid sluggishness before afternoon training.
+  - Dinner:
+    Notes: 
+      - Timing - 3 hours before sleeping 
+      - Digestion slows down a night:
+        - Stomach emptying slows → food sits longer
+        - Enzyme production drops slightly
+        - Insulin sensitivity decreases → your body handles sugar worse at night
+        - Gut motility (movement) is reduced
+    Details:
+      - Carbohydrates: 25-35% → lighter than lunch, but still enough for recovery.
+      - Protein: 30-35% → supports overnight muscle repair and stable blood sugar.  
+      - Fat: 30-35% → healthy fats slow digestion and keep you satisfied overnight.
+      - Fiber: 8-10g → from veggies/legumes for digestion.
+.Supplements:
+  Notes: 
+  - After Waking Up:
+    - L- Glutamin 5g
+    - Folic Acid
+    - Bcomplex 1/4
+  - After Breakfast:
+    - L- Glutamin 5g
+    - Omega 3
+    - Magnesium glycrate
+    - Lions Mane
+    - Calcium if glass of milk is not taken
+  - After Lunch:
+    - L- Glutamin 5g
+    - Ashwaganda
+    - Omega 3
+    - multi vitamin 1/4
+    - Lions Mane
+  - After Dinner:
+    - L- Glutamin 5g 
+    - Ashwaganda
+  - Before Sleeping 30 mins:
+    - Magnesium glycrate
+    - L- Glutamin 5g
+  - Before an Activity:
+    - Fasting State: 
+      - BCAA
+    - After Meal, before activity [1.5 - 2h]:
+      - Creatine
+      - ALA
+      - Taurine  
+      - Caffiene
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you have to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

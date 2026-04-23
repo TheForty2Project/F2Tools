@@ -1,0 +1,267 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+Comments:
+  - Content: 
+      - These requirements are not maintained currently due to lack of manpower, instead, we're using a Task based approach - i.e. the "requirements" are written into the Details of the Tasks about implementing them. 
+      - This approach is expected to change with increase of manpower
+    CreatedBy: Bobi
+    CreatedAt: 20260422 T 125400
+
+.Website:
+  Details:
+     - tf2p.org - infrastructure + content requirements
+  Obsolete .FirsPhase:
+    Details:
+      This Item is here only to signal that there was a first phase; very vague content, mostly targeting people who are doing the same things as us. Result was that we didn't find any - and probably they don't really exist after trying it with more marketing+more content (in the second phase).
+  Obsolete .SecondPhase:
+    Details:
+      Summary:
+      - The site should reflect that we're not service providers but a community, working together as "friends" to produce value we share fairly in between ourselves - just using 21st century methodologies and software to be able to work in a logical (=correct) way even on a large scale, welcoming everyone who would like to do the same.
+      - The site is for attracting the target audience, the people working towards their goals proactively and bravely, with will to obey the rules of logic and courage to be different, who would therefore would benefit the cooperation and therefore us and themselves.
+      Purpose:          
+        - At initial stages showcasing what we do to potential members
+        - Increasingly serving the members          
+      Content:
+        - Clear and to the point, expecting constructivity from the readers
+        - No bullshit; honesty, etc.;
+        - Not afraid of mistakes, that people would "misunderstand" - we are targeting those who can fill in the gaps, correct the errors and not those who we need to tiptoe around
+        - Funny stuff can stay - we're a ~"friends group", not BlackRock
+    .Infrastructure:
+      Reviewed .Basic:
+        Details:
+          Summary:
+            The website is set-up and operational on Cloudflare.
+    .Architecture:
+      Reviewed .Basic:
+        Details:
+          Summary:
+            TechnologyStack: "Next.js (React-based), TypeScript (type safety), Tailwind CSS (styling)"  
+            HostingDeployment: "Hosted on Cloudflare Pages, backend/API with Cloudflare Workers, environment variables for configuration, automated deployments via GitHub"  
+            CodeStructure: "Follows Next.js conventions (/components, /pages, /styles, /lib, /hooks), modular and reusable components for maintainability"  
+            Performance: "Cloudflare CDN for caching, SSR/SSG/ISR where applicable, lazy loading for non-critical components, Next.js <Image> for optimization"  
+            SimplicityUpgradeability: "Prioritizes easy-to-implement solutions, designed for replacement/upgrade, minimal dependencies following Next.js, Tailwind, and Cloudflare best practices"  
+            DevelopmentGuidelines: "TypeScript strict mode enabled, ESLint & Prettier for formatting, clear version control and commit messages"  
+    .Design concepts:
+      Implemented .First:
+        Details:
+          As per the current site as of 20240512
+      Reviewed .Basic:
+        Details:
+          Summary:
+            The design should adhere to the following guidelines:
+              Style: "Minimalistic, clean, and functional without being annoying"  
+              ColorScheme: "White background (#FFFFFF) with buttons in dark green (#3A5A40) for contrast"  
+              Layout: "Consistent spacing, clear visual hierarchy, and elements aligned to the left or center for readability"  
+              Buttons: "Flat design with #3A5A40 as the primary color, lighter shade on hover for feedback"  
+              Typography: "Sans-serif font for readability, with consistent sizing and spacing"  
+              Scripts: "JavaScript is required (Next.js-based), but avoid unnecessary client-side scripts for better performance"  
+              Navigation: "Straightforward, intuitive, and accessible, avoiding unnecessary complexity"  
+              Inspiration: "Can take inspiration from other minimalistic sites but should remain simple and easy to navigate"
+    .Site Elements:
+      Implemented .Minimal site struture:
+        Details:
+          As per the current site as of 20240512
+      Reviewed .Basic:
+        Reviewed .Landing page:
+          Importance: 5-VeryHigh
+          Details:
+            - Contains the "nicely designed" stuff:
+              - The design should be sending the messages that:
+                - we're the opposite of corporate
+                - this is a portal for the members or wannabe members, we're not providing a "service":
+                  - therefore the site should "serve the purpose" but not "please" - so "ok" design
+                  - when we are selling products we'll have dedicated sites/pages for the products/services we're providing
+            - Scrollable, having sections
+            - Each "section" is roughly a page            
+          Reviewed .First section: 
+            Reviewed .Top:
+              Details:
+                - Top, title, big letters: "The Forty2 Project"
+                - Small letters: "With cooperation, we're laying the grounds to:"
+                - With big letters - maybe another style: "Switch Earth On"
+            Reviewed .Summary of Project in a sentence roughly:
+              Importance: 5-VeryHigh
+              Details:
+                With a "Learn More" CTA leading to the $@~->"Summary page"@$
+            Reviewed .Summary Video:
+              Importance: 4-High
+              Details:
+                First Ideas:
+                  - 3 mins max - if can be; otherwise the 15 mins long version IF we can manage to solve the loading-time problem
+                  - Explaining just the core ideas
+                  - Streaming from our own servers if possible?
+                  - Hosting on Youtube?
+                  - Or, displaying a small, downsized version in the box and when clicked, playing a big version?
+                Update at 20250405:
+                  - 15 mins
+                  - We'll use Youtube for hosting
+          Cancelled .Second section:
+            Details:   
+            Importance: 3-Average
+          Reviewed .Invest/Contrib section:
+            Reviewed .Contribute section:            
+              Importance: 5-VeryHigh
+              Details:
+                - Few points about how to contribute
+                - CTA leading to the part where we explain:
+                  - What steps you need to do to do so
+                  - What you'll get in return AND therefore why it's important that you keep the rules
+            Reviewed .Invest section:                
+              Importance: 5-VeryHigh
+              Details:
+                - Few points about how to invest
+                - CTA leading to the part where we explain:
+                  - What steps you need to do to do so
+                  - What you'll get in return AND therefore why it's important that you keep the rules         
+          Reviewed .FAQ:
+            Importance: 5-VeryHigh
+            Details:
+              - Only the most important questions; more or less the ones I explained in the "summary" video call
+              - CTA to the $@~->."Summary page"..FAQ@$ from here for more
+          Reviewed .Footer:
+            Importance: 2-Low                              
+        Reviewed .Summary page:
+          Importance: 5-VeryHigh
+          Reviewed .Main summary:
+            Importance: 5-VeryHigh
+            Details:
+              - use the article this Requirement is dependent on                
+          Reviewed .FAQ:
+            Importance: 5-VeryHigh
+            Details:
+              All the questions emerged, detailed
+          Reviewed .Discussion:
+            Importance: 4-High
+            Details:
+              - A "comment" section in which you can ask questions/give comments
+              - Heavily moderated - meaning that _at_least_ we should have the option to remove comments, ideally pre-approve comments before appearing
+        Reviewed .DeepDive pages:
+          Importance: 4-High
+          Details:
+            - Basically our yamls mirrored there, updated daily
+            - Things downloadable in a zip file OR you can check them out from GitHub (maybe)
+            - Processes, Requirements, Tasks, StandupReports
+          Reviewed .ToC:           
+            - A tree structure
+            - Contains the whole site structure, including the landing page, the summary, the invest contrib, etc.
+            - Only appears on these pages
+            - Ideally dynamic - so follows where you are
+        Reviewed .Contact:
+          Importance: 5-VeryHigh
+          Details:
+            - Maybe some media about "us"
+            - Include:
+              - the current email based contacts
+              - Reddit subreddit
+              - Twitter
+              - Discord maybe?
+        Cancelled .Articles:
+          Details:
+            - Design the article page:
+              - Categorize the articles into  2 parts: 
+                - Upcoming
+                - Recently uploaded
+              - Some additional features:
+                - Like Button
+                - Vote                 
+
+      Drafting .Enhancements:
+        Reviewed .Nicely designed milestones/roadmap:
+          Importance: 3-Average
+          Details:
+            - maybe insert it as a section into the "Summary" pages - or even to the landing one?              
+        Reviewed .Media - like photos and fun stuff:
+          Importance: 1-VeryLow
+        Reviewed .Phone contact section:
+          Importance: 2-Low
+          Details:
+            - So that they can also contact and ask questions on the phone
+            - Aimed for the "big" investors
+        Reviewed .Media about us:
+          Importance: 4-High
+        Reviewed .Fun stuff video about us:
+          Importance: 2-Low
+          Details:                
+            - include some media - like photo about us
+        Draft .Blog:
+          Importance: 2-Low
+          Details:
+            Blog posts (maybe personal ones) written by the members
+        Drafting .Source code of the site itself:
+          Details:
+            - If you want, you can improve it... log your hours and so on.
+            - Question is: github? Zip?
+        Drafting .Source code for everything:
+          Details:
+            - We might need to put it on GitHub?:
+                This is done basically due to the recent KeyBase events.
+        Drafting .Podcasts:
+          Details:
+            .Podcast package; might include:
+              .Video:
+                - Explaining the project and this first phase, along with some important topics
+              .Audio:
+                - The audio part of the above video
+              .Articles:
+                - Summary of the video, ToC
+                - Transcription of the video
+              .Past voice notes:
+                - Selected voice notes in which we explain things
+        Drafting .Milestones:
+        Drafting .Requirements:
+          Details:
+          - A simply formatted version of the current Requirements of the F2Tool
+          - Probably the Milestones separately
+          - Yaml format.
+        Drafting .Articles:
+          Details:
+            - Q&A
+            - Some digged up from the ~Archives?
+        Drafting .Contribution ways:
+          Implemented .Money:
+            Implemented .Monero:
+            Drafting .BTC:
+            Drafting .OtherWays:
+              Details:
+                - There's a third, non-crypto way of supporting us
+                - e.g. buy me a cofeee, paypal, etc.
+                - see the guy in the 
+          Draft .Work processes:
+            Details:
+              Processes - so how you can do it
+            Draft .Environment setup process:
+              Details:
+                How can you set up your environment in a way that you can perform certain Tasks.
+            Draft .Work process:
+              Details:
+                How can you pick a task and work on it, then submit your work and log hours              
+        Draft .Daily standup content:
+          Details:
+          - Basically daily updates containing the standup contents - again, in a simple to do way
+          - Probably merged together into one report - so not mentioning the people separately
+          - Yaml format, maybe design a little
+        Draft .Current tasks and plan, with estimations:
+          Details:
+          - Some for the reviewers (of the material)
+          - Ideally development ones as well:
+            - Requirement review
+            - Clean-up of the current code
+            - Progress with the current code         
+          - As an export from the backlog (or from parts)
+          - Yaml format.
+        Draft .How many members are there working currently, skills, intros:
+          CurrentValue: Could
+          Details:
+            - The amount of work which was done by only 4 people should be "wow"
+            - We can add Utkarsh as well
+        Draft .Dedicated site for The Tool:
+          CurrentValue: Postponed
+          Details:
+            - and it's part of The Forty2 Project or using the methods or we are developing it knowing that it will actually reach that.
+  .OCWSPhase1:
+    Drafting .Placeholder:
+      Details:
+        - currently we're doing "tasks only" approach as the team is very small, there's no dedicated BA and DEV team
+        - IF there's need, populate these requirements (mostly:_ there's a team(member) dedicated for this)
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

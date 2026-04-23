@@ -1,0 +1,221 @@
++: {Type: Folder, DefaultTypes: [Task, Folder], Id: Articles}
+
+InProgress .Collect and choose article ideas:
+  Id: CollectIdeas
+InProgress .Decision Formalization:
+  +: { CreatedBy: Bobi, CreatedAt: 20250419, By: Bobi }
+  Id: DecisionFormalization
+  <-Workspace-:
+    Structure of the "Computed Decision-making":
+      Done Overview about DM:
+        Done description:
+        Done examples: Done computation Done intuition Done "knowledge" (e.g. from books, someone else, etc.)
+      InProgress Making the computers do it - a.k.a. formalizaton and breakdown of decision-making scenario:
+        - why we need the procedure (of formalizing the scenario and breaking it down to parts):
+            - to be able to:
+                - increase quality:
+                    - by doing a formal proof therefore (almost) eliminate [nasty stuff humans doing]
+                    - by making the parts computed by different units and use statistical methods to find the right answer and do contradicton-hunting and other heuristical methods
+                - increase speed:
+                    - by parallelizing the computation
+        - explanation of the procedure:
+            - how do you do it in your mind:
+                - general description of how a human mind works (?):
+                    - basics?:
+                        - like how the layers of the brain developed
+                        - what is the evolutionary drive behind it
+                    - intuition:
+                    - conscious thinking:
+                - how to map the steps we do in our mind to formal steps:
+                    - where we are now:
+                        object oriented programming:
+                          - brief history of programming (one sentence)
+                          - introduction to the basic and relevant OOP concepts
+                          - how we can map the elements in our thoughts to OOP data structures and algorithms
+        - in practice
+        - summary - summarizing the section shortly:
+  InProgress .Decision formalization article:
+    Note: this is the first prio from the articles
+    Done .Formalization basics:
+      +: { CreatedBy: Bobi, CreatedAt: 20250620 T 111642, By: everyone, Responsible: Bobi }
+      Comments:
+        Bobi: Hana is saying that this might exist in backlog - so Hana to check
+    TODO .Decision-making deepdive:
+      +: { CreatedBy: Bobi, CreatedAt: 20250620 T 111645, By: Bobi }
+    Done .Discuss it during a call in a way that it can be transcribed into an article-draft part1:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131133, By: [ Bobi, Gaurav ] }
+    Done .Transcribe the recording:
+    Done .Verifying the transcription:
+      +: { CreatedBy: Hana, CreatedAt: 20250614 T 145227, By: Giselle }
+    TODO .Write the article:
+      Note: a relatively big work, but needed for ramp-up AND also helps in showcasing what we do
+TODO .SW dev articles:
+  TODO .Requirements/description of the F2FinanceHelper:
+    Priority: 2-Low
+    +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131843, By: Bobi }
+  TODO .Work out the requirements/description of The Tool:
+    Priority: 2-Low
+    +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131908, By: Bobi }
+TODO .Make over Take:
+  Id: MakeOverTake
+  +: { CreatedBy: Bobi, CreatedAt: 20250421 T 194113, By: Bobi }
+TODO .Processes Overview:
+  Id: ProcessesOverview
+  +: { CreatedBy: Bobi, CreatedAt: 20250421 T 194434, By: Bobi }
+TODO .The Tool in Detail:
+  Id: TheToolInDetail
+  +: { CreatedBy: Bobi, CreatedAt: 20250421 T 194459, By: Bobi }
+Done .Summary of everything:
+  Id: Summary
+  Done .Baseline:
+    +: { CreatedBy: Bobi, By: Bobi }
+  Done .Review:
+    +: { CreatedBy: Bobi, CreatedAt: 20250516, By: All }
+    Done .Writing final thoughts of the article in google docs:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 081039, By: all }
+      WorkLog:
+        - [ Hana, 20m, "Reading through Summaryofeverything", 20250425 ]
+        - [ Giselle, 90m, "Reading through Summaryofeverything", 20250425 ]
+        - [ Gaurav, 0m, "Reading through Summaryofeverything", 20250519 ]
+        - [ Utkarsh, 30m, "Reading through Summaryofeverything", 20250519 ]
+    Done .Meeting to review member input:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 082431, By: all }
+      WorkLog:
+        - [ Bobi, 46m, "Discussion of members input in Summaryofeverything", 20250519 ]
+        - [ Gaurav, 46m, "Discussion of members input in Summaryofeverything", 20250519 ]
+        - [ Utkarsh, 46m, "Discussion of members input in Summaryofeverything", 20250519 ]
+        - [ Hana, 46m, "Discussion of members input in Summaryofeverything", 20250519 ]
+    Done .Merge the comment of the doc:
+      +: { CreatedBy: Bobi, CreatedAt: 20250517 T 111514, By: Bobi }
+      Id: MergeDocComments
+  Done .Action the following Todos:
+    +: { CreatedBy: Hana, CreatedAt: 20250526 T 193302, By: Bobi, Hana }
+    Id: ActionToDos
+    InProgress .Line 50 in  Comment - can't find better examples as of now, but we should try thinking. The current one is better than nothing Ideally, both should be real world AND easy to understand:
+      By: Bobi, Hana
+      Result: Broke up the 2nd line into 2, also rewrote the (now first part) of the 2nd line
+    Done .Line 52:
+      Result: replaced the comment to "while there are problem areas - like digging a huge hole with shovels - where the management effort needed to number of group members is just a linear curve, for complex cases where you have dependencies, multiple options to solve problems, different skills, efficiencies, etc., we are talking about curves best approximated with exponential or even factorial curves"
+    Done .Line 66:
+    Done .Actioning the remaining Todos:
+Done .Landing Page FAQ:
+  Id: FAQ
+  Done .Baseline:
+    +: { CreatedBy: Hana, CreatedAt: 20250526 T 202139, By: Bobi }
+  Done .Review:
+    +: { CreatedBy: Hana, CreatedAt: 20250526 T 202334, By: All }
+    Done .Writing final thoughts of the article in google docs:
+    Done .Meeting to review member input:
+    Done .Merge the comment of the doc:
+  Done .Action the following Todos:
+    +: { CreatedBy: Hana, CreatedAt: 20250526 T 193302, By: Bobi }
+    Id: ActionToDos
+    Done .Line 44 fix this add "why this is the only thing which can drive back the doomsday clock":
+Done .Current State:
+  Id: CurrentState
+  Done .Baseline:
+    +: { CreatedBy: Bobi, CreatedAt: 20250516 T 134312, By: Bobi }
+  Done .Review:
+    +: { CreatedBy: Bobi, CreatedAt: 20250516 T 134405, By: All }
+    Done .Writing final thoughts of the article in google docs:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 081039, By: all }
+      WorkLog:
+        - [ Hana, 4m, "Reading through CurrentState", 20250425 ]
+        - [ Giselle, 0m, "Reading through CurrentState", 20250425 ]
+        - [ Gaurav, 0m, "Reading through CurrentState", 20250519 ]
+        - [ Utkarsh, 0m, "Reading through CurrentState", 20250519 ]
+    Done .Meeting to review member input:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 082431, By: all }
+      WorkLog:
+        - [ Bobi, 0m, "Discussion of members input in CurrentState", 20250519 ]
+        - [ Gaurav, 0m, "Discussion of members input in CurrentState", 20250519 ]
+        - [ Utkarsh, 0m, "Discussion of members input in CurrentState", 20250519 ]
+        - [ Hana, 0m, "Discussion of members input in CurrentState", 20250519 ]
+    Done .Incorporate suggestions in the doc:
+      Id: MergeDocComments
+      +: { CreatedBy: Bobi, CreatedAt: 20250516 T 152541, By: Bobi }
+InProgress .Company Structure:
+  Id: CompanyStruct
+  InProgress .High Level:
+    Id: HighLevel
+    InProgress .Baseline:
+      +: { CreatedBy: Bobi, CreatedAt: 20250516, By: Bobi }
+    InProgress .Review:
+      +: { CreatedBy: Bobi, CreatedAt: 20250516, By: All }
+      WorkLog:
+        - [ Gaurav, 3m, "", 20250527 T 134236 ]
+    TODO .Recording:
+      Details: Couldn't find the original recording
+    TODO .Transcribe the recording:
+      +: { CreatedBy: Bobi, CreatedAt: 20250620 T 112451, By: [ Giselle ] }
+    TODO .Write the "points" using the recording:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131223, By: [ Giselle, Hana, Gaurav, Bobi ] }
+      Estimation: 3h
+      Note: this can be done by "anyone" who has access to the recording, so does not need Bobi
+    TODO .migrate the file to drive:
+      +: { CreatedBy: Hana, CreatedAt: 20250613 T 110033, By:Bobi }
+    Done .Write the baseline article:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131334, By: Bobi }
+      Estimaion: 1h
+    TODO .Reviews:
+      +: { CreatedBy: Bobi, CreatedAt: 20250607 T 131408, By: everyone }
+Done .The path of improving decision making:
+  Id: PathOfDMImprov
+  Done .High Level:
+    Id: HighLevel
+    Done .Baseline:
+      +: { CreatedBy: Bobi, CreatedAt: 20250516, By: Bobi }
+    Done .Review:
+      +: { CreatedBy: Bobi, CreatedAt: 20250516, By: All }
+      InProgress .Review:
+    +: { CreatedBy: Bobi, CreatedAt: 20250516, By: All }
+    Done .Writing final thoughts of the article in google docs:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 081039, By: all }
+      WorkLog:
+        - [ Hana, 10m, "PathOfDMImprov and providing inputs", 20250519 ]
+        - [ Giselle, 0m, "Reading through PathOfDMImprovand providing inputs", 20250519 ]
+        - [ Gaurav, 0m, "Reading through PathOfDMImprov and providing inputs", 20250519 ]
+    Done .Meeting to review member input:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 082431, By: all }
+      WorkLog:
+        - [ Bobi, m, "Discussion of members input in PathOfDMImprovArticle", 20250519 ]
+        - [ Gaurav, m, "Discussion of members input in PathOfDMImprovArticle", 20250519 ]
+        - [ Hana, m, "Discussion of members input in PathOfDMImprovArticle", 20250519 ]
+Done .Feedbacks and Questions:
+  Id: FeedbacksAndQ
+  Done .Baseline:
+    +: { CreatedBy: Bobi, CreatedAt: 20250516, By: Bobi }
+  Done .Review:
+    +: { CreatedBy: Bobi, CreatedAt: 20250516, By: All }
+    Done .Writing final thoughts of the article in google docs:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 081039, By: all }
+      WorkLog:
+        - [ Hana, 10m, "Reading through FeedbackAndQ and providing inputs", 20250519 ]
+        - [ Giselle, 77m, "Reading through FeedbackAndQ and providing inputs", 20250519 ]
+        - [ Gaurav, 0m, "Reading through FeedbackAndQ and providing inputs", 20250519 ]
+        - [ Utkarsh, 30m, "Reading through FeedbackAndQ and providing inputs", 20250519 ]
+    Done .Meeting to review member input:
+      +: { CreatedBy: Hana, CreatedAt: 20250520 T 082431, By: all }
+      WorkLog:
+        - [ Bobi, 90m, "Discussion of members input in FeedbackAndQ Article", 20250519 ]
+        - [ Gaurav, 90m, "Discussion of members input in FeedbackAndQ Article", 20250519 ]
+        - [ Utkarsh, 90m, "Discussion of members input in FeedbackAndQ Article", 20250519 ]
+        - [ Hana, 90m, "Discussion of members input in FeedbackAndQ Article", 20250519 ]
+  Done .Action the following Todos:
+    +: { CreatedBy: Hana, CreatedAt: 20250527 T 222058, By: Giselle }
+    Done .Final discussion with Giselle:
+    Done .Line 38 Giselle comment (Sent message waiting for reply)- discussed and understood:
+TODO .Write "short descriptions" about the further articles:
+  Details:
+    in -->DocsAntArticles\\ContentToBePublished.Later< section, but currently:
+      #2-HighLevel Company Structure - High level
+      #The current project management system
+      F2ToolsExtension:
+      F2Tool description:
+      F2FinanceHelper description:
+      F2Tool specification (the requirements):
+      F2FinanceHelper specification (the requirements):
+      F2Yaml specification:
+      Terms and conditions: basically that you're allowed to enter and read/use the content only if you'd not be using any of it to benefit a larger-than-family size company.  if the  use the material for personal things, to manage your own little company,  you're allowed to read
+      
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

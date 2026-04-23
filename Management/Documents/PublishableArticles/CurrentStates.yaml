@@ -1,0 +1,58 @@
+Type: Article
+Maturity: 6-Reviewed
+Title: Current state of the project
+Details: 
+Content:
+  GoaldAndSubgoals:
+    Title: Goals and subgoals of this stage and steps we're making
+    Content: |
+
+      Main goal is to try to collect enough people and investment:
+        So that:
+          - we can develop the MVP  (Minimum Viable Product) version of The Tool, with which:
+            - we can manage more, than a few dozen people, allowing us to grow bigger
+            - we can start effectively automating our decisions scenarios, the first big step towards transitioning to computed decision-making
+            - we can start making steps towards selling The Tool (and our processes) as an ALM or a project management system; we're planning this to be our first non-investment income.
+          - we can improve and test our processes (the way we/the system works) on a larger group
+        Where "enough people and investment":
+          - 1-2 dozen ppl - depending on skills, e.g. if the team consists mostly of juniors or students, we'll need more hands, if highly skilled ones (“coding since kindergarten” fanatics), fewer are needed.              
+          - funding - enough to pay our bills and be able to fully concentrate on the project, not having to have side jobs.
+
+      Through:
+        - Publishing and improving content on our site:
+            Iteratively publishing material up until it's easy enough to understand what this project is about - for at least the auidence we are targeting in this phase (we're aware that the topics are complex and the ideas behind it are new and unusual so we expect this to take some time - we're optimistic though as the first few people didn't need that much). 
+            Including:
+              - explanations, articles about the project
+              - information about the products we're developing, such as the central tool
+              - peek into the daily life of the project
+        - Reaching people:            
+            Two main streams at the moment:
+            - Approaching people from our contact list and trying to expand through connections (and their connections).
+            - Carefully accepting people from "the internet", through e.g. job postings on the popular job-related social media sites.
+
+  Updates:
+    Title: Updates as of 2025-07-05
+    Content: |
+      Was:
+        Website: 
+          - We're finally live, tested, first upgrades are done. Content seems to be fine.              
+        People:
+          - Trial job post yesterday: we got surprisingly many (40 and counting) applicants on the first day - we'll see the seriousness of these though.
+          - Trial social media posts around the time posting this update; testing the reactions and engagement
+          - Connections are slowly warming up; we understand that it takes time to process the material; 
+      Next:
+        Website: 
+          - fixing small issues, fine tuning the Feedback and Contribute forms for the applicants
+          - incorporating feedbacks
+        People: 
+          - upgrading the trial job posting and reposting them, making the processes for filtering; preparing and maybe performing the first interviews. Directing applicants to the site so that we increase the amount of feedbacks.
+        Development: 
+          - Bug fixes and small improvements in the current management system
+          - Preparation of the requirements, tasks and codebase of The Tool for handover to a larger team
+        - Strategical re-planning after this milestone (Go live!) is completed
+
+
+
+#  as:
+#                 - it's safer: we can trust the people more - which we need at the initial stages when it's harder to defend ourselves against actions of hostile actors (i.e. some "bad guy" joins from the internet and messes up the code, decisions, exploits holes in our security, steals, etc.)
+#                 - we know them (you) to some extent, we don't need to go through extensive filtering                  

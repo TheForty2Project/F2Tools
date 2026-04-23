@@ -1,0 +1,90 @@
+Type: Article
+Title: Summary of The Forty2 Project
+Maturity: 6-Reviewed
+Details:
+  Goals:
+    Explain:
+      - why is it good for you:                
+      - why is it good for the world:
+      - current state of the project:
+      - it's doable with the plan we have:
+        - current management systems are very sub-optimal
+Content:
+    Done .Summary :
+      Content: -->DocsAndArticles\\PublishableArticles\\OneParagraphSummary<
+    Done .InOtherWords: 
+      Title: In other words
+      Content: |
+
+        Cooperating for the benefit of the members, fairly, increasingly optimally, managing ourselves by:
+          - at first distributing the decision-computation tasks *[e.g. finding solution ideas/action-candidates, evaluating their benefits/drawbacks, comparing them to others, etc.] in between members to improve decision-quality and speed, using strict processes with which we can convert the most important tasks into formal proofs 
+          - increasingly using computers to compute decisions, utilizing the - by now gigantic - advantage of computers in computational tasks over human minds 
+        Our minds are amazing, but they are slow and make mistakes, especially in complex problems. Computers can help solve these problems better, so we use computers for computation, even on the management levels... duhh...:
+
+    Done .InYetAgainOtherWords:
+      Title: In - yet again - other words
+      Content:
+        With this project we're aiming to finally solve the problem of managing a group (aimed to satisfy its members the most, e.g. a country or a self-help group) at the very least with the efficiency that the group is getting closer to its goals by time (i.e. it does not deteriorate), but our real goals are - by moving the computation of decisions from the minds to the computers - to build a system that improves itself exponentially, which would finally develop the tools with which we can provide the members practically limitless ways to fulfill their needs and desires *[except if the desire is to force other members to do things they don't want].
+    
+    Done .Highlights from the whys and hows and terms:
+      Title: Some crucial highlights - and we'll explain later
+      Details:            
+        - include:
+          - what's cooperation
+          - why it is in our interest now 
+          - why is the "management" part here crucial and the focus
+          - example
+      Content:            
+        Some theories first:
+          Cooperation for the benefit of the members:
+              Cooperation (NOT corporation!) is about working together to reach a common goal. Here the goal is to get the most value for the members (~more profit), more than if we worked alone, distributing the work in between the members so that we work the most efficiently.:
+              Eg.: 
+              - a "good" family, a friend group doing things together, to make members happy/satisfied
+              - a corporation: while a cooperation, the goal is not to satisfy the members (even if they say that "we're family") but the owners.
+          It's now in our interest to cooperate this way: In this current world the things you need are mostly and increasingly made by work from almost unlimited resources *[i.e.:_ The share of the cost of natural resources decreasing in the cost of the final product, e.g. we can grow crops without soil, spend large sums on things requiring very little or none physical material like your smartphone or a software, an online service; if we had to, we could mine asteroids], so it is in our interest to be a member of a group which does this work as efficiently as possible and then share the results fairly, optimally cooperating with the highest number of people - as opposed to the world in the past, where you took things from nature using finite resources, therefore it was in your interest to fight (and rob, kill, enslave) the other groups so that it's you who eats the deer and not them, it's you who takes the land and not them.
+          Optimal cooperation: 
+            - definition: the members use their resources (work + material) in a way that serves the interest of the group the most
+            - in other words, they manage the resources (themselves and the things the group has) optimally, in other words, their management makes (closest to) optimal decisions according to the _total_information_the_group_possesses.:
+                e.g.: 
+                  - it's an optimal decision to bet 1$ in a coin toss game paying 3$ to the winner if we have the information that it's a fair game, even if the coin landed on the wrong side and we lost.
+                  - From the perspective of humanity (trying to achieve the most benefits per spent effort) it's not an optimal decision to spend the money on developing multiple, similar software products (e.g. those miriads of chat applications) and compete with the others for the users. It's closer to optimal to unite the development resources into one group, developing different software for different purposes and share the software + profit.
+            - the larger the group is the harder it is to manage it optimally; while there are problem areas - like digging a huge hole with shovels - where the management effort needed to number of group members is just a linear curve, for complex cases where you have dependencies, multiple options to solve problems, different skills, efficiencies, etc., we are talking about curves best approximated with exponential or even factorial curves:
+              - let me try to show it through an example:
+                - let's say that you are 5 (logical minded) friends, on a trip, trying to decide how to solve the breakfast problem. Everyone chips in with their ideas, who goes to which shop, who cooks, when do people do what; you discuss, think through and agree on the solution everyone finds the best. In the end it's imaginable that you did an optimal sharing of the work: you combined all the ideas, measured how good each is and chose the best, everyone verifying the computations in their head so low likelihood of errors.
+                - now imagine the same with just 50 people:_ even collecting the ideas and storing it in your head is close to impossible - but this is still linear complexity, you are just not good at memorizing long lists of ideas (computers are - just saying). Now the combination of ideas:_ you'll have different needs, skills, time available, and ideas to solve each sub-problem (cooking, shopping, different diets, etc.). You'd need to combine (it's way more complicated than that though) each idea with each other idea to see what combinatons of ideas are the best, which in combinatorics is called permutation - and you calculate the number of permutations by factoring the number of items:_ if they have 100 ideas in total, that's 100 factorial, that's 9.332622e+157 (so 9 and 157 zeroes followed...) permutations to check. While you can use all kinds of heuristics, tricks, etc. to reduce the complexity, even if you end up having to check just 0.0000001% of the combinations - that's still a crazy big number. You'll therefore make a decision what's expected in these cases: you simplify and just do a solution which is "not that bad for most of the people".
+            - we - so far - handled these with hierarchical managements in a way that the levels on the hierarchy solve problems simplified by the previous layers to them, by approximating the optimal decisions - so "very broad strokes". Even if the managers, politicians were highly skilled and honest individuals this approach would (and does) yield a very-far from optimal result - as we can all experience.
+          Important to notice: 
+            we can represent a "community" as a system with abilities to interact with the world and with an internal decision-making structure to compute how to interact (what to do), the performance of this system with given resources in a given environment is solely dependent on one factor: the quality and speed of its management, i.e. how quickly they can solve how complex problems how precisely. This is the problem of the current world, that our management systems are still the ancient, "people decide in a hierarchy" ones, not utilizing the computers for the computation of these super complex problems; yeah, we're slow to change, especially if the ones in power do not understand and do not want to accomplish this.
+            In practice there's no management method (democracy, hiearchical managements of all kinds like kingdom, dictatorship, company structure) available currently where it could be shown (=computed) that the decisions the management makes are getting the group closer to its goals, mostly due to one big factor: it's not logic, but people who hold the power.
+        Therefore:
+          - Building a method of managing large groups with which we can at least increase the chance that "logic" holds the power - so things are not decided based on the whims of bosses but what's correct - is in our best interest
+          - If that method were _also_ self-improving and hugely outperformed in quality and speed the current managements, it would be awesome
+          - So that's what we're doing: as a cooperation, we're first focusing on gradually moving the computational tasks of the management into a system consisting of people and software by formalizing the decision-scenario, breaking it down into its parts and distributing it in between the "computing units" (people + increasingly software) to gradually increase the quality and speed of our decisions, in an exponentially self-improving way, then shifting the focus to providing "happiness" to the group members by increasingly efficiently producing what we need and welcoming more people in our group.
+        Why we are doing this:                            
+          On a small scale: to benefit from a community which turns our invested effort into "profit" in a vastly more efficient way than any other existing way of investing our efforts (e.g. being an employee and working for salary or investing into some hierarchically managed company)
+          On a large scale: after our methods and systems are able to handle thousands and then millions of people, to provide a/the solution to cooperating on the level of humanity, to finally form the decision-making body of Earth, to stop the crazy self-destructive path we're on and finally Switch Earth On.
+          In general: While constantly experiencing the consequences of trivially sub-optimal decisions of people in power on our everyday lives, this question bothers us relentlessly:_ Why are we still using systems made for kingdoms and empires? It was the only option at that time, before the internet, before modern computing, before we had any better options - we now do have better ones but not using them, despite it's so easy.
+        How:
+          Former computer programmer geeks/enthusiasts working in sw development and management roles, experienced in the automation of management decisions (managing the development of ALM  tools) realized:
+            - It would be relatively easy (i.e. with a high benefit/cost ratio) and essential to fully automate the management decision processes, to create "The Tool" into which we could gradually do so.
+            - None of the currently available software are capable to serve as The Tool; many are close but with problems (codebase quality, feature set and ownership) which would take longer/cost more to fix than writing one from scratch
+            - Making the MVP *[minimum viable product] version of The Tool suitable for people who are not afraid of learning how to use a character based UI (like programmers) is an "easy" task, takes a few thousand senior-developer-hours only
+            -  Compiling and fine-tuning the processes (and implementing them into The Tool) with which we can manage ourselves should take a couple of months only, being able to manage a few dozen people without a hierarchical approach, with a “managementless management”, where it's not people, but logic who holds the power.
+            - The preferred approach is through forming a/the forever improving and expanding community which gradually encodes its decision-making practices into The Tool and not through companies (we've found that it's a complicated subject so it's hard to pitch especially to managers, they also not eager to be replaced by a software, etc.)
+
+          We've spent a few years on researching, developing and testing the theories, the PoCs, marketing and funding ways, developed and tried the initial processes with which we can ensure high decision quality with just some basic tools, worked out the plans and started executing it; looked promising, so we started with the first, shy opening to the public - a Reddit post, hiding behind the starting line of “looking for programming buddies, but in a special way… ”, to which - after extensive filtering - we got the first outside members of the community:
+
+          We're now a small group:
+            We're mostly preparing our processes and materials for the next iteration of expansions: a proper website (basically the one you're reading), requirements and tasks worked out and processes to guide the new joiners on a level that they can work productively with just a little help from the existing members.
+            In general, we're forming a system always doing the Task which has the highest utility/cost ratio:
+              - \"utility" is computed from the big goals we want to reach; the current subgoals are:
+                - improving the processes so that we can utilize more "computing units" - currently people
+                - creating the software platform into which we can easily formalize our processes: the first version of The Tool - it's like a "Jira++++" with more freedom and less UI                    
+              - computing units are mostly humans; we're gradually automating the work we do though
+              - taking into account that humans make lots of errors so:
+                - we're trying to ensure correct computation in our decisions (=decisions should be logical), keeping the theorethical basics - that decisions must be the consequences of the information we have, that logic rules; formalizing the decision-scenario and computing it if necessary. Everyone is a worker, shareholder and decision-maker if needed, decisions and their circumstances must be shared, questioned and analyzed by the team if necessary.                  
+          Current expansion: 
+            we're looking to expand to around 10-42 people so that we can finish the first version of The Tool and fine tune our processes so that the founding members do not need to watch every step, to make the system self-improving with just a little supervision
+          Soon: 
+            As our systems progress, we gradually let in more people, increasing the available effort to either improve our efficiencies or to produce "profit", the original team considering it "done" once the system reached the state that our contribution would not be necessary to increase the likelihood that the system makes more optimal decisions; we'd say that at around 100-1000 active members. 
+            By this time the systems should be able to greatly outperform any current hierarchical managements, therefore put an immense pressure on companies to adopt - otherwise they would be outcompeted. This is the time we expect the project to be financially successful and enter a new phase, to be a significant factor in the world stage.

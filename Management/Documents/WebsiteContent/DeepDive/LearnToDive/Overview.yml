@@ -1,0 +1,16 @@
+Intro: 
+
+  In "The Abyss" section you can find the management data we're using to manage the project, mirrored to the site quite frequently (we hope we can reach at least daily updates).
+
+  With this you can at least have some idea about how to manage a (not necessarily just software) project with just a few free tools and well structured yamls - but our main goal is to allow you to experience the daily life of the project and hopefully soon or later be convinced that this is something you at least root for, or, better, you want to support and become part of.                      
+
+The management system general overview:
+
+
+  Our current - temporary, until the big brother, The F2Tool grows up - management system consists of these yamls in a folder structure stored in a Git repository and read/edited using VS Code (with a few extensions so that we have color coding and reference following). Even though this setup is temporary, the current "interface" of the system - i.e. "reading/editing/querying yamls by VS Code plus a few extensions" - is to stay at least in the first stages of the project: the first versions of The F2Tool will only enhance the experience by adding code completion, error checks, templates, permissions, query and report generation, etc. - and, very importantly, server-side F2Yaml script execution so that we can easily automate stuff.
+
+  Imagine the system as a task/bug tracking (like JIRA) or ALM system (like codebeamer) replacement - where one works with "Items" (e.g. a "Task", "Bug", "Requirement", each with their own fields, like "Description", "Importance", "Status") which are referencing each other in various ways, can be queried and automated, etc. - with a few important differences:
+    coding-like experience: instead of clicking on websites, you type, using your favorite IDE. Waaaay faster and waay less annoying; you might even start liking management. You can use your favorite text editors, mass replace, mass edit, forget the mouse. No 500 errors, downtimes, "loading"s, bugs.
+    ~total freedom: 
+      - all Item types are yours to change or define; unlimited nesting, full automation possibilities. Even at this current stage it's very easy to automate certain tasks - especially if you use some AI to query those yamls and generate some scripts - but the main reason we're developing a dedicated tool for this is to make automation as easy as possible (as our final goal is to automate everything, including all management processes into it).
+      - no platform or software restrictions - the core of the system is mostly just the conventions and rules, you're free to use any editor, repository or way to edit the files. Even in the era when we'll be using The F2Tool for these the yamls will look the same and serve the same purpose so you can even choose to go off-grid and do everything manually or by using your own software running on your computer you made from sticks and stones.

@@ -1,0 +1,276 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+OnGoing .General management:
+  OnGoing .Task Administration:
+    +: {CreatedBy: Hana, CreatedAt: 20251205 T 212344, By: All}
+    Details:
+      A general task to book your time on "general Task maintenance" related stuff - creating, reorganizing, cleaning-up, etc.
+  OnGoing .Standup related:
+    +: {CreatedBy: Bobi, CreatedAt: 20260401 T 101628, By: All}
+    OnGoing .Preparation for participants:
+      +: {CreatedBy: Bobi, CreatedAt: 20260401 T 101657, By: All}
+      Details: 
+        This is about creating the SR entry for the upcoming period:
+          - The entry should be in StandupReports.yml of the workspace folder creating this
+          - Rename the SR entry to the current date (SRyyyymmddUsername)
+          - Clean up tasks of the previous period (everything was recorded, correctly, etc); this is the "Was" part
+          - Pick the tasks (ideally from the CSVs) one wants to work on; this is the "Next" part
+          - If there are any other important business - mention them; this is the "AOIB" part
+          - Create the SR_NEXT_Username
+          - Don't forget to start and stop timer on this task.
+    OnGoing .Standup:
+      +: {CreatedBy: Bobi, CreatedAt: 20260401 T 101657, By: All}
+      Details:
+        Steps:
+        - Time tracking:
+          - Issue "Specify standup report" command on the SR_NEXT_USername entry
+          - Start the timer on it
+        - Each member:
+          - Explains the important parts about what he/she was doing during the previous period by going through their Tasks in the "Was" part 
+          - Same for the Next part
+          - In case changes are decided, they are recorded
+        - Stop the time tracking
+  OnGoing .Planning related:
+    +: {CreatedBy: Hana, CreatedAt: 20260401 T 131746, By: Hana}
+    OnGoing .Hold periodically:
+      Details:
+        - Create an entry in the Meetings/Plannings.yml, in the format:
+            Date in yyyymmdd format; under it:
+              - Participants entry, listing the participants
+              - Start+End time entry:
+              - Result entry
+        - Process the tasks created in it and leave a link to them
+      Done .Planning 20260328:
+        +: {CreatedBy: Bobi, CreatedAt: 20260328 T 163750, By: [Hana, Bobi], Tags: , Estimation:, RemTime:}
+        Details:
+            See at -->Meetings\Plannings\.MeetingNotes..Planning20260328<          
+        Done .Hold the meeting:
+          +: {CreatedBy: Bobi, CreatedAt: 20260328 T 163733, By: [Hana, Bobi], Tags: , Estimation:, RemTime:}
+        Done .Process the results:
+          +: {CreatedBy: Bobi, CreatedAt: 20260328 T 163727, By: Hana, Tags: , Estimation: "30", RemTime: "0"}
+          Details:
+            - Move the Tasks to their correct locations AND leave links pointing
+            - Fix the links already pointing to the Tasks in it (search-all to the summary and re-create the link to the right location)
+        -->Tasks\Management\.."Management Tasks OCWSPhase1".."Migration of tasks to CSV".."Periodic syncs of Tasks-CSV".."Re-create OCWSPhase1 CSV"<:  
+  OnGoing .Reports:
+    Done .Create report about total spent time per task and per day per worker up until 20260413 meh:
+      +: {CreatedBy: Bobi, CreatedAt: 20260413 T 232840, By: [Bobi, Hana]}
+      Done .Create CSV:
+        +: {CreatedBy: Bobi, CreatedAt: 20260413 T 233030, By: [Bobi, Hana], Tags: [CSVDONE], Estimation: "90", RemTime: "0"}
+        Details:
+          - Optional or if you have time: generate the worklogs as well using the "Generate Worklog from SR" crtl-shift-p command
+          - Check the validity of the links in the SR
+        Comments:
+          - [Bobi, "Hana: Example in Tasks/WorkHours.csv; don't forget to replace the single double-quotes to double double-quotes and surround the whole with double quotes for IdLinks", 20260413]
+      Done .Create Reports:
+        +: {CreatedBy: Bobi, CreatedAt: 20260413 T 233004, By: [Bobi, Hana], Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+        Details:
+          Bobi to try it first with the Query engine of Rainbow csv    
+  OnGoing .Retrospective related:
+    Id: Retro
+    +: {CreatedBy: Hana, CreatedAt: 20260401 T 131800, By: Hana}
+    OnGoing .Hold periodically:
+      +: {CreatedBy: Bobi, CreatedAt: 20260401 T 130158, By: PM}    
+  OnGoing .Task list reports (CSV):
+    +: {CreatedBy: Hana, CreatedAt: 20260401 T 131829, By: PM}
+    OnGoing .Creation:
+      +: {CreatedBy: Hana, CreatedAt: 20260401 T 132906, By: PM}
+      Done .Create OCWSPhase1 task list reports:
+        +: {CreatedBy: Bobi, CreatedAt: 20260330 T 112629, By: Hana, Estimation: 90, RemTime: 0}
+      Done .Create Management task list reports:
+        +: {CreatedBy: Hana, CreatedAt: 20260401 T 133146, By: Hana, Tags: [CSVDONE], Estimation: "70", RemTime: "70"} 
+        Details:
+          Include this Task as well in it
+      InProgress .Create OCWSPhase2 task list reports:
+        +: {CreatedBy: Bobi, CreatedAt: 20260330 T 112629, By: Hana, Estimation: "90", RemTime: "90"}    
+    OnGoing .Maintenance:
+      +: {CreatedBy: Bobi, CreatedAt: 20260330 T 112629, By: Hana, Estimation: 90, RemTime: 90}      
+      Details:
+        Note: These tasks should disappear as soon as there are automatic queries. Right now these are created manually, into CSVs
+        For CSV Syncs:
+          Sync:
+          - IDEALLY - but we often miss these, so don't rely on the below:
+            - if a line is changed in the CSV, there should be a * in front of them to signal that the Task should be updated
+            - if a Task is changed or added in the Tasks, it should have a CSVTODO tag
+          - RATHER - until we get used to the above process:
+            - check the statuses of the ones already in the CSV and update the CSV
+            - check if there's any "CSVTODO":
+              - Sync it with the CSV:
+                - IF you decide to track them:
+                  - Update the CSV with the change or generate the line if it was not yet tracked
+                - ELSE
+                  - remove the tags            
+            - check the CSVDONE ones:
+              - remove the tags if you don't want to track them`
+              - add them to the CSV if you do
+          Generate sums:
+            - Estimation total
+            - Remaining total
+      Done .SyncAt20260402:
+        +: {CreatedBy: Hana, CreatedAt: 20260401, By: Hana, Tags: [CSVDONE], Estimation: "30", RemTime: "30"} 
+        Details:
+          All CSVs - OCWSPhase1, OCWSPhase2, Management      
+      Done .SyncAt20260403:
+        +: {CreatedBy: Hana, CreatedAt: 20260401, By: Hana, Tags: [CSVDONE], Estimation: "10", RemTime: "10", ScheduledAt: 20260403} 
+        Details:
+          All CSVs - OCWSPhase1, OCWSPhase2, Management
+    OnGoing .Analysis of Tasks in CSV:
+      +: {CreatedBy: Hana, CreatedAt: 20251205 T 212725, By: Hana}
+      Details:
+        - Totals of: Estimated; Remaining; Count
+        - So that you have data for:
+          - scope creep: total scope (=total Estimated) per day
+          - burndown chart: total RemTime per day
+          - estimated finish:     
+    Done .Update our approach of handling the CSVs as of 20260415 mehh:
+      +: {CreatedBy: Bobi, CreatedAt: 20260415 T 133902, By: [Bobi, Hana]}
+      Details:
+        Basically we should have a general task list unless we want to track certain very special task types in a separate one
+      Done .Decide:_ approach:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 235819, By: Bobi, Tags: [CSVDONE], Estimation: "10", RemTime: "0"}
+        Result:
+          - General CSV; one for everything. 
+          - The OCWSPhase1 should stay though.
+          - Locations:
+            - In Reports
+            - CurrentTasks.csv is the main task list
+            - Analysis
+      Done .Implement:
+        +: {CreatedBy: Bobi, CreatedAt: 20260418 T 235850, By: Bobi, Tags: [CSVDONE], Estimation: "10", RemTime: "0"}
+InProgress .OCWSPhase1:
+  Done .Clean up the CSVTODO tags:
+    +: {CreatedBy: Bobi, CreatedAt: 20260402 T 162519, By: Hana, Tags: [CSVDONE], Estimation: "30", RemTime: "30"}
+    Details:
+      - Everywhere (so do a find in all files (ctrl+shift+f) for CSVTODO))
+      - After this, only those Tasks should be tagged with CSVTODO which are meant to, but not yet put into one of the CSVs
+      - Only those should keep the CSVDONE tags which are present in one of the CSVs
+  OnHold .Collect the tasks for the live management:
+    +: {CreatedBy: Bobi, CreatedAt: 20250901 T 000001, By: Bobi, Tags: [CSVDONE]}
+    Details:
+      - Ideally the activities should be streamed, therefore we do it "properly" even though we might not need it for just ourselves
+      - Also, Hana needs to learn into it properly
+      - Goals are:
+        - We have KPIs set up and measured, such as:
+          - Velocity
+          - Hours spent/day
+          - Points (~value) achieved per hour (=efficiency)
+          - Scope creep
+          - Points achieved per period
+        - We have milestones estimated
+        - Points system set up:
+          - such as:
+            - Achieving a milestone by a certain date is x, before x+y, after x-y points
+            - Completing a task is x points
+          - points should reflect the value of the achievement (e.g. Task), not (necessarily) the effort needed to reach it
+        - Tracking, evaluating and (re)planning done:
+          - Through events such as:
+            - Standups
+            - Retrospectives
+            - Plannings
+          - Based on the KPIs, corrective actions are taken (=we improve how we do things)
+        - Ideally:
+          - There are nice graphs (burndown, scope kreep, velocity/period, etc.)          
+    Workspace:
+      Phase1 targets:
+        - There's a plan up until the Phase 2 website roll out:
+          - with estimations        
+          - with expected completion dates for Phase1 and Phase2 - continuously tracked as the days progress
+        - At least bi-daily:
+          - standups
+          - short (15 min) retro and re-plan:
+            - as a result:
+              - plan updated (along with the completion dates)
+              - rules updated according to the experience
+        - At least weekly:
+          - proper retrospective and planning
+        - Points system trial:
+          - Points are assigned to things - milestones, tasks, requirements, etc.
+          - For this we might need extra Items, such as Requirements
+          - PM to lead this effort - so to propose a baseline system/points value at least
+      Tasks:
+        -->Backlog\Development\..Website..BackToOrigi..Intermediate.."Go live".."Go live Phase1".."Decide:_ What should be included in this phase"<
+        -->Backlog\Development\..Website..BackToOrigi..Intermediate.."Go live".."Go live Phase2".."Decide:_ What should be included in this phase"<    
+  Done .Merge the Tasks (I was working on) with the original set:
+    +: {CreatedBy: Bobi, CreatedAt: 20260328 T 224243, By: Bobi, Tags: , Estimation:, RemTime:}
+  Done .Provide estimations:
+    +: {CreatedBy: Bobi, CreatedAt: 20260328 T 162148, By: Bobi, Tags: , Estimation:, RemTime:}          
+  Done .Cleanup workspace:
+    +: {CreatedBy: Hana, CreatedAt: 20260403 T 130948, Tags: [OCWSPhase1]}
+    Details:
+      - Move to archive or even delete the Items we don't want to be there (not public, garbage, old, etc.).
+      - Note that as everything is in the repo history, we don't need to be too careful with deletion
+    Done .Bobi:
+      +: {CreatedBy: Hana, CreatedAt: 20260403 T 130937, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+    Done .Hana:
+      +: {CreatedBy: Hana, CreatedAt: 20260403 T 130937, By: Hana, Tags: [CSVDONE], Estimation: 0m, RemTime: 0m}    
+  Done .Update F2yaml links:
+    Id: UpdateF2Links
+    +: {CreatedBy: Hana, CreatedAt: 20260403 T 131043, By: [Hana, Bobi]}
+    Done .Fix the ones which are possible without Bobi's involvement:
+      Id: Fix1stRound
+      +: {CreatedBy: Bobi, CreatedAt: 20260409 T 142545, By: Hana, Tags: [CSVDONE], Estimation: "142", RemTime: "0"}
+      Details:
+        - If possible, fix the f2yaml links (so e.g. if it's pointing to Backlog\TheF2Tool, now it should be pointing to Tasks\Software\TheF2Tool)
+        - If not, put some comment behind it, like \# MISSINGLINK and_some_note_if_necessary
+    Done .Bobi to go through the ones which are tagges:
+      Id: Fix2ndRound
+      +: {CreatedBy: Bobi, CreatedAt: 20260409 T 142604, By: Bobi, Tags: [CSVDONE], Estimation: "60", RemTime: "0"}      
+  InProgress .Clean up the files we are publishing:
+    Id: CleanUpFiles
+    +: {CreatedBy: Bobi, CreatedAt: 20260414 T 123529, By: [Bobi, Hana], Tags: [CSVDONE], Estimation: "90", RemTime: "60"}
+    Details:
+      - Remove unnecessary content
+      - Fix the links (the \# MISSINGLINKS ones)
+    Done .Bobi per TasksToBeSorted:
+    Done .F2Yaml:
+    
+
+  InProgress .Plan and prepare Twitch streaming first phase:
+    +: {CreatedBy: Bobi, CreatedAt: 20260415 T 133514, By: [Bobi, Hana], Tags: [CSVDONE], Estimation: "60", RemTime: "60"}
+    Note: Added to CurrentTask.csv
+    Workspace:
+      First stream:
+
+      What to stream:
+        Standups
+      What setups do we still need to do:
+      Schedule:
+        2200-2400: Bobi's stream; 
+      Notes:
+        2 types:
+          scheduled:
+            precisely:
+              Things:
+                10pm Bobi Coding
+                5am Hana Health and Management
+            roughly:
+    InProgress .Create baseline schedule:
+      Details:
+        There should be a schedule for different topics daily, weekly and monthly
+      Workspace:
+        Hana:
+          TF2P-Health (Can be scheduled early morning):
+          Details: 
+          - Location: -->Tasks\Miscellaneous\.."Health".."Create a daily health tracking template to monitor sleep quality, bowel movements, mood, nutrition, hydration, and physical activity."<
+          - Timing: 05:00-06:00
+          - Topics:
+            - Sleep Quality data analysis (Hana)
+            - Preparation and confirmation of Cardio and strength of the day based on the sleep quality (Hana)
+            - preparation of meals of the day(Hana and Roberts meals)
+          TF2P-Work (late morning and afernoon):
+          - Timing: 11:00-14:00
+          - Topics:
+            - StandUp Report
+            - Planning Meeting
+            - Retrospective
+            - Tasks
+          TF2P-Preparation (late night):
+          - Timing: 17:00-18:00  19:00-20:00
+          - Topics:
+            - TF2P- Health: 
+              - Include the data of the day (Garmin analysis)
+              - Prepare for tomorrows possible meals
+              - Mood Analysis            
+        Bobi:
+ 
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one.  (EOF = End of File)

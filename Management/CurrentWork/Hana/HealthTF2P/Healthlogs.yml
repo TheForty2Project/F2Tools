@@ -1,0 +1,135 @@
++: { Type: Folder, AllowedTypes: [ Task, Folder ] }
+
+HealthLog20260421Hana:
+  .Important Notes:
+    - Sleep was comprimised due early wake up
+    - Need to sleep earlier than 21:00 to meet the sleep duration
+  .Cycle Day:  Cycle 16 (Fertile- phase)
+  .Wake up:
+    - Time: 8:06
+    - Duration: 8h 48m
+    - Sleep Score: 
+    - Deep Sleep: 41m
+    - Light Sleep: 6h 7m
+    - REM: 2h 1m
+    - Awake time: 5m
+    - Stress: 13 avg
+    - Body Battery: +57
+    - Mood: Tired but forcing myself to do my chores and work (for example this)
+  .Diet+Mood:
+    - AfterWakeUp:
+      - Time: 08:30
+      - Macro Nutrient: Warm water+lemon
+      - Mood: anxious
+    - Breakfast:
+      - Time: 09:30
+      - Food: 
+        - some small snacks pancake + pickle fish
+      - Mood: Anxious and started a fight  - cried
+    - Snacks:
+      - Time: 
+      - Food: 
+      - Mood: SAd, cried ( mama)
+    - Lunch: 
+      - Time: 14:30
+      - Food: 
+        - Side dish:  Rice
+        - Main Course: Chiken thigh
+        - Dessert: 2 pieces of sponge cake + tea = coffee
+      - Mood: Sad, tired
+    - Dinner:
+      - Time: 17:00
+      - Food: popcorn
+      - Mood: tired, dimotovated
+  .Stool Quality:
+    - Time:  12:00
+    - Quality: Healthy
+  .Activity:
+    - After wake up: 
+    - Morning: 
+      - Time: 11:00
+      - Activity: Running
+      - Mood: ok 
+    - Afternoon:
+      - Time: 12:00
+      - Activity: Hike
+      - Mood: chaotic
+  .Night Sleep:
+    - Time: 11:13
+    - Sleep Hygiene:  S
+    - Mood: Very tired  crashed
+  .Notes for tomorrow:
+    - Prioritize movements and sun exposure
+    - Proioritize Robis breakfast 
+    - create a schedule for meals 
+    - create a schedule for your workout:
+      - What are your goals
+      - base the workout according to the goals
+HealthLog20260422 Bobi:
+  .Important Notes:
+    - Sleep was comprimised due early wake up
+    - Need to sleep earlier than 21:00 to meet the sleep duration
+  .Wake up:
+    - Time: 8:06
+    - Duration: 8h 48m
+    - Sleep Score: 
+    - Deep Sleep: 41m
+    - Light Sleep: 6h 7m
+    - REM: 2h 1m
+    - Awake time: 5m
+    - Stress: 13 avg
+    - Body Battery: +57
+    - Mood: Tired but forcing myself to do my chores and work (for example this)
+  .Diet+Mood:
+    - AfterWakeUp:
+      - Time: 08:30
+      - Macro Nutrient: Warm water+lemon
+      - Mood: anxious
+    - Breakfast:
+      - Time: 09:30
+      - Food: 
+        - some small snacks pancake + pickle fish
+      - Mood: Anxious and started a fight  - cried
+    - Snacks:
+      - Time: 
+      - Food: 
+      - Mood: SAd, cried ( mama)
+    - Lunch: 
+      - Time: 14:30
+      - Food: 
+        - Side dish:  Rice
+        - Main Course: Chiken thigh
+        - Dessert: 2 pieces of sponge cake + tea = coffee
+      - Mood: Sad, tired
+    - Dinner:
+      - Time: 17:00
+      - Food: popcorn
+      - Mood: tired, dimotovated
+  .Stool Quality:
+    - Time:  12:00
+    - Quality: Healthy
+  .Activity:
+    - After wake up: 
+    - Morning: 
+      - Time: 11:00
+      - Activity: Running
+      - Mood: ok 
+    - Afternoon:
+      - Time: 12:00
+      - Activity: Hike
+      - Mood: chaotic
+  .Night Sleep:
+    - Time: 11:13
+    - Sleep Hygiene:  S
+    - Mood: Very tired  crashed
+  .Notes for tomorrow:
+    - Prioritize movements and sun exposure
+    - Proioritize Robis breakfast 
+    - create a schedule for meals 
+    - create a schedule for your workout:
+      - What are your goals
+      - base the workout according to the goals
+
+
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you have to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

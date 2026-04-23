@@ -1,0 +1,15 @@
++: {Type: Folder, DefaultTypes: [Folder, Task]}
+
+MeetingNotes:
+  .Planning20260328:
+    Participants: [Bobi, Hana]
+    StartTime: 20260328 T 15:05
+    EndTime: 20260328 T 16:30
+    Result:
+      Tasks to be created:
+        In management:
+          -->Tasks\Management\.."General management".."Task list reports (CSV)".."Creation".."Create OCWSPhase1 task list reports"<:  
+          -->Tasks\Management\.."OCWSPhase1".."Merge the Tasks (I was working on) with the original set"<:
+          -->Tasks\Management\.."OCWSPhase1".."Provide estimations"<:
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you have to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)
