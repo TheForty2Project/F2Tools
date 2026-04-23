@@ -291,11 +291,13 @@ export class StringOperation {
     }
 
     static isThisSingleWord(string: string) {
-        return /^\S+$/.test(string)
+        return /^\S+$/.test(string);
     }
 
     static wrapInQuotesIfMultiWord(str: string): string {
-        const trimmed = str.trim();
+        if (str === null) {return "";}
+
+        const trimmed = String(str).trim();
         if (trimmed.includes(' ')) {
             if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
                 return trimmed;

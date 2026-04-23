@@ -38,12 +38,6 @@ export class CSVOperations extends YamlTaskOperations {
       }
 
       let items = HackingFixes.getYamlMapFromPairOrYamlMap(await this.getTaskObj(f2yamlSummaryLink)).items; //at this point we're sure that it exists and its a map as we've just generated the f2yamlSummaryLink
-      // let items;
-      // if (taskObj.value !== null) {
-      //     items = taskObj.value.items;
-      // }else{
-      //     items = taskObj.items;
-      // }
       for (const taskProperty of items) {
         if (taskProperty.key instanceof yaml.Scalar) {
           if (taskProperty.key.value === csvColumnName) {
