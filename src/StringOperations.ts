@@ -38,8 +38,7 @@ export class StringOperation {
     }
 
 
-    static getStatusCode(activeDoc: vscode.TextDocument, cursorPosition: Position) {
-        let statusCode = ''
+    static getStatusCode(activeDoc: vscode.TextDocument, cursorPosition: Position) {        
         const line = activeDoc.lineAt(cursorPosition.line);
         const { status } = this.seperateStatusCodeAndTask(line.text)
         let cleanStatus = status.trim();
