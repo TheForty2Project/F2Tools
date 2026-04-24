@@ -2,11 +2,11 @@
   "name": "f2tools",
   "displayName": "F2Tools",
   "description": "",
-  "publisher": "tf2p",
+  "publisher": "TF2P",
   "version": "2.0.25",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gauravkr7488/time-tracking-and-administration"
+    "url": "https://github.com/TheForty2Project/F2Tools/"
   },
   "engines": {
     "vscode": "^1.98.0"
@@ -75,15 +75,12 @@
             "type": "string"
           },
           "default": [
-            "UpdateStatus",
             "TaskStatus",
-            "Milestone",
-            "IdLink",
             "By",
-            "Priority",
-            "RemHrs",
-            "SummaryLink",
-            "BlockedBy"
+            "Estimation",
+            "RemTime",
+            "IdLink",
+            "DependsOn"
           ]
         },
         "f2tools.workspacePath": {

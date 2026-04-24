@@ -27,7 +27,7 @@ export class F2yamlLinkExtractor {
   static async getYamlPath(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position, idLink: boolean) {
     let yamlPath = '';
     let yamlKeys = await this.getYamlKeys(activeDoc, cursorPosition);
-    let yamlKeyValues = await YamlTaskOperations.getYamlKeyValues(yamlKeys, idLink ? "Id" : "", activeDoc);
+    let yamlKeyValues = await YamlTaskOperations.getYamlKeyValues(yamlKeys, idLink, activeDoc);
     let betterDots = this.moveDots(yamlKeyValues);
     let yamlParts: string[] = this.removeStatus(betterDots);
     return yamlPath = yamlParts.join('.');
