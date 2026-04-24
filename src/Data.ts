@@ -30,13 +30,13 @@ export class Data {
             SR_SPECIFIED: (srCode: string) => `${srCode} is selected as the Standup Report. Please select a Task and issue the Start timer on Task command`,
             WORKLOG_GENERATED: "Worklog Generated",
         }
-    }
+    };
 
     public static readonly STATE_KEYS = {
         EXTRACTED_YAML_KEY: "extractedYamlKey",
         CAPTURED_DOCUMENT_URI: "capturedDocumentUri",
         DETECTED_YAML_LINK: "detectedYamlLink"
-    }
+    };
 
     public static readonly PATTERNS = {
         LINK: /-->.*</,
@@ -47,7 +47,7 @@ export class Data {
         START_OF_F2YAML_LINK: '-->',
         END_OF_F2YAML_LINK: '<',
         FIRST_WORD: /^\S+\s*/
-    }
+    };
 
     public static readonly MISC = {
         EMPTY_STRING: "",
@@ -56,12 +56,12 @@ export class Data {
         FILE_DIVIDER: "//",
         DOUBLE_QUOTE: "\"",
         PATH_SEPERATOR: ".",
-    }
+    };
     public static readonly CONFIG = {
         ROOT_PATH: "pathFromRoot",
         CSV_FIELDS: "csvFields",
         WORKSPACE_PATH: "workspacePath",
-    }
+    };
 
     public static readonly TIME_KEYS = {
         START_TIME_KEY: 'timerStartTime',
@@ -70,5 +70,5 @@ export class Data {
         START_TIME_ISO_KEY: 'timerStartTimeISO',
         PAUSE_RESUME_STATUS_KEY: 'timerPauseResumeStatus',
         DURATION_MINUTES_KEY: 'timerDurationMinutes'
-    }
+    };
 }
