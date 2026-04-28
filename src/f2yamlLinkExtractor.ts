@@ -4,6 +4,8 @@ import { Data } from './Data';
 import { VsCodeUtils, Message } from './VsCodeUtils';
 import { YamlTaskOperations } from './YamlOperations';
 import { StringOperation } from './StringOperations';
+import { Logger } from './Logger';
+import { HackingFixes } from './HackingFixes';
 
 
 export class F2yamlLinkExtractor {
@@ -17,54 +19,62 @@ export class F2yamlLinkExtractor {
     return this.createF2Link(activeDoc, cursorPosition, true);
   }
 
-  static async createF2Link(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position, idLink: boolean) {
-    let filePath = activeDoc.uri.fsPath;
-    filePath = await this.removeRootPath(filePath);
-    filePath = StringOperation.removeExtension(filePath);
+  private static async createF2Link(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position, idLink: boolean) {
+    let filePath = await this.getFilePath(activeDoc);
     let yamlPath = await this.getYamlPath(activeDoc, cursorPosition, idLink);
     return Data.PATTERNS.START_OF_F2YAML_LINK + filePath + "\\" + "." + yamlPath + Data.PATTERNS.END_OF_F2YAML_LINK;
   }
 
-  static async getYamlPath(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position, idLink: boolean) {
-    let yamlPath = '';
-    let yamlKeys = await this.getYamlKeys(activeDoc, cursorPosition);
-    let yamlKeyValues = await this.getPropertyValuesFor(yamlKeys, idLink, activeDoc);
-    let betterDots = this.moveDots(yamlKeyValues);
-    let yamlParts: string[] = this.removeStatus(betterDots);
-    return yamlPath = yamlParts.join('.');
+  private static async getFilePath(activeDoc: vscode.TextDocument) {
+    let filePath = activeDoc.uri.fsPath;
+    filePath = await this.removeRootPath(filePath);
+    filePath = StringOperation.removeExtension(filePath);
+    return filePath;
   }
 
-  static async getPropertyValuesFor(yamlKeys: string[], idLink: boolean, activeDoc: vscode.TextDocument): Promise<string[]> {
+  private static async getYamlPath(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position, idLink: boolean) {
+    let yamlDocSymbolNames = await this.getYamlDocSymbolNames(activeDoc, cursorPosition);
+    let propertyValues = await this.getPropertyValuesFor(yamlDocSymbolNames, idLink, activeDoc);
+    let betterDots = this.moveDots(propertyValues);
+    let yamlParts: string[] = this.removeStatus(betterDots);
+    return yamlParts.join('.');
+  }
+
+  private static async getPropertyValuesFor(yamlDocSymbolNames: string[], idLink: boolean, activeDoc: vscode.TextDocument): Promise<string[]> {
     let yamlKeyValues: string[] = [];
     const yamlDoc = await YamlTaskOperations.parseYamlDoc(activeDoc.uri);
-    let parentYamlObj: any = yamlDoc.get(yamlKeys[0], true);
-    let parentKeyValue = this.getParentValue(parentYamlObj, idLink ? "Id" : "", yamlKeys[0]);
+    let parentYamlObj = yamlDoc.get(yamlDocSymbolNames[0], true);
+    let parentKeyValue = this.getParentValue(parentYamlObj, idLink, yamlDocSymbolNames[0]);
     yamlKeyValues.push(parentKeyValue);
 
-    for (let index = 1; index < yamlKeys.length; index++) {
-      const yamlKey = yamlKeys[index];
-      const yamlObj = await this.getYamlObjFromParentObj(yamlKey, yamlDoc, parentYamlObj);
-      const yamlKeyValue = await this.getYamlKeyValueBasedOnKeyType(yamlObj, idLink ? "Id" : "");
+    for (let index = 1; index < yamlDocSymbolNames.length; index++) {
+      let docSymbolName = yamlDocSymbolNames[index];
+      const yamlObj = await this.getYamlObjFromParentObj(docSymbolName, yamlDoc, parentYamlObj);
+      let yamlKeyValue = idLink ? this.getValueOfIdProperty(yamlObj) : undefined;
+
       if (!yamlKeyValue) {
-        const yamlKeySummary = StringOperation.wrapInQuotesIfMultiWord(yamlKey);
+        const yamlKeySummary = StringOperation.wrapInQuotesIfMultiWord(docSymbolName);
         yamlKeyValues.push(yamlKeySummary);
-        parentYamlObj = yamlObj;
-        continue;
+        parentYamlObj = yamlObj;        
       }
-      yamlKeyValues.push(yamlKeyValue);
-      parentYamlObj = yamlObj;
+      else
+      {
+        yamlKeyValues.push(yamlKeyValue);
+        parentYamlObj = yamlObj;
+      }
     }
     // first I need to get the actual yaml-obj from the yamlKeys
     // second I need to get the value of the yamlkeys form the objects and there if the yamlKeyType is not found then give the summary instead of the value of the key
     return yamlKeyValues;
   }
 
-  private static getParentValue(parentYamlObj: any, yamlKeyType: string, yamlKey: string) {
-    let parentKeyValue = this.getYamlKeyValueBasedOnKeyType(parentYamlObj, yamlKeyType);
+  private static getParentValue(parentYamlObj: any, idLink: boolean, yamlKey: string) :string 
+  {
     let parentKeySummary;
+    let parentKeyValue = idLink ? this.getValueOfIdProperty(parentYamlObj) : undefined
     if (!parentKeyValue) {
       if (yamlKey.startsWith('.')) {
-        parentKeyValue = this.TheDotSettelment(yamlKey);
+        parentKeyValue = this.PutInQuotationAfterDot(yamlKey);
         return parentKeyValue
       }
       parentKeySummary = StringOperation.wrapInQuotesIfMultiWord(yamlKey);
@@ -73,7 +83,7 @@ export class F2yamlLinkExtractor {
     return parentKeyValue;
   }
 
-  private static TheDotSettelment(yamlKey: string) { // TODO move to stringOperations
+  private static PutInQuotationAfterDot(yamlKey: string) { // TODO move to stringOperations
     let withoutdot = yamlKey.slice(1);
     let newWord = StringOperation.wrapInQuotesIfMultiWord(withoutdot);
     newWord = '.' + newWord;
@@ -81,7 +91,7 @@ export class F2yamlLinkExtractor {
   }
 
 
-  static getYamlObjFromParentObj(yamlKey: string, yamlDoc: yaml.Document<yaml.Node, true>, parentYamlObj: any) {
+  private static getYamlObjFromParentObj(yamlKey: string, yamlDoc: yaml.Document<yaml.Node, true>, parentYamlObj: any) {
     let yamlObj: any;
     let yamlObjItems = parentYamlObj.items;
     if (!yamlObjItems) yamlObjItems = parentYamlObj.value.items;
@@ -91,32 +101,46 @@ export class F2yamlLinkExtractor {
     return yamlObj;
   }
 
-  static getYamlKeyValueBasedOnKeyType(yamlObj: any, yamlKeyType: string) { // TODO 
+  private static getValueOfIdProperty(yamlObj: any): string | undefined {
     let yamlKeyValue;
-    if (!yamlKeyType || !yamlObj.value) return;
-    try {
-      for (const item of yamlObj.value.items) {
-        if (item.key.value == yamlKeyType) {
-          yamlKeyValue = item.value.value;
-        }
-      }
-    } catch (error1: any) {
-      try {
+    // if (!yamlObj.value) {
+    //   Logger.info("Empty yamlobj value in getValueOfIdProperty")
+    //   return;
+    // }
 
-        for (const item of yamlObj.items) {
-          if (item.key.value == yamlKeyType) {
-            yamlKeyValue = item.value.value;
-          }
+
+    let yamlMap = HackingFixes.getYamlMapOrUndefinedFromYamlObj(yamlObj);
+    if (yamlMap)
+      for (const item of yamlMap.items) {
+        if (item instanceof yaml.Pair && item.key instanceof yaml.Scalar && item.value instanceof yaml.Scalar && item.key.value === "Id") {
+          yamlKeyValue = item.value
         }
-      } catch (error2: any) {
-        //Message.err(error1.message + error2.message);
       }
-    }
-    if (yamlKeyType == "Id" && yamlKeyValue != undefined) return "." + yamlKeyValue; // a temp mesue
-    return yamlKeyValue;
+
+    // try {
+    //   for (const item of yamlObj.value.items) {
+    //     if (item.key.value == yamlKeyType) {
+    //       yamlKeyValue = item.value.value;
+    //     }
+    //   }
+    // } catch (error1: any) {
+    //   try {
+
+    //     for (const item of yamlObj.items) {
+    //       if (item.key.value == yamlKeyType) {
+    //         yamlKeyValue = item.value.value;
+    //       }
+    //     }
+    //   } catch (error2: any) {
+    //     //Message.err(error1.message + error2.message);
+    //   }
+    // }
+    //if (yamlKeyType == "Id" && yamlKeyValue != undefined) return "." + yamlKeyValue; // a temp measure
+    if (yamlKeyValue !== undefined) return "." + yamlKeyValue; // a temp measure
+    return undefined;
   }
 
-  static moveDots(yamlKeyValues: string[]) {
+  private static moveDots(yamlKeyValues: string[]) {
     let betterDots = [];
     for (const keyValue of yamlKeyValues) {
       if (keyValue.startsWith('".')) {
@@ -132,7 +156,7 @@ export class F2yamlLinkExtractor {
     return betterDots;
   }
 
-  static removeStatus(yamlKeys: string[]): string[] {
+  private static removeStatus(yamlKeys: string[]): string[] {
     let cleanYamlKeys: string[] = [];
     for (let yamlKey of yamlKeys) {
       cleanYamlKeys.push(StringOperation.removeFirstWordIfFollowedBySpaceAndDotIfWrappendInQuotes(yamlKey));
@@ -140,34 +164,27 @@ export class F2yamlLinkExtractor {
     return cleanYamlKeys;
   }
 
-  static async getYamlKeys(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position) {
+  private static async getYamlDocSymbolNames(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<string[]> {
     VsCodeUtils.isThisYamlDoc();
-    let allYamlKeys;
 
-    if (allYamlKeys == undefined) { // this block is here because of the delay in vscode to load the symbols which result in undefined allYamlKeys
-      let tries = 1;
-      while (true) {
-        VsCodeUtils.sleep(5000);
-        allYamlKeys = await F2yamlLinkExtractor.getVsCodeDocSymbols(activeDoc);
-        tries++;
-        if (tries >= 3) {
-          throw new Error(Data.MESSAGES.ERRORS.DOCUMENT_SYMBOL_PROVIDER_FAILED);
-        } else if (allYamlKeys) { break; }
-      }
+    for (let i = 0; i < 10; i++) {
+      let allYamlKeys = await F2yamlLinkExtractor.getVsCodeDocSymbols(activeDoc);
+      if (allYamlKeys) { return this.extractYamlKeysToCursor(allYamlKeys, cursorPosition); }
+
+      await VsCodeUtils.sleep(1000);
     }
 
-    let yamlKeysToCursor = this.extractYamlKeysToCursor(allYamlKeys, cursorPosition);
-    return yamlKeysToCursor;
+    throw new Error(Data.MESSAGES.ERRORS.DOCUMENT_SYMBOL_PROVIDER_FAILED);
   }
 
-  private static async getVsCodeDocSymbols(activeDoc: vscode.TextDocument) {
+  private static async getVsCodeDocSymbols(activeDoc: vscode.TextDocument): Promise<Thenable<vscode.DocumentSymbol[]>> {
     return await vscode.commands.executeCommand<vscode.DocumentSymbol[]>(
       'vscode.executeDocumentSymbolProvider',
       activeDoc.uri
     );
   }
 
-  static async removeRootPath(filePath: string) {
+  private static async removeRootPath(filePath: string) {
     let rootPath = VsCodeUtils.getRootPath();
     const config = VsCodeUtils.getConfig();
     if (rootPath) { await config.update(Data.CONFIG.WORKSPACE_PATH, rootPath, vscode.ConfigurationTarget.Global); }
@@ -187,19 +204,24 @@ export class F2yamlLinkExtractor {
   }
 
   private static extractYamlKeysToCursor(
-    allYamlKeys: vscode.DocumentSymbol[],
+    docSymbols: vscode.DocumentSymbol[],
     cursorPosition: vscode.Position
   ): string[] {
-    for (const key of allYamlKeys) {
-      if (!key.range.contains(cursorPosition)) { continue; }
-
-      const yamlKeys: string[] = [key.name];
-
-      if (key.children && key.children.length > 0) {
-        const childKeys = this.extractYamlKeysToCursor(key.children, cursorPosition);
-        yamlKeys.push(...childKeys);
+    for (const symbol of docSymbols) {
+      if (!symbol.range.contains(cursorPosition)) {
+        // Logger.info(`- The range of document symbol ${key.name} (${key.range.start.line}:${key.range.start.character} - ${key.range.end.line}:${key.range.end.character}) does not contain cursorposition: ${cursorPosition.line}:${cursorPosition.character})`);
+        continue;
       }
-      return yamlKeys; // return only the first matching path
+      // Logger.info(`+ The range of document symbol ${key.name} (${key.range.start.line}:${key.range.start.character} - ${key.range.end.line}:${key.range.end.character}) does not contain cursorposition: ${cursorPosition.line}:${cursorPosition.character})`);
+
+
+      const symbolNames: string[] = [symbol.name];
+
+      if (symbol.children && symbol.children.length > 0) {
+        const childSymbols = this.extractYamlKeysToCursor(symbol.children, cursorPosition);
+        symbolNames.push(...childSymbols);
+      }
+      return symbolNames; // return only the first matching path
     }
     return [];
   }
