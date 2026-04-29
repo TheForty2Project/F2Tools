@@ -1,7 +1,7 @@
 # F2Tools (preview)
 
 
-This extension is the main software component of the ***super-lightweight, yaml document based project management environment for programmers*** required to efficiently manage e.g. software development projects in the way we do it at this initial phase of "[The Forty2 Project](tf2p.org)", up until The F2Tool - our main "product" - reaches maturity (other parts are Git, VS Code and another VS Code extension, [Custom Coloring](https://marketplace.visualstudio.com/items?itemName=altrue.CustomColoring)).
+This extension is the main software component of the ***super-lightweight, yaml document based project management environment (not only) for programmers*** required to efficiently manage e.g. software development projects in the way we do it at this initial phase of "[The Forty2 Project](tf2p.org)", up until The F2Tool - our main "product" - reaches maturity (other parts are Git, VS Code and another VS Code extension, [Custom Coloring](https://marketplace.visualstudio.com/items?itemName=altrue.CustomColoring)).
 
 ## Project Management in The Forty2 Project way
 

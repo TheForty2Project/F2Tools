@@ -47,9 +47,10 @@ export class F2yamlLinkExtractor {
     let parentKeyValue = this.getParentValue(parentYamlObj, idLink, yamlDocSymbolNames[0]);
     yamlKeyValues.push(parentKeyValue);
 
-    for (let index = 1; index < yamlDocSymbolNames.length; index++) {
+    for (let index = 1; index < yamlDocSymbolNames.length; index++) 
+    {
       let docSymbolName = yamlDocSymbolNames[index];
-      const yamlObj = await this.getYamlObjFromParentObj(docSymbolName, yamlDoc, parentYamlObj);
+      const yamlObj = await this.getYamlObjFromParentObj(docSymbolName, parentYamlObj);
       let yamlKeyValue = idLink ? this.getValueOfIdProperty(yamlObj) : undefined;
 
       if (!yamlKeyValue) {
@@ -91,51 +92,38 @@ export class F2yamlLinkExtractor {
   }
 
 
-  private static getYamlObjFromParentObj(yamlKey: string, yamlDoc: yaml.Document<yaml.Node, true>, parentYamlObj: any) {
+  private static getYamlObjFromParentObj(yamlKey: string, parentYamlObj: any) {
     let yamlObj: any;
     let yamlObjItems = parentYamlObj.items;
     if (!yamlObjItems) yamlObjItems = parentYamlObj.value.items;
     for (const item of yamlObjItems) {
-      if (yamlKey == item.key.value) yamlObj = item;
+      if (yamlKey === item.key.value) yamlObj = item;
     }
     return yamlObj;
   }
 
   private static getValueOfIdProperty(yamlObj: any): string | undefined {
     let yamlKeyValue;
-    // if (!yamlObj.value) {
-    //   Logger.info("Empty yamlobj value in getValueOfIdProperty")
-    //   return;
-    // }
-
-
-    let yamlMap = HackingFixes.getYamlMapOrUndefinedFromYamlObj(yamlObj);
+    let yamlMap = HackingFixes.getYamlMapOrUndefinedFromPairOrYamlMap(yamlObj);
     if (yamlMap)
-      for (const item of yamlMap.items) {
-        if (item instanceof yaml.Pair && item.key instanceof yaml.Scalar && item.value instanceof yaml.Scalar && item.key.value === "Id") {
-          yamlKeyValue = item.value
+      for (const item of yamlMap.items)       
+        if (item instanceof yaml.Pair && item.key instanceof yaml.Scalar)
+        {
+          if (item.key.value === Data.F2YAML_ELEMENTS.PROPERTY_ID && item.value instanceof yaml.Scalar)
+          {
+            yamlKeyValue = item.value
+            break;
+          }
+          else if (item.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && item.value instanceof yaml.YAMLMap)
+          {            
+            for (const property of item.value.items)
+              if (property instanceof yaml.Pair && property.key instanceof yaml.Scalar && property.key.value === Data.F2YAML_ELEMENTS.PROPERTY_ID && property.value instanceof yaml.Scalar)
+              {
+                yamlKeyValue = property.value.value;
+                break;
+              }
+          }
         }
-      }
-
-    // try {
-    //   for (const item of yamlObj.value.items) {
-    //     if (item.key.value == yamlKeyType) {
-    //       yamlKeyValue = item.value.value;
-    //     }
-    //   }
-    // } catch (error1: any) {
-    //   try {
-
-    //     for (const item of yamlObj.items) {
-    //       if (item.key.value == yamlKeyType) {
-    //         yamlKeyValue = item.value.value;
-    //       }
-    //     }
-    //   } catch (error2: any) {
-    //     //Message.err(error1.message + error2.message);
-    //   }
-    // }
-    //if (yamlKeyType == "Id" && yamlKeyValue != undefined) return "." + yamlKeyValue; // a temp measure
     if (yamlKeyValue !== undefined) return "." + yamlKeyValue; // a temp measure
     return undefined;
   }

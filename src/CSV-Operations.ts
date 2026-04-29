@@ -50,7 +50,7 @@ export class CSVOperations extends YamlTaskOperations {
               }
               else { throw new Error("The value of the property \"" + csvColumnName + "\" is not a scalar."); }
             }
-            else if (taskProperty.key.value === "+" && taskProperty.value instanceof yaml.YAMLMap) 
+            else if (taskProperty.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && taskProperty.value instanceof yaml.YAMLMap) 
             {
               let properties = taskProperty.value.items;
               for (const property of properties) 

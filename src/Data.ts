@@ -71,4 +71,10 @@ export class Data {
         PAUSE_RESUME_STATUS_KEY: 'timerPauseResumeStatus',
         DURATION_MINUTES_KEY: 'timerDurationMinutes'
     };
+
+    public static readonly F2YAML_ELEMENTS = {
+      ADDITIONAL_PROPERTIES: "+",
+      PROPERTY_ID: "Id",
+      PROPERTY_SUMMARY: "Summary"
+    };
 }
