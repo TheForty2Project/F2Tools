@@ -12,6 +12,12 @@ import { CSVOperations } from "./CSV-Operations";
 
 
 export class Commands {
+    public static async executeReport() {
+      throw new Error('Method not implemented.');
+    }
+    public static async writeBackFromReport() {
+      throw new Error('Method not implemented.');
+    }
 
     private static srCode?: string;
     private static srDocUri?: vscode.Uri;

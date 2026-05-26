@@ -19,6 +19,14 @@
   "contributes": {
     "commands": [
       {
+        "command": "F2Tools.Reports.Execute",
+        "title": "F2Tools.Reports.Execute: Execute query"
+      },
+      {
+        "command": "F2Tools.Reports.WriteBack",
+        "title": "F2Tools.Reports.WriteBack: Write back from output file"
+      },
+      {
         "command": "f2tools.specifyStandupReport",
         "title": "Specify Standup Report"
       },

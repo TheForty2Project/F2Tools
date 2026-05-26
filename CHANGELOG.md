@@ -14,10 +14,10 @@ and this project partially adheres to [Semantic Versioning](https://semver.org/s
 ## UNRELEASED
 
 ### Bugs:
-
+---------------
   - .The value of Id field is not taken into account if it's inside the additional properties part
 
-    -->Tasks\Software\F2ToolsExtension\.Bugs.."The value of Id field is not taken into account if it's inside the additional properties part"<
+    -->Tasks\Software\F2ToolsExtension\.Bugs..]"The value of Id field is not taken into account if it's inside the additional properties part"<
 
 ## 2.0.26
 
