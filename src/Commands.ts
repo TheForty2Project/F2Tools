@@ -1,6 +1,6 @@
 import { Timer } from "./timer";
 import { VsCodeUtils } from "./VsCodeUtils";
-import { StringOperation } from "./StringOperations";
+import { StringOperations } from "./StringOperations";
 import { Message } from './VsCodeUtils';
 import * as vscode from 'vscode';
 import * as yaml from 'yaml';
@@ -9,11 +9,28 @@ import { YamlTaskOperations } from "./YamlOperations";
 import { LinkFollower } from "./linkFollower";
 import { Data } from "./Data";
 import { CSVOperations } from "./CSV-Operations";
+import { ItemParsingError } from "./Items/BasicItems";
+import { ItemParsingErrorType } from "./Items/BasicItems";
 
 
 export class Commands {
     public static async executeReport() {
-      throw new Error('Method not implemented.');
+      const activeDoc = VsCodeUtils.getActiveDoc();
+      const cursorPosition = VsCodeUtils.getCursorPosition();
+      try
+      {
+        var queryDescription = await CSVOperations.TryExtractQueryDescriptionUnderCursor(activeDoc, cursorPosition);
+
+      }
+      catch (err: any)
+      {
+        if (err instanceof ItemParsingError)
+        {
+          if (err.ItemParsingErrorType === ItemParsingErrorType.SpaceInIdValue)            
+          Message.err(err.message);
+        }
+      }
+
     }
     public static async writeBackFromReport() {
       throw new Error('Method not implemented.');
@@ -27,7 +44,7 @@ export class Commands {
         try {
             if (Timer.isTaskRunnig()) await this.stopTask();
             const srDoc = VsCodeUtils.getActiveDoc();
-            const srCode = StringOperation.extractSrCode(srDoc);
+            const srCode = StringOperations.extractSrCode(srDoc);
             this.srDocUri = srDoc.uri;
             this.srCode = srCode;
 
@@ -44,10 +61,10 @@ export class Commands {
             if (!this.srCode || !this.srDocUri) throw new Error(Data.MESSAGES.ERRORS.RUN_SPECIFY_SR_FIRST);
 
             if (Timer.isTaskRunnig()) await this.stopTask();
-            let yamlLink = await StringOperation.getYamlLink(activeDoc, cursorPosition);
+            let yamlLink = await StringOperations.getYamlLink(activeDoc, cursorPosition);
             if (!yamlLink) yamlLink = await F2yamlLinkExtractor.createF2YamlSummaryLink(activeDoc, cursorPosition);
 
-            const isthisTask = StringOperation.isThisTask(yamlLink);
+            const isthisTask = StringOperations.isThisTask(yamlLink);
 
             if (!isthisTask) throw new Error(Data.MESSAGES.ERRORS.NOT_A_TASK);
 
@@ -87,7 +104,7 @@ export class Commands {
 
     public static async generateWorkLogs() {
         const srDoc = VsCodeUtils.getActiveDoc();
-        const srCode = StringOperation.extractSrCode(srDoc);
+        const srCode = StringOperations.extractSrCode(srDoc);
         try {
             if (srCode == this.srCode && Timer.isTaskRunnig()) await this.stopTask();
             let workLogGenerated = await YamlTaskOperations.generateWorkLogs(srCode, srDoc.uri);
@@ -114,7 +131,7 @@ export class Commands {
         try {
             const activeDoc = VsCodeUtils.getActiveDoc();
             const cursorPosition = VsCodeUtils.getCursorPosition();
-            let f2YamlSymmaryLink = await StringOperation.getYamlLink(activeDoc, cursorPosition);
+            let f2YamlSymmaryLink = await StringOperations.getYamlLink(activeDoc, cursorPosition);
             if (!f2YamlSymmaryLink) f2YamlSymmaryLink = await F2yamlLinkExtractor.createF2YamlSummaryLink(activeDoc, cursorPosition);
             Message.info(Data.MESSAGES.INFO.COPIED_TO_CLIPBOARD(f2YamlSymmaryLink));
             VsCodeUtils.pasteIntoClipboard(f2YamlSymmaryLink);
@@ -127,7 +144,7 @@ export class Commands {
         try {
             const activeDoc = VsCodeUtils.getActiveDoc();
             const cursorPosition = VsCodeUtils.getCursorPosition();
-            let f2YamlIdLink = await StringOperation.getYamlLink(activeDoc, cursorPosition);
+            let f2YamlIdLink = await StringOperations.getYamlLink(activeDoc, cursorPosition);
             if (!f2YamlIdLink) f2YamlIdLink = await F2yamlLinkExtractor.createF2YamlIdLink(activeDoc, cursorPosition);
             Message.info(Data.MESSAGES.INFO.COPIED_TO_CLIPBOARD(f2YamlIdLink));
             VsCodeUtils.pasteIntoClipboard(f2YamlIdLink);
@@ -140,9 +157,9 @@ export class Commands {
         try {
             const activeDoc = VsCodeUtils.getActiveDoc();
             const cursorPosition = VsCodeUtils.getCursorPosition();
-            let yamlLink = await StringOperation.getYamlLink(activeDoc, cursorPosition);
+            let yamlLink = await StringOperations.getYamlLink(activeDoc, cursorPosition);
             if(!yamlLink) throw new Error(Data.MESSAGES.ERRORS.NO_LINK_FOUND);
-            if (activeDoc.languageId == "csv") yamlLink = StringOperation.removeExtraQuotes(yamlLink);
+            if (activeDoc.languageId == "csv") yamlLink = StringOperations.removeExtraQuotes(yamlLink);
             LinkFollower.followF2yamlLink(yamlLink);
         } catch (error: any) {
             Message.err(error.message);

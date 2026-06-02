@@ -3,7 +3,70 @@ import { Data } from './Data';
 import { VsCodeUtils } from './VsCodeUtils';
 import * as vscode from 'vscode';
 
-export class StringOperation {
+export class StringOperations {
+  static splitToParts(text: string, separatorChar: string, keepStartEndSymbols: boolean, partStartEndSymbols: [string, string][]): string[]
+  {
+    if (separatorChar.length !== 1) {
+      throw new Error('separatorChar must be exactly one character long.');
+    }
+
+    for (let i = 0; i < partStartEndSymbols.length; i++) {
+      const [startSymbol, endSymbol] = partStartEndSymbols[i];
+      if (startSymbol.length !== 1 || endSymbol.length !== 1) {
+        throw new Error('Each partStartEndSymbols entry must contain exactly one character for both start and end.');
+      }
+    }
+
+    const parts: string[] = [];
+    const currentPart: string[] = [];
+    let currentEndSymbol: string | null = null;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+
+      if (currentEndSymbol === null) {
+        if (char === separatorChar) {
+          parts.push(currentPart.join(''));
+          currentPart.length = 0;
+          continue;
+        }
+
+        let matchedSymbols: [string, string] | undefined;
+        for (let j = 0; j < partStartEndSymbols.length; j++) {
+          const symbols = partStartEndSymbols[j];
+          if (char === symbols[0]) {
+            matchedSymbols = symbols;
+            break;
+          }
+        }
+
+        if (matchedSymbols !== undefined) {
+          currentEndSymbol = matchedSymbols[1];
+          if (keepStartEndSymbols) {
+            currentPart.push(char);
+          }
+          continue;
+        }
+
+        currentPart.push(char);
+        continue;
+      }
+
+      if (char === currentEndSymbol) {
+        currentEndSymbol = null;
+        if (keepStartEndSymbols) {
+          currentPart.push(char);
+        }
+        continue;
+      }
+
+      currentPart.push(char);
+    }
+
+    parts.push(currentPart.join(''));
+    return parts;
+  }
+
     static removeDot(a: string): string {
         if(a.startsWith('.')) return a.slice(1);
         return a;
@@ -130,10 +193,10 @@ export class StringOperation {
 
     static parseF2yamlLink(yamlLink: string): { filePath: string; yamlPath: string; } {
         const cleanLink = this.removeLinkSymbolsFromLink(yamlLink);
-        const lastBackslashIndex = StringOperation.getLastIndexOfCharInF2YamlLink(cleanLink, "\\");
-        const oldLink = StringOperation.isThisOldLink(cleanLink, lastBackslashIndex);
+        const lastBackslashIndex = StringOperations.getLastIndexOfCharInF2YamlLink(cleanLink, "\\");
+        const oldLink = StringOperations.isThisOldLink(cleanLink, lastBackslashIndex);
         if (oldLink) {
-            const { filePath, yamlPath } = StringOperation.parseOldLink(cleanLink);
+            const { filePath, yamlPath } = StringOperations.parseOldLink(cleanLink);
             return { filePath, yamlPath };
         }
         if (lastBackslashIndex === -1) throw new Error(Data.MESSAGES.ERRORS.NOT_VALID_LINK);
@@ -154,7 +217,7 @@ export class StringOperation {
         let yamlParts = yamlPath.split(Data.MISC.PATH_SEPERATOR);
         let newParts: string[] = [];
         for (const parts of yamlParts) {
-            newParts.push(StringOperation.wrapInQuotesIfMultiWord(parts));
+            newParts.push(StringOperations.wrapInQuotesIfMultiWord(parts));
         }
         yamlPath = newParts.join(Data.MISC.PATH_SEPERATOR);
         return { filePath, yamlPath };
@@ -222,9 +285,9 @@ export class StringOperation {
 
     static findLinkInText(lineText: string, cursorPosition: Position) {
         let f2YamlLink = "";
-        let startOfLink = StringOperation.getStartOfLink(cursorPosition, lineText);
+        let startOfLink = StringOperations.getStartOfLink(cursorPosition, lineText);
         let endOfLink;
-        if (startOfLink != undefined) endOfLink = StringOperation.getEndOfLink(cursorPosition, lineText);
+        if (startOfLink != undefined) endOfLink = StringOperations.getEndOfLink(cursorPosition, lineText);
         if (startOfLink == undefined || endOfLink == undefined) return undefined;
         for (let index = startOfLink; index <= endOfLink; index++) f2YamlLink += lineText[index];
         return f2YamlLink;

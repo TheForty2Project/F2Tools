@@ -48,6 +48,8 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   context.subscriptions.push(
+    disposableForReportsExecute,
+    disposableForReportsWriteBack,
     disposableForSr,
     disposableForTaskSelection,
     disposableForPauseResumeTimer,

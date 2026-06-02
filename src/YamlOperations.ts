@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as yaml from 'yaml';
 import { Message, VsCodeUtils } from './VsCodeUtils';
 import { Data } from './Data';
-import { StringOperation } from './StringOperations';
+import { StringOperations } from './StringOperations';
 import { HackingFixes } from './HackingFixes';
 
 export class YamlTaskOperations {
@@ -11,7 +11,7 @@ export class YamlTaskOperations {
   private static taskYamlDoc: yaml.Document<yaml.Node, true>
   static taskYamlLink: string;
   public static lineCounter: any;
-
+  
   static getYamlKeyValue(yamlObj: any): string {
     let value;
     try {
@@ -31,6 +31,7 @@ export class YamlTaskOperations {
     if (!parentYamlObj) {
       parentYamlObj = YamlTaskOperations.getTopLevelTaskObj(yamlDoc, yamlKeys, yamlObj);
     }
+
     yamlObj = parentYamlObj; // because we are looking for this
 
     if (yamlKeys.length > 1) {
@@ -84,30 +85,32 @@ export class YamlTaskOperations {
 
   private static getTopLevelTaskObj(yamlDoc: yaml.Document<yaml.Node, true>, linkParts: string[], yamlObj: any) { // TODO fix this
     let parentYamlObj;
-    if (yaml.isMap(yamlDoc.contents)) {
-      let itemsOfTheContent = yamlDoc.contents.items;
-      for (let index = 0; index < itemsOfTheContent.length; index++) {
-        const element = itemsOfTheContent[index];
-        let taskSummryElementKey = (element.key as yaml.Scalar).value;
-        let editedTaskSummaryElementKey = StringOperation.removeFirstWordIfFollowedBySpaceAndDot(taskSummryElementKey as string);
-        if (editedTaskSummaryElementKey == linkParts[0] || StringOperation.wrapInQuotes(editedTaskSummaryElementKey) == linkParts[0] || StringOperation.removeDot(editedTaskSummaryElementKey) == StringOperation.removeQuoteWrapping(StringOperation.removeDot(linkParts[0]))) // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
+    if (yamlDoc.contents instanceof yaml.YAMLMap) {
+      let yamlDocContentItems = yamlDoc.contents.items;
+      for (let i = 0; i < yamlDocContentItems.length; i++) {
+        const element = yamlDocContentItems[i];
+        let itemHeaderValue = (element.key as yaml.Scalar).value as string;
+        let idOrSummaryFromHeader = StringOperations.removeFirstWordIfFollowedBySpaceAndDot(itemHeaderValue);
+        if (idOrSummaryFromHeader === linkParts[0] 
+          || StringOperations.wrapInQuotes(idOrSummaryFromHeader) === linkParts[0] 
+          || StringOperations.removeDot(idOrSummaryFromHeader) == StringOperations.removeQuoteWrapping(StringOperations.removeDot(linkParts[0]))) // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
         {
           // parentYamlObj = element;
-          parentYamlObj = yamlDoc.get(taskSummryElementKey, true);
-          break;
+          return yamlDoc.get(itemHeaderValue, true);          
         }
-        if (!parentYamlObj) {
-          let mapEntries = (element.value as yaml.YAMLMap).items;
-          if (!mapEntries) {
-            mapEntries = (element as unknown as yaml.YAMLMap).items; //not sure what's this case...
-          }
-          if (!mapEntries) { continue; }
-          for (let j = 0; j < mapEntries.length; j++) {
-            const mapEntry = mapEntries[j];
-            const currentLinkPart = linkParts[0].slice(1);
-            if (mapEntry.key && yaml.isScalar(mapEntry.key) && mapEntry.value && yaml.isScalar(mapEntry.value) && (mapEntry.key as yaml.Scalar).value === "Id" && (mapEntry.value as yaml.Scalar).value === currentLinkPart) {
-              return element;
-            }
+
+        let mapEntries = (element.value as yaml.YAMLMap).items;
+        if (!mapEntries) {
+          mapEntries = (element as unknown as yaml.YAMLMap).items; //not sure what's this case...
+        }
+        if (!mapEntries) { continue; }
+
+        for (let j = 0; j < mapEntries.length; j++) 
+        {
+          const mapEntry = mapEntries[j];
+          const currentLinkPart = linkParts[0].slice(1);
+          if (mapEntry.key && yaml.isScalar(mapEntry.key) && mapEntry.value && yaml.isScalar(mapEntry.value) && (mapEntry.key as yaml.Scalar).value === "Id" && (mapEntry.value as yaml.Scalar).value === currentLinkPart) {
+            return element;
           }
         }
       }
@@ -138,12 +141,12 @@ export class YamlTaskOperations {
 
   static getYamlSummaryObjFromParent(yamlKey: string, parentYamlObj: any) { // TODO fix
     let summaryObj: any;
-    let cleanYamlKey = StringOperation.removeQuotesWrappingAndDot(yamlKey);
+    let cleanYamlKey = StringOperations.removeQuotesWrappingAndDot(yamlKey);
     parentYamlObj = HackingFixes.getYamlMapFromPairOrYamlMap(parentYamlObj);
     let yamlObjItems = parentYamlObj.items;
     for (const item of yamlObjItems) {
       const valueOfKey = item.key.value;
-      let { task } = StringOperation.seperateStatusCodeAndTask(valueOfKey); // TODO clean this
+      let { task } = StringOperations.seperateStatusCodeAndTask(valueOfKey); // TODO clean this
       // const valueOfKeyWithoutStatus = a[1] //
       if (cleanYamlKey == task || cleanYamlKey == valueOfKey) { // cause task is undefined sometimes
         // summaryObj = item;
@@ -316,9 +319,9 @@ export class YamlTaskOperations {
 
   public static async getTaskObj(yamlLink: string) { // TODO 
     let taskObj: any;
-    const { filePath, yamlPath } = StringOperation.parseF2yamlLink(yamlLink);
+    const { filePath, yamlPath } = StringOperations.parseF2yamlLink(yamlLink);
     const fileUri: vscode.Uri = await VsCodeUtils.getFileUri(filePath);
-    const yamlKeys: string[] = StringOperation.parseYamlPath(yamlPath);
+    const yamlKeys: string[] = StringOperations.parseYamlPath(yamlPath);
     taskObj = await YamlTaskOperations.getYamlObj(yamlKeys, fileUri);
     return taskObj;
   }
@@ -523,7 +526,7 @@ export class YamlTaskOperations {
       const workLog = wasNode.items[index].items[0].value;
       workLogAddedToTask = await this.addWorkLogInTask(workLog, currentYamlLink);
       // if (workLogAddedToTask == undefined) return;
-      let { filePath } = StringOperation.parseF2yamlLink(currentYamlLink);
+      let { filePath } = StringOperations.parseF2yamlLink(currentYamlLink);
       let fileUri = await VsCodeUtils.getFileUri(filePath);
       const taskDoc = await vscode.workspace.openTextDocument(fileUri);
       // const taskYamlDoc = await this.parseYaml(fileUri);

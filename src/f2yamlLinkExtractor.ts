@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import { Data } from './Data';
 import { VsCodeUtils, Message } from './VsCodeUtils';
 import { YamlTaskOperations } from './YamlOperations';
-import { StringOperation } from './StringOperations';
+import { StringOperations } from './StringOperations';
 import { Logger } from './Logger';
 import { HackingFixes } from './HackingFixes';
 
@@ -28,7 +28,7 @@ export class F2yamlLinkExtractor {
   private static async getFilePath(activeDoc: vscode.TextDocument) {
     let filePath = activeDoc.uri.fsPath;
     filePath = await this.removeRootPath(filePath);
-    filePath = StringOperation.removeExtension(filePath);
+    filePath = StringOperations.removeExtension(filePath);
     return filePath;
   }
 
@@ -54,7 +54,7 @@ export class F2yamlLinkExtractor {
       let yamlKeyValue = idLink ? this.getValueOfIdProperty(yamlObj) : undefined;
 
       if (!yamlKeyValue) {
-        const yamlKeySummary = StringOperation.wrapInQuotesIfMultiWord(docSymbolName);
+        const yamlKeySummary = StringOperations.wrapInQuotesIfMultiWord(docSymbolName);
         yamlKeyValues.push(yamlKeySummary);
         parentYamlObj = yamlObj;        
       }
@@ -78,7 +78,7 @@ export class F2yamlLinkExtractor {
         parentKeyValue = this.PutInQuotationAfterDot(yamlKey);
         return parentKeyValue
       }
-      parentKeySummary = StringOperation.wrapInQuotesIfMultiWord(yamlKey);
+      parentKeySummary = StringOperations.wrapInQuotesIfMultiWord(yamlKey);
       parentKeyValue = parentKeySummary;
     }
     return parentKeyValue;
@@ -86,7 +86,7 @@ export class F2yamlLinkExtractor {
 
   private static PutInQuotationAfterDot(yamlKey: string) { // TODO move to stringOperations
     let withoutdot = yamlKey.slice(1);
-    let newWord = StringOperation.wrapInQuotesIfMultiWord(withoutdot);
+    let newWord = StringOperations.wrapInQuotesIfMultiWord(withoutdot);
     newWord = '.' + newWord;
     return newWord;
   }
@@ -132,9 +132,9 @@ export class F2yamlLinkExtractor {
     let betterDots = [];
     for (const keyValue of yamlKeyValues) {
       if (keyValue.startsWith('".')) {
-        let a = StringOperation.removeQuoteWrapping(keyValue);
-        a = StringOperation.removeDot(a);
-        a = StringOperation.wrapInQuotes(a);
+        let a = StringOperations.removeQuoteWrapping(keyValue);
+        a = StringOperations.removeDot(a);
+        a = StringOperations.wrapInQuotes(a);
         a = '.' + a;
         betterDots.push(a);
         continue;
@@ -147,7 +147,7 @@ export class F2yamlLinkExtractor {
   private static removeStatus(yamlKeys: string[]): string[] {
     let cleanYamlKeys: string[] = [];
     for (let yamlKey of yamlKeys) {
-      cleanYamlKeys.push(StringOperation.removeFirstWordIfFollowedBySpaceAndDotIfWrappendInQuotes(yamlKey));
+      cleanYamlKeys.push(StringOperations.removeFirstWordIfFollowedBySpaceAndDotIfWrappendInQuotes(yamlKey));
     }
     return cleanYamlKeys;
   }
@@ -157,7 +157,7 @@ export class F2yamlLinkExtractor {
 
     for (let i = 0; i < 10; i++) {
       let allYamlKeys = await F2yamlLinkExtractor.getVsCodeDocSymbols(activeDoc);
-      if (allYamlKeys) { return this.extractYamlKeysToCursor(allYamlKeys, cursorPosition); }
+      if (allYamlKeys) { return this.extractYamlKeysToCursor(allYamlKeys, cursorPosition); }      
 
       await VsCodeUtils.sleep(1000);
     }

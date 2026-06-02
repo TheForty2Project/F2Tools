@@ -1,6 +1,6 @@
 import { Data } from "./Data";
 import { HackingFixes } from "./HackingFixes";
-import { StringOperation } from "./StringOperations";
+import { StringOperations } from "./StringOperations";
 import { Message, VsCodeUtils } from "./VsCodeUtils";
 import { YamlTaskOperations } from "./YamlOperations";
 import * as vscode from 'vscode';
@@ -11,9 +11,9 @@ export class LinkFollower {
 
     static async followF2yamlLink(yamlLink: string) { // TODO clean this later
         try {
-            const { filePath, yamlPath } = StringOperation.parseF2yamlLink(yamlLink);
+            const { filePath, yamlPath } = StringOperations.parseF2yamlLink(yamlLink);
             const fileUri: vscode.Uri = await VsCodeUtils.getFileUri(filePath);
-            const yamlKeys: string[] = StringOperation.parseYamlPath(yamlPath);
+            const yamlKeys: string[] = StringOperations.parseYamlPath(yamlPath);
             const yamlObj: any = await YamlTaskOperations.getYamlObj(yamlKeys, fileUri);
             const docOftheLink = await vscode.workspace.openTextDocument(fileUri);    
             let from: number;
@@ -96,18 +96,19 @@ export class LinkFollower {
         editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
     }
 
-    async giveExactSummaryWithSpaces(yamlLink: string) {
-        const taskObj = await YamlTaskOperations.getTaskObj(yamlLink)
-        if (!taskObj) return;
-        let exactSummary = taskObj.key.value;
-        if (!exactSummary) exactSummary = taskObj.key;
-        const yamlKeys = YamlTaskOperations.getCleanYamlKeys(yamlLink);
-        if (!yamlKeys) return;
-        let spaces: string = "";
-        for (let index = 1; index < yamlKeys.length; index++) {
-            spaces += "  ";
-        }
-        const summaryWithSpaces = spaces + exactSummary;
-        return summaryWithSpaces;
-    }
+    //commented out because seemingly nothing uses it... anyways, rewriting the YamlTaskOperations.getTaskObj to always return a yaml pair
+    // async giveExactSummaryWithSpaces(yamlLink: string) {
+    //     const taskObj = await YamlTaskOperations.getTaskObj(yamlLink)
+    //     if (!taskObj) return;
+    //     let exactSummary = taskObj.key.value;
+    //     if (!exactSummary) exactSummary = taskObj.key;
+    //     const yamlKeys = YamlTaskOperations.getCleanYamlKeys(yamlLink);
+    //     if (!yamlKeys) return;
+    //     let spaces: string = "";
+    //     for (let index = 1; index < yamlKeys.length; index++) {
+    //         spaces += "  ";
+    //     }
+    //     const summaryWithSpaces = spaces + exactSummary;
+    //     return summaryWithSpaces;
+    // }
 }
