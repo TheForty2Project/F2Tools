@@ -8,29 +8,42 @@ import * as vscode from 'vscode';
 import * as yaml from 'yaml';
 import { QueryDescripton } from './Items/QueryDescripton';
 import { F2YamlUtils } from './F2YamlUtils';
+import { IdString } from "./Items/IdString";
 
-export class CSVOperations extends YamlTaskOperations 
-{
-  static async TryExtractQueryDescriptionUnderCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<QueryDescripton | undefined>
-  {    
-    let queryDescription = await CSVOperations.TryGetQueryDescriptionUnderTheCursor(activeDoc, cursorPosition);        
+export class CSVOperations extends YamlTaskOperations {
+  static async ExtractQueryDescriptionUnderCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<QueryDescripton> {
+    let queryDescription = await CSVOperations.GetQueryDescriptionUnderTheCursor(activeDoc, cursorPosition);
     CSVOperations.VerifyQueryDescription(queryDescription);
     return queryDescription;
   }
 
-  static async TryGetQueryDescriptionUnderTheCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position) : Promise<QueryDescripton>
-  {
-    let scalarAndMapPairAtCursor = await this.TryGetEnclosingScalarAndMapPairAtCursor(activeDoc, cursorPosition);
-    if (scalarAndMapPairAtCursor === undefined 
-      || F2YamlUtils.TryGetPropertyValueFromYamlMap(scalarAndMapPairAtCursor.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE) 
-        !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)    
+  static async GetQueryDescriptionUnderTheCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<QueryDescripton> {
+    let scalarAndMapPairAtCursor = await this.TryGetEnclosingItemScalarMapPairAtCursor(activeDoc, cursorPosition);
+    if (scalarAndMapPairAtCursor === undefined
+      || (F2YamlUtils.TryGetPropertyValueFromYamlMap(scalarAndMapPairAtCursor.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE) !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
+      && (typeof scalarAndMapPairAtCursor.key.value !== "string" || scalarAndMapPairAtCursor.key.value !== Data.F2YAML_ELEMENTS.CLASS_START + Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID + Data.F2YAML_ELEMENTS.CLASS_END))
       throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
-    
+
     return new QueryDescripton().ImportFromYamlScalarMapPair(scalarAndMapPairAtCursor);
-  }  
- 
-  static async TryGetEnclosingScalarAndMapPairAtCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<yaml.Pair<yaml.Scalar, yaml.YAMLMap> | undefined>
-  {
+  }
+
+  static isValidItemHeader(node: yaml.Node): boolean {
+    //pattern is (bnf): <IdString>* "." <charsExceptColon>+
+    if (node instanceof yaml.Scalar && typeof node.value === "string") {
+
+      let words: string[] = node.value.split(" ");
+      for (const word of words)
+      {        
+        if (word.startsWith("."))
+          return true;
+        if (!IdString.IsValidIdString(word))
+          return false;
+      }
+    }
+    return false;
+  }
+
+  static async TryGetEnclosingItemScalarMapPairAtCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<yaml.Pair<yaml.Scalar, yaml.YAMLMap> | undefined> {
     const yamlDoc = yaml.parseDocument(activeDoc.getText());
     const cursorOffset = activeDoc.offsetAt(cursorPosition);
 
@@ -51,25 +64,25 @@ export class CSVOperations extends YamlTaskOperations
 
     const findEnclosingPair = (node: yaml.Node | null | undefined): yaml.Pair<yaml.Scalar, yaml.YAMLMap> | undefined => {
       if (node instanceof yaml.YAMLMap) {
-        for (const item of node.items) {
-          const pairRange = getPairRange(item);
+        for (const pair of node.items) {
+          const pairRange = getPairRange(pair);
           if (!pairRange || cursorOffset < pairRange[0] || cursorOffset > pairRange[1]) {
             continue;
           }
 
-          if (item.value instanceof yaml.YAMLMap) {
-            const nestedMatch = findEnclosingPair(item.value);
+          if (pair.value instanceof yaml.YAMLMap) {
+            const nestedMatch = findEnclosingPair(pair.value);
             if (nestedMatch) {
               return nestedMatch;
             }
 
-            if (item.key instanceof yaml.Scalar) {
-              return item as yaml.Pair<yaml.Scalar, yaml.YAMLMap>;
+            if (pair.key instanceof yaml.Scalar && this.isValidItemHeader(pair.key)) {
+              return pair as yaml.Pair<yaml.Scalar, yaml.YAMLMap>;
             }
           }
 
-          if (item.value instanceof yaml.YAMLSeq) {
-            const nestedMatch = findEnclosingPair(item.value);
+          if (pair.value instanceof yaml.YAMLSeq) {
+            const nestedMatch = findEnclosingPair(pair.value);
             if (nestedMatch) {
               return nestedMatch;
             }
@@ -97,10 +110,9 @@ export class CSVOperations extends YamlTaskOperations
     return findEnclosingPair(yamlDoc.contents);
   }
 
-  static VerifyQueryDescription(queryDescription: QueryDescripton)
-  {
+  static VerifyQueryDescription(queryDescription: QueryDescripton) {
     var validationResult = queryDescription.IsValid();
-    if (!validationResult.isValid) 
+    if (!validationResult.isValid)
       throw validationResult.error;
   }
 
@@ -111,59 +123,44 @@ export class CSVOperations extends YamlTaskOperations
 
 
 
-    for (const csvColumnName of csvColumns) 
-    {
+    for (const csvColumnName of csvColumns) {
       let csvColumnValue: string = "";
-      if (csvColumnName === "TaskStatus") 
-      {
+      if (csvColumnName === "TaskStatus") {
         csvColumnValue = StringOperations.getStatusCode(activeDoc, cursorPosition);
       }
-      else if (csvColumnName === "SummaryLink")  
-      {
+      else if (csvColumnName === "SummaryLink") {
         let Escapedf2yamlSummaryLink = StringOperations.escapeCharacter(f2yamlSummaryLink, Data.MISC.DOUBLE_QUOTE, Data.MISC.DOUBLE_QUOTE);
         csvColumnValue = StringOperations.wrapInQuotes(Escapedf2yamlSummaryLink);
       }
-      else if (csvColumnName === "IdLink") 
-      {
+      else if (csvColumnName === "IdLink") {
         let idLink = await F2yamlLinkExtractor.createF2YamlIdLink(activeDoc, cursorPosition);
         let escapedIdLink = StringOperations.escapeCharacter(idLink, Data.MISC.DOUBLE_QUOTE, Data.MISC.DOUBLE_QUOTE);
         csvColumnValue = StringOperations.wrapInQuotes(escapedIdLink);
       }
-      else 
-      {
+      else {
         let items = HackingFixes.getYamlMapFromPairOrYamlMap(await this.getTaskObj(f2yamlSummaryLink)).items;
-        for (const taskProperty of items) 
-        {
-          if (taskProperty.key instanceof yaml.Scalar) 
-          {
-            if (taskProperty.key.value === csvColumnName) 
-            {
-              if (taskProperty.value instanceof yaml.Scalar) 
-              {
+        for (const taskProperty of items) {
+          if (taskProperty.key instanceof yaml.Scalar) {
+            if (taskProperty.key.value === csvColumnName) {
+              if (taskProperty.value instanceof yaml.Scalar) {
                 csvColumnValue = StringOperations.wrapInQuotesIfMultiWord(taskProperty.value.value);
                 continue;
               }
               else { throw new Error("The value of the property \"" + csvColumnName + "\" is not a scalar."); }
             }
-            else if (taskProperty.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && taskProperty.value instanceof yaml.YAMLMap) 
-            {
+            else if (taskProperty.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && taskProperty.value instanceof yaml.YAMLMap) {
               let properties = taskProperty.value.items;
-              for (const property of properties) 
-              {
-                if (property.key.value === csvColumnName) 
-                {
-                  if (property.value instanceof yaml.Scalar) 
-                  {
+              for (const property of properties) {
+                if (property.key.value === csvColumnName) {
+                  if (property.value instanceof yaml.Scalar) {
                     let yamlScalar: yaml.Scalar = property.value;
                     csvColumnValue = StringOperations.wrapInQuotesIfMultiWord(yamlScalar.value as string);
                   }
-                  else if (property.value instanceof yaml.YAMLSeq) 
-                  {
+                  else if (property.value instanceof yaml.YAMLSeq) {
                     let yamlSequence: yaml.YAMLSeq = property.value as yaml.YAMLSeq;
                     csvColumnValue = StringOperations.wrapInQuotesIfMultiWord(yamlSequence.items.join(", "));
                   }
-                  else if (property.value instanceof yaml.YAMLMap) 
-                  {
+                  else if (property.value instanceof yaml.YAMLMap) {
                     throw new Error("Maps as values are not supported during CSV generation. Property Id: " + csvColumnName);
                   }
                   else { throw new Error("Unknown type as a value. Property Id:" + csvColumnName); }

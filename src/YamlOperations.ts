@@ -458,7 +458,7 @@ export class YamlTaskOperations {
 
   private static getName() {
     const config = vscode.workspace.getConfiguration(Data.MISC.EXTENSION_NAME);
-    const userName = config.get('userName');
+    const userName = config.get('UserName');
     return userName;
   }
 

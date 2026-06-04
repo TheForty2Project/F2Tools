@@ -4,13 +4,14 @@ import { F2YamlUtils } from '../F2YamlUtils';
 import { StandardItem, ItemParsingError, ItemParsingErrorType, ValidationResult, Item } from './BasicItems';
 import { F2Link } from './F2Link';
 import { IdString } from './IdString';
+import { StringOperations } from '../StringOperations';
 
 
 export class QueryDescripton extends StandardItem {
   public Select: string[] = [];
   public From: F2Link[] = [];
   public Where: WherePartOfQuery = new WherePartOfQuery();
-  public RowDeletingBehavior: BehaviorWhenDeletingRows = BehaviorWhenDeletingRows.DoNothing;
+  public BehaviorWhenDeletingRows: RowDeletingBehavior = RowDeletingBehavior.DoNothing;
   public AddSyncResultColumn: boolean = true;
   public OutputFile: string = "";
 
@@ -22,16 +23,16 @@ export class QueryDescripton extends StandardItem {
     this.Select = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT.ID) ?? [];
     this.From = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID) ?? []);
     this.AddSyncResultColumn = F2YamlUtils.IsTrue(F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID));
-    let rowDelBehavString = (F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ROWDELETINGBEHAVIOR.ID) ?? "")
+    let rowDelBehavString = (F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.BEHAVIORWHENDELETINGROWS.ID) ?? "")
       .trim()
       .toLowerCase()
-      .replace(Data.SYSTEM_CLASSES.BEHAVIORWHENDELETINGROWS.TYPEID.toLowerCase() + ".", "");
-    if (rowDelBehavString === Data.SYSTEM_CLASSES.BEHAVIORWHENDELETINGROWS.REMOVE.ID.toLowerCase())
-      this.RowDeletingBehavior = BehaviorWhenDeletingRows.Remove;
-    if (rowDelBehavString === Data.SYSTEM_CLASSES.BEHAVIORWHENDELETINGROWS.COMMENTOUT.ID.toLowerCase())
-      this.RowDeletingBehavior = BehaviorWhenDeletingRows.CommentOut;
-    if (rowDelBehavString === Data.SYSTEM_CLASSES.BEHAVIORWHENDELETINGROWS.DONOTHING.ID.toLowerCase())
-      this.RowDeletingBehavior = BehaviorWhenDeletingRows.DoNothing;
+      .replace(Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.TYPEID.toLowerCase() + ".", "");
+    if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.REMOVE.ID.toLowerCase())
+      this.BehaviorWhenDeletingRows = RowDeletingBehavior.Remove;
+    if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.COMMENTOUT.ID.toLowerCase())
+      this.BehaviorWhenDeletingRows = RowDeletingBehavior.CommentOut;
+    if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.DONOTHING.ID.toLowerCase())
+      this.BehaviorWhenDeletingRows = RowDeletingBehavior.DoNothing;
     const whereYamlMap = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID);
     if (whereYamlMap instanceof yaml.YAMLMap)
       this.Where = new WherePartOfQuery().ImportFromYamlMap(whereYamlMap);
@@ -54,7 +55,7 @@ export class QueryDescripton extends StandardItem {
       const asIndex = selectItem.indexOf(" as ");
 
       if (asIndex < 0) {
-        if (!IdString.IsIdValid(selectItem))
+        if (!IdString.IsValidIdString(selectItem))
           throw new ItemParsingError(ItemParsingErrorType.InvalidSelectPropertyName, selectItem);
         result.set(IdString.ParseFromString(selectItem), null);
         continue;
@@ -63,7 +64,7 @@ export class QueryDescripton extends StandardItem {
       const propertyName = selectItem.substring(0, asIndex).trim();
       const columnName = selectItem.substring(asIndex + 4).trim();
 
-      if (!IdString.IsIdValid(propertyName))
+      if (!IdString.IsValidIdString(propertyName))
         throw new ItemParsingError(ItemParsingErrorType.InvalidSelectPropertyName, propertyName);
 
       result.set(IdString.ParseFromString(propertyName), columnName);
@@ -87,20 +88,35 @@ export class QueryDescripton extends StandardItem {
 
     return this.Where.IsValid();
   }
+
+  public override toString(): string
+  {
+    return `
+<QueryDescription>:
+  Id: ${this.Id}
+  Summary: ${this.Summary}
+  Select: [${this.Select.join(", ")}]
+  From: [${this.From.join(", ")}]
+  Where: ${StringOperations.indentLinesBy(this.Where.toString(), 4)}
+  BehaviorWhenDeletingRows: RowDeletingBehavior.${this.BehaviorWhenDeletingRows === RowDeletingBehavior.CommentOut ? "CommentOut" : this.BehaviorWhenDeletingRows === RowDeletingBehavior.DoNothing ? "DoNothing" : "Remove"}
+  AddSyncResultColumn: ${this.AddSyncResultColumn}
+  OutputFile: ${this.OutputFile}`;
+  }
+
 }
-enum BehaviorWhenDeletingRows {
+enum RowDeletingBehavior {
   DoNothing,
   Remove,
   CommentOut
 }
 class WherePartOfQuery extends Item {
   public TaggedBy: IdString[] = [];
-  public ItemType: IdString[] = [];
+  public ItemTypes: IdString[] = [];
   public SkipUnder: F2Link[] = [];
 
   public ImportFromYamlMap(yamlMap: yaml.YAMLMap): WherePartOfQuery {
     this.TaggedBy = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY.ID) ?? []);
-    this.ItemType = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPE.ID) ?? []);
+    this.ItemTypes = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES.ID) ?? []);
     this.SkipUnder = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID) ?? []);
     return this;
   }
@@ -111,5 +127,13 @@ class WherePartOfQuery extends Item {
       return superIsValid;
 
     return ValidationResult.Success(); //basically we don't have anything we can validate at this point
+  }
+
+  public override toString(): string
+  {
+    return `    
+TaggedBy: [${this.TaggedBy.join(", ")}]
+ItemTypes: [${this.ItemTypes.join(", ") }]
+SkipUnder: [${this.SkipUnder.join(", ")}]`
   }
 }

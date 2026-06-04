@@ -4,6 +4,17 @@ import { VsCodeUtils } from './VsCodeUtils';
 import * as vscode from 'vscode';
 
 export class StringOperations {
+  static indentLinesBy(lines: string, indentBy: number): string
+  {
+    const result: string[] = [];
+    const indentString = "".padStart(indentBy);
+
+    for (let line of lines.replaceAll("\r\n", "\n").split("\n"))
+      result.push(indentString + line);
+    
+    return result.join("\n");
+  }
+
   static splitToParts(text: string, separatorChar: string, keepStartEndSymbols: boolean, partStartEndSymbols: [string, string][]): string[]
   {
     if (separatorChar.length !== 1) {

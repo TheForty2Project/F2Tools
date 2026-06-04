@@ -64,19 +64,38 @@
       }
     ],
     "configuration": {
-      "title": "F2tools",
+      "title": "F2Tools",
       "properties": {
-        "f2tools.userName": {
+        "F2Tools.logLevel": {
+          "type": "string",
+          "default": "Info",
+          "enum": [
+            "None",
+            "Error",
+            "Warning",
+            "Info",
+            "Debug"
+          ],
+          "enumDescriptions": [
+            "Disable logging",
+            "Show only errors",
+            "Show warnings and errors",
+            "Show informational messages, warnings and errors",
+            "Show all messages"
+          ],
+          "description": "Controls the extension log level."
+        },
+        "F2Tools.userName": {
           "type": "string",
           "default": "YourUserName",
           "description": "Your username"
         },
-        "f2tools.PathSeparator": {
+        "F2Tools.pathSeparator": {
           "type": "string",
           "description": "The separator to use in the extracted YAML path.",
           "default": "."
         },
-        "f2tools.csvFields": {
+        "F2Tools.csvFields": {
           "type": "array",
           "description": "Fields of the csv generated.",
           "items": {
@@ -91,7 +110,7 @@
             "DependsOn"
           ]
         },
-        "f2tools.workspacePath": {
+        "F2Tools.workspacePath": {
           "type": "string",
           "description": "If you are using the extension without workspace enter the workspace path here",
           "default": ""

@@ -30,7 +30,7 @@ export class F2Link {
         return invalidFilePath(filePathString);
 
       let end = filePathString.length;
-      if (filePathString.charCodeAt(end - 1) === 92)
+      if (filePathString[end - 1] === "\\")
         end--;
       else if (!allowMissingTrailingSlash)
         return invalidFilePath(filePathString);
@@ -41,14 +41,15 @@ export class F2Link {
       const parts: string[] = [];
       let partStart = 0;
       for (let i = 0; i <= end; i++) {
-        if (i === end || filePathString.charCodeAt(i) === 92) {
+        const currentChar = filePathString[i];
+        if (i === end || currentChar === "\\") {
           if (i === partStart)
             return invalidFilePath(filePathString);
 
           const part = filePathString.slice(partStart, i);
           for (let j = 0; j < part.length; j++) {
-            const charCode = part.charCodeAt(j);
-            if (charCode < 32 || charCode === 34 || charCode === 42 || charCode === 47 || charCode === 58 || charCode === 60 || charCode === 62 || charCode === 63 || charCode === 92 || charCode === 124)
+            const character = part[j];
+            if (character < " " || character === "\"" || character === "*" || character === "/" || character === ":" || character === "<" || character === ">" || character === "?" || character === "\\" || character === "|")
               return invalidFilePath(part);
           }
 
@@ -61,34 +62,34 @@ export class F2Link {
     };
 
     const parseYamlPathParts = (yamlPathString: string): F2LinkPart[] | ItemParsingError => {
-      if (yamlPathString.length === 0 || yamlPathString.charCodeAt(0) !== 46)
+      if (yamlPathString.length === 0 || yamlPathString[0] !== ".")
         return invalidYamlPath(yamlPathString);
 
       const parts: F2LinkPart[] = [];
       let i = 0;
       while (i < yamlPathString.length) {
-        if (yamlPathString.charCodeAt(i) !== 46)
+        if (yamlPathString[i] !== ".")
           return invalidYamlPath(yamlPathString);
         i++;
 
-        if (i < yamlPathString.length && yamlPathString.charCodeAt(i) === 46) {
+        if (i < yamlPathString.length && yamlPathString[i] === ".") {
           i++;
           if (i >= yamlPathString.length)
             return invalidYamlPath(yamlPathString);
 
-          if (yamlPathString.charCodeAt(i) === 123) {
+          if (yamlPathString[i] === "{") {
             const start = ++i;
-            while (i < yamlPathString.length && yamlPathString.charCodeAt(i) !== 125) {
-              const charCode = yamlPathString.charCodeAt(i);
-              const isDigit = charCode >= 48 && charCode <= 57;
-              const isUpper = charCode >= 65 && charCode <= 90;
-              const isLower = charCode >= 97 && charCode <= 122;
-              if (!isDigit && !isUpper && !isLower && charCode !== 45 && charCode !== 95)
+            while (i < yamlPathString.length && yamlPathString[i] !== "}") {
+              const character = yamlPathString[i];
+              const isDigit = character >= "0" && character <= "9";
+              const isUpper = character >= "A" && character <= "Z";
+              const isLower = character >= "a" && character <= "z";
+              if (!isDigit && !isUpper && !isLower && character !== "-" && character !== "_")
                 return invalidIdentifier(yamlPathString.slice(start - 1, i + 1));
               i++;
             }
 
-            if (i === start || i >= yamlPathString.length || yamlPathString.charCodeAt(i) !== 125)
+            if (i === start || i >= yamlPathString.length || yamlPathString[i] !== "}")
               return invalidYamlPath(yamlPathString);
 
             parts.push(new InternalIdPart(yamlPathString.slice(start, i)));
@@ -96,14 +97,14 @@ export class F2Link {
             continue;
           }
 
-          if (yamlPathString.charCodeAt(i) === 34) {
+          if (yamlPathString[i] === "\"") {
             i++;
             let summary = "";
             let hasChar = false;
             while (i < yamlPathString.length) {
-              const charCode = yamlPathString.charCodeAt(i);
-              if (charCode === 34) {
-                if (i + 1 < yamlPathString.length && yamlPathString.charCodeAt(i + 1) === 34) {
+              const character = yamlPathString[i];
+              if (character === "\"") {
+                if (i + 1 < yamlPathString.length && yamlPathString[i + 1] === "\"") {
                   summary += "\"";
                   hasChar = true;
                   i += 2;
@@ -118,7 +119,7 @@ export class F2Link {
 
             if (!hasChar)
               return invalidSummary(yamlPathString);
-            if (i >= yamlPathString.length || yamlPathString.charCodeAt(i) !== 34)
+            if (i >= yamlPathString.length || yamlPathString[i] !== "\"")
               return invalidYamlPath(yamlPathString);
 
             parts.push(new SummaryPart(summary));
@@ -128,11 +129,11 @@ export class F2Link {
 
           const start = i;
           while (i < yamlPathString.length) {
-            const charCode = yamlPathString.charCodeAt(i);
-            const isDigit = charCode >= 48 && charCode <= 57;
-            const isUpper = charCode >= 65 && charCode <= 90;
-            const isLower = charCode >= 97 && charCode <= 122;
-            if (!isDigit && !isUpper && !isLower && charCode !== 45 && charCode !== 95)
+            const character = yamlPathString[i];
+            const isDigit = character >= "0" && character <= "9";
+            const isUpper = character >= "A" && character <= "Z";
+            const isLower = character >= "a" && character <= "z";
+            if (!isDigit && !isUpper && !isLower && character !== "-" && character !== "_")
               break;
             i++;
           }
@@ -141,7 +142,7 @@ export class F2Link {
             return invalidYamlPath(yamlPathString);
 
           const itemId = yamlPathString.slice(start, i);
-          if (!IdString.IsIdValid(itemId))
+          if (!IdString.IsValidIdString(itemId))
             return invalidIdentifier(itemId);
 
           parts.push(new ItemIdPart(IdString.ParseFromString(itemId)));
@@ -150,11 +151,11 @@ export class F2Link {
 
         const start = i;
         while (i < yamlPathString.length) {
-          const charCode = yamlPathString.charCodeAt(i);
-          const isDigit = charCode >= 48 && charCode <= 57;
-          const isUpper = charCode >= 65 && charCode <= 90;
-          const isLower = charCode >= 97 && charCode <= 122;
-          if (!isDigit && !isUpper && !isLower && charCode !== 45 && charCode !== 95)
+          const character = yamlPathString[i];
+          const isDigit = character >= "0" && character <= "9";
+          const isUpper = character >= "A" && character <= "Z";
+          const isLower = character >= "a" && character <= "z";
+          if (!isDigit && !isUpper && !isLower && character !== "-" && character !== "_")
             break;
           i++;
         }
@@ -163,7 +164,7 @@ export class F2Link {
           return invalidYamlPath(yamlPathString);
 
         const propertyId = yamlPathString.slice(start, i);
-        if (!IdString.IsIdValid(propertyId))
+        if (!IdString.IsValidIdString(propertyId))
           return invalidIdentifier(propertyId);
 
         parts.push(new PropertyIdPart(IdString.ParseFromString(propertyId)));
@@ -179,13 +180,13 @@ export class F2Link {
     if (body.length === 0)
       return invalidFormat();
 
-    if (body.charCodeAt(0) === 46) {
+    if (body[0] === ".") {
       const yamlPathParts = parseYamlPathParts(body.slice(1));
       return yamlPathParts instanceof ItemParsingError ? yamlPathParts : new F2Link([], yamlPathParts);
     }
 
     const lastBackslashIndex = body.lastIndexOf("\\");
-    if (lastBackslashIndex >= 0 && lastBackslashIndex + 1 < body.length && body.charCodeAt(lastBackslashIndex + 1) === 46) {
+    if (lastBackslashIndex >= 0 && lastBackslashIndex + 1 < body.length && body[lastBackslashIndex + 1] === ".") {
       const filePathParts = parseFilePathParts(body.slice(0, lastBackslashIndex + 1), false);
       if (filePathParts instanceof ItemParsingError)
         return filePathParts;
@@ -200,7 +201,7 @@ export class F2Link {
 
   public static ParseFromStringArray(f2LinkStrings: string[]): F2Link[] {
     const result: F2Link[] = [];
-    for (const f2LinkString in f2LinkStrings) {
+    for (let f2LinkString of f2LinkStrings) {
       const f2Link = F2Link.TryParseString(f2LinkString);
       if (f2Link instanceof ItemParsingError) throw f2Link;
       result.push(f2Link);
@@ -250,7 +251,7 @@ export class InternalIdPart extends F2LinkPart {
   }
 
   public toString(): string {
-    return "{" + this.InternalId + "}";
+    return ".{" + this.InternalId + "}";
   }
 }
 
@@ -263,6 +264,6 @@ export class SummaryPart extends F2LinkPart {
   }
 
   public toString(): string {
-    return "\"" + this.Summary + "\"";
+    return ".\"" + this.Summary + "\"";
   }
 }

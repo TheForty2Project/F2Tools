@@ -12,23 +12,25 @@ export class ItemParsingError extends Error {
     super();
     this.ItemParsingErrorType = itemParsingErrorType;
     this.AdditionalInformation = additionalInformation;
+    this.message = "Item parsing error: " +  ItemParsingErrorType[itemParsingErrorType] + (this.AdditionalInformation !== undefined ? " Additional information: " + additionalInformation : "");
   }
 }
 
 export enum ItemParsingErrorType {
-  None,
-  SpaceInIdValue,
-  IdSummaryHeaderCantBeFilledAll,
-  AllSeqElementsMustBeString,
-  InvalidSelectPropertyName,
-  InvalidSelectColumnName,
-  SelectPropertyCantBeEmpty,
-  FromPropertyCantBeEmpty,
-  InvalidF2LinkFormat,
-  InvalidF2LinkFilePath,
-  InvalidF2LinkYamlPath,
-  InvalidF2LinkIdentifier,
-  InvalidF2LinkSummary,
+  None = 0,
+  SpaceInIdValue = 1,
+  IdSummaryHeaderCantBeFilledAll = 2,
+  AllSeqElementsMustBeString = 3,
+  InvalidSelectPropertyName = 4,
+  InvalidSelectColumnName = 5,
+  SelectPropertyCantBeEmpty = 6,
+  FromPropertyCantBeEmpty = 7,
+  InvalidF2LinkFormat = 8,
+  InvalidF2LinkFilePath = 9,
+  InvalidF2LinkYamlPath = 10,
+  InvalidF2LinkIdentifier = 11,
+  InvalidF2LinkSummary = 12,
+  TypeIdInBothHeaderAndTypeCantBePresent = 13
 }
 
 export class Item {
@@ -45,11 +47,23 @@ export class Item {
   //     Entitlement[] Entitlements:
   //     bool IsDeleted:
   //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
-  public IsValid(): ValidationResult 
-  {
+  public TypeId: string = "";
+  public IsValid(): ValidationResult {
     return ValidationResult.Success();
   }
   public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): Item {
+    let headerValue: string = String(itemYamlPair.key.value);
+    if (headerValue.startsWith(Data.F2YAML_ELEMENTS.CLASS_START) && headerValue.endsWith(Data.F2YAML_ELEMENTS.CLASS_END)) {
+      this.TypeId = headerValue.substring(1, headerValue.length - 2);
+    }
+    const typeFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE);
+    if (typeFromProperty !== undefined)
+    {
+      if (this.TypeId.length > 0 && typeFromProperty.length > 0)
+        throw new ItemParsingError(ItemParsingErrorType.TypeIdInBothHeaderAndTypeCantBePresent);
+      this.TypeId = typeFromProperty;
+    }
+
     return this;
   }
 }
@@ -69,7 +83,7 @@ export class ValidationResult {
   }
 }
 
-export class StandardItem extends Item {
+export abstract class StandardItem extends Item {
   public Id: string = "";
   public Summary: string = "";
   //copied from System/Types.yaml:
@@ -97,7 +111,7 @@ export class StandardItem extends Item {
     const idFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_ID);
     let idPropHasValue = typeof idFromProperty === "string" && idFromProperty.length > 0;
 
-    if (typeof idPropHasValue && !IdString.IsIdValid(String(idFromProperty)))
+    if (typeof idPropHasValue && !IdString.IsValidIdString(String(idFromProperty)))
       throw new ItemParsingError(ItemParsingErrorType.SpaceInIdValue);
 
     const summaryFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY);
@@ -109,7 +123,7 @@ export class StandardItem extends Item {
     //Id:
     if (idPropHasValue)
       this.Id = String(idFromProperty);
-    else if (IdString.IsIdValid(headerValue))
+    else if (IdString.IsValidIdString(headerValue))
       this.Id = headerValue;
     //Summary:
     if (summaryPropHasValue)

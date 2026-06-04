@@ -1,5 +1,5 @@
 import { Timer } from "./timer";
-import { VsCodeUtils } from "./VsCodeUtils";
+import { OutputChannelLogger, VsCodeUtils } from "./VsCodeUtils";
 import { StringOperations } from "./StringOperations";
 import { Message } from './VsCodeUtils';
 import * as vscode from 'vscode';
@@ -17,18 +17,18 @@ export class Commands {
     public static async executeReport() {
       const activeDoc = VsCodeUtils.getActiveDoc();
       const cursorPosition = VsCodeUtils.getCursorPosition();
+
       try
       {
-        var queryDescription = await CSVOperations.TryExtractQueryDescriptionUnderCursor(activeDoc, cursorPosition);
-
+        let queryDescription = await CSVOperations.ExtractQueryDescriptionUnderCursor(activeDoc, cursorPosition);
+        OutputChannelLogger.logDebug(queryDescription?.toString());
       }
       catch (err: any)
       {
-        if (err instanceof ItemParsingError)
-        {
-          if (err.ItemParsingErrorType === ItemParsingErrorType.SpaceInIdValue)            
+        if (err instanceof ItemParsingError)                          
           Message.err(err.message);
-        }
+        
+        else throw err;
       }
 
     }

@@ -12,7 +12,7 @@ export class IdString {
 
   private constructor(value: string) { this._value = value; };
 
-  public static IsIdValid(id: string): boolean {
+  public static IsValidIdString(id: string): boolean {
     if (id.length === 0) return false;
 
     switch (id.toLowerCase()) {
@@ -45,14 +45,14 @@ export class IdString {
   }
 
   public static ParseFromString(idString: string): IdString {
-    if (this.IsIdValid(idString))
+    if (this.IsValidIdString(idString))
       return new IdString(idString);
     throw new Error("Invalid IdString: " + idString);
   }
 
   public static ParseFromStringArray(idStrings: string[]): IdString[] {
     let result: IdString[] = [];
-    for (const idString in idStrings)
+    for (const idString of idStrings)
       result.push(this.ParseFromString(idString));
     return result;
   }

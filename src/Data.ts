@@ -6,17 +6,17 @@ export class Data {
       SELECT: { ID: "Select"},
       OUTPUTFILE: { ID: "OutputFile"},
       ADDSYNCRESULTCOLUMN: { ID: "AddSyncResultColumn"},
-      ROWDELETINGBEHAVIOR: { ID: "RowDeletingBehavior"},
+      BEHAVIORWHENDELETINGROWS: { ID: "BehaviorWhenDeletingRows"},
       WHERE: { ID: "Where"}             
     },
     WHEREPARTOFQUERY: {
       TYPEID: "WherePartOfQuery",
       TAGGEDBY: { ID: "TaggedBy" },
-      ITEMTYPE: { ID: "ItemType" },
+      ITEMTYPES: { ID: "ItemTypes" },
       SKIPUNDER: { ID: "SkipUnder" },
     },
-    BEHAVIORWHENDELETINGROWS: {
-      TYPEID: "BehaviorWhenDeletingRows",
+    ROWDELETINGBEHAVIOR: {
+      TYPEID: "RowDeletingBehavior",
       REMOVE: { ID: "Remove"},
       COMMENTOUT: {ID: "CommentOut"},
       DONOTHING: {ID: "DoNothing"},
@@ -24,7 +24,7 @@ export class Data {
   };
 
   public static readonly F2YAML_ELEMENTS = {
-    CLASS_START: ">",
+    CLASS_START: "<",
     CLASS_END: ">",
     ADDITIONAL_PROPERTIES: "+",
     PROPERTY_ID: "Id",
@@ -86,7 +86,7 @@ export class Data {
   public static readonly MISC = {
     EMPTY_STRING: "",
     YAML: "yaml",
-    EXTENSION_NAME: "f2tools",
+    EXTENSION_NAME: "F2Tools",
     FILE_DIVIDER: "//",
     DOUBLE_QUOTE: "\"",
     PATH_SEPERATOR: ".",
@@ -95,6 +95,12 @@ export class Data {
     ROOT_PATH: "pathFromRoot",
     CSV_FIELDS: "csvFields",
     WORKSPACE_PATH: "workspacePath",
+    LOG_LEVEL: "logLevel",
+    LOG_LEVEL_NONE: "None",
+    LOG_LEVEL_ERROR: "Error",
+    LOG_LEVEL_WARNING: "Warning",
+    LOG_LEVEL_INFO: "Info",
+    LOG_LEVEL_DEBUG: "Debug"
   };
 
   public static readonly TIME_KEYS = {
