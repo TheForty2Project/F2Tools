@@ -9,19 +9,24 @@ import * as yaml from 'yaml';
 import { QueryDescripton } from './Items/QueryDescripton';
 import { F2YamlUtils } from './F2YamlUtils';
 import { IdString } from "./Items/IdString";
+import { F2Link } from "./Items/F2Link";
+import { ItemHeader } from "./Items/BasicItems";
 
 export class CSVOperations extends YamlTaskOperations {
-  static async ExtractQueryDescriptionUnderCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<QueryDescripton> {
+
+  static async ExtractAndVerifyQueryDescriptionUnderCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<QueryDescripton> {
     let queryDescription = await CSVOperations.GetQueryDescriptionUnderTheCursor(activeDoc, cursorPosition);
     CSVOperations.VerifyQueryDescription(queryDescription);
     return queryDescription;
   }
 
   static async GetQueryDescriptionUnderTheCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<QueryDescripton> {
-    let scalarAndMapPairAtCursor = await this.TryGetEnclosingItemScalarMapPairAtCursor(activeDoc, cursorPosition);
+  
+    let scalarAndMapPairAtCursor = await this.TryGetEnclosingItemScalarMapPairAtCursor(activeDoc, cursorPosition);    
     if (scalarAndMapPairAtCursor === undefined
-      || (F2YamlUtils.TryGetPropertyValueFromYamlMap(scalarAndMapPairAtCursor.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE) !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
-      && (typeof scalarAndMapPairAtCursor.key.value !== "string" || scalarAndMapPairAtCursor.key.value !== Data.F2YAML_ELEMENTS.CLASS_START + Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID + Data.F2YAML_ELEMENTS.CLASS_END))
+      || ((F2YamlUtils.TryGetPropertyValueFromYamlMap(scalarAndMapPairAtCursor.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE) !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
+      && ItemHeader.ParseFromYamlScalar(scalarAndMapPairAtCursor.key).TypeId?.Value !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
+    )
       throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
 
     return new QueryDescripton().ImportFromYamlScalarMapPair(scalarAndMapPairAtCursor);

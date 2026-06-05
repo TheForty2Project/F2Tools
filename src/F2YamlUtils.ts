@@ -3,9 +3,15 @@ import * as yaml from 'yaml';
 
 
 export class F2YamlUtils {
+  static IsBoolean(arg: any): boolean
+  {
+    const str = String(arg).toLowerCase();
+    return str === "1" || str === "0" ||  str === "true" || str === "false" || str === "t" || str === "f" || str === "no" || str === "yes";
+  }
+
   static IsTrue(arg: any): boolean {
-    const str = String(arg);
-    return str === "1" || str.toLowerCase() === "true" || str.toLowerCase() === "t";
+    const str = String(arg).toLowerCase();
+    return str === "1" || str === "true" || str === "t" || str === "y";
   }
   static TryGetStringSequencePropertyValueFromYamlMap(yamlMap: yaml.YAMLMap, propertyId: string): string[] | undefined {
     let yamlSeq = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, propertyId);

@@ -1,16 +1,14 @@
 
 export class IdString {
   private _value: string = "";
+  
+  static get Empty(): IdString { return new IdString(""); }
 
-  public get Value(): string {
-    return this._value;
-  }
+  public get Value(): string { return this._value; }
 
-  public toString(): string {
-    return this._value;
-  }
+  public toString(): string { return this._value; }  
 
-  private constructor(value: string) { this._value = value; };
+  private constructor(value: string) { this._value = value; }
 
   public static IsValidIdString(id: string): boolean {
     if (id.length === 0) return false;

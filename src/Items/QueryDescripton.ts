@@ -22,17 +22,23 @@ export class QueryDescripton extends StandardItem {
     this.OutputFile = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE.ID) ?? "";
     this.Select = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT.ID) ?? [];
     this.From = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID) ?? []);
-    this.AddSyncResultColumn = F2YamlUtils.IsTrue(F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID));
+    var addSyncResultPropValue = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID);
+    if (!F2YamlUtils.IsBoolean(addSyncResultPropValue))
+      throw new ItemParsingError(ItemParsingErrorType.CantParseAsBoolean, "AddSyncResultColumn");
+    this.AddSyncResultColumn = F2YamlUtils.IsTrue(addSyncResultPropValue);
+
     let rowDelBehavString = (F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.BEHAVIORWHENDELETINGROWS.ID) ?? "")
       .trim()
       .toLowerCase()
       .replace(Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.TYPEID.toLowerCase() + ".", "");
     if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.REMOVE.ID.toLowerCase())
       this.BehaviorWhenDeletingRows = RowDeletingBehavior.Remove;
-    if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.COMMENTOUT.ID.toLowerCase())
+    else if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.COMMENTOUT.ID.toLowerCase())
       this.BehaviorWhenDeletingRows = RowDeletingBehavior.CommentOut;
-    if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.DONOTHING.ID.toLowerCase())
+    else if (rowDelBehavString === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.DONOTHING.ID.toLowerCase())
       this.BehaviorWhenDeletingRows = RowDeletingBehavior.DoNothing;
+    else throw new ItemParsingError(ItemParsingErrorType.CantParseAsEnumerationMember, "BehaviorWhenDeletingRows");
+
     const whereYamlMap = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID);
     if (whereYamlMap instanceof yaml.YAMLMap)
       this.Where = new WherePartOfQuery().ImportFromYamlMap(whereYamlMap);
@@ -75,9 +81,9 @@ export class QueryDescripton extends StandardItem {
 
   public IsValid(): ValidationResult {
     if (this.Select.length === 0)
-      return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.SelectPropertyCantBeEmpty));
+      return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.SelectPropertyEmptyOrInvalid));
     if (this.From.length === 0)
-      return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.FromPropertyCantBeEmpty));
+      return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.FromPropertyEmptyOrInvalid));
 
     try {
       this.ParseSelect(); //this will throw errors if it's not parseable

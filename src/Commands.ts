@@ -14,14 +14,14 @@ import { ItemParsingErrorType } from "./Items/BasicItems";
 
 
 export class Commands {
-    public static async executeReport() {
+    public static async executeQuery() {
       const activeDoc = VsCodeUtils.getActiveDoc();
       const cursorPosition = VsCodeUtils.getCursorPosition();
 
       try
       {
-        let queryDescription = await CSVOperations.ExtractQueryDescriptionUnderCursor(activeDoc, cursorPosition);
-        OutputChannelLogger.logDebug(queryDescription?.toString());
+        let queryDescription = await CSVOperations.ExtractAndVerifyQueryDescriptionUnderCursor(activeDoc, cursorPosition);
+        OutputChannelLogger.logDebug("Extracted QueryDescription:\n" + queryDescription?.toString());
       }
       catch (err: any)
       {

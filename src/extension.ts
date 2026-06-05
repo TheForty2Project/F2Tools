@@ -4,7 +4,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
   const disposableForReportsExecute = vscode.commands.registerCommand('F2Tools.Reports.Execute', async () => {
-    await Commands.executeReport();
+    await Commands.executeQuery();
   });
 
   const disposableForReportsWriteBack = vscode.commands.registerCommand('F2Tools.Reports.WriteBack', async () => {

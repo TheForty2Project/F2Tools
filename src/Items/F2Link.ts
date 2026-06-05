@@ -13,6 +13,14 @@ export class F2Link {
     return this.YamlPathParts.join(".");
   }
 
+  public get IsLocalLink(): boolean {
+    return this.FilePathParts.length === 0 && this.YamlPathParts.length >= 0
+  }
+
+  public get IsPathLink(): boolean {
+    return this.YamlPathString.length === 0 && this.FilePathParts.length >= 0
+  }
+
   private constructor(filePathParts: string[], yamlPathParts: F2LinkPart[]) {
     this.FilePathParts = filePathParts;
     this.YamlPathParts = yamlPathParts;

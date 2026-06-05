@@ -156,7 +156,7 @@ export class StringOperations {
         return yamlKey;
     }
 
-    static parseYamlPath(yamlPath: string): string[] {
+    static parseYamlPath(yamlPath: string): string[] { //TODO: don't use this method, use F2Links instead
         const yamlParts: string[] = [];
         let inQuotes = false;
         let buffer = '';
