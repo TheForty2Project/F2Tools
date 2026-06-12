@@ -49,65 +49,6 @@ export enum ItemParsingErrorType
   CantParseAsEnumerationMember
 }
 
-export class Item
-{
-  //TODO: implement it like StandardItem, based on this f2yaml class description (User, ClassDescription are classes inheriting StandardItem, InternalId is a string equivalent type with some restrictions):
-  // class Item:
-  //   Summary:
-  //   ClassDescriptionFlags: [Abstract]
-  //   Properties:
-  //     User CreatedBy:
-  //     DateTime CreatedAt:
-  //     InternalId InternalId:
-  //     ClassDescription Type:
-  //     Item BelongsTo:
-  //     Entitlement[] Entitlements:
-  //     bool IsDeleted:
-  //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
-  public TypeId: IdString = IdString.Empty;
-
-  public IsValid(): ValidationResult
-  {
-    return ValidationResult.Success();
-  }
-  public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): Item
-  {    
-    let header = ItemHeader.ParseFromYamlScalar(itemYamlPair.key);
-    if (header.TypeId)
-      this.TypeId = header.TypeId;
-
-    const typeFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE);
-    if (typeFromProperty !== undefined)
-    {
-      if (header.TypeId && header.TypeId.Value !== typeFromProperty)
-        throw new ItemParsingError(ItemParsingErrorType.TypeIdMismatchInHeaderAndTypeProperty);
-      if (!IdString.IsValidIdString(typeFromProperty))
-        throw new ItemParsingError(ItemParsingErrorType.TypeMustBeIdString)
-      this.TypeId = IdString.ParseFromString(typeFromProperty);
-    }
-    
-    return this;
-  }
-}
-
-export class ValidationResult
-{
-  private constructor(
-    public readonly isValid: boolean,
-    public readonly error?: Error
-  ) { }
-
-  static Success(): ValidationResult
-  {
-    return new ValidationResult(true);
-  }
-
-  static Failure(error: Error): ValidationResult
-  {
-    return new ValidationResult(false, error);
-  }
-}
-
 export class ItemHeader
 {
   public Id?: IdString = undefined;
@@ -128,6 +69,7 @@ export class ItemHeader
 
     if (node instanceof yaml.Scalar && typeof node.value === "string")
     {
+      node.range
       let words: string[] = headerValue.split(" ");
       let counter: number = 0;
       for (const word of words)
@@ -139,6 +81,7 @@ export class ItemHeader
         result.Prefixes.push(IdString.ParseFromString(word));
         counter++;
       }
+
 
       //we are after the prefixes; first word must start with a . - so we remove it
       words[counter] = words[counter].substring(1);
@@ -164,13 +107,72 @@ export class ItemHeader
       result.Summary = words.slice(counter).join(" ");
     }
     return result;
-
   }
 
   public static get Empty() { return new ItemHeader(); }
 }
 
-export abstract class StandardItem extends Item
+export class ValidationResult
+{
+  private constructor(
+    public readonly isValid: boolean,
+    public readonly error?: Error
+  ) { }
+
+  static Success(): ValidationResult
+  {
+    return new ValidationResult(true);
+  }
+
+  static Failure(error: Error): ValidationResult
+  {
+    return new ValidationResult(false, error);
+  }
+}
+
+export class F2YamlWorkspaceItem
+{
+  //TODO: implement it like StandardItem, based on this f2yaml class description (User, ClassDescription are classes inheriting StandardItem, InternalId is a string equivalent type with some restrictions):
+  // class F2YamlWorkspaceItem:
+  //   Summary:
+  //   ClassDescriptionFlags: [Abstract]
+  //   Properties:
+  //     User CreatedBy:
+  //     DateTime CreatedAt:
+  //     string InternalId:
+  //     ClassDescription Type:
+  //     F2YamlWorkspaceItem BelongsTo:
+  //     Entitlement[] Entitlements:
+  //     bool IsDeleted:
+  //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
+  public TypeId: IdString = IdString.Empty;
+
+  public IsValid(): ValidationResult
+  {
+    return ValidationResult.Success();
+  }
+
+  public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): F2YamlWorkspaceItem
+  {        
+    let header = ItemHeader.ParseFromYamlScalar(itemYamlPair.key);
+    if (header.TypeId)
+      this.TypeId = header.TypeId;
+
+    const typeFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE);
+    if (typeFromProperty !== undefined)
+    {
+      if (header.TypeId && header.TypeId.Value !== typeFromProperty)
+        throw new ItemParsingError(ItemParsingErrorType.TypeIdMismatchInHeaderAndTypeProperty);
+      if (!IdString.IsValidIdString(typeFromProperty))
+        throw new ItemParsingError(ItemParsingErrorType.TypeMustBeIdString)
+      this.TypeId = IdString.ParseFromString(typeFromProperty);
+    }
+    
+    return this;
+  }
+}
+
+export abstract class StandardItem extends F2YamlWorkspaceItem
 {
   public Id: IdString = IdString.Empty;
   public Summary: string = "";
@@ -226,5 +228,4 @@ export abstract class StandardItem extends Item
     return this;
   }
 }
-
 

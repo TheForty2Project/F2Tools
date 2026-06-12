@@ -1,7 +1,7 @@
 import * as yaml from 'yaml';
 import { Data } from '../Data';
 import { F2YamlUtils } from '../F2YamlUtils';
-import { StandardItem, ItemParsingError, ItemParsingErrorType, ValidationResult, Item } from './BasicItems';
+import { StandardItem, ItemParsingError, ItemParsingErrorType, ValidationResult, F2YamlWorkspaceItem } from './BasicItems';
 import { F2Link } from './F2Link';
 import { IdString } from './IdString';
 import { StringOperations } from '../StringOperations';
@@ -115,7 +115,7 @@ enum RowDeletingBehavior {
   Remove,
   CommentOut
 }
-class WherePartOfQuery extends Item {
+class WherePartOfQuery extends F2YamlWorkspaceItem {
   public TaggedBy: IdString[] = [];
   public ItemTypes: IdString[] = [];
   public SkipUnder: F2Link[] = [];
