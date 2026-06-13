@@ -74,8 +74,6 @@ export class QueryDescripton extends StandardItem {
   public readonly ChildItems = new ItemList<F2YamlWorkspaceItem>(this, IdString.ParseFromString(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID));
 
   override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): QueryDescripton {
-    super.ImportFromYamlScalarMapPair(itemYamlPair);
-
     let yamlMap: yaml.YAMLMap = itemYamlPair.value!;
     this.OutputFile = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE.ID) ?? "";
     this.Select = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT.ID) ?? [];
@@ -102,6 +100,15 @@ export class QueryDescripton extends StandardItem {
       this.Where = new WherePartOfQuery().ImportFromYamlMap(whereYamlMap);
       this.ChildItems.ResetTo([this.Where]);
     }
+
+    super.ImportFromYamlNode(itemYamlPair, [
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE.ID,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT.ID,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.BEHAVIORWHENDELETINGROWS.ID,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID,
+    ]);
 
     return this;
   }
@@ -208,6 +215,11 @@ class WherePartOfQuery extends F2YamlWorkspaceItem {
     this.TaggedBy = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY.ID) ?? []);
     this.ItemTypes = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES.ID) ?? []);
     this.SkipUnder = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID) ?? []);
+    super.ImportFromYamlNode(yamlMap, [
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY.ID,
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES.ID,
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID,
+    ]);
     return this;
   }
 

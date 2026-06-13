@@ -14,7 +14,16 @@ export type F2YamlWorkspaceItemPropertyValue =
   | F2Link
   | F2Link[]
   | ItemList<F2YamlWorkspaceItem>
+  | NotParsedYaml
   | null;
+
+export class NotParsedYaml {
+  constructor(public readonly yamlNode: yaml.Node | yaml.Pair<unknown, unknown>) { }
+
+  public toString(): string {
+    return String(yaml.stringify(this.yamlNode));
+  }
+}
 
 export class InvalidOperationError extends Error
 {
@@ -266,43 +275,71 @@ export class F2YamlWorkspaceItem
     return IdString.ParseFromString(value);
   }
 
+  protected ParsePropertyValue(yamlNode: yaml.Node | yaml.Pair<unknown, unknown>): F2YamlWorkspaceItemPropertyValue {
+    if (yamlNode instanceof yaml.Scalar) {
+      const scalarValue = yamlNode.value;
+      if (typeof scalarValue === 'string' || typeof scalarValue === 'number' || typeof scalarValue === 'boolean' || scalarValue instanceof Date || scalarValue === null)
+        return scalarValue;
+      return new NotParsedYaml(yamlNode);
+    }
+
+    if (yamlNode instanceof yaml.YAMLSeq) {
+      const parsedValues = yamlNode.items.map(item => this.ParsePropertyValue(item as yaml.Node));
+      if (parsedValues.every(value => typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || value instanceof Date))
+        return parsedValues as F2YamlWorkspaceItemPropertyArrayValue;
+      return new NotParsedYaml(yamlNode);
+    }
+
+    if (yamlNode instanceof yaml.YAMLMap || yamlNode instanceof yaml.Pair) {
+      if (F2YamlWorkspaceItem.IsItemYaml(yamlNode)) {
+        if (yamlNode instanceof yaml.YAMLMap)
+          return new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode);
+
+        if (yamlNode.key instanceof yaml.Scalar && yamlNode.value !== null && yamlNode.value !== undefined)
+          return new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode as yaml.Pair<yaml.Scalar, yaml.Node>);
+      }
+      return new NotParsedYaml(yamlNode);
+    }
+
+    return new NotParsedYaml(yamlNode);
+  }
+
   public IsValid(): ValidationResult
   {
     return ValidationResult.Success();
   }
 
-  public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): F2YamlWorkspaceItem
-  {        
-    let header = ItemHeader.ParseFromYamlScalar(itemYamlPair.key);
-    const yamlMap = itemYamlPair.value!;
- 
+  public ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: string[] = []): F2YamlWorkspaceItem
+  {
+    let header = ItemHeader.Empty;
+    let yamlMap: yaml.YAMLMap | undefined;
+
+    if (itemYamlNode instanceof yaml.Pair) {
+      if (!(itemYamlNode.key instanceof yaml.Scalar))
+        throw new InvalidOperationError();
+
+      header = ItemHeader.ParseFromYamlScalar(itemYamlNode.key);
+
+      if (itemYamlNode.value instanceof yaml.YAMLMap)
+        yamlMap = itemYamlNode.value;
+      else if (itemYamlNode.value instanceof yaml.Scalar && (itemYamlNode.value.value === '' || itemYamlNode.value.value === null))
+        yamlMap = new yaml.YAMLMap();
+      else
+        throw new InvalidOperationError();
+    }
+    else {
+      yamlMap = itemYamlNode;
+    }
+
     for (const property of yamlMap.items) {
-      if (!(property.key instanceof yaml.Scalar))
+      if (!(property.key instanceof yaml.Scalar) || typeof property.key.value !== 'string')
         continue;
 
-      if (property.value instanceof yaml.YAMLSeq) {
-        const sequenceValues: Array<string | number | boolean | Date> = [];
-        let canStoreSequence = true;
-        for (const item of property.value.items) {
-          if (!(item instanceof yaml.Scalar)) {
-            canStoreSequence = false;
-            break;
-          }
+      const propertyId = String(property.key.value);
+      if (processedPropertyIds.includes(propertyId))
+        continue;
 
-          const scalarValue = item.value;
-          if (typeof scalarValue === 'string' || typeof scalarValue === 'number' || typeof scalarValue === 'boolean' || scalarValue instanceof Date)
-            sequenceValues.push(scalarValue);
-          else {
-            canStoreSequence = false;
-            break;
-          }
-        }
-
-        if (canStoreSequence)
-          this.SetPropertyValue(String(property.key.value), sequenceValues);
-      }
-      else if (property.value instanceof yaml.Scalar)
-        this.SetPropertyValue(String(property.key.value), property.value.value as string | number | boolean | Date | null);
+      this.SetPropertyValue(propertyId, this.ParsePropertyValue(property.value as yaml.Node));
     }
 
     if (header.TypeId)
@@ -317,8 +354,13 @@ export class F2YamlWorkspaceItem
         throw new ItemParsingError(ItemParsingErrorType.TypeMustBeIdString)
       this.TypeId = IdString.ParseFromString(typeFromProperty);
     }
-    
+
     return this;
+  }
+
+  public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): F2YamlWorkspaceItem
+  {
+    return this.ImportFromYamlNode(itemYamlPair);
   }
 }
 
