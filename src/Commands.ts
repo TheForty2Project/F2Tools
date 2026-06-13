@@ -13,7 +13,7 @@ import { ItemParsingError } from "./Items/BasicItems";
 import { ItemParsingErrorType } from "./Items/BasicItems";
 
 
-export class Commands {
+export class Commands {    
     public static async executeQuery() {
       const activeDoc = VsCodeUtils.getActiveDoc();
       const cursorPosition = VsCodeUtils.getCursorPosition();

@@ -1,7 +1,20 @@
 import * as yaml from 'yaml';
 import { Data } from '../Data';
 import { F2YamlUtils } from '../F2YamlUtils';
+import { F2Link } from './F2Link';
 import { IdString } from './IdString';
+import { ItemList } from './ItemList';
+
+export type F2YamlWorkspaceItemPropertyScalarValue = string | number | boolean | Date;
+export type F2YamlWorkspaceItemPropertyArrayValue = F2YamlWorkspaceItemPropertyScalarValue[];
+export type F2YamlWorkspaceItemPropertyValue =
+  | F2YamlWorkspaceItemPropertyScalarValue
+  | F2YamlWorkspaceItemPropertyArrayValue
+  | F2YamlWorkspaceItem
+  | F2Link
+  | F2Link[]
+  | ItemList<F2YamlWorkspaceItem>
+  | null;
 
 export class InvalidOperationError extends Error
 {
@@ -145,7 +158,72 @@ export class F2YamlWorkspaceItem
   //     Entitlement[] Entitlements:
   //     bool IsDeleted:
   //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
-  public TypeId: IdString = IdString.Empty;
+  protected readonly PropertyValues = new Map<string, F2YamlWorkspaceItemPropertyValue>();
+  public ParentItem?: F2YamlWorkspaceItem;
+  public ParentItemProperty?: IdString;
+  public readonly InItemLists = new Set<ItemList<F2YamlWorkspaceItem>>();
+
+  public get TypeId(): IdString {
+    return this.GetIdStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE) ?? IdString.Empty;
+  }
+
+  public set TypeId(value: IdString) {
+    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE, value.Value);
+  }
+
+  public GetPropertyValue(propertyId: string): F2YamlWorkspaceItemPropertyValue | undefined {
+    return this.PropertyValues.get(propertyId);
+  }
+
+  public SetPropertyValue(propertyId: string, value: F2YamlWorkspaceItemPropertyValue): void {
+    this.PropertyValues.set(propertyId, value);
+  }
+
+  public HasProperty(propertyId: string): boolean {
+    return this.PropertyValues.has(propertyId);
+  }
+
+  public SetParentItemAndProperty(parentItem: F2YamlWorkspaceItem, propertyId: IdString, itemList?: ItemList<F2YamlWorkspaceItem>): void {
+    this.ParentItem = parentItem;
+    this.ParentItemProperty = propertyId;
+    if (itemList !== undefined)
+      this.InItemLists.add(itemList);
+  }
+
+  public RemoveFromItemList(itemList: ItemList<F2YamlWorkspaceItem>): void {
+    this.InItemLists.delete(itemList);
+    if (this.InItemLists.size === 0) {
+      this.ParentItem = undefined;
+      this.ParentItemProperty = undefined;
+    }
+  }
+
+  public GetStringPropertyValue(propertyId: string): string | undefined {
+    const value = this.GetPropertyValue(propertyId);
+    return typeof value === 'string' ? value : undefined;
+  }
+
+  public GetStringSequencePropertyValue(propertyId: string): string[] | undefined {
+    const value = this.GetPropertyValue(propertyId);
+    if (!Array.isArray(value))
+      return undefined;
+
+    const result: string[] = [];
+    for (const item of value) {
+      if (typeof item !== 'string')
+        return undefined;
+      result.push(item);
+    }
+
+    return result;
+  }
+
+  public GetIdStringPropertyValue(propertyId: string): IdString | undefined {
+    const value = this.GetStringPropertyValue(propertyId);
+    if (value === undefined || !IdString.IsValidIdString(value))
+      return undefined;
+    return IdString.ParseFromString(value);
+  }
 
   public IsValid(): ValidationResult
   {
@@ -155,10 +233,41 @@ export class F2YamlWorkspaceItem
   public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): F2YamlWorkspaceItem
   {        
     let header = ItemHeader.ParseFromYamlScalar(itemYamlPair.key);
+    const yamlMap = itemYamlPair.value!;
+
+    for (const property of yamlMap.items) {
+      if (!(property.key instanceof yaml.Scalar))
+        continue;
+
+      if (property.value instanceof yaml.YAMLSeq) {
+        const sequenceValues: Array<string | number | boolean | Date> = [];
+        let canStoreSequence = true;
+        for (const item of property.value.items) {
+          if (!(item instanceof yaml.Scalar)) {
+            canStoreSequence = false;
+            break;
+          }
+
+          const scalarValue = item.value;
+          if (typeof scalarValue === 'string' || typeof scalarValue === 'number' || typeof scalarValue === 'boolean' || scalarValue instanceof Date)
+            sequenceValues.push(scalarValue);
+          else {
+            canStoreSequence = false;
+            break;
+          }
+        }
+
+        if (canStoreSequence)
+          this.SetPropertyValue(String(property.key.value), sequenceValues);
+      }
+      else if (property.value instanceof yaml.Scalar)
+        this.SetPropertyValue(String(property.key.value), property.value.value as string | number | boolean | Date | null);
+    }
+
     if (header.TypeId)
       this.TypeId = header.TypeId;
 
-    const typeFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_TYPE);
+    const typeFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.F2YAML_ELEMENTS.PROPERTY_TYPE);
     if (typeFromProperty !== undefined)
     {
       if (header.TypeId && header.TypeId.Value !== typeFromProperty)
@@ -174,9 +283,23 @@ export class F2YamlWorkspaceItem
 
 export abstract class StandardItem extends F2YamlWorkspaceItem
 {
-  public Id: IdString = IdString.Empty;
-  public Summary: string = "";
   public Header: ItemHeader = ItemHeader.Empty;
+
+  public get Id(): IdString {
+    return this.GetIdStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID) ?? IdString.Empty;
+  }
+
+  public set Id(value: IdString) {
+    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID, value.Value);
+  }
+
+  public get Summary(): string {
+    return this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY) ?? "";
+  }
+
+  public set Summary(value: string) {
+    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY, value);
+  }
 
   //copied from System/Types.yaml:
 
@@ -228,4 +351,3 @@ export abstract class StandardItem extends F2YamlWorkspaceItem
     return this;
   }
 }
-
