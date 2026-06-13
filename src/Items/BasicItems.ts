@@ -71,6 +71,19 @@ export class ItemHeader
 
   private constructor() { };
 
+  public static IsValidItemHeader(node: yaml.Scalar): boolean
+  {
+    try {
+      const header = ItemHeader.ParseFromYamlScalar(node);
+      return header.Id !== undefined
+        || header.Summary !== undefined
+        || header.TypeId !== undefined;
+    }
+    catch {
+      return false;
+    }
+  }
+
   public static ParseFromYamlScalar(node: yaml.Scalar): ItemHeader
   {
     var result = new ItemHeader();
@@ -159,9 +172,37 @@ export class F2YamlWorkspaceItem
   //     bool IsDeleted:
   //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
   protected readonly PropertyValues = new Map<string, F2YamlWorkspaceItemPropertyValue>();
-  public ParentItem?: F2YamlWorkspaceItem;
-  public ParentItemProperty?: IdString;
+  public BelongsToItem?: F2YamlWorkspaceItem;
+  public BelongsToProperty?: IdString;
   public readonly InItemLists = new Set<ItemList<F2YamlWorkspaceItem>>();
+
+  public static IsItemYaml(yamlNode: yaml.Node | yaml.Pair<unknown, unknown> | null | undefined): boolean {
+    if (yamlNode instanceof yaml.Pair)
+      return this.IsStandardItemYaml(yamlNode) || this.IsHeaderOnlyItemYaml(yamlNode);
+
+    if (yamlNode instanceof yaml.YAMLMap)
+      return this.IsHeaderlessItemYaml(yamlNode);
+
+    return false;
+  }
+
+  private static IsStandardItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean {
+    return yamlNode.key instanceof yaml.Scalar
+      && ItemHeader.IsValidItemHeader(yamlNode.key)
+      && yamlNode.value instanceof yaml.YAMLMap
+      && yamlNode.value.items.every(property => property.key instanceof yaml.Scalar && typeof property.key.value === 'string');
+  }
+
+  private static IsHeaderlessItemYaml(yamlNode: yaml.YAMLMap): boolean {
+    return yamlNode.items.every(property => property.key instanceof yaml.Scalar && typeof property.key.value === 'string');
+  }
+
+  private static IsHeaderOnlyItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean {
+    return yamlNode.key instanceof yaml.Scalar
+      && ItemHeader.IsValidItemHeader(yamlNode.key)
+      && yamlNode.value instanceof yaml.Scalar
+      && (yamlNode.value.value === '' || yamlNode.value.value === null);
+  }
 
   public get TypeId(): IdString {
     return this.GetIdStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE) ?? IdString.Empty;
@@ -184,8 +225,8 @@ export class F2YamlWorkspaceItem
   }
 
   public SetParentItemAndProperty(parentItem: F2YamlWorkspaceItem, propertyId: IdString, itemList?: ItemList<F2YamlWorkspaceItem>): void {
-    this.ParentItem = parentItem;
-    this.ParentItemProperty = propertyId;
+    this.BelongsToItem = parentItem;
+    this.BelongsToProperty = propertyId;
     if (itemList !== undefined)
       this.InItemLists.add(itemList);
   }
@@ -193,8 +234,8 @@ export class F2YamlWorkspaceItem
   public RemoveFromItemList(itemList: ItemList<F2YamlWorkspaceItem>): void {
     this.InItemLists.delete(itemList);
     if (this.InItemLists.size === 0) {
-      this.ParentItem = undefined;
-      this.ParentItemProperty = undefined;
+      this.BelongsToItem = undefined;
+      this.BelongsToProperty = undefined;
     }
   }
 
@@ -234,7 +275,7 @@ export class F2YamlWorkspaceItem
   {        
     let header = ItemHeader.ParseFromYamlScalar(itemYamlPair.key);
     const yamlMap = itemYamlPair.value!;
-
+ 
     for (const property of yamlMap.items) {
       if (!(property.key instanceof yaml.Scalar))
         continue;

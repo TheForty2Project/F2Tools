@@ -10,7 +10,7 @@ import { QueryDescripton } from './Items/QueryDescripton';
 import { F2YamlUtils } from './F2YamlUtils';
 import { IdString } from "./Items/IdString";
 import { F2Link } from "./Items/F2Link";
-import { ItemHeader } from "./Items/BasicItems";
+import { F2YamlWorkspaceItem, ItemHeader } from "./Items/BasicItems";
 
 export class CSVOperations extends YamlTaskOperations {
 
@@ -33,19 +33,9 @@ export class CSVOperations extends YamlTaskOperations {
   }
 
   static isValidItemHeader(node: yaml.Node): boolean {
-    //pattern is (bnf): <IdString>* "." <charsExceptColon>+
-    if (node instanceof yaml.Scalar && typeof node.value === "string") {
-
-      let words: string[] = node.value.split(" ");
-      for (const word of words)
-      {        
-        if (word.startsWith("."))
-          return true;
-        if (!IdString.IsValidIdString(word))
-          return false;
-      }
-    }
-    return false;
+    return node instanceof yaml.Scalar
+      && typeof node.value === "string"
+      && ItemHeader.IsValidItemHeader(node);
   }
 
   static async TryGetEnclosingItemScalarMapPairAtCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<yaml.Pair<yaml.Scalar, yaml.YAMLMap> | undefined> {
@@ -81,7 +71,7 @@ export class CSVOperations extends YamlTaskOperations {
               return nestedMatch;
             }
 
-            if (pair.key instanceof yaml.Scalar && this.isValidItemHeader(pair.key)) {
+            if (F2YamlWorkspaceItem.IsItemYaml(pair)) {
               return pair as yaml.Pair<yaml.Scalar, yaml.YAMLMap>;
             }
           }
