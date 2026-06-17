@@ -3,13 +3,13 @@ import { IdString } from './IdString';
 
 export class F2Link {
   public FilePathParts: string[] = [];
-  public YamlPathParts: F2LinkPart[] = [];
+  public YamlPathParts: YamlPathPart[] = [];
 
   public get FilePathString(): string {
     return this.FilePathParts.join("\\") + "\\";
   }
 
-  public get YamlPathString(): string {
+  public get YamlPathString(): string { 
     return this.YamlPathParts.join(".");
   }
 
@@ -21,7 +21,7 @@ export class F2Link {
     return this.YamlPathString.length === 0 && this.FilePathParts.length >= 0
   }
 
-  private constructor(filePathParts: string[], yamlPathParts: F2LinkPart[]) {
+  private constructor(filePathParts: string[], yamlPathParts: YamlPathPart[]) {
     this.FilePathParts = filePathParts;
     this.YamlPathParts = yamlPathParts;
   }
@@ -69,11 +69,11 @@ export class F2Link {
       return parts;
     };
 
-    const parseYamlPathParts = (yamlPathString: string): F2LinkPart[] | ItemParsingError => {
+    const parseYamlPathParts = (yamlPathString: string): YamlPathPart[] | ItemParsingError => {
       if (yamlPathString.length === 0 || yamlPathString[0] !== ".")
         return invalidYamlPath(yamlPathString);
 
-      const parts: F2LinkPart[] = [];
+      const parts: YamlPathPart[] = [];
       let i = 0;
       while (i < yamlPathString.length) {
         if (yamlPathString[i] !== ".")
@@ -222,26 +222,45 @@ export class F2Link {
   }
 }
 
-export abstract class F2LinkPart { }
+export abstract class YamlPathPart{}
 
-export class ItemIdPart extends F2LinkPart {
+export abstract class ItemIdentiferPart extends YamlPathPart
+{ 
+  public Number?: number = undefined;
+
+  constructor(number?: number)
+  {
+    super();
+    this.Number = number;
+  }
+
+  protected get NumberSuffix(): string
+  {
+    if (this.Number)
+      return "(" + String(this.Number) + ")";
+    else return "";
+  }  
+}
+
+export class ItemIdPart extends ItemIdentiferPart {
   public ItemId: IdString;
 
-  constructor(itemId: IdString) {
-    super();
+  constructor(itemId: IdString, number?: number ) {
+    super(number);
     this.ItemId = itemId;
   }
 
   public toString(): string {
-    return "." + this.ItemId.Value;
+    return "." + this.ItemId.Value + this.NumberSuffix;
   }
 }
 
-export class PropertyIdPart extends F2LinkPart {
+export class PropertyIdPart extends YamlPathPart {
   public PropertyId: IdString;
 
-  constructor(propertyId: IdString) {
-    super();
+  constructor(propertyId: IdString)
+  { 
+    super();   
     this.PropertyId = propertyId;
   }
 
@@ -250,28 +269,46 @@ export class PropertyIdPart extends F2LinkPart {
   }
 }
 
-export class InternalIdPart extends F2LinkPart {
+export class InternalIdPart extends ItemIdentiferPart {
   public InternalId: string;
 
-  constructor(internalId: string) {
-    super();
+  constructor(internalId: string, number?: number)
+  {
+    super(number);
     this.InternalId = internalId;
   }
 
   public toString(): string {
-    return ".{" + this.InternalId + "}";
+    return ".{" + this.InternalId + "}" + this.NumberSuffix;
   }
 }
 
-export class SummaryPart extends F2LinkPart {
+export class TypeIdPart extends ItemIdentiferPart
+{
+  public TypeId: IdString;
+
+  constructor(typeId: IdString, number?: number)
+  {
+    super(number);
+    this.TypeId = typeId;
+  }
+
+  public toString(): string
+  {
+    return ".<" + this.TypeId + ">" + this.NumberSuffix;
+  }
+}
+
+export class SummaryPart extends ItemIdentiferPart {
   public Summary: string;
 
-  constructor(summary: string) {
-    super();
+  constructor(summary: string, number?: number)
+  {
+    super(number);
     this.Summary = summary;
   }
 
   public toString(): string {
-    return ".\"" + this.Summary + "\"";
+    return ".\"" + this.Summary + "\"" + this.NumberSuffix;
   }
 }

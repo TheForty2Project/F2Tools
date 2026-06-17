@@ -1,4 +1,4 @@
-import { Message } from './VsCodeUtils';
+import { Message } from './Messaging';
 import { Data } from './Data';
 
 export class Timer { // TODO replace the strings with constants

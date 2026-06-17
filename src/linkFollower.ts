@@ -1,7 +1,8 @@
 import { Data } from "./Data";
 import { HackingFixes } from "./HackingFixes";
 import { StringOperations } from "./StringOperations";
-import { Message, VsCodeUtils } from "./VsCodeUtils";
+import { VsCodeUtils } from "./VsCodeUtils";
+import { Message } from './Messaging';
 import { YamlTaskOperations } from "./YamlOperations";
 import * as vscode from 'vscode';
 import { LineCounter } from "yaml";

@@ -1,7 +1,8 @@
 import { Timer } from "./timer";
-import { OutputChannelLogger, VsCodeUtils } from "./VsCodeUtils";
+import { VsCodeUtils } from "./VsCodeUtils";
+import { OutputChannelLogger } from './Messaging';
 import { StringOperations } from "./StringOperations";
-import { Message } from './VsCodeUtils';
+import { Message } from './Messaging';
 import * as vscode from 'vscode';
 import * as yaml from 'yaml';
 import { F2yamlLinkExtractor } from "./f2yamlLinkExtractor";
@@ -73,7 +74,7 @@ export class Commands {
             const srEntry = YamlTaskOperations.createSrEntry(yamlLink, startTime);
 
             let srEntryIndex = await YamlTaskOperations.checkIfTaskIsAlreadyInSr(srEntry, this.srCode, this.srDocUri);
-            if (srEntryIndex == -1) await YamlTaskOperations.moveEntryToWasInSr(srEntry, this.srCode, this.srDocUri);
+            if (srEntryIndex === -1) await YamlTaskOperations.moveEntryToWasInSr(srEntry, this.srCode, this.srDocUri);
 
             this.srEntry = srEntry;
 
@@ -106,7 +107,7 @@ export class Commands {
         const srDoc = VsCodeUtils.getActiveDoc();
         const srCode = StringOperations.extractSrCode(srDoc);
         try {
-            if (srCode == this.srCode && Timer.isTaskRunnig()) await this.stopTask();
+            if (srCode === this.srCode && Timer.isTaskRunnig()) await this.stopTask();
             let workLogGenerated = await YamlTaskOperations.generateWorkLogs(srCode, srDoc.uri);
             if (!workLogGenerated) return
             Message.info(Data.MESSAGES.INFO.WORKLOG_GENERATED);
@@ -159,7 +160,7 @@ export class Commands {
             const cursorPosition = VsCodeUtils.getCursorPosition();
             let yamlLink = await StringOperations.getYamlLink(activeDoc, cursorPosition);
             if(!yamlLink) throw new Error(Data.MESSAGES.ERRORS.NO_LINK_FOUND);
-            if (activeDoc.languageId == "csv") yamlLink = StringOperations.removeExtraQuotes(yamlLink);
+            if (activeDoc.languageId === "csv") yamlLink = StringOperations.removeExtraQuotes(yamlLink);
             LinkFollower.followF2yamlLink(yamlLink);
         } catch (error: any) {
             Message.err(error.message);

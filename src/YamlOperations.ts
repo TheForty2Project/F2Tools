@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as yaml from 'yaml';
-import { Message, VsCodeUtils } from './VsCodeUtils';
+import { VsCodeUtils } from './VsCodeUtils';
+import { Message } from './Messaging';
 import { Data } from './Data';
 import { StringOperations } from './StringOperations';
 import { HackingFixes } from './HackingFixes';
