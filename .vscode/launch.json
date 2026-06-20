@@ -11,8 +11,8 @@
       "request": "launch",
       "args": [
         "--disable-extensions",
+        "${workspaceFolder}/../Management.Public",
         "--extensionDevelopmentPath=${workspaceFolder}",
-        "${workspaceFolder}/../Management",
       ],
       "smartStep": true,
       "skipFiles": [

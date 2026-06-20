@@ -12,6 +12,7 @@ import { Data } from "./Data";
 import { CSVOperations } from "./CSV-Operations";
 import { ItemParsingError } from "./Items/BasicItems";
 import { ItemParsingErrorType } from "./Items/BasicItems";
+import path from "path";
 
 
 export class Commands {    
@@ -23,13 +24,40 @@ export class Commands {
       {
         let queryDescription = await CSVOperations.ExtractAndVerifyQueryDescriptionUnderCursor(activeDoc, cursorPosition);
         OutputChannelLogger.logDebug("Extracted QueryDescription:\n" + queryDescription?.toString());
+        let generatedCSV = await CSVOperations.GenerateReport(queryDescription);                
+
+        let outputFilePath = queryDescription.OutputFile.trim();
+        if (outputFilePath.length > 0) {
+          if (!path.isAbsolute(outputFilePath)) {
+            outputFilePath = path.join(VsCodeUtils.getRootPath() ?? path.dirname(activeDoc.uri.fsPath), outputFilePath);
+          }
+        } else {
+          const sourceDir = path.dirname(activeDoc.uri.fsPath);
+          const sourceFileName = path.parse(activeDoc.uri.fsPath).name;
+          outputFilePath = path.join(sourceDir, `${sourceFileName}.csv`);
+
+          let suffix = 1;
+          while (true) {
+            try {
+              await vscode.workspace.fs.stat(vscode.Uri.file(outputFilePath));
+              outputFilePath = path.join(sourceDir, `${sourceFileName}(${suffix}).csv`);
+              suffix++;
+            } catch {
+              break;
+            }
+          }
+        }
+
+        await vscode.workspace.fs.writeFile(
+          vscode.Uri.file(outputFilePath),
+          Buffer.from(generatedCSV, 'utf8')
+        );
+
+        Message.info("Csv generated into: " + outputFilePath);
       }
       catch (err: any)
       {
-        if (err instanceof ItemParsingError)                          
-          Message.err(err.message);
-        
-        else throw err;
+        Message.err(err.message);
       }
 
     }

@@ -10,7 +10,10 @@ export class F2Link {
   }
 
   public get YamlPathString(): string { 
-    return this.YamlPathParts.join(".");
+    if (this.YamlPathParts.length === 0)
+      return "";
+
+    return "." + this.YamlPathParts.join(".");
   }
 
   public get IsLocalLink(): boolean {
@@ -29,9 +32,26 @@ export class F2Link {
   public static TryParseString(f2LinkString: string): F2Link | ItemParsingError {
     const invalidFormat = () => new ItemParsingError(ItemParsingErrorType.InvalidF2LinkFormat, f2LinkString);
     const invalidFilePath = (value: string) => new ItemParsingError(ItemParsingErrorType.InvalidF2LinkFilePath, value);
-    const invalidYamlPath = (value: string) => new ItemParsingError(ItemParsingErrorType.InvalidF2LinkYamlPath, value);
+    const invalidYamlPath = 
+    (value: string) => 
+      new ItemParsingError(ItemParsingErrorType.InvalidF2LinkYamlPath, value);
     const invalidIdentifier = (value: string) => new ItemParsingError(ItemParsingErrorType.InvalidF2LinkIdentifier, value);
     const invalidSummary = (value: string) => new ItemParsingError(ItemParsingErrorType.InvalidF2LinkSummary, value);
+
+    const parseOptionalNumberSuffix = (value: string, index: number): { number: number | undefined; nextIndex: number } | ItemParsingError => {
+      if (index >= value.length || value[index] !== "(")
+        return { number: undefined, nextIndex: index };
+
+      let i = index + 1;
+      const digitsStart = i;
+      while (i < value.length && value[i] >= "0" && value[i] <= "9")
+        i++;
+
+      if (i === digitsStart || i >= value.length || value[i] !== ")")
+        return invalidYamlPath(value);
+
+      return { number: Number.parseInt(value.slice(digitsStart, i), 10), nextIndex: i + 1 };
+    };
 
     const parseFilePathParts = (filePathString: string, allowMissingTrailingSlash: boolean): string[] | ItemParsingError => {
       if (filePathString.length === 0)
@@ -100,8 +120,43 @@ export class F2Link {
             if (i === start || i >= yamlPathString.length || yamlPathString[i] !== "}")
               return invalidYamlPath(yamlPathString);
 
-            parts.push(new InternalIdPart(yamlPathString.slice(start, i)));
+            const internalId = yamlPathString.slice(start, i);
             i++;
+            const numberSuffix = parseOptionalNumberSuffix(yamlPathString, i);
+            if (numberSuffix instanceof ItemParsingError)
+              return numberSuffix;
+
+            parts.push(new InternalIdPart(internalId, numberSuffix.number));
+            i = numberSuffix.nextIndex;
+            continue;
+          }
+
+          if (yamlPathString[i] === "<") {
+            const start = ++i;
+            while (i < yamlPathString.length && yamlPathString[i] !== ">") {
+              const character = yamlPathString[i];
+              const isDigit = character >= "0" && character <= "9";
+              const isUpper = character >= "A" && character <= "Z";
+              const isLower = character >= "a" && character <= "z";
+              if (!isDigit && !isUpper && !isLower && character !== "-" && character !== "_")
+                return invalidIdentifier(yamlPathString.slice(start - 1, i + 1));
+              i++;
+            }
+
+            if (i === start || i >= yamlPathString.length || yamlPathString[i] !== ">")
+              return invalidYamlPath(yamlPathString);
+
+            const typeId = yamlPathString.slice(start, i);
+            if (!IdString.IsValidIdString(typeId))
+              return invalidIdentifier(typeId);
+
+            i++;
+            const numberSuffix = parseOptionalNumberSuffix(yamlPathString, i);
+            if (numberSuffix instanceof ItemParsingError)
+              return numberSuffix;
+
+            parts.push(new TypeIdPart(IdString.ParseFromString(typeId), numberSuffix.number));
+            i = numberSuffix.nextIndex;
             continue;
           }
 
@@ -130,8 +185,13 @@ export class F2Link {
             if (i >= yamlPathString.length || yamlPathString[i] !== "\"")
               return invalidYamlPath(yamlPathString);
 
-            parts.push(new SummaryPart(summary));
             i++;
+            const numberSuffix = parseOptionalNumberSuffix(yamlPathString, i);
+            if (numberSuffix instanceof ItemParsingError)
+              return numberSuffix;
+
+            parts.push(new SummaryPart(summary, numberSuffix.number));
+            i = numberSuffix.nextIndex;
             continue;
           }
 
@@ -153,7 +213,12 @@ export class F2Link {
           if (!IdString.IsValidIdString(itemId))
             return invalidIdentifier(itemId);
 
-          parts.push(new ItemIdPart(IdString.ParseFromString(itemId)));
+          const numberSuffix = parseOptionalNumberSuffix(yamlPathString, i);
+          if (numberSuffix instanceof ItemParsingError)
+            return numberSuffix;
+
+          parts.push(new ItemIdPart(IdString.ParseFromString(itemId), numberSuffix.number));
+          i = numberSuffix.nextIndex;
           continue;
         }
 

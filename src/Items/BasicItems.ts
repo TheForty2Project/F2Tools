@@ -1,7 +1,7 @@
 import * as yaml from 'yaml';
 import { Data } from '../Data';
 import { F2YamlUtils } from '../F2YamlUtils';
-import { F2Link } from './F2Link';
+import { F2Link, ItemIdPart, PropertyIdPart, SummaryPart, TypeIdPart, YamlPathPart } from './F2Link';
 import { IdString } from './IdString';
 import { ItemList } from './ItemList';
 
@@ -60,6 +60,7 @@ export class YamlRepresentationDescriptor {
   public DocumentRange?: F2YamlRange;
   public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.None;
   public RepresentationType: ItemRepresentationType = ItemRepresentationType.Node;
+  public WorkspaceRelativePath: string = "";
   public HeaderPrefixPropertyIds: IdString[] = [];
   public AdditionalPropertiesPropertyIds: IdString[] = [];
   public PropertyIds: IdString[] = [];
@@ -285,7 +286,6 @@ export class F2YamlWorkspaceItem
 
       const propertyId = String(property.key.value);
       if (propertyId === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && property.value instanceof yaml.YAMLMap) {
-        this.YamlRepresentation.PropertyIds.push(IdString.ParseFromString(Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES));
         for (const additionalProperty of property.value.items) {
           if (additionalProperty.key instanceof yaml.Scalar
             && typeof additionalProperty.key.value === 'string'
@@ -428,6 +428,20 @@ export class F2YamlWorkspaceItem
       if (processedPropertyIds.includes(propertyId))
         continue;
 
+      if (propertyId === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && property.value instanceof yaml.YAMLMap) {
+        for (const additionalProperty of property.value.items) {
+          if (!(additionalProperty.key instanceof yaml.Scalar) || typeof additionalProperty.key.value !== 'string')
+            continue;
+
+          const additionalPropertyId = String(additionalProperty.key.value);
+          if (processedPropertyIds.includes(additionalPropertyId))
+            continue;
+
+          this.SetPropertyValue(additionalPropertyId, this.ParsePropertyValue(additionalProperty.value as yaml.Node));
+        }
+        continue;
+      }
+
       this.SetPropertyValue(propertyId, this.ParsePropertyValue(property.value as yaml.Node));
     }
 
@@ -454,7 +468,149 @@ export class F2YamlWorkspaceItem
 
   public GetF2Link(linkTypePreference: LinkTypePreference = LinkTypePreference.None): F2Link
   {
-    throw new Error("Not yet implemented.");
+    const workspaceRelativePath = this.YamlRepresentation.WorkspaceRelativePath;
+    const filePathParts = workspaceRelativePath.length > 0
+      ? workspaceRelativePath.split(/[\\/]/g).filter(part => part.length > 0)
+      : [];
+
+    const yamlPathParts: YamlPathPart[] = [];
+
+    const getOccurrenceIndex = (item: F2YamlWorkspaceItem, identifierFactory: (candidate: F2YamlWorkspaceItem) => string | undefined): number | undefined => {
+      const parent = item.BelongsToItem;
+      const propertyId = item.BelongsToProperty;
+      if (parent === undefined || propertyId === undefined)
+        return undefined;
+
+      const propertyValue = parent.GetPropertyValue(propertyId.Value);
+      if (!(propertyValue instanceof ItemList))
+        return undefined;
+
+      const identifier = identifierFactory(item);
+      if (identifier === undefined)
+        return undefined;
+
+      let sameIdentifierCount = 0;
+      let occurrenceIndex = -1;
+      for (const candidate of propertyValue) {
+        const candidateIdentifier = identifierFactory(candidate);
+        if (candidateIdentifier !== identifier)
+          continue;
+
+        if (candidate === item)
+          occurrenceIndex = sameIdentifierCount;
+
+        sameIdentifierCount++;
+      }
+
+      return sameIdentifierCount > 1 ? occurrenceIndex : undefined;
+    };
+
+    const createItemIdentifierPart = (item: F2YamlWorkspaceItem, preference: LinkTypePreference): YamlPathPart => {
+      const isStandardItem = item instanceof StandardItem;
+      const idValue = isStandardItem ? item.Id.Value : "";
+      const summaryValue = isStandardItem ? item.Summary : "";
+      const typeValue = item.TypeId.Value;
+      const itemId = isStandardItem ? item.Id : undefined;
+
+      const createItemIdPart = () => {
+        const number = getOccurrenceIndex(item, candidate => candidate instanceof StandardItem && candidate.Id.Value.length > 0 ? candidate.Id.Value : undefined);
+        if (itemId === undefined)
+          throw new Error('Unable to generate Id-based F2Link part for non-standard item.');
+        return new ItemIdPart(itemId, number);
+      };
+
+      const createSummaryPart = () => {
+        const number = getOccurrenceIndex(item, candidate => candidate instanceof StandardItem && candidate.Summary.length > 0 ? candidate.Summary : undefined);
+        return new SummaryPart(summaryValue, number);
+      };
+
+      const createTypeIdPart = () => {
+        const number = getOccurrenceIndex(item, candidate => candidate.TypeId.Value.length > 0 ? candidate.TypeId.Value : undefined);
+        return new TypeIdPart(item.TypeId, number);
+      };
+
+      if (preference === LinkTypePreference.Summary) {
+        if (summaryValue.length > 0)
+          return createSummaryPart();
+        if (idValue.length > 0)
+          return createItemIdPart();
+        if (typeValue.length > 0)
+          return createTypeIdPart();
+      }
+      else if (preference === LinkTypePreference.Id) {
+        if (idValue.length > 0)
+          return createItemIdPart();
+        if (summaryValue.length > 0)
+          return createSummaryPart();
+        if (typeValue.length > 0)
+          return createTypeIdPart();
+      }
+      else {
+        switch (item.YamlRepresentation.HeaderType) {
+          case ItemYamlHeaderType.Id:
+            if (idValue.length > 0)
+              return createItemIdPart();
+            break;
+          case ItemYamlHeaderType.Summary:
+            if (summaryValue.length > 0)
+              return createSummaryPart();
+            break;
+          case ItemYamlHeaderType.TypeId:
+            if (typeValue.length > 0)
+              return createTypeIdPart();
+            break;
+        }
+
+        if (item.BelongsToItem !== undefined && item.BelongsToProperty !== undefined && !(item.BelongsToItem.GetPropertyValue(item.BelongsToProperty.Value) instanceof ItemList))
+        {
+          if (item.YamlRepresentation.HeaderType !== ItemYamlHeaderType.None)
+            return createItemIdentifierPart(item, LinkTypePreference.Id);
+
+          throw new Error('Headerless non-list property items should be skipped by the caller.');
+        }
+
+        if (idValue.length > 0)
+          return createItemIdPart();
+        if (summaryValue.length > 0)
+          return createSummaryPart();
+        if (typeValue.length > 0)
+          return createTypeIdPart();
+      }
+
+      throw new Error('Unable to generate F2Link item identifier part.');
+    };
+
+    const buildYamlPathParts = (item: F2YamlWorkspaceItem): void => {
+      if (item.BelongsToItem !== undefined) {
+        buildYamlPathParts(item.BelongsToItem);
+
+        if (item.BelongsToProperty !== undefined) {
+          const parentPropertyValue = item.BelongsToItem.GetPropertyValue(item.BelongsToProperty.Value);
+          const isItemList = parentPropertyValue instanceof ItemList;
+          const shouldRenderProperty = !isItemList || item.BelongsToItem.YamlRepresentation.RenderDefaultListPropertyId || item.BelongsToProperty.Value !== 'Items';
+          if (shouldRenderProperty)
+            yamlPathParts.push(new PropertyIdPart(item.BelongsToProperty));
+
+          if (isItemList)
+            yamlPathParts.push(createItemIdentifierPart(item, linkTypePreference));
+        }
+      }
+      else {
+        if (filePathParts.length === 0 && item.YamlRepresentation.WorkspaceRelativePath.length > 0)
+          filePathParts.push(...item.YamlRepresentation.WorkspaceRelativePath.split(/[\\/]/g).filter(part => part.length > 0));
+
+        yamlPathParts.push(createItemIdentifierPart(item, linkTypePreference));
+      }
+    };
+
+    buildYamlPathParts(this);
+
+    const yamlPathString = yamlPathParts.length > 0
+      ? `.${yamlPathParts.join('.')}`
+      : '';
+
+    const linkString = `-->${filePathParts.length > 0 ? `${filePathParts.join("\\")}\\` : ''}${yamlPathString}<`;
+    return F2Link.ParseFromStringArray([linkString])[0];
   }
 }
 

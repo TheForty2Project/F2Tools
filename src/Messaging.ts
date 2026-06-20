@@ -32,7 +32,7 @@ export class Message
 export class OutputChannelLogger
 {
   static LogLevel?: OutputChannelLogLevel = undefined;
-  static Output?: vscode.OutputChannel = undefined;
+  static Output?: vscode.LogOutputChannel = undefined;
 
   static parseLogLevel(value: string): OutputChannelLogLevel
   {
@@ -55,27 +55,26 @@ export class OutputChannelLogger
     {
       try
       {
-        this.Output === vscode.window.createOutputChannel("F2Tools");
+        this.Output = vscode.window.createOutputChannel("F2Tools", {log: true});
       }
       catch (err: any)
       {
         vscode.window.showErrorMessage("Error when creating output channel for logging: \n" + Message.getTextFromObject(err) + "\n\nThe message which should have been logged:\n" + message);
+        return;
       }
     }
 
     if (this.LogLevel! >= logLevel)
-    {
-      let prefix: string = "";
-      if (logLevel === OutputChannelLogLevel.Info)
-        prefix = "[INFO]";
-      else if (logLevel === OutputChannelLogLevel.Debug)
-        prefix = "[DEBUG]";
+    {            
+      if (logLevel === OutputChannelLogLevel.Debug)
+        this.Output.debug(message);
+      else if (logLevel === OutputChannelLogLevel.Info)
+        this.Output.info(message)
       else if (logLevel === OutputChannelLogLevel.Warning)
-        prefix = "[WARNING]";
+        this.Output.warn(message);
       else if (logLevel === OutputChannelLogLevel.Error)
-        prefix = "[ERROR]";
+        this.Output.error(message);
 
-      OutputChannelLogger.Output!.appendLine(Message.getTextFromObject(message));
       OutputChannelLogger.Output!.show();
     }
   }
