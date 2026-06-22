@@ -18,7 +18,7 @@ export class QueryDescripton extends StandardItem {
   }
 
   public get From(): F2Link[] {
-    const value = this.GetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID);
+    const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID);
     return Array.isArray(value) && value.every(item => item instanceof F2Link) ? value : [];
   }
 
@@ -27,7 +27,7 @@ export class QueryDescripton extends StandardItem {
   }
 
   public get Where(): WherePartOfQuery {
-    const value = this.GetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID);
+    const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID);
     return value instanceof WherePartOfQuery ? value : new WherePartOfQuery();
   }
 
@@ -56,7 +56,7 @@ export class QueryDescripton extends StandardItem {
   }
 
   public get AddSyncResultColumn(): boolean {
-    return this.GetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID) === true;
+    return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID) === true;
   }
 
   public set AddSyncResultColumn(value: boolean) {
@@ -205,7 +205,7 @@ class WherePartOfQuery extends F2YamlWorkspaceItem {
   }
 
   public get SkipUnder(): F2Link[] {
-    const value = this.GetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID);
+    const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID);
     return Array.isArray(value) && value.every(item => item instanceof F2Link) ? value : [];
   }
 

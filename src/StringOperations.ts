@@ -368,9 +368,9 @@ export class StringOperations {
     }
 
     static wrapInQuotesIfMultiWord(str: string): string {
-        if (str === null) {return "";}
+        if (!str) return "";
 
-        const trimmed = String(str).trim();
+        const trimmed = str.trim();
         if (trimmed.includes(' ')) {
             if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
                 return trimmed;

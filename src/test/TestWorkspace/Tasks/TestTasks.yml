@@ -1,0 +1,41 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+InProgress .Website launch preparation:
+  By: Bobi
+  Tags: [Website, Launch]
+  SubTasks:
+    Done .Review production checklist:
+      By: Hana
+      Spent: 30m
+    InProgress .Fix navigation issues:
+      By: Bobi
+      Tags: [Frontend]
+    Blocked .Prepare announcement post:
+      By: Nora
+      DependsOn: [-->Tasks\OtherTasks\.."Content pipeline review"<]
+
+Done .Stabilize CSV export:
+  By: Bobi
+  Tags: [Extension, CSV]
+  Summary: Stabilize CSV export command
+
+InProgress .F2Link generation refactor:
+  By: Hana
+  Tags: [Extension, Links]
+  Notes: Testing duplicate identifiers and file path generation
+
+.Internal tooling:
+  Type: Folder
+  Done .Clean command palette entries:
+    By: Bobi
+  InProgress .Investigate yaml parse edge cases:
+    By: Hana
+    Tags: [Yaml]
+
+.Sprint support:
+  Type: Folder
+  InProgress .Prepare review notes:
+    By: Nora
+  TODO .List follow-up bugs:
+    Id: ListFollowUpBugs
+    By: Bobi

@@ -75,7 +75,7 @@ export class CSVOperations extends YamlTaskOperations {
       case 'SUMMARYLINK':
         return item.GetF2Link(1).toString();
       default: {
-        const value = item.GetPropertyValue(propertyId.Value);
+        const value = item.TryGetPropertyValue(propertyId.Value);
         if (value === undefined || value === null)
           return '';
         if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean')

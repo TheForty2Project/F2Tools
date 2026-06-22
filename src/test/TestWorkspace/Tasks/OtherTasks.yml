@@ -1,0 +1,18 @@
++: {Type: Folder, DefaultTypes: [Task, Folder]}
+
+.Backlog:
+  Type: Folder
+  Todo .Content pipeline review:
+    By: Nora
+    Tags: [Content]
+  Todo .Add link generation integration test:
+    By: Hana
+    Tags: [Testing, Links]
+
+InProgress .Document parser behavior:
+  By: Bobi
+  Tags: [Docs]
+
+Blocked .Migrate task templates:
+  By: Nora
+  DependsOn: [-->Tasks\TestTasks\.."Website launch preparation"<]

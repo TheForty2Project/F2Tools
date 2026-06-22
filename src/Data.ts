@@ -91,7 +91,9 @@ export class Data {
     DOUBLE_QUOTE: "\"",
     PATH_SEPERATOR: ".",
   };
+
   public static readonly CONFIG = {
+    DEFAULT_INDENT: 2,
     ROOT_PATH: "pathFromRoot",
     CSV_FIELDS: "csvFields",
     WORKSPACE_PATH: "workspacePath",
