@@ -4,7 +4,7 @@ import { F2YamlUtils } from '../F2YamlUtils';
 import { F2Link, ItemIdPart, PropertyIdPart, SummaryPart, TypeIdPart, YamlPathPart } from './F2Link';
 import { IdString } from './IdString';
 import { ItemList } from './ItemList';
-import { OutputChannelLogger } from '../Messaging';
+import { Message, OutputChannelLogger } from '../Messaging';
 import { StringOperations } from '../StringOperations';
 
 export type F2YamlWorkspaceItemPropertyScalarValue = string | number | boolean | Date;
@@ -41,6 +41,21 @@ function isScalarArrayValue(
   );
 }
 
+function isF2Link(value: unknown): value is F2Link
+{
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "target" in value &&
+    "text" in value
+  );
+}
+
+function isF2LinkArray(value: unknown): value is F2Link[]
+{
+  return Array.isArray(value) &&
+    value.every(isF2Link);
+}
 
 export class NotParsedYaml
 {
@@ -87,16 +102,41 @@ export enum ItemYamlHeaderType
   Summary
 }
 
+export enum YamlNodeKind
+{
+  Scalar,
+  Sequence,
+  Mapping
+}
+
+export enum YamlStringStyle
+{
+  Plain,
+  QuoteSingle,
+  QuoteDouble,
+  BlockLiteral,
+  BlockFolded
+}
+
+export class YamlPropertyRenderingDescriptor
+{
+  public NodeKind: YamlNodeKind = YamlNodeKind.Scalar;
+  public IsFlowStyle: boolean = false;
+  public StringStyle: YamlStringStyle = YamlStringStyle.Plain;
+}
+
 export class YamlRepresentationDescriptor
 {
   public DocumentRange?: F2YamlRange;
   public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.None;
   public RepresentationType: ItemRepresentationType = ItemRepresentationType.Node;
+  public IsMapFlowStyle: boolean = false;
   public WorkspaceRelativePath: string = "";
   public HeaderPrefixPropertyIds: IdString[] = [];
   public AdditionalPropertiesPropertyIds: IdString[] = [];
   public PropertyIds: IdString[] = [];
   public RenderDefaultListPropertyId: boolean = true;
+  public PropertyRenderingById = new Map<string, YamlPropertyRenderingDescriptor>();
 }
 
 export class InvalidOperationError extends Error
@@ -139,10 +179,12 @@ export enum ItemParsingErrorType
   InvalidF2LinkIdentifier = 11,
   InvalidF2LinkSummary = 12,
   TypeIdMismatchInHeaderAndTypeProperty = 13,
-  ItemHeaderIdOrSummaryMustStartWithADot,
-  TypeMustBeIdString,
-  CantParseAsBoolean,
-  CantParseAsEnumerationMember
+  ItemHeaderIdOrSummaryMustStartWithADot = 14,
+  TypeMustBeIdString = 15,
+  CantParseAsBoolean = 16,
+  CantParseAsEnumerationMember = 17,
+  ItemHeaderCantBeEmpty = 18,
+  ItemHeaderCantContainNewLine,
 }
 
 export class ItemHeader
@@ -152,75 +194,83 @@ export class ItemHeader
   public TypeId?: IdString = undefined;
   public Prefixes: IdString[] = [];
 
-  private constructor() { };
+  public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.None;
 
-  public static IsValidItemHeader(node: yaml.Scalar): boolean
+  private constructor(headerType: ItemYamlHeaderType) 
   {
-    try
-    {
-      const header = ItemHeader.ParseFromYamlScalar(node);
-      return header.Id !== undefined
-        || header.Summary !== undefined
-        || header.TypeId !== undefined;
-    }
-    catch
-    {
-      return false;
-    }
+    this.HeaderType = headerType;
   }
 
-  public static ParseFromYamlScalar(node: yaml.Scalar): ItemHeader
+  public static IsValidItemHeader(headerValue: string): boolean
   {
-    var result = new ItemHeader();
+    return (ItemHeader.TryParseFromString(headerValue) instanceof ItemHeader);
+  }
 
-    if (!(typeof node.value === "string"))
-      throw new InvalidOperationError();
+  public static ParseFromString(headerValue: string): ItemHeader
+  {
+    let value = this.TryParseFromString(headerValue);
+    if (value instanceof Error)
+      throw value;
+    return value;
+  }
 
-    let headerValue: string = node.value;
+  public static TryParseFromString(headerValue: string): ItemHeader | Error
+  {
+    var prefixes: IdString[] = [];
 
-    if (node instanceof yaml.Scalar && typeof node.value === "string")
+    if (headerValue.indexOf("\n") >= 0 || headerValue.indexOf("\r") >= 0)
+      return new ItemParsingError(ItemParsingErrorType.ItemHeaderCantContainNewLine)
+    headerValue = headerValue.normalize().replaceAll("\t", " ").trim();
+    while (headerValue.indexOf("  ") >= 0)
+      headerValue = headerValue.replace("  ", " ");
+
+    if (headerValue === "")
+      return new ItemParsingError(ItemParsingErrorType.ItemHeaderCantBeEmpty);
+
+    let words: string[] = headerValue.split(" ");
+    let counter: number = 0;
+    for (const word of words)
     {
-      node.range
-      let words: string[] = headerValue.split(" ");
-      let counter: number = 0;
-      for (const word of words)
-      {
-        if (word.startsWith("."))
-          continue;
-        if (!IdString.IsValidIdString(word))
-          throw new ItemParsingError(ItemParsingErrorType.ItemHeaderIdOrSummaryMustStartWithADot)
-        result.Prefixes.push(IdString.ParseFromString(word));
-        counter++;
-      }
-
-
-      //we are after the prefixes; first word must start with a . - so we remove it
-      words[counter] = words[counter].substring(1);
-      //do we have multiple words after OR it's not an IdString/classId? If yes, that's a summary
-      if (words.length === counter + 1)
-      {
-        var idOrTypeId = words[counter];
-        if (IdString.IsValidIdString(idOrTypeId)) 
-        {
-          result.Id = IdString.ParseFromString(idOrTypeId);
-          return result;
-        }
-        else if (
-          idOrTypeId.startsWith(Data.F2YAML_ELEMENTS.CLASS_START)
-          && idOrTypeId.endsWith(Data.F2YAML_ELEMENTS.CLASS_END)
-          && IdString.IsValidIdString(idOrTypeId.slice(1, idOrTypeId.length - 1))
-        )
-        {
-          result.TypeId = IdString.ParseFromString(idOrTypeId.slice(1, idOrTypeId.length - 1));
-          return result;
-        }
-      }
-      result.Summary = words.slice(counter).join(" ");
+      if (word.startsWith("."))
+        continue;
+      if (!IdString.IsValidIdString(word))
+        return new ItemParsingError(ItemParsingErrorType.ItemHeaderIdOrSummaryMustStartWithADot)
+      prefixes.push(IdString.ParseFromString(word));
+      counter++;
     }
+
+
+    //we are after the prefixes; first word must start with a . - so we remove it
+    words[counter] = words[counter].substring(1);
+    //do we have multiple words after OR it's not an IdString/classId? If yes, that's a summary
+    if (words.length === counter + 1)
+    {
+      var idOrTypeId = words[counter];
+      if (IdString.IsValidIdString(idOrTypeId)) 
+      {
+        let result = new ItemHeader(ItemYamlHeaderType.Id);
+        result.Id = IdString.ParseFromString(idOrTypeId);
+        return result;
+      }
+      else if (
+        idOrTypeId.startsWith(Data.F2YAML_ELEMENTS.CLASS_START)
+        && idOrTypeId.endsWith(Data.F2YAML_ELEMENTS.CLASS_END)
+        && IdString.IsValidIdString(idOrTypeId.slice(1, idOrTypeId.length - 1))
+      )
+      {
+        let result = new ItemHeader(ItemYamlHeaderType.TypeId);
+        result.TypeId = IdString.ParseFromString(idOrTypeId.slice(1, idOrTypeId.length - 1));
+        return result;
+      }
+    }
+
+    //else  
+    let result = new ItemHeader(ItemYamlHeaderType.Summary);
+    result.Summary = words.slice(counter).join(" ");
     return result;
   }
 
-  public static get Empty() { return new ItemHeader(); }
+  public static get Empty() { return new ItemHeader(ItemYamlHeaderType.None); }
 }
 
 export class ValidationResult
@@ -256,7 +306,9 @@ export class F2YamlWorkspaceItem
   //     Entitlement[] Entitlements:
   //     bool IsDeleted:
   //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
-  protected readonly PropertyValuesById = new Map<string, F2YamlWorkspaceItemPropertyValue>();
+  protected readonly PropertyValuesById = new Map<IdString, F2YamlWorkspaceItemPropertyValue>();
+
+  public Children: ItemList<F2YamlWorkspaceItem> = new ItemList<F2YamlWorkspaceItem>(this, IdString.Empty) //temporary measure until we have class and default item list flag support; right now we store the "sub" items here
   public BelongsToItem?: F2YamlWorkspaceItem;
   public BelongsToProperty?: IdString;
   public readonly InItemLists = new Set<ItemList<F2YamlWorkspaceItem>>();
@@ -276,6 +328,7 @@ export class F2YamlWorkspaceItem
   private static IsStandardItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean
   {
     return yamlNode.key instanceof yaml.Scalar
+      && typeof yamlNode.key === "string"
       && ItemHeader.IsValidItemHeader(yamlNode.key)
       && yamlNode.value instanceof yaml.YAMLMap
       && yamlNode.value.items.every(property => property.key instanceof yaml.Scalar && typeof property.key.value === 'string');
@@ -289,20 +342,49 @@ export class F2YamlWorkspaceItem
   private static IsHeaderOnlyItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean
   {
     return yamlNode.key instanceof yaml.Scalar
+      && typeof yamlNode.key === "string"
       && ItemHeader.IsValidItemHeader(yamlNode.key)
       && yamlNode.value instanceof yaml.Scalar
       && (yamlNode.value.value === '' || yamlNode.value.value === null);
   }
 
-  private static DetermineHeaderTypeFromHeader(header: ItemHeader): ItemYamlHeaderType
+  private static DetermineYamlNodeKind(node: yaml.Node | null | undefined): YamlNodeKind
   {
-    if (header.TypeId !== undefined)
-      return ItemYamlHeaderType.TypeId;
-    if (header.Id !== undefined)
-      return ItemYamlHeaderType.Id;
-    if (header.Summary !== undefined)
-      return ItemYamlHeaderType.Summary;
-    return ItemYamlHeaderType.None;
+    if (node instanceof yaml.YAMLMap)
+      return YamlNodeKind.Mapping;
+    if (node instanceof yaml.YAMLSeq)
+      return YamlNodeKind.Sequence;
+    return YamlNodeKind.Scalar;
+  }
+
+  private static DetermineYamlStringStyle(node: yaml.Node | null | undefined): YamlStringStyle
+  {
+    if (!(node instanceof yaml.Scalar) || typeof node.value !== 'string')
+      return YamlStringStyle.Plain;
+
+    switch (node.type)
+    {
+      case yaml.Scalar.QUOTE_SINGLE:
+        return YamlStringStyle.QuoteSingle;
+      case yaml.Scalar.QUOTE_DOUBLE:
+        return YamlStringStyle.QuoteDouble;
+      case yaml.Scalar.BLOCK_LITERAL:
+        return YamlStringStyle.BlockLiteral;
+      case yaml.Scalar.BLOCK_FOLDED:
+        return YamlStringStyle.BlockFolded;
+      case yaml.Scalar.PLAIN:
+      default:
+        return YamlStringStyle.Plain;
+    }
+  }
+
+  private static CreatePropertyRenderingDescriptor(node: yaml.Node | null | undefined): YamlPropertyRenderingDescriptor
+  {
+    const descriptor = new YamlPropertyRenderingDescriptor();
+    descriptor.NodeKind = this.DetermineYamlNodeKind(node);
+    descriptor.IsFlowStyle = node instanceof yaml.YAMLMap || node instanceof yaml.YAMLSeq ? node.flow === true : false;
+    descriptor.StringStyle = this.DetermineYamlStringStyle(node);
+    return descriptor;
   }
 
   private CaptureYamlRepresentation(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, header: ItemHeader, yamlMap: yaml.YAMLMap): void
@@ -312,58 +394,77 @@ export class F2YamlWorkspaceItem
       : itemYamlNode.value?.range ?? undefined;
     this.YamlRepresentation.DocumentRange = F2YamlRange.FromYamlRange(nodeRange as [number, number, number] | [number, number] | undefined);
     this.YamlRepresentation.HeaderType = itemYamlNode instanceof yaml.Pair
-      ? F2YamlWorkspaceItem.DetermineHeaderTypeFromHeader(header)
+      ? header.HeaderType
       : ItemYamlHeaderType.None;
     this.YamlRepresentation.RepresentationType = ItemRepresentationType.Node;
+    this.YamlRepresentation.IsMapFlowStyle = yamlMap.flow === true;
     this.YamlRepresentation.HeaderPrefixPropertyIds = [...header.Prefixes];
     this.YamlRepresentation.AdditionalPropertiesPropertyIds = [];
     this.YamlRepresentation.PropertyIds = [];
     this.YamlRepresentation.RenderDefaultListPropertyId = true;
+    this.YamlRepresentation.PropertyRenderingById = new Map<string, YamlPropertyRenderingDescriptor>();
 
-    for (const property of yamlMap.items)
+    for (const pair of yamlMap.items)
     {
-      if (!(property.key instanceof yaml.Scalar) || typeof property.key.value !== 'string')
+      if (!(pair.key instanceof yaml.Scalar) || typeof pair.key.value !== 'string')
         continue;
 
-      const propertyId = String(property.key.value);
-      if (propertyId === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && property.value instanceof yaml.YAMLMap)
+      const pairKeyValue = String(pair.key.value);
+      if (pairKeyValue === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && pair.value instanceof yaml.YAMLMap)
       {
-        for (const additionalProperty of property.value.items)
+        for (const additionalProperty of pair.value.items)
         {
           if (additionalProperty.key instanceof yaml.Scalar
             && typeof additionalProperty.key.value === 'string'
             && IdString.IsValidIdString(String(additionalProperty.key.value)))
+          {
             this.YamlRepresentation.AdditionalPropertiesPropertyIds.push(IdString.ParseFromString(String(additionalProperty.key.value)));
+            this.YamlRepresentation.PropertyRenderingById.set(
+              String(additionalProperty.key.value),
+              F2YamlWorkspaceItem.CreatePropertyRenderingDescriptor(additionalProperty.value as yaml.Node | null | undefined)
+            );
+          }
+          else
+          {
+            OutputChannelLogger.logWarning("Invalid element in additional properties:" + additionalProperty.key);
+          }
         }
+        this.YamlRepresentation.PropertyIds.push(IdString.AdditionalProperties);
         continue;
       }
 
-      if (IdString.IsValidIdString(propertyId))
-        this.YamlRepresentation.PropertyIds.push(IdString.ParseFromString(propertyId));
+      if (IdString.IsValidIdString(pairKeyValue))
+      {
+        this.YamlRepresentation.PropertyIds.push(IdString.ParseFromString(pairKeyValue));
+        this.YamlRepresentation.PropertyRenderingById.set(
+          pairKeyValue,
+          F2YamlWorkspaceItem.CreatePropertyRenderingDescriptor(pair.value as yaml.Node | null | undefined)
+        );
+      }
     }
   }
 
   public get TypeId(): IdString
   {
-    return this.GetIdStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE) ?? IdString.Empty;
+    return this.GetIdStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE.ID_STRING) ?? IdString.Empty;
   }
 
   public set TypeId(value: IdString)
   {
-    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE, value.Value);
+    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE.ID_STRING, value.Value);
   }
 
-  public TryGetPropertyValue(propertyId: string): F2YamlWorkspaceItemPropertyValue | undefined
+  public TryGetPropertyValue(propertyId: IdString): F2YamlWorkspaceItemPropertyValue | undefined
   {
     return this.PropertyValuesById.get(propertyId);
   }
 
-  public SetPropertyValue(propertyId: string, value: F2YamlWorkspaceItemPropertyValue): void
+  public SetPropertyValue(propertyId: IdString, value: F2YamlWorkspaceItemPropertyValue): void
   {
     this.PropertyValuesById.set(propertyId, value);
   }
 
-  public HasProperty(propertyId: string): boolean
+  public HasProperty(propertyId: IdString): boolean
   {
     return this.PropertyValuesById.has(propertyId);
   }
@@ -386,13 +487,13 @@ export class F2YamlWorkspaceItem
     }
   }
 
-  public GetStringPropertyValue(propertyId: string): string | undefined
+  public GetStringPropertyValue(propertyId: IdString): string | undefined
   {
     const value = this.TryGetPropertyValue(propertyId);
     return typeof value === 'string' ? value : undefined;
   }
 
-  public GetStringSequencePropertyValue(propertyId: string): string[] | undefined
+  public GetStringSequencePropertyValue(propertyId: IdString): string[] | undefined
   {
     const value = this.TryGetPropertyValue(propertyId);
     if (!Array.isArray(value))
@@ -409,7 +510,7 @@ export class F2YamlWorkspaceItem
     return result;
   }
 
-  public GetIdStringPropertyValue(propertyId: string): IdString | undefined
+  public GetIdStringPropertyValue(propertyId: IdString): IdString | undefined
   {
     const value = this.GetStringPropertyValue(propertyId);
     if (value === undefined || !IdString.IsValidIdString(value))
@@ -456,17 +557,17 @@ export class F2YamlWorkspaceItem
     return ValidationResult.Success();
   }
 
-  public ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: string[] = []): F2YamlWorkspaceItem
+  public ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: IdString[] = []): F2YamlWorkspaceItem
   {
     let header = ItemHeader.Empty;
     let yamlMap: yaml.YAMLMap | undefined;
 
     if (itemYamlNode instanceof yaml.Pair)
     {
-      if (!(itemYamlNode.key instanceof yaml.Scalar))
+      if (!(itemYamlNode.key instanceof yaml.Scalar) || typeof itemYamlNode.key.value !== "string")
         throw new InvalidOperationError();
 
-      header = ItemHeader.ParseFromYamlScalar(itemYamlNode.key);
+      header = ItemHeader.ParseFromString(itemYamlNode.key.value);
 
       if (itemYamlNode.value instanceof yaml.YAMLMap)
         yamlMap = itemYamlNode.value;
@@ -482,38 +583,63 @@ export class F2YamlWorkspaceItem
 
     this.CaptureYamlRepresentation(itemYamlNode, header, yamlMap);
 
-    for (const property of yamlMap.items)
+    for (const pair of yamlMap.items)
     {
-      if (!(property.key instanceof yaml.Scalar) || typeof property.key.value !== 'string')
+      if (!(pair.key instanceof yaml.Scalar) || typeof pair.key.value !== 'string')
         continue;
 
-      const propertyId = String(property.key.value);
-      if (processedPropertyIds.includes(propertyId))
-        continue;
+      let keyValue: string = pair.key.value;
 
-      if (propertyId === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && property.value instanceof yaml.YAMLMap)
+      if (keyValue === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && pair.value instanceof yaml.YAMLMap)
       {
-        for (const additionalProperty of property.value.items)
+        for (const additionalProperty of pair.value.items)
         {
           if (!(additionalProperty.key instanceof yaml.Scalar) || typeof additionalProperty.key.value !== 'string')
             continue;
 
-          const additionalPropertyId = String(additionalProperty.key.value);
-          if (processedPropertyIds.includes(additionalPropertyId))
-            continue;
+          const additionalPropertyId = IdString.TryParseFromString(additionalProperty.key.value);
+          if (!additionalPropertyId)
+          {
+            OutputChannelLogger.logWarning("Invalid additional property Id: " + additionalProperty.key.value)
+          }
+          else
+          {
+            if (processedPropertyIds.includes(additionalPropertyId))
+              continue;
 
-          this.SetPropertyValue(additionalPropertyId, this.ParsePropertyValue(additionalProperty.value as yaml.Node));
+            this.SetPropertyValue(additionalPropertyId, this.ParsePropertyValue(additionalProperty.value as yaml.Node));
+          }
         }
         continue;
       }
 
-      this.SetPropertyValue(propertyId, this.ParsePropertyValue(property.value as yaml.Node));
+      let propertyId = IdString.TryParseFromString(keyValue);
+      if (propertyId)      
+      {
+        if (processedPropertyIds.includes(propertyId))
+          continue;
+        this.SetPropertyValue(propertyId, this.ParsePropertyValue(pair.value as yaml.Node));
+        continue;
+      }
+
+      if (F2YamlWorkspaceItem.IsItemYaml(pair))
+      {
+        var item = new F2YamlWorkspaceItem().ImportFromYamlNode(pair as yaml.Pair<yaml.Scalar, yaml.Node>);
+        this.Children.Add(item);
+      }
+
+      let f2Link = F2Link.TryParseString(keyValue)
+      if (f2Link)
+      {
+        //TODO: Idea is that we'd create a type something like export type ItemOrRef = {F2YamlWorkspaceItem | ItemReference} and ItemLists would store these, with some lazy-resolving maybe. Probably we need to introduce some ItemManager for resolving links
+        OutputChannelLogger.logDebug("F2Link as key is not implemented yet.");
+      }
     }
 
     if (header.TypeId)
       this.TypeId = header.TypeId;
 
-    const typeFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.F2YAML_ELEMENTS.PROPERTY_TYPE);
+    const typeFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.F2YAML_ELEMENTS.PROPERTY_TYPE.ID_STRING.Value);
     if (typeFromProperty !== undefined)
     {
       if (header.TypeId && header.TypeId.Value !== typeFromProperty)
@@ -548,7 +674,7 @@ export class F2YamlWorkspaceItem
       if (parent === undefined || propertyId === undefined)
         return undefined;
 
-      const propertyValue = parent.TryGetPropertyValue(propertyId.Value);
+      const propertyValue = parent.TryGetPropertyValue(propertyId);
       if (!(propertyValue instanceof ItemList))
         return undefined;
 
@@ -637,7 +763,7 @@ export class F2YamlWorkspaceItem
             break;
         }
 
-        if (item.BelongsToItem !== undefined && item.BelongsToProperty !== undefined && !(item.BelongsToItem.TryGetPropertyValue(item.BelongsToProperty.Value) instanceof ItemList))
+        if (item.BelongsToItem !== undefined && item.BelongsToProperty !== undefined && !(item.BelongsToItem.TryGetPropertyValue(item.BelongsToProperty) instanceof ItemList))
         {
           if (item.YamlRepresentation.HeaderType !== ItemYamlHeaderType.None)
             return createItemIdentifierPart(item, LinkTypePreference.Id);
@@ -664,7 +790,7 @@ export class F2YamlWorkspaceItem
 
         if (item.BelongsToProperty !== undefined)
         {
-          const parentPropertyValue = item.BelongsToItem.TryGetPropertyValue(item.BelongsToProperty.Value);
+          const parentPropertyValue = item.BelongsToItem.TryGetPropertyValue(item.BelongsToProperty);
           const isItemList = parentPropertyValue instanceof ItemList;
           const shouldRenderProperty = !isItemList || item.BelongsToItem.YamlRepresentation.RenderDefaultListPropertyId || item.BelongsToProperty.Value !== 'Items';
           if (shouldRenderProperty)
@@ -685,22 +811,17 @@ export class F2YamlWorkspaceItem
 
     buildYamlPathParts(this);
 
-    const yamlPathString = yamlPathParts.length > 0
-      ? `.${yamlPathParts.join('.')}`
-      : '';
-
-    const linkString = `-->${filePathParts.length > 0 ? `${filePathParts.join("\\")}\\` : ''}${yamlPathString}<`;
-    return F2Link.ParseFromStringArray([linkString])[0];
+    return F2Link.CreateFromParts(filePathParts, yamlPathParts);
   }
 
   public toString(initialIndent: number = 0, ignoreRepresentationType: boolean = true): string
   {
     const getHeaderPrefixes = (): string =>
-    {      
+    {
       let headerPrefixEntries: string[] = [];
       for (let propertyId of this.YamlRepresentation.HeaderPrefixPropertyIds)
       {
-        var propValue = this.GetStringPropertyValue(propertyId.Value);
+        var propValue = this.GetStringPropertyValue(propertyId);
         if (!propValue)
           throw new InvalidOperationError(`Can't get string value for property "${propertyId.Value}"`);
         headerPrefixEntries.push(StringOperations.wrapInQuotesIfMultiWord(propValue));
@@ -709,59 +830,137 @@ export class F2YamlWorkspaceItem
       return headerPrefixEntries.join(" ");
     }
 
-    const renderPropertyValue = (value: F2YamlWorkspaceItemPropertyValue): string =>
+    const renderPropertyValue = (renderingDescriptor: YamlPropertyRenderingDescriptor, value: F2YamlWorkspaceItemPropertyValue): string =>
     {
-      if (isScalarValue(value))
+      if (value === null) return "";
+      if (isScalarValue(value) || isF2Link(value) || value instanceof NotParsedYaml || value instanceof F2YamlWorkspaceItem)
       {
+        if (renderingDescriptor.NodeKind !== YamlNodeKind.Scalar)
+          OutputChannelLogger.logDebug("Non-scalar NodeKind for value: " + String(value));
+
         if (value instanceof Date)
           return value.toISOString();
+        //TODO:
+        // - if it's a plain string but starts with a not allowed character - e.g. double quote - then prefix it with "\"; at parsing as well        
+        else if (typeof value === "string")
+        {
+          switch (renderingDescriptor.StringStyle)
+          {
+            case YamlStringStyle.QuoteSingle:
+              return `'${value.replace(/'/g, "''")}'`;
+            case YamlStringStyle.QuoteDouble:
+              return `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+            case YamlStringStyle.BlockLiteral:
+              return `|\n${StringOperations.indentLinesBy(value, 2)}`;
+            case YamlStringStyle.BlockFolded:
+              return `>\n${StringOperations.indentLinesBy(value, 2)}`;
+            case YamlStringStyle.Plain:
+            default:
+              return value;
+          }
+        }
+
         return value.toString();
       }
 
-      if (isScalarArrayValue(value))
+      if (isScalarArrayValue(value) || value instanceof ItemList || isF2LinkArray(value))
       {
+        var isFlowStyle = renderingDescriptor.IsFlowStyle;
+        var isMap = renderingDescriptor.NodeKind === YamlNodeKind.Mapping; //if it was Scalar somehow... - single element? Shouldn't be allowed.
+        const renderedValues: string[] = [];
 
+        for (const item of value)
+        {
+          renderedValues.push(renderPropertyValue(renderingDescriptor, item));
+        }
+
+        if (isFlowStyle)
+          return isMap ? `{${renderedValues.join(", ")}}` : `[${renderedValues.join(", ")}]`;
+
+        if (isMap)
+          return renderedValues.length > 0
+            ? `\n${renderedValues.map(item => StringOperations.indentLinesBy(item, 2)).join("\n")}`
+            : "";
+
+        return renderedValues.length > 0
+          ? `\n${renderedValues.map(item => `- ${item.replace(/\n/g, "\n  ")}`).join("\n")}`
+          : "[]";
       }
 
-      return "";
+      throw new InvalidOperationError("The value has an incorrect type. String(value):" + String(value));
     }
 
-    const getAdditionalProperties = (): string =>
+    const getAdditionalPropertiesValue = (): string =>
     {
-      let result: string[] = [];
+      let additionalPropRenderingDescr: YamlPropertyRenderingDescriptor = new YamlPropertyRenderingDescriptor();
+      additionalPropRenderingDescr.IsFlowStyle = true;
+      additionalPropRenderingDescr.NodeKind = YamlNodeKind.Mapping;
+
+      let renderedProperties: string[] = [];
       for (let propertyId of this.YamlRepresentation.AdditionalPropertiesPropertyIds)
       {
-        var rawPropValue = this.TryGetPropertyValue(propertyId.Value);
+        let rawPropValue = this.TryGetPropertyValue(propertyId);
         if (!rawPropValue)
           throw new InvalidOperationError(`Can't get value for property "${propertyId.Value}"`);
-        result.push(`${propertyId}: ${renderPropertyValue(rawPropValue)}`);
+        renderedProperties.push(`${propertyId}: ${renderPropertyValue(additionalPropRenderingDescr, rawPropValue)}`);
       }
-      return result.join("\n");
+
+      return "{" + renderedProperties.join(", ") + "}";
     }
 
     let result: string = "";
+    let header: string = "";
     let contentIndentation: number = 0;
 
     if (this.YamlRepresentation.HeaderType !== ItemYamlHeaderType.None)
     {
       contentIndentation = Data.CONFIG.DEFAULT_INDENT;
-      let headerItemIdentifierPart: string = 
-        this.YamlRepresentation.HeaderType === ItemYamlHeaderType.Id 
-        ? this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID)!
+      let headerItemIdentifierPart: string =
+        this.YamlRepresentation.HeaderType === ItemYamlHeaderType.Id
+          ? this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING)!
           : this.YamlRepresentation.HeaderType === ItemYamlHeaderType.Summary
-            ? "\"" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY)! + "\""
-            : "<" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE)! + ">";
+            ? "\"" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING)! + "\""
+            : "<" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE.ID_STRING)! + ">";
 
-      result += getHeaderPrefixes() + " ." + headerItemIdentifierPart + "\n";
+      header = getHeaderPrefixes() + " ." + headerItemIdentifierPart + ": ";
     }
-    
+
+    let propertiesRendered: string[] = [];
+
     for (let propertyId of this.YamlRepresentation.PropertyIds)
     {
-      if (propertyId.Value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES) {
+      let propertyValue: string = "";
+      if (propertyId === IdString.AdditionalProperties) 
+      {
+        if (this.YamlRepresentation.AdditionalPropertiesPropertyIds.length === 0)
+          continue;
 
+        propertyValue = getAdditionalPropertiesValue();
       }
+      else
+      {
+        if (!this.HasProperty(propertyId))
+          throw new InvalidOperationError();
+
+        propertyValue = renderPropertyValue(this.YamlRepresentation.PropertyRenderingById.get(propertyId.Value)!, this.TryGetPropertyValue(propertyId)!);
+      }
+
+      propertiesRendered.push(propertyId.Value + ": " + propertyValue);
     }
-      
+
+    //now render, with indendation and sheeit:
+
+    result += header;
+    if (this.YamlRepresentation.IsMapFlowStyle)
+    {
+      result += "{" + propertiesRendered.join(", ") + "}";
+    }
+    else 
+    {
+      const indentString = "".padEnd(contentIndentation, " ");
+      result += "\n" + indentString + propertiesRendered.join("\n" + indentString) + "\n";
+    }
+
     return result;
   }
 }
@@ -779,22 +978,22 @@ export abstract class StandardItem extends F2YamlWorkspaceItem
 
   public get Id(): IdString
   {
-    return this.GetIdStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID) ?? IdString.Empty;
+    return this.GetIdStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING) ?? IdString.Empty;
   }
 
   public set Id(value: IdString)
   {
-    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID, value.Value);
+    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING, value.Value);
   }
 
   public get Summary(): string
   {
-    return this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY) ?? "";
+    return this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING) ?? "";
   }
 
   public set Summary(value: string)
   {
-    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY, value);
+    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING, value);
   }
 
   //copied from System/Types.yaml:
@@ -803,15 +1002,15 @@ export abstract class StandardItem extends F2YamlWorkspaceItem
   {
     super.ImportFromYamlScalarMapPair(itemYamlPair);
 
-    this.Header = ItemHeader.ParseFromYamlScalar(itemYamlPair.key);
+    this.Header = (typeof itemYamlPair.key.value === "string") ? ItemHeader.ParseFromString(itemYamlPair.key.value) : ItemHeader.Empty;
 
-    const idFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_ID);
+    const idFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING.Value);
     let idPropHasValue = typeof idFromProperty === "string" && idFromProperty.length > 0;
 
     if (idPropHasValue && !IdString.IsValidIdString(String(idFromProperty)))
       throw new ItemParsingError(ItemParsingErrorType.SpaceInIdValue);
 
-    const summaryFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY);
+    const summaryFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING.Value);
     let summaryPropHasValue = typeof summaryFromProperty === "string" && summaryFromProperty.length > 0;
 
 

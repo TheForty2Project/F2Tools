@@ -29,6 +29,10 @@ export class F2Link {
     this.YamlPathParts = yamlPathParts;
   }
 
+  public static CreateFromParts(filePathParts: string[], yamlPathParts: YamlPathPart[]): F2Link {
+    return new F2Link(filePathParts, yamlPathParts);
+  }
+
   public static TryParseString(f2LinkString: string): F2Link | ItemParsingError {
     const invalidFormat = () => new ItemParsingError(ItemParsingErrorType.InvalidF2LinkFormat, f2LinkString);
     const invalidFilePath = (value: string) => new ItemParsingError(ItemParsingErrorType.InvalidF2LinkFilePath, value);

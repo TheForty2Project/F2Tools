@@ -1,8 +1,9 @@
 import * as assert from 'assert';
 import { F2Link } from '../Items/F2Link';
-import { F2YamlWorkspaceItem, ItemYamlHeaderType, LinkTypePreference, StandardItem } from '../Items/BasicItems';
+import { F2YamlWorkspaceItem, ItemYamlHeaderType, LinkTypePreference, StandardItem, YamlNodeKind, YamlStringStyle } from '../Items/BasicItems';
 import { ItemList } from '../Items/ItemList';
 import { IdString } from '../Items/IdString';
+import * as yaml from 'yaml';
 
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
@@ -89,7 +90,7 @@ suite('Extension Test Suite', () => {
 		root.YamlRepresentation.WorkspaceRelativePath = 'CurrentWork\\Bobi\\Test';
 
 		const myItemList = new ItemList<F2YamlWorkspaceItem>(root, IdString.ParseFromString('MyItemList'));
-		root.SetPropertyValue('MyItemList', myItemList);
+		root.SetPropertyValue(IdString.ParseFromString('MyItemList'), myItemList);
 
 		const linkToThis1Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
 		myItemList.Add(linkToThis1Owner);
@@ -112,7 +113,7 @@ suite('Extension Test Suite', () => {
 		linkToThis4.SetParentItemAndProperty(linkToThis4Owner, IdString.ParseFromString('LinkToThis4'));
 
 		const myItemList2 = new ItemList<F2YamlWorkspaceItem>(root, IdString.ParseFromString('MyItemList2'));
-		root.SetPropertyValue('MyItemList2', myItemList2);
+    root.SetPropertyValue(IdString.ParseFromString('MyItemList2'), myItemList2);
 
 		const linkToThis5Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
 		myItemList2.Add(linkToThis5Owner);
@@ -125,7 +126,7 @@ suite('Extension Test Suite', () => {
 		linkToThis6.SetParentItemAndProperty(linkToThis6Owner, IdString.ParseFromString('LinkToThis6'));
 
 		const myNonStandardItemList = new ItemList<F2YamlWorkspaceItem>(root, IdString.ParseFromString('MyNonStandardItemList'));
-		root.SetPropertyValue('MyNonStandardItemList', myNonStandardItemList);
+    root.SetPropertyValue(IdString.ParseFromString('MyNonStandardItemList'), myNonStandardItemList);
 
 		const linkToThis7Owner = createNonStandardItem('NonStandardItem');
 		myNonStandardItemList.Add(linkToThis7Owner);
@@ -135,25 +136,25 @@ suite('Extension Test Suite', () => {
 		linkToThis7.SetParentItemAndProperty(linkToThis7Owner, IdString.ParseFromString('LinkToThis7'));
 
 		const linkToThis9Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
-		root.SetPropertyValue('MyItemProperty', linkToThis9Owner);
+    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty'), linkToThis9Owner);
 		linkToThis9Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty'));
 		const linkToThis9 = createNonStandardItem('PropertyOwner');
 		linkToThis9.SetParentItemAndProperty(linkToThis9Owner, IdString.ParseFromString('LinkToThis9'));
 
 		const linkToThis10Owner = createStandardItem(ItemYamlHeaderType.None, 'MyTask', 'My Task', 'Task');
-		root.SetPropertyValue('MyItemProperty2', linkToThis10Owner);
+    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty2'), linkToThis10Owner);
 		linkToThis10Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty2'));
 		const linkToThis10 = createNonStandardItem('PropertyOwner');
 		linkToThis10.SetParentItemAndProperty(linkToThis10Owner, IdString.ParseFromString('LinkToThis10'));
 
 		const linkToThis11Owner = createStandardItem(ItemYamlHeaderType.Id, 'MyTask', 'My Task', 'Task');
-		root.SetPropertyValue('MyItemProperty3', linkToThis11Owner);
+    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty3'), linkToThis11Owner);
 		linkToThis11Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty3'));
 		const linkToThis11 = createNonStandardItem('PropertyOwner');
 		linkToThis11.SetParentItemAndProperty(linkToThis11Owner, IdString.ParseFromString('LinkToThis11'));
 
 		const linkToThis12Owner = createNonStandardItem('NonStandardItem');
-		root.SetPropertyValue('MyItemProperty4', linkToThis12Owner);
+    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty4'), linkToThis12Owner);
 		linkToThis12Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty4'));
 		const linkToThis12 = createNonStandardItem('PropertyOwner');
 		linkToThis12.SetParentItemAndProperty(linkToThis12Owner, IdString.ParseFromString('LinkToThis12'));
@@ -196,5 +197,50 @@ suite('Extension Test Suite', () => {
 
 		for (const [item, preference, expected] of expectedLinks)
 			assert.strictEqual(item.GetF2Link(preference).toString(), expected);
+	});
+
+	test('Stores further yaml representation information', () => {
+		class TestStandardItemForYamlRepresentation extends StandardItem {}
+
+		const parsed = yaml.parseDocument(`
+Done .My task:
+  +: {CreatedBy: Bobi, CreatedAt: 20260622}
+  Description: |
+    Line1
+    Line2
+  Tags: [CSV, Extension]
+  Notes:
+    Detail: value
+`);
+
+		const rootPair = parsed.contents instanceof yaml.YAMLMap
+			? parsed.contents.items[0] as yaml.Pair<yaml.Scalar, yaml.Node>
+			: undefined;
+
+		assert.ok(rootPair !== undefined);
+		const item = new TestStandardItemForYamlRepresentation().ImportFromYamlScalarMapPair(rootPair as yaml.Pair<yaml.Scalar, yaml.YAMLMap>);
+
+		assert.strictEqual(item.YamlRepresentation.IsMapFlowStyle, false);
+		assert.deepStrictEqual(item.YamlRepresentation.AdditionalPropertiesPropertyIds.map((id: IdString) => id.Value), ['CreatedBy', 'CreatedAt']);
+
+		const descriptionRendering = item.YamlRepresentation.PropertyRenderingById.get('Description');
+		assert.ok(descriptionRendering);
+		assert.strictEqual(descriptionRendering?.NodeKind, YamlNodeKind.Scalar);
+		assert.strictEqual(descriptionRendering?.StringStyle, YamlStringStyle.BlockLiteral);
+
+		const tagsRendering = item.YamlRepresentation.PropertyRenderingById.get('Tags');
+		assert.ok(tagsRendering);
+		assert.strictEqual(tagsRendering?.NodeKind, YamlNodeKind.Sequence);
+		assert.strictEqual(tagsRendering?.IsFlowStyle, true);
+
+		const notesRendering = item.YamlRepresentation.PropertyRenderingById.get('Notes');
+		assert.ok(notesRendering);
+		assert.strictEqual(notesRendering?.NodeKind, YamlNodeKind.Mapping);
+		assert.strictEqual(notesRendering?.IsFlowStyle, false);
+
+		const createdByRendering = item.YamlRepresentation.PropertyRenderingById.get('CreatedBy');
+		assert.ok(createdByRendering);
+		assert.strictEqual(createdByRendering?.NodeKind, YamlNodeKind.Scalar);
+		assert.strictEqual(createdByRendering?.StringStyle, YamlStringStyle.Plain);
 	});
 });

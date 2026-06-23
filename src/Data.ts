@@ -1,25 +1,28 @@
-export class Data {
-  public static readonly SYSTEM_CLASSES = { 
-    QUERYDESCRIPTION: { 
+import { IdString } from './Items/IdString';
+
+export class Data
+{
+  public static readonly SYSTEM_CLASSES = {
+    QUERYDESCRIPTION: {
       TYPEID: "QueryDescription",
-      FROM: { ID: "From"},
-      SELECT: { ID: "Select"},
-      OUTPUTFILE: { ID: "OutputFile"},
-      ADDSYNCRESULTCOLUMN: { ID: "AddSyncResultColumn"},
-      BEHAVIORWHENDELETINGROWS: { ID: "BehaviorWhenDeletingRows"},
-      WHERE: { ID: "Where"}             
+      FROM: { ID: "From", ID_STRING: IdString.ParseFromString("From") },
+      SELECT: { ID: "Select", ID_STRING: IdString.ParseFromString("Select") },
+      OUTPUTFILE: { ID: "OutputFile", ID_STRING: IdString.ParseFromString("OutputFile") },
+      ADDSYNCRESULTCOLUMN: { ID: "AddSyncResultColumn", ID_STRING: IdString.ParseFromString("AddSyncResultColumn") },
+      BEHAVIORWHENDELETINGROWS: { ID: "BehaviorWhenDeletingRows", ID_STRING: IdString.ParseFromString("BehaviorWhenDeletingRows") },
+      WHERE: { ID: "Where", ID_STRING: IdString.ParseFromString("Where") }
     },
     WHEREPARTOFQUERY: {
       TYPEID: "WherePartOfQuery",
-      TAGGEDBY: { ID: "TaggedBy" },
-      ITEMTYPES: { ID: "ItemTypes" },
-      SKIPUNDER: { ID: "SkipUnder" },
+      TAGGEDBY: { ID: "TaggedBy", ID_STRING: IdString.ParseFromString("TaggedBy") },
+      ITEMTYPES: { ID: "ItemTypes", ID_STRING: IdString.ParseFromString("ItemTypes") },
+      SKIPUNDER: { ID: "SkipUnder", ID_STRING: IdString.ParseFromString("SkipUnder") },
     },
     ROWDELETINGBEHAVIOR: {
       TYPEID: "RowDeletingBehavior",
-      REMOVE: { ID: "Remove"},
-      COMMENTOUT: {ID: "CommentOut"},
-      DONOTHING: {ID: "DoNothing"},
+      REMOVE: { ID: "Remove" },
+      COMMENTOUT: { ID: "CommentOut" },
+      DONOTHING: { ID: "DoNothing" },
     }
   };
 
@@ -27,14 +30,19 @@ export class Data {
     CLASS_START: "<",
     CLASS_END: ">",
     ADDITIONAL_PROPERTIES: "+",
-    PROPERTY_ID: "Id",
-    PROPERTY_SUMMARY: "Summary",
-    PROPERTY_TYPE: "Type"
+    PROPERTY_ID: { 
+      ID_STRING: IdString.ParseFromString("Id") },
+    PROPERTY_SUMMARY: {
+      ID_STRING: IdString.ParseFromString("Summary")
+    },
+    PROPERTY_TYPE: {
+      ID_STRING: IdString.ParseFromString("Type")
+    }
   };
 
   public static readonly MESSAGES = {
     ERRORS: {
-      MUST_BE_ON_QUERYDESCRIPTION: "The cursor must be on/inside of an explicitly defined QueryDescription Item (having the property \""+this.F2YAML_ELEMENTS.PROPERTY_TYPE+"\" set to the value \"" + Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID + "\")",      
+      MUST_BE_ON_QUERYDESCRIPTION: "The cursor must be on/inside of an explicitly defined QueryDescription Item (having the property \"" + this.F2YAML_ELEMENTS.PROPERTY_TYPE + "\" set to the value \"" + Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID + "\")",
       NOT_A_PROPER_TASK: "This is not a proper task as it does not have any items inside it",
       FAILED_TO_PARSE_YAML: "Failed to parse YAML",
       NO_ACTIVE_TASK: "There is no active task",

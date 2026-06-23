@@ -1,8 +1,10 @@
+import { Data } from "../Data";
 
 export class IdString {
   private _value: string = "";
   
   static get Empty(): IdString { return new IdString(""); }
+  static get AdditionalProperties() : IdString {return new IdString(Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES)}
 
   public get Value(): string { return this._value; }
 
@@ -46,6 +48,12 @@ export class IdString {
     if (this.IsValidIdString(idString))
       return new IdString(idString);
     throw new Error("Invalid IdString: " + idString);
+  }
+
+  public static TryParseFromString(idString: string): IdString | undefined {
+    if (this.IsValidIdString(idString))
+      return new IdString(idString);
+    return undefined;
   }
 
   public static ParseFromStringArray(idStrings: string[]): IdString[] {

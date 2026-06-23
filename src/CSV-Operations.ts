@@ -75,7 +75,7 @@ export class CSVOperations extends YamlTaskOperations {
       case 'SUMMARYLINK':
         return item.GetF2Link(1).toString();
       default: {
-        const value = item.TryGetPropertyValue(propertyId.Value);
+        const value = item.TryGetPropertyValue(propertyId);
         if (value === undefined || value === null)
           return '';
         if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean')
@@ -206,7 +206,7 @@ export class CSVOperations extends YamlTaskOperations {
   static isValidItemHeader(node: yaml.Node): boolean {
     return node instanceof yaml.Scalar
       && typeof node.value === "string"
-      && ItemHeader.IsValidItemHeader(node);
+      && ItemHeader.IsValidItemHeader(node.value);
   }
 
   static async TryGetEnclosingItemScalarMapPairAtCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<yaml.Pair<yaml.Scalar, yaml.YAMLMap> | undefined> {
