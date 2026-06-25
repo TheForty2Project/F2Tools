@@ -97,6 +97,8 @@ export class OutputChannelLogger
   }
 }
 
+OutputChannelLogger.Output = vscode.window.createOutputChannel("F2Tools", { log: true });
+
 export enum OutputChannelLogLevel
 {
   None = 0,

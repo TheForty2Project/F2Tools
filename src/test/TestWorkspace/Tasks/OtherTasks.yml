@@ -1,18 +1,20 @@
 +: {Type: Folder, DefaultTypes: [Task, Folder]}
 
 .Backlog:
+  Summary: Back log
   Type: Folder
-  Todo .Content pipeline review:
-    By: Nora
-    Tags: [Content]
-  Todo .Add link generation integration test:
-    By: Hana
-    Tags: [Testing, Links]
+  TODO .Content pipeline review:
+    +: {CreatedBy: Bobi, CreatedAt: 20260625 T 162831, By: Bobi, Tags: [CSVTODO], Estimation: 1, RemTime: 1}
+    Details:
+      Blah
+  TODO .Add link generation integration test:
+    +: {CreatedBy: Bobi, CreatedAt: 20260625 T 162831, By: Bobi, Tags: [CSVTODO], Estimation: 2, RemTime: 2}
+    
 
 InProgress .Document parser behavior:
-  By: Bobi
-  Tags: [Docs]
+  +: {CreatedBy: Bobi, CreatedAt: 20260625 T 162831, By: Bobi, Tags: [CSVTODO], Estimation: 3, RemTime: 3}    
 
 Blocked .Migrate task templates:
+  +: {CreatedBy: Bobi, CreatedAt: 20260625 T 162831, By: Bobi, Tags: [CSVTODO], Estimation: 4, RemTime: 4}
   By: Nora
   DependsOn: [-->Tasks\TestTasks\.."Website launch preparation"<]

@@ -1,31 +1,45 @@
 +: {Type: Folder, DefaultTypes: [Task, Folder]}
 
 InProgress .Website launch preparation:
+  Estimation: 10
+  RemTime: 10
   By: Bobi
   Tags: [Website, Launch]
   SubTasks:
     Done .Review production checklist:
+      Estimation: 11
+      RemTime: 11
       By: Hana
       Spent: 30m
     InProgress .Fix navigation issues:
+      Estimation: 12
+      RemTime: 12
       By: Bobi
       Tags: [Frontend]
     Blocked .Prepare announcement post:
+      Estimation: 13
+      RemTime: 13
       By: Nora
       DependsOn: [-->Tasks\OtherTasks\.."Content pipeline review"<]
 
 Done .Stabilize CSV export:
+  Estimation: 14
+  RemTime: 14
   By: Bobi
   Tags: [Extension, CSV]
   Summary: Stabilize CSV export command
 
 InProgress .F2Link generation refactor:
+  Estimation: 15
+  RemTime: 15
   By: Hana
   Tags: [Extension, Links]
   Notes: Testing duplicate identifiers and file path generation
 
 .Internal tooling:
   Type: Folder
+  Estimation: 16
+  RemTime: 16
   Done .Clean command palette entries:
     By: Bobi
   InProgress .Investigate yaml parse edge cases:
@@ -33,6 +47,8 @@ InProgress .F2Link generation refactor:
     Tags: [Yaml]
 
 .Sprint support:
+  Estimation: 17
+  RemTime: 17
   Type: Folder
   InProgress .Prepare review notes:
     By: Nora

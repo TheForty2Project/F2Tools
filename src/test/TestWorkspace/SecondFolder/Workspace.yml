@@ -1,0 +1,47 @@
++: {Type: Folder, DefaultTypes: [Folder, Task]}
+
+.DecisionAppScribbles:
+  Workspace:
+    ideas:
+      flowchart:
+      or app:
+        console:
+          client-server
+        Web:
+    [Alma]:
+    {Blma: Clma}: gecike
+
+.CurrentTasksMinimal:
+  Type: QueryDescription
+  Select: [EMPTY as *, Estimation, Status, By, RemTime, IDLINK as IdLink, DependsOn]
+  From: [-->Tasks\<]
+
+.CurrentTasks:
+  Id: CurrentTasks
+  Summary: Current Tasks  
+  Type: QueryDescription
+  Select: [EMPTY as *, Estimation, Status, By, RemTime, IDLINK as IdLink, DependsOn]
+  From: [-->Tasks\<]
+  Where: 
+    TaggedBy: [CSVTODO]
+    ItemTypes: [Task, Bug]
+    SkipUnder: [-->Tasks\Archive\<]
+  OutputFile: Reports\CurrentTasks.csv
+  BehaviorWhenDeletingRows: RowDeletingBehavior..CommentOut
+  AddSyncResultColumn: true
+
+
+TODO .ParentTODO:
+  SubTasks:
+  - TODO SubTODO:
+      InternalId:       
+  - TODO SubTODO:
+
+-->CurrentWork\Bobi\Workspace..ParentTODO.SubTasks.SubTODO<:
+
+ReplyToBitch: |
+  The guest threatened us to write a bad review if we do not give a full refund - she only got a partial one, so here it is. Her reason was: she didn't know that she booked a room (even its name is "Room1"...), "it's not my fault because I didn't know it was a room" and "we were in the apartment only until the evening". We also didn't go with her physically checking the apartments she was trying to book after she realized her mistake (yes, she asked for it; we couldn't believe) - but spent 2(!) hours beforehand on trying to solve problems of hers we didn't even know could be a problem and had to help even in the smallest things; it seems she didn't even register this, I guess this is what she expects from everyone.
+  She acted like a celebrity who treated us like her fans who should be glad that we could help and interact with her, anything unpleasant happening to her is our fault obviously... at least we learned that these people 
+  Flies... there are no flies in the middle of the city and we didn't find any, but they left the entrance open so one could have flew in. We think though that she just wanted to write something bad and had no better idea.
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you have to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

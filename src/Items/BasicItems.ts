@@ -885,7 +885,7 @@ export class F2YamlWorkspaceItem
     else 
     {
       const indentString = "".padEnd(contentIndentation, " ");
-      result += "\n" + indentString + propertiesRendered.join("\n" + indentString) + indentString + childrenRendered.join("\n" + indentString) + "\n";
+      result += "\n" + indentString + propertiesRendered.join("\n" + indentString) + "\n" + indentString + childrenRendered.join("\n" + indentString) + "\n";
     }
 
     return result;

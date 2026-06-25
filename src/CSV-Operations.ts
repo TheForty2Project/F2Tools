@@ -10,11 +10,12 @@ import { QueryDescripton } from './Items/QueryDescripton';
 import { F2YamlUtils } from './F2YamlUtils';
 import { IdString } from "./Items/IdString";
 import { F2Link } from "./Items/F2Link";
-import { F2YamlWorkspaceItem, ItemRepresentationType, StandardItem } from "./Items/BasicItems";
+import { F2YamlWorkspaceItem, ItemRepresentationType, LinkTypePreference, StandardItem } from "./Items/BasicItems";
 import { ItemHeader } from './Items/ItemHeader';
 import { Folder } from './Items/Folder';
 import * as path from "path";
 import { OutputChannelLogger } from './Messaging';
+import { ItemList } from "./Items/ItemList";
 
 export class CSVOperations extends YamlTaskOperations {
   
@@ -60,9 +61,18 @@ export class CSVOperations extends YamlTaskOperations {
       row.push(this.EscapeCsvCell(this.GetCellValue(item, propertyId)));
     rows.push(row);
 
-    if (item instanceof Folder) {
-      for (const child of item.Items)
-        this.AppendItemRows(selectMap, child, rows);
+    for (const child of item.Children)
+      this.AppendItemRows(selectMap, child, rows);
+
+    for (const value of (item as any).PropertyValuesById.values() as Iterable<unknown>) {
+      if (!(value instanceof ItemList))
+        continue;
+
+      if (value === item.Children)
+        continue;
+
+      for (const childItem of value)
+        this.AppendItemRows(selectMap, childItem, rows);
     }
   }
 
@@ -73,9 +83,9 @@ export class CSVOperations extends YamlTaskOperations {
       case 'SYNCRESULT':
         return 'N';
       case 'IDLINK':
-        return item.GetF2Link().toString();
+        return item.GetF2Link(LinkTypePreference.Id).toString();
       case 'SUMMARYLINK':
-        return item.GetF2Link(1).toString();
+        return item.GetF2Link(LinkTypePreference.Summary).toString();
       default: {
         const value = item.TryGetPropertyValue(propertyId);
         if (value === undefined || value === null)
@@ -145,6 +155,7 @@ export class CSVOperations extends YamlTaskOperations {
 
   private static async ResolveItemsFromFolder(folderUri: vscode.Uri): Promise<F2YamlWorkspaceItem[]> {
     const folder = new Folder();
+    folder.Id = IdString.ParseFromString(path.basename(folderUri.fsPath.replace(/\.(yml|yaml)$/i, '')));
     folder.YamlRepresentation.WorkspaceRelativePath = folderUri.path;
     folder.YamlRepresentation.RepresentationType = ItemRepresentationType.Folder;
 
@@ -156,14 +167,14 @@ export class CSVOperations extends YamlTaskOperations {
       if ((type & vscode.FileType.Directory) !== 0) {
         const nestedFolders = await this.ResolveItemsFromFolder(childUri);
         for (const nestedFolder of nestedFolders)
-          folder.Items.Add(nestedFolder);
+          folder.Children.Add(nestedFolder);
         continue;
       }
 
       if ((type & vscode.FileType.File) !== 0 && (name.endsWith('.yml') || name.endsWith('.yaml'))) {
         const item = await this.ResolveItemFromFile(childUri);
         if (item)
-          folder.Items.Add(item);
+          folder.Children.Add(item);
       }
     }
 

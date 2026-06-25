@@ -11,7 +11,7 @@
       "request": "launch",
       "args": [
         "--disable-extensions",
-        "${workspaceFolder}/Management.Public",
+        "${workspaceFolder}/src/test/TestWorkspace",
         "--extensionDevelopmentPath=${workspaceFolder}",
       ],
       "smartStep": true,
