@@ -1,6 +1,7 @@
 import * as assert from 'assert';
 import { F2Link } from '../Items/F2Link';
-import { F2YamlWorkspaceItem, ItemYamlHeaderType, LinkTypePreference, StandardItem, YamlNodeKind, YamlStringStyle } from '../Items/BasicItems';
+import { F2YamlWorkspaceItem, LinkTypePreference, StandardItem, YamlNodeKind, YamlStringStyle } from '../Items/BasicItems';
+import { ItemYamlHeaderType } from '../Items/ItemHeader';
 import { ItemList } from '../Items/ItemList';
 import { IdString } from '../Items/IdString';
 import * as yaml from 'yaml';

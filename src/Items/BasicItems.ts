@@ -6,8 +6,9 @@ import { IdString } from './IdString';
 import { ItemList } from './ItemList';
 import { Message, OutputChannelLogger } from '../Messaging';
 import { StringOperations } from '../StringOperations';
+import { ItemHeader, ItemYamlHeaderType } from './ItemHeader';
 
-export type F2YamlWorkspaceItemPropertyScalarValue = string | number | boolean | Date;
+export type F2YamlWorkspaceItemPropertyScalarValue = string | number | boolean | Date | IdString;
 export type F2YamlWorkspaceItemPropertyArrayValue = F2YamlWorkspaceItemPropertyScalarValue[];
 export type F2YamlWorkspaceItemPropertyValue =
   | F2YamlWorkspaceItemPropertyScalarValue
@@ -41,20 +42,20 @@ function isScalarArrayValue(
   );
 }
 
-function isF2Link(value: unknown): value is F2Link
-{
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "target" in value &&
-    "text" in value
-  );
-}
+// function isF2Link(value: unknown): value is F2Link
+// {
+//   return (
+//     typeof value === "object" &&
+//     value !== null &&
+//     "target" in value &&
+//     "text" in value
+//   );
+// }
 
 function isF2LinkArray(value: unknown): value is F2Link[]
 {
   return Array.isArray(value) &&
-    value.every(isF2Link);
+    value.every(v => v instanceof F2Link);
 }
 
 export class NotParsedYaml
@@ -89,24 +90,16 @@ export class F2YamlRange
 
 export enum ItemRepresentationType
 {
-  Folder,
-  File,
-  Node
-}
-
-export enum ItemYamlHeaderType
-{
-  None,
-  TypeId,
-  Id,
-  Summary
+  Folder = 0,
+  File = 1,
+  Node = 2,
 }
 
 export enum YamlNodeKind
 {
-  Scalar,
-  Sequence,
-  Mapping
+  Scalar = 0,
+  Sequence = 1,
+  Mapping = 2,
 }
 
 export enum YamlStringStyle
@@ -179,98 +172,13 @@ export enum ItemParsingErrorType
   InvalidF2LinkIdentifier = 11,
   InvalidF2LinkSummary = 12,
   TypeIdMismatchInHeaderAndTypeProperty = 13,
-  ItemHeaderIdOrSummaryMustStartWithADot = 14,
+  ItemHeaderIdOrSummaryPartsMustStartWithADot = 14,
   TypeMustBeIdString = 15,
   CantParseAsBoolean = 16,
   CantParseAsEnumerationMember = 17,
   ItemHeaderCantBeEmpty = 18,
   ItemHeaderCantContainNewLine,
-}
-
-export class ItemHeader
-{
-  public Id?: IdString = undefined;
-  public Summary?: string = undefined;
-  public TypeId?: IdString = undefined;
-  public Prefixes: IdString[] = [];
-
-  public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.None;
-
-  private constructor(headerType: ItemYamlHeaderType) 
-  {
-    this.HeaderType = headerType;
-  }
-
-  public static IsValidItemHeader(headerValue: string): boolean
-  {
-    return (ItemHeader.TryParseFromString(headerValue) instanceof ItemHeader);
-  }
-
-  public static ParseFromString(headerValue: string): ItemHeader
-  {
-    let value = this.TryParseFromString(headerValue);
-    if (value instanceof Error)
-      throw value;
-    return value;
-  }
-
-  public static TryParseFromString(headerValue: string): ItemHeader | Error
-  {
-    var prefixes: IdString[] = [];
-
-    if (headerValue.indexOf("\n") >= 0 || headerValue.indexOf("\r") >= 0)
-      return new ItemParsingError(ItemParsingErrorType.ItemHeaderCantContainNewLine)
-    headerValue = headerValue.normalize().replaceAll("\t", " ").trim();
-    while (headerValue.indexOf("  ") >= 0)
-      headerValue = headerValue.replace("  ", " ");
-
-    if (headerValue === "")
-      return new ItemParsingError(ItemParsingErrorType.ItemHeaderCantBeEmpty);
-
-    let words: string[] = headerValue.split(" ");
-    let counter: number = 0;
-    for (const word of words)
-    {
-      if (word.startsWith("."))
-        continue;
-      if (!IdString.IsValidIdString(word))
-        return new ItemParsingError(ItemParsingErrorType.ItemHeaderIdOrSummaryMustStartWithADot)
-      prefixes.push(IdString.ParseFromString(word));
-      counter++;
-    }
-
-
-    //we are after the prefixes; first word must start with a . - so we remove it
-    words[counter] = words[counter].substring(1);
-    //do we have multiple words after OR it's not an IdString/classId? If yes, that's a summary
-    if (words.length === counter + 1)
-    {
-      var idOrTypeId = words[counter];
-      if (IdString.IsValidIdString(idOrTypeId)) 
-      {
-        let result = new ItemHeader(ItemYamlHeaderType.Id);
-        result.Id = IdString.ParseFromString(idOrTypeId);
-        return result;
-      }
-      else if (
-        idOrTypeId.startsWith(Data.F2YAML_ELEMENTS.CLASS_START)
-        && idOrTypeId.endsWith(Data.F2YAML_ELEMENTS.CLASS_END)
-        && IdString.IsValidIdString(idOrTypeId.slice(1, idOrTypeId.length - 1))
-      )
-      {
-        let result = new ItemHeader(ItemYamlHeaderType.TypeId);
-        result.TypeId = IdString.ParseFromString(idOrTypeId.slice(1, idOrTypeId.length - 1));
-        return result;
-      }
-    }
-
-    //else  
-    let result = new ItemHeader(ItemYamlHeaderType.Summary);
-    result.Summary = words.slice(counter).join(" ");
-    return result;
-  }
-
-  public static get Empty() { return new ItemHeader(ItemYamlHeaderType.None); }
+  ItemHeaderPrefixesMustBeIdStrings,
 }
 
 export class ValidationResult
@@ -306,7 +214,7 @@ export class F2YamlWorkspaceItem
   //     Entitlement[] Entitlements:
   //     bool IsDeleted:
   //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
-  protected readonly PropertyValuesById = new Map<IdString, F2YamlWorkspaceItemPropertyValue>();
+  protected readonly PropertyValuesById = new Map<string, F2YamlWorkspaceItemPropertyValue>();
 
   public Children: ItemList<F2YamlWorkspaceItem> = new ItemList<F2YamlWorkspaceItem>(this, IdString.Empty) //temporary measure until we have class and default item list flag support; right now we store the "sub" items here
   public BelongsToItem?: F2YamlWorkspaceItem;
@@ -328,8 +236,8 @@ export class F2YamlWorkspaceItem
   private static IsStandardItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean
   {
     return yamlNode.key instanceof yaml.Scalar
-      && typeof yamlNode.key === "string"
-      && ItemHeader.IsValidItemHeader(yamlNode.key)
+      && typeof yamlNode.key.value === "string"
+      && ItemHeader.IsValidItemHeader(yamlNode.key.value)
       && yamlNode.value instanceof yaml.YAMLMap
       && yamlNode.value.items.every(property => property.key instanceof yaml.Scalar && typeof property.key.value === 'string');
   }
@@ -342,8 +250,8 @@ export class F2YamlWorkspaceItem
   private static IsHeaderOnlyItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean
   {
     return yamlNode.key instanceof yaml.Scalar
-      && typeof yamlNode.key === "string"
-      && ItemHeader.IsValidItemHeader(yamlNode.key)
+      && typeof yamlNode.key.value === "string"
+      && ItemHeader.IsValidItemHeader(yamlNode.key.value)
       && yamlNode.value instanceof yaml.Scalar
       && (yamlNode.value.value === '' || yamlNode.value.value === null);
   }
@@ -456,17 +364,17 @@ export class F2YamlWorkspaceItem
 
   public TryGetPropertyValue(propertyId: IdString): F2YamlWorkspaceItemPropertyValue | undefined
   {
-    return this.PropertyValuesById.get(propertyId);
+    return this.PropertyValuesById.get(propertyId.Value);
   }
 
   public SetPropertyValue(propertyId: IdString, value: F2YamlWorkspaceItemPropertyValue): void
   {
-    this.PropertyValuesById.set(propertyId, value);
+    this.PropertyValuesById.set(propertyId.Value, value);
   }
 
   public HasProperty(propertyId: IdString): boolean
   {
-    return this.PropertyValuesById.has(propertyId);
+    return this.PropertyValuesById.has(propertyId.Value);
   }
 
   public SetParentItemAndProperty(parentItem: F2YamlWorkspaceItem, propertyId: IdString, itemList?: ItemList<F2YamlWorkspaceItem>): void
@@ -557,7 +465,8 @@ export class F2YamlWorkspaceItem
     return ValidationResult.Success();
   }
 
-  public ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: IdString[] = []): F2YamlWorkspaceItem
+  //TODO: make this a static method which returns an F2YamlItem (based on the determined type, so StandardItem if there's an Id, etc)  
+  public ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: string[] = []): F2YamlWorkspaceItem
   {
     let header = ItemHeader.Empty;
     let yamlMap: yaml.YAMLMap | undefined;
@@ -583,6 +492,15 @@ export class F2YamlWorkspaceItem
 
     this.CaptureYamlRepresentation(itemYamlNode, header, yamlMap);
 
+    //TODO: remove/reconsider this part once there's proper item handling - so like when this method is static with all the upgrades handling this
+    if (header.HeaderType === ItemYamlHeaderType.Id)
+      this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING, header.Id?.Value ?? IdString.Empty);
+    if (header.HeaderType === ItemYamlHeaderType.Summary)
+      this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING, header.Summary ?? "");
+    if (header.HeaderType === ItemYamlHeaderType.TypeId && header.TypeId)
+      this.TypeId = header.TypeId
+
+
     for (const pair of yamlMap.items)
     {
       if (!(pair.key instanceof yaml.Scalar) || typeof pair.key.value !== 'string')
@@ -604,7 +522,7 @@ export class F2YamlWorkspaceItem
           }
           else
           {
-            if (processedPropertyIds.includes(additionalPropertyId))
+            if (processedPropertyIds.includes(additionalPropertyId.Value))
               continue;
 
             this.SetPropertyValue(additionalPropertyId, this.ParsePropertyValue(additionalProperty.value as yaml.Node));
@@ -616,7 +534,7 @@ export class F2YamlWorkspaceItem
       let propertyId = IdString.TryParseFromString(keyValue);
       if (propertyId)      
       {
-        if (processedPropertyIds.includes(propertyId))
+        if (processedPropertyIds.includes(propertyId.Value))
           continue;
         this.SetPropertyValue(propertyId, this.ParsePropertyValue(pair.value as yaml.Node));
         continue;
@@ -626,13 +544,15 @@ export class F2YamlWorkspaceItem
       {
         var item = new F2YamlWorkspaceItem().ImportFromYamlNode(pair as yaml.Pair<yaml.Scalar, yaml.Node>);
         this.Children.Add(item);
+        continue;
       }
 
       let f2Link = F2Link.TryParseString(keyValue)
-      if (f2Link)
+      if (f2Link instanceof F2Link)
       {
         //TODO: Idea is that we'd create a type something like export type ItemOrRef = {F2YamlWorkspaceItem | ItemReference} and ItemLists would store these, with some lazy-resolving maybe. Probably we need to introduce some ItemManager for resolving links
         OutputChannelLogger.logDebug("F2Link as key is not implemented yet.");
+        continue;
       }
     }
 
@@ -649,13 +569,13 @@ export class F2YamlWorkspaceItem
       this.TypeId = IdString.ParseFromString(typeFromProperty);
     }
 
-    OutputChannelLogger.logDebug(this.toString());
+    //OutputChannelLogger.logDebug(this.toString());
     return this;
   }
 
-  public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): F2YamlWorkspaceItem
+  public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): F2YamlWorkspaceItem
   {
-    return this.ImportFromYamlNode(itemYamlPair);
+    return this.ImportFromYamlNode(itemYamlPair, processedPropertyIds);
   }
 
   public GetF2Link(linkTypePreference: LinkTypePreference = LinkTypePreference.None): F2Link
@@ -830,21 +750,18 @@ export class F2YamlWorkspaceItem
       return headerPrefixEntries.join(" ");
     }
 
-    const renderPropertyValue = (renderingDescriptor: YamlPropertyRenderingDescriptor, value: F2YamlWorkspaceItemPropertyValue): string =>
+    const renderPropertyValue = (propRenderingDescriptor: YamlPropertyRenderingDescriptor, value: F2YamlWorkspaceItemPropertyValue): string =>
     {
       if (value === null) return "";
-      if (isScalarValue(value) || isF2Link(value) || value instanceof NotParsedYaml || value instanceof F2YamlWorkspaceItem)
+      if (isScalarValue(value) || value instanceof F2Link || value instanceof NotParsedYaml || value instanceof F2YamlWorkspaceItem)
       {
-        if (renderingDescriptor.NodeKind !== YamlNodeKind.Scalar)
-          OutputChannelLogger.logDebug("Non-scalar NodeKind for value: " + String(value));
-
         if (value instanceof Date)
           return value.toISOString();
         //TODO:
         // - if it's a plain string but starts with a not allowed character - e.g. double quote - then prefix it with "\"; at parsing as well        
         else if (typeof value === "string")
         {
-          switch (renderingDescriptor.StringStyle)
+          switch (propRenderingDescriptor.StringStyle)
           {
             case YamlStringStyle.QuoteSingle:
               return `'${value.replace(/'/g, "''")}'`;
@@ -865,13 +782,18 @@ export class F2YamlWorkspaceItem
 
       if (isScalarArrayValue(value) || value instanceof ItemList || isF2LinkArray(value))
       {
-        var isFlowStyle = renderingDescriptor.IsFlowStyle;
-        var isMap = renderingDescriptor.NodeKind === YamlNodeKind.Mapping; //if it was Scalar somehow... - single element? Shouldn't be allowed.
+        let isFlowStyle = propRenderingDescriptor.IsFlowStyle;
+        let isMap = propRenderingDescriptor.NodeKind === YamlNodeKind.Mapping; //if it was Scalar somehow... - single element? Shouldn't be allowed.
         const renderedValues: string[] = [];
+
+        let tempPropRenderingDescr = new YamlPropertyRenderingDescriptor(); //TODO: store rendering descriptor for each sequence element as well, use that and remove this block
+        tempPropRenderingDescr.IsFlowStyle = propRenderingDescriptor.IsFlowStyle;
+        tempPropRenderingDescr.NodeKind = YamlNodeKind.Scalar; //kind of the most common...
+        tempPropRenderingDescr.StringStyle = YamlStringStyle.QuoteDouble; //same
 
         for (const item of value)
         {
-          renderedValues.push(renderPropertyValue(renderingDescriptor, item));
+          renderedValues.push(renderPropertyValue(tempPropRenderingDescr, item)); //TODO: store rendering information for 
         }
 
         if (isFlowStyle)
@@ -894,13 +816,13 @@ export class F2YamlWorkspaceItem
     {
       let additionalPropRenderingDescr: YamlPropertyRenderingDescriptor = new YamlPropertyRenderingDescriptor();
       additionalPropRenderingDescr.IsFlowStyle = true;
-      additionalPropRenderingDescr.NodeKind = YamlNodeKind.Mapping;
+      additionalPropRenderingDescr.NodeKind = YamlNodeKind.Scalar;
 
       let renderedProperties: string[] = [];
       for (let propertyId of this.YamlRepresentation.AdditionalPropertiesPropertyIds)
       {
         let rawPropValue = this.TryGetPropertyValue(propertyId);
-        if (!rawPropValue)
+        if (rawPropValue === undefined)
           throw new InvalidOperationError(`Can't get value for property "${propertyId.Value}"`);
         renderedProperties.push(`${propertyId}: ${renderPropertyValue(additionalPropRenderingDescr, rawPropValue)}`);
       }
@@ -930,7 +852,7 @@ export class F2YamlWorkspaceItem
     for (let propertyId of this.YamlRepresentation.PropertyIds)
     {
       let propertyValue: string = "";
-      if (propertyId === IdString.AdditionalProperties) 
+      if (propertyId.Value === IdString.AdditionalProperties.Value) 
       {
         if (this.YamlRepresentation.AdditionalPropertiesPropertyIds.length === 0)
           continue;
@@ -948,17 +870,22 @@ export class F2YamlWorkspaceItem
       propertiesRendered.push(propertyId.Value + ": " + propertyValue);
     }
 
+    let childrenRendered: string[] = [];
+    for (let childItem of this.Children)
+    {
+      childrenRendered.push(childItem.toString());
+    }
     //now render, with indendation and sheeit:
 
     result += header;
     if (this.YamlRepresentation.IsMapFlowStyle)
     {
-      result += "{" + propertiesRendered.join(", ") + "}";
+      result += "{" + propertiesRendered.join(", ") + childrenRendered.join(", ") + "}";
     }
     else 
     {
       const indentString = "".padEnd(contentIndentation, " ");
-      result += "\n" + indentString + propertiesRendered.join("\n" + indentString) + "\n";
+      result += "\n" + indentString + propertiesRendered.join("\n" + indentString) + indentString + childrenRendered.join("\n" + indentString) + "\n";
     }
 
     return result;
@@ -972,7 +899,7 @@ export enum LinkTypePreference
   Summary
 }
 
-export abstract class StandardItem extends F2YamlWorkspaceItem
+export class StandardItem extends F2YamlWorkspaceItem
 {
   public Header: ItemHeader = ItemHeader.Empty;
 
@@ -998,19 +925,39 @@ export abstract class StandardItem extends F2YamlWorkspaceItem
 
   //copied from System/Types.yaml:
 
-  public override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): StandardItem
+  public override ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds?: string[]): StandardItem
   {
-    super.ImportFromYamlScalarMapPair(itemYamlPair);
+    let header = ItemHeader.Empty;
+    let yamlMap: yaml.YAMLMap | undefined;
 
-    this.Header = (typeof itemYamlPair.key.value === "string") ? ItemHeader.ParseFromString(itemYamlPair.key.value) : ItemHeader.Empty;
+    if (itemYamlNode instanceof yaml.Pair)
+    {
+      if (!(itemYamlNode.key instanceof yaml.Scalar) || typeof itemYamlNode.key.value !== "string")
+        throw new InvalidOperationError();
 
-    const idFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING.Value);
+      header = ItemHeader.ParseFromString(itemYamlNode.key.value);
+
+      if (itemYamlNode.value instanceof yaml.YAMLMap)
+        yamlMap = itemYamlNode.value;
+      else if (itemYamlNode.value instanceof yaml.Scalar && (itemYamlNode.value.value === '' || itemYamlNode.value.value === null))
+        yamlMap = new yaml.YAMLMap();
+      else
+        throw new InvalidOperationError();
+    }
+    else
+    {
+      yamlMap = itemYamlNode;
+    }
+
+    this.Header = header;
+
+    const idFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING.Value);
     let idPropHasValue = typeof idFromProperty === "string" && idFromProperty.length > 0;
 
     if (idPropHasValue && !IdString.IsValidIdString(String(idFromProperty)))
       throw new ItemParsingError(ItemParsingErrorType.SpaceInIdValue);
 
-    const summaryFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(itemYamlPair.value!, Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING.Value);
+    const summaryFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING.Value);
     let summaryPropHasValue = typeof summaryFromProperty === "string" && summaryFromProperty.length > 0;
 
 
@@ -1043,6 +990,17 @@ export abstract class StandardItem extends F2YamlWorkspaceItem
     else if (this.Header.Summary)
       this.Summary = this.Header.Summary;
 
+    super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
+      Data.F2YAML_ELEMENTS.PROPERTY_ID.ID_STRING.Value,
+      Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY.ID_STRING.Value,
+    ]));
+
     return this;
+  }
+
+  public override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds?: string[]): StandardItem
+  {    
+    return this.ImportFromYamlNode(itemYamlPair, processedPropertyIds);
+
   }
 }

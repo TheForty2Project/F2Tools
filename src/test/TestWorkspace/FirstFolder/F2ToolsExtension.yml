@@ -1,0 +1,1322 @@
++: {Type: Folder, DefaultTypes: [Task, Bug, Folder]}
+
+OnGoing .Taskify the requirements:
+  Id: TaskifyReqs
+  +: {CreatedBy: Bobi, CreatedAt: 20260520 T 165338}
+  Details:
+    - create a subtask for each requirement taskification and log your time on it
+  
+.Tasks:  
+  OnGoing .Task maintenance (estimation, taskification, ):
+    Id: EstimateTaskify
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 140359}
+    Details:      
+      - Create a separate Task for each!
+      - Each Task should have the estimation details in its Result when Done
+    
+
+  Closed .Create the F2ToolsExtension:
+    By: Gaurav
+    Estimation: 15m                    
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\.."Minimal Base"<
+    Details:
+      - Create the extension as specified in the Requirement
+      - Place the code under the TheTool repository into the (newly created) F2Tool.F2ToolsExtension folder
+  Closed .Add the Extract F2Yaml link functionality:
+    By: Gaurav
+    Estimation:
+      - 1h: PAR time
+      - 12h: normal time
+    DependsOn: -->Tasks\Software\F2ToolsExtension\.Tasks.."Create the F2ToolsExtension"<
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\.."Extract F2Yaml Link in F2ToolsExtension"<
+    Details:
+      - Add the functionality as specified in the Requirement
+    WorkLog:
+      - [28m, "Figuring out how the extension will work in TypeScript",  Gaurav, 20250228]
+      - [30m, "Added the functionality to extract the yml", Gaurav, SR20250304]
+      - [68m, "Added the functionality to create links and references", Gaurav, SR20250306]
+      - [40m, "Added the Ignore words", Gaurav, SR20250306]
+  Cancelled .Create Extension with snippets:
+    By: Gaurav
+    Estimation: 2hrs
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\.."Code Completion".."Minimal Snippet Based Item Creation"<
+    Requirements:
+      - There should be an Extension created that has all the snippets loaded according to the Barba.Types.
+    Workflow:
+      Given:
+        - A Extension with snippets loaded in the users vs code.
+      When:
+        - user starts typing the snippets will be suggested.
+        - user selects a snippet with enter/tab/mouse.
+      Then:
+        - The entire structure of the selected snippet will be formed.
+    Notes:
+      Bobi:
+        - Reason for cancelled is that by adding the snippets into the "yaml.code-snippets" file in the .vscode folder we can have all the functionalities of this, including the easy global-update of the snippets - in fact, easier one than with the extension.
+        - try typing "Task" and pressing tab
+    Done .Understand all the snippets that are needed to be made:
+      Estimation: 1hr
+    WorkLog:
+      - [ bobi, 60m, "discuss, research, create then cancel due to VS code snippet functionality", 20250308 ]
+  Closed .Create an extension that generates SR:
+    Requirements:
+      - There should be a extension that can Generate the date and the username of the user when creating a standup report
+    Notes:
+      Bobi: \@Gaurav, is this something you created? Please create a requiremetn for it if so
+      Gaurav: It was merged with the basic time tracker v0.0.1
+  Closed .Create Time Tracking functionality:
+    Id: TimeTracking
+    Estimation:
+      - 4h: Gaurav's estimation
+      - 6h: Bobi's estimation
+    ForRequirement: 
+      -->Documents\Requirements\F2ToolsExtension\.."Time Tracking and Administration"..Basic<
+    Closed Basic:
+      Id: Basic
+      +: { ForRequirement: -->Documents\Requirements\F2ToolsExtension\.."Time Tracking and Administration"..Basic< , Estimation:, By: Gaurav } 
+      WorkLog:
+        - [ Gaurav, 77m, "Created a bare minimum time tracker", 20250323 ]
+        - [ Gaurav, 20m, "added visx for files of the time tracker", 20250327 ]
+        - [ Gaurav, 44m, "Creating the specify Sr command", 20250421 T 123156 ]
+        - [ Gaurav, 60m, "Creating select task command", 20250421 T 123644 ]
+        - [ Gaurav, 180m, "worked along with robert on focus mate", 20250422 T 074430 ]
+        - [ Gaurav, 210m, "Create pasuse, resume and stop commands", 20250423 T 192528 ]
+        - [ Gaurav  40m, "Create pasuse, resume and stop commands", 20250423 T 192613 ]
+        - [ Gaurav, 160m, "Create pasuse, resume and stop commands", 20250424 T 154407 ]
+  InProgress .WorkLog generation:
+    Id: WorklogCreation
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\.."Time Tracking and Administration"..Basic<, Estimation
+    By: Gaurav 
+    WorkLog:
+      - [ Gaurav, 518m, "Creation of the worklog generation feature", 20250426 T 161302 ]
+      - [ Gaurav, 175m, "Fixed bugs and submitted the visx", 20250428 T 201124 ]
+    TODO .Create a feature that marks the StandupReport as alreadyprocessed after the worklog is generated from it:
+      +: { CreatedBy: Hana, CreatedAt: 20250523 T 111704, By: Gaurav }
+    InProgress .Fix Bugs:
+      WorkLog:
+        - [ Gaurav, 20m, "fixed TimeTracking functionality does not support yaml extensions bug", 20250430 T 132939 ]
+        - [ Gaurav, 120m, "trying elemination of the scalar and inserting a map instead.", 20250501 T 152116 ]
+        - [ Gaurav, 523m, "Refactoring and fixing bugs", 20250502 T 152239 ]
+        - [ Gaurav, 143m, "Fixed a bug and created worklog generator feature", 20250503 T 152501 ]
+        - [ Gaurav, 220m, "Fixed one bug and created the new vsix", 20250505 T 152649 ]
+        - [ Gaurav, 58m, "Fixed The Worklog generator is only generating first worlkog and is working very randomly at times and created the new vsix", 20250507 T 160700 ]
+  Closed .Add the Extract F2Yaml link functionality in the Time-Tracker:
+    WorkLog:
+      - [ Gaurav, 120m, "", 20250508 T 142700 ]
+  Closed .Create functionality that will make all the links alive:
+    Id: LiveLinks
+    By: Gaurav
+    WorkLog:
+      - [ Gaurav, 34m, "researching for the link functionality", 20250327 ]
+  Closed .Merge the VSIX-es together:
+    +: { CreatedBy: Hana, CreatedAt: 20250510 T 1140, By: Gaurav }
+  Closed .Publish the VSIX on VSCode marketplace:
+    +: { CreatedBy: Hana, CreatedAt: 20250510 T 141928, By: [ Gaurav, Bobi ]}
+  Closed .Detect if the cursor is on a Task and show error if not:
+    Details: When issuing the "Select Task" command, the extension should detect if the user's text cursor is over a Task or not; if not, an error popup should be displayed.
+  Closed .Create the CSV Entry Generation functionality:
+    +: { CreatedBy: Bobi, CreatedAt: 20250519 T 230218, By: Gaurav }
+    ForRequirement: -->Documents\Requirements\F2ToolsExtension\.."CSV Task List Tools".."CSV Entry generation"<
+  Done .Consolidate the requirements of the F2Tools extension as of 20250618:
+    Id: F2ToolsConsolidation20250618
+    +: {CreatedBy: Bobi, CreatedAt: 20250618 T 163248, By: Gaurav}
+    Details:
+      We need to consolidate the current F2Tool VSIXso that it has a consistent and desirable behavior. I think the most important points are the following:
+        - the "Generate or Copy F2Yaml link" should be:
+          - renamed to "Extract F2Yaml Summary Link"
+          - should generate the link with those quotations in place
+        - the "Follow F2Yaml link":
+          - as a priority, should understand the format with the quotations as well (it does not currently)
+          - should in general understand ID based (and mixed - so one part Id, other part Summary) based links as well            
+        - the CSV line generator should put those values in quotes which contain characters which are not allowed (which I think are only the doublequote and the comma, right?) (and which do not, not)   
+    Done .Prioritize andor consolidate the Bugfixes after Requirement consolidation:    
+  Done .Wrap up the first phase of VSIX development:
+    +: {CreatedBy: Hana, CreatedAt: 20250827 T 133402, By: Bobi, Priority: 5-veryhigh}
+    Done .Test:
+      +: {CreatedBy: Hana, CreatedAt: 20250829 T 181308, By: Hana, Tags: [CSVDONE], Priority: 3-Average}
+    Done .Cleaning up the remaining Bugs in VSIX:
+      +: {CreatedBy: Bobi, CreatedAt: 20250901 T 134531, By: Bobi, Tags: [CSVDONE], Priority: 3-Average} 
+    Done .Update readme:      
+      +: {CreatedBy: Bobi, CreatedAt: 20250901 T 134531, By: Bobi, Tags: [CSVDONE], Priority: 3-Average}
+  OnGoing .Refactorings:
+    +: {CreatedBy: Bobi, CreatedAt: 20260602 T 220423, By: Bobi}
+    Done .Rename Item to F2YamlWorkspaceItem:
+      Id: RenameToF2YamlWorkspaceItem
+      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 022539, By: Bobi, Tags: [CSVTODO], Estimation:5, RemTime:5}
+      Details:
+        Comment to it: A smart map-like data-storage structure for storing Item data retrieved from yaml documents.    
+    Done .Custom Properties OR F2YamlWorkspaceItem to store its data in a Map:
+      Id: CustomProperties
+      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 021307, By: Bobi, Tags: [CSVTODO], Estimation: 20, RemTime: 20}
+      Details:
+        Custom properties support:
+        - property data should be stored in a dictionary; the properties (e.g. Id, Summary) reference the values by Id
+        - parser should treat all the keys of the yaml.YAMLMap entries as property ids and store their values in this dictionary
+        So that: allowing "custom" properties - so not only hardcoded ones like Id and Summary for StandardItem - and general methods of accessing and manipulating property values
+      Done .Update the implementation by storing the correct types:
+        +: {CreatedBy: Bobi, CreatedAt: 20260612 T 214715, By: Bobi, Estimation: 20, RemTime: 20}
+        Workspace:
+          Item properties can have the following types:
+            string: text
+            char: single character
+            integer: whole number
+            float: decimal number
+            bool: true/false
+            boolean: alternate boolean type name
+            IdString: restricted identifier string
+            F2Link: F2 reference/link value
+            Duration: time span
+            DateTime: timestamp / point in time
+            InternalId: internal unique item id
+          Correct non-array types:
+            Property, Yaml, TypeScript
+            string  , string, string
+            char    , string, string
+            integer , string/integer, number
+            float   , string/float, number
+            bool    , string/bool, number
+            IdString, string, IdString
+            F2Link, string, F2Link
+            DateTime, timestamp, Date
+            Enumeration, string/number (its string or number value), number
+            Item, various, F2YamlWorkspaceItem
+          Array types:
+            Property, Yaml, TypeScript
+            Item array, sequence/map, ItemList
+            all other arrays, sequence/map, ItemList      
+    EstTODO .Type (class) support:
+      Id: TypeDescriptionSupport
+      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 021315, By: Bobi, Tags: [CSVTODO], Estimation: 240, RemTime: 240}
+      Details:
+        Type verification support:
+          - class parsing and the ClassDescription + PropertyDescription + TypeInfo types
+          - F2YamlWorkspaceItems to have:
+            - \"ClassDescription?: ClassDescription" property which describes the Item (and its properties) the same way a class describes an object
+            - public IsValid(): boolean to verify the parsed data against the ClassDescription
+        So that: 
+          - Better Item recognition - e.g. we can have DefaultTypes support
+          - Future: 
+            - Code completion
+            - Coloring
+      TODO .Non-Item ClassDescription:
+        +: {CreatedBy: Bobi, CreatedAt: 20260613 T 144749, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+        Details:
+          - In the example implementation  to avoid the circular initialization and dependency hell
+    Done .Double-linked lists:
+      Id: DoubleLinkedLists
+      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 022636, By: Bobi}
+      Done .Decide:_ Should collection properties (the ones denoted by []) and their (Item) values reference each other?:
+        Details:
+          Reasons:
+            - we often need the "parent" Item and its property listing the current Item (this) without parsing again, for example to:
+              - create an F2Link to the current Item
+              - access properties from the parent                    
+          Options:
+            - no change in F2YamlSummaryItem\:
+              - cons:
+                - each time we need the info about the parent, we need to locate the parent through the yaml - go parsing again
+              - pros:
+                - no extra implementation
+            - hack-ish: |
+                - a "tuple"? property, somethinglike "public ParentItemAndProperty: [F2YamlWorkspaceItem, IdString]" - returning an Item and the Id of the property it's referenced through
+
+            - special, using similar implementation as in -->Tasks\Software\F2ToolsExtension\F2ToolsExtensionContent\ItemList< to store the information
+        Result:
+          Implement the ItemList if it seems to be the right way - i.e. the TypeScript implementation of the C# code is not fucked up
+      Done .If decided, implement the decision:
+        +: {CreatedBy: Bobi, CreatedAt: 20260610 T 022234, By: Bobi, Tags: [CSVTODO], Estimation: 60 , RemTime: 60}
+        Details:
+          So implement, but check first:
+            - try that "plan" mode in one of the models (or just make it implement it and revert, if problematic? I think this.)
+            - see how it would look like            
+    Done .Decide:_ how do we store information about F2Links (and their referenced Items)?:
+      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 153642, By: Bobi}
+      Details:
+        The problem:
+          How do we store the information about the link in SubTasks:
+            Case1 - f2link:
+              Done .MyTask:
+                SubTasks:
+                  Done .MySubTask:
+                  -->Tasks\Software\F2ToolsExtension\..Tasks..QueryBasedCSV..Execute..BasicExecute<:
+
+            Case2 - f2link with property updates (meaning:_ the Item at the link location should be updated accordingly):
+              Done .MyTask2:
+                SubTasks:
+                  Done .MySubTask:
+                  -->Tasks\Software\F2ToolsExtension\..Tasks..QueryBasedCSV..Execute..BasicExecute<:
+                    Status: Done
+                    Details: Blah                  
+        Problem in detail: 
+          The SubTasks property in the F2YamlWorkspaceItem containing MyTasks should have an entry about BasicExecute
+      Workspace:
+        Options and analysis:
+          It should be an F2YamlWorkspaceItem:
+            Details:
+            - with a new header-type (link)
+            - containing the contents of the Item at the location
+            - containing the link itself as well in some property - so an F2Link
+            Analysis: 
+            - it's "strange" that the F2YamlWorkspaceItem's content is at a different location
+            - it's also strange that two F2YamlWorkspaceItems can use the same yaml Item-content - might cause complications later                    
+            - we're storing information closer to a yaml structure, not everything has to be an Item
+          It should be an F2Link:
+            Analyisis:
+              - easy to implement - we just allow F2Link in the list
+              - for the "with property updates" version (later) we can use the above or below
+          It should be a new construct:
+            Details:
+              Some "F2LinkBasedEntry"
+            Analysis: nah... F2Link first - easy - and then we decide what to do when we really need these property updates
+      Result:
+        F2Link.                    
+    InProgress .F2Link generation through F2YamlWorkspaceItem:
+      +: {CreatedBy: Bobi, CreatedAt: 20260615 T 184849, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+      MaintenanceTasks:
+        InProgress .Create Implementation plan:
+          +: {CreatedBy: Bobi, CreatedAt: 20260615 T 184905, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+          Workspace:
+            - Go through the parent Items using their BelongsToItem and BelongsToProperty fields:
+              - If the currentItem's RepresentationType:
+                - ItemRepresentationType.Node:
+                  - var linkPartValue: F2LinkPart
+                  - var idPropValue = currentItem.GetPropertyValue("Id");
+                  - var summaryPropValue = currentItem.GetPropertyValue("Summary")?.EscapeDoubleQuotesToDoubleDoubleQuotes().WrapInDoubleQuotes()
+                  - var parentPropertyId = currentItem.BelongsToProperty;
+                  - var internalId = currentItem.InternalId;
+                  - if (currentItem.YamlRepresentation.HeaderType === ItemYamlHeaderType.None):
+                    - if (parentPropertyId === undefined) throw InvalidOperationError(); //this shouldn't happen
+                    - else if (parentProperty is not a list property)
+                      - linkPartValue = new PropertyIdPart(parentPropertyValue!);
+                    - else linkPartValue = internalId
+                  - else (if currentItem.YamlRepresentation.HeaderType === ItemYamlHeaderType.TypeId):
+                    - if (p)
+                    - Example:
+                        MyItem:
+                          MyItemListProp:
+                            - .<Geci>:
+                                Id: GecciInstance
+                            - .<Geci>:
+                                Id: GecciInstance
+                            - .<GeciDescendant>:
+                                SomeProp: value                                
+                          MyAnotherItemListProp:
+                            .<Fasz>:
+                          .<Buzi>:
+                    - 
+
+
+                  - if (linkType === LinkTypes.Id):
+                      linkPartValue = currentItem.GetPropertyValue("Id") !== undefined ? currentItem.Id
+                  ? value of the Id property : value of the Summary property
+
+              - If the Item's "ItemRepresentationType" is ItemRepresentationType.Folder or File:
+      Details:
+        Create a "GetF2Link(linkType:_ LinkTypes):_ F2Link" method in F2YamlWorkspaceItem, returning an Id based F2Link:
+          - Where: 
+              enum LinkTypes:
+                .Id:
+                .Summary:      
+
+
+    InProgress .Store yaml representation information in F2YamlWorkspaceItem-s:
+      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 153224, By: Bobi, Tags: [CSVTODO], Estimation: 60, RemTime: 60}              
+      Details:
+        - During parsing from yaml (currently the "ImportFromYamlScalarMapPair" function, but later possibly renamed to just ImportFromYamlNode), store important information about how the Item was stored as a yaml to be able to reproduce the yaml in a similar structure as the original by creating a property "YamlRepresentation" in "F2YamlWorkspaceItem" with type "YamlRepresentationDescriptor" and filling it in how it's described below.
+        - class .YamlRepresentationDescriptor:     
+            Range .DocumentRange: 
+            ItemYamlHeaderType .HeaderType:
+            ItemRepresentationType .RepresentationType:
+            IdString[] .HeaderPrefixPropertyIds:
+              Details: 
+                - Ids of the properties which are present in the prefix part of header and in what order
+                - Example:
+                    \["Status", "Importance"] would render (if "Status" is "Done", "Importance" is "4-High"):
+                      Done 4-High .MyTask:
+            IdString[] .AdditionalPropertiesPropertyIds:
+              Details: 
+                - Ids of the properties which are present in the Additional Properties (the "+:") part and in what order
+                - Example:
+                    \["CreatedBy", "CreatedAt"] would render:
+                      +: {CreatedBy: ..., CreatedAt: ...}
+            IdString[] .PropertyIds:
+              Details:                         
+                - Ids of the properties which are present as "normal" properties and in what order
+                - Containing a "+" as the Id marking the place to which the Additional Properties should be rendered
+                - If "RenderDefaultListPropertyId" is false, render the Items in the property marked as the default item list (in the PropertyDescription of the ClasDescription; see ) at this place
+                - Example:
+                    \["+", "Id", "Summary", "SubTasks"] would render:
+                      .<Task>:
+                        +: {...}
+                        Id: ...
+                        Summary: ...
+                        SubTasks: ...
+            bool .RenderDefaultListPropertyId:
+              Details: 
+                - If true, the property Id of the default item list property should not be rendered.
+                - Example:
+                    True:
+                      .MyTask:
+                        SubTasks:
+                          .MySubTask1:
+                    False:
+                      .MyTask:
+                        .MySubTask1:                          
+          enum .ItemRepresentationType:
+            .Folder:
+              The Item is represented as a file system folder (such as -->Tasks\Software\<)
+            .File:
+              The Item is represented as a file system file (a yaml) containing a yaml mapping as its root element (such as -->Tasks\Software\F2ToolsExtension\<)
+            .Node:
+              The Item is represented as a yaml Node
+          enum .ItemYamlHeaderType:
+            .None:
+              Details:
+                - No header; mostly for Items which are:
+                  - the value of a Property - like WherePartOfQuery in the Where part of the QueryDescription class
+                  - are represented as files or folders
+                - Example:
+                    The value of the "Where" property is a WherePartOfQuery item yaml without header:
+                    CurrentTasksMinimal:
+                      Type: QueryDescription
+                      Select: [EMPTY as *, Estimation, Status, By, RemTime, IDLINK as IdLink, DependsOn]
+                      From: [-->Tasks\<]
+                      Where: 
+                        TaggedBy: [CSV]
+                        ItemType: [Task, Bug]
+                        SkipUnder: [-->Tasks\Archive\<]
+            .TypeId:
+              Details:
+                - Type id as header
+                - Example:
+                    .<Task>:
+                      Id: MyTask
+            .Id:
+              Details:
+                - Id as header
+                - Example:
+                    .MyTask:
+                      Summary: My Task summary
+                      Type: Task
+            .Summary:
+              Details:
+                - Summary as header
+                - Example:
+                    .My Task summary:
+                      Id: MyTask
+                      Type: Task
+          class .Range:
+            Details:
+              Same as the yaml.Range in the yaml typescript library
+            integer .Start:
+              Details: The start character position
+            integer .ValueEnd:
+              Details: The value end character + 1 (range not including the end position)
+            integer .NodeEnd:
+              Details: The node end character position + 1 (range not including the end position)
+      Why:
+        - When serializing the QueryDescription into the csv
+        - WriteBack - maybe, if we don't only edit that part of the text (=the value)
+      Done .Store further information:
+        +: {CreatedBy: Bobi, CreatedAt: 20260622 T 012819, By: Bobi, Tags: [CSVTODO], Estimation: 25, RemTime: 25}
+        Details:
+          Store:
+            - whether the Item is rendered as a flow or block mapping (its map part that is)
+            - property rendering information:
+              - type of the Node (map, sequence, scalar)
+              - if it's a string, which type (of I think 5?)
+    Done .Create an IsValidItemHeader method in the ItemHeader class:
+      Id: IsValidItemHeader
+      +: {CreatedBy: Bobi, CreatedAt: 20260611 T 142010, By: Bobi, Tags: [CSVTODO], Estimation: 20, RemTime: 20}
+      Details:
+        It should accept a yaml.Scalar and return true if it matches the <ItemYamlHeader> BNF in -->Documents\Requirements\F2YamlSpecification\BachusNaurForms.bnf<
+    Done .Implement and upgrade functionality about recognizing and parsing ItemYamls:
+      +: {CreatedBy: Bobi, CreatedAt: 20260611 T 144755, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+      Details:
+        - a yamlNode:yaml.Node is an ItemYaml in the yaml if:
+          - Standard item:
+            - yamlNode instanceof Pair<yaml.Scalar, yaml.YAMLMap>
+            - AND Scalar can be parsed to a non-empty Item header
+            - AND each key of the keys in the yamlmap is a string scalar
+              # - key is an IdString (implicitly NOT starting with a dot) (representing a property Id)
+              # - OR key can be parsed to non-empty header (representing another Item's header)
+            - Example: 
+                - Done .MyItem:
+                    MyProp: 12
+                    MyP2: dfsg
+                  .MyItem2:
+                    MyProp: 23
+                    <Task>:
+                      Id: blah
+                - Here we have Items with Id "MyItem", "MyItem2" and "blah"                                                      
+          - Headerless Item:
+            - yamlNode instanceof yaml.YAMLMap
+            - AND items in it are Pair<Scalar, yaml.Node>, each scalar is a string
+            - Example:
+              - as a value of a property, like a "WherePartOfQuery" Item as the value of the Where property:
+                  ...:
+                  Where: 
+                    TaggedBy: 
+                    SkipUnder:                
+          - HeaderOnly Item:
+            - yamlNode instanceof Pair<yaml.Scalar, yaml.Scalar(?):                    
+            - AND the first scalar is a non-empty Item header
+            - AND the second scalar is an empty string (or whatever the parser returns for an empty value)
+            - Example: |
+                Done .MySmallTodo:
+        - Create an "IsItemYaml(yamlNode: yaml.Node):boolean" function in F2YamlWorkspaceItem which returns true if it matches according to the above requirement
+        - Update the existing parsing functionalities in F2YamlWorkspaceItem          
+  OnGoing .Create proper basic Item structures library:    
+    +: {CreatedBy: Bobi, CreatedAt: 20260602 T 211650, By: Bobi, Tags: [CSVTODO], Estimation: 120, RemTime: 30}
+    Details:
+      - Create library for handling Item data necessary to implement the new functionality instead of using the existing makeshift implementation:
+        - parsing and validation:
+          - Items from a Pair<Scalar, Map>
+          - F2Links
+          - IdStrings
+        - Item, StandardItem implementations
+      - Try implementing only those functionalities which are necessary for the new functionalities
+    Done .Update parsing of properties:
+      +: {CreatedBy: Bobi, CreatedAt: 20260613 T 150507, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+      Details:
+        Update item yaml parsing (mainly ImportFromYamlScalarMapPair functions):
+          - be able to import from all the yaml structures which are considered ItemYamls (-->Tasks\Software\F2ToolsExtension\..Tasks.."Refactorings".."Implement and upgrade functionality about recognizing and parsing ItemYamls"<):
+            - change the name
+            - change the parameter type
+            - change the parsing to be able to accomodate the further types
+          - have another parameter for listing the Ids of the fields which are already processed (and therefore should be skipped processing)
+          - do not process those pairs from the map which have its key's value appearing in the above parameter
+          - call the super only at the end of the descendant's ImportFromYamlScalarMapPair call (and pass the above list filled with the values of the yaml scalar keys which it already processed)
+          - during custom properties import:
+            - all ItemYamls should be parsed into an F2YamlWorkspaceItem
+            - Everything "not parseable" is wrapped into a "NotParsedYaml" class:
+              - Purpose is to be able to emit this when serializing back to yaml
+              - stores the original yaml node
+              - its toString returns the yaml node serialized (ideally close to the original format, but don't put too much effort in it)  
+    InProgress .Baseline ItemYaml generation:
+      Id: ItemYamlGeneration
+      +: {CreatedBy: Bobi, CreatedAt: 20260623 T 202548, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}        
+      Done .Write the code:
+        Id: WriteTheCode
+        +: {CreatedBy: Bobi, CreatedAt: 20260623 T 202645, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+      InProgress .Test and fix:
+        Id: TestAndFix
+        +: {CreatedBy: Bobi, CreatedAt: 20260623 T 202658, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+  EstTODO .Create a stop task command feature that is executed when VS Code is shutting down:
+    Id: StopTTAtShutdown
+    +: { CreatedBy: Hana, CreatedAt: 20250523 T 114808, By: [Bobi, Gaurav], Estimation: 30}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..StopTTAtShutdown<
+    MaintenanceTasks: 
+      Done .Provide initial estimate3:
+        Id: Estimate
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 141235, By: Bobi}
+        Result:
+          PAR: 5m
+          Normal: 30m
+          Explanation:  
+            - supposedly one call, one trigger point; few mins if the code around is "nice"
+            - expecting trouble though
+  EstTODO .Time tracking should generate Id based F2Links, not Summary ones:
+    Id: TTIdLinks
+    +: {CreatedBy: Bobi, CreatedAt: 20260422 T 121219, By: Bobi, Tags: [CSVDONE], Estimation: 30, RemTime: 30}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\.."Time tracking should generate Id based F2Links, not Summary ones."<
+    Comments:
+      - Bobi: Take note that there's a bug around the same subject:_ -->Tasks\Software\F2ToolsExtension\.Bugs.."Can't start timer on an F2Link containing Ids"<
+    MaintenanceTasks:
+      Done .Provide initial estimate:
+        Id: Estimate
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 141235, By: Bobi}
+        Result:
+          PAR: 5m
+          Normal: 30m
+          Explanation:  
+            - supposedly one change
+            - expecting trouble though
+  InProgress .QueryDescription based CSV report generation:
+    Id: QueryBasedCSV
+    +: {CreatedBy: Bobi, CreatedAt: 20260513 T 004711, By: Bobi}    
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV<
+    MaintenanceTasks:
+      Done .Taskify and estimate:        
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 022114, By: Bobi, Tags: [CSVTODO], Estimation: 30, RemTime: 30}
+        Result:
+          Execute.Verify:
+            PAR: 30
+            Normal: 90
+            Explanation:
+              probably having to write half of the functionality.
+          Execute.BasicExecute:
+            PAR: 60
+            Normal: 180      
+      Done .Create Implementation plan for Basic Query Execution:
+        +: {CreatedBy: Bobi, CreatedAt: 20260611 T 140732, By: Bobi, Estimation: 20, RemTime: 0}
+    Done .Registers commands:
+      +: {CreatedBy: Bobi, CreatedAt: 20260522 T 013615, By: Bobi, Tags: [CSVTODO], Estimation: 10, RemTime: 0}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.."Registers commands"<
+    InProgress .Executes query:
+      Id: Execute
+      +: {CreatedBy: Bobi, CreatedAt: 20260522 T 013807, By: Bobi, Tags: [CSVTODO]}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.."Executes query"<
+      InProgress .Verifies query:
+        Id: Verify
+        +: {CreatedBy: Bobi, CreatedAt: 20260522 T 013833, By: Bobi, Tags: [CSVTODO], Estimation: 90, RemTime: 60}
+        Requirement: -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.."Executes query".."Verifies query"<
+        ImplPlan: |
+          TryGetQueryDescriptionUnderTheCursor:
+            - Get the document and the cursor position
+            - GetItemAtCursor: base it on the current generateCSV implementation and record some todos to make it "nice"
+            - Fill in the QueryDescription while checking the values
+      InProgress .Basic query execution:
+        Id: BasicExecute
+        +: {CreatedBy: Bobi, CreatedAt: 20260522 T 014327, By: Bobi, Tags: [CSVTODO], Estimation: 180, RemTime: 180}
+        Requirement: 
+          - -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.."Executes query"..BasicExecute<
+          - -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.."Executes query"..ShowSummary<
+        ImplPlan:
+          - Done the following architectural changes:
+            - -->Tasks\Software\F2ToolsExtension\..Tasks.."Refactorings"..RenameToF2YamlWorkspaceItem<
+            - -->Tasks\Software\F2ToolsExtension\..Tasks.."Refactorings"..CustomProperties<
+            - -->Tasks\Software\F2ToolsExtension\..Tasks.."Refactorings"..DoubleLinkedLists<            
+            - -->Tasks\Software\F2ToolsExtension\..Tasks.."Refactorings"..IsValidItemHeader<          
+          - Create a "Folder" (TypeScript) class based on the Folder (F2Yaml) class in Types.yml (similary how QueryDescription typescript class is based on the QueryDescription f2yaml class)
+          - Implement the method roughly as follows:
+            - F2YamlWorkspaceItem[] itemsInFrom = [];
+            - Parse the Yaml Item into an F2YamlWorkspaceItem under each F2Link in the From field:
+              - check whether the location exist - if not, throw an exception
+              - if exists:
+                - if the target (or current part of the f2link) is a folder, create a "Folder" F2YamlWorkspaceItem (set its Id to the name of the folder) and parse the contents as the elements of its Items property
+                - if the target/current part is a file:
+                  - the file must contain a yaml.YAMLMap as its root node AND this map must be an ItemYaml - if not, OutputChannelLogger.Warning and the created item is undefined
+                  - otherwise, create a general F2ZamlWorkspaceItem from this map:
+                    - treat the filename as if it was the Id part of the header (so throw exception if there's an Id property with a different value than the filename)
+                - if the target/current part is the property of an ItemYaml:
+                  - if the value is not an ItemYaml - undefined; 
+                  - if it is, parse it 
+                - if the target/current part is the header of an ItemYaml:
+                  - parse it - or if can't, undefined + warning
+              - if (created item is not undefined) itemsInFrom.push(created item);          
+            - string[][] csvCellValuesPerRow
+            - string[] csvColumnNames
+            - generate csvColumnNames from the Select part of the query (either the property name or if there is an "as" part, the given name)
+            - go through each f2Item of F2YamlWorkspaceItems in the itemsInFrom (and their children):
+              - if (f2Item matches the conditions in the Where part of the query):
+                - string[] csvCellValues = []
+                - for (var propertyId of (property Ids in the Select part)):
+                  - string value = :
+                    - switch (propertyId):
+                      - EMPTY: ""
+                      - SYNCRESULT: one of the values from SyncResultValues representing whether the row was created, updated, etc. (-->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.Artifacts..SyncResultValues<); at the moment this should be always "N" (until we implement updating)
+                      - IDLINK: f2Item.GetF2Link(LinkTypePreference.Id)
+                      - SUMMARYLINK: f2Item.GetF2Link(LinkTypePreference.Summary)
+                      - default: 
+                        - var propertyValue = f2Item.GetPropertyValue(propertyId)
+                        - switch (type of propertyValue):
+                          - F2YamlWorkspaceItemPropertyScalarValue: String(propertyValue)
+                          - F2YamlWorkspaceItemPropertyArrayValue or F2Link[]: the values as strings, separated by ", "
+                          - F2YamlWorkspaceItem or ItemList or NotParsedYaml: "NOTSUPPORTED"
+                          - F2Link: propertyValue.toString()
+                          - null: ""
+                  - csvCellValues.push(CSVEscapeAndPutInQuotationsIfNeeded(value)) //if the value contains "," or newline then replace double quotation to double double quote, newline to the string "\n" and surround it with double quotation
+                - csvCellValuesPerRow.push(csvCellValues)
+            - create the output file:
+              - either to the one specified in the queryDescription.OutputFile or if it's empty or not present, uses the current path (where the file containing the QueryDescription is) + filename with extension ".csv" (or if exists, adds the next not-existing number in a bracket)
+            - write to the output file:
+              - file header:
+                - uses the prefix set in CommentPrefix in front of each header line
+                - writes/updates the header generated by creating or updating a -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.Artifacts.."ReportHeader"< Item complying with the template in its details
+              - column headers:
+                - csvColumnNames.join(",")
+              - column values:
+                - content of csvCellValuesPerRow, \n in between rows, "," in between cell values
+      NEXT .Filter by the Where property:
+        Id: Filter
+        +: {CreatedBy: Bobi, CreatedAt: 20260522 T 014922, By: Bobi, Tags: [CSVTODO], Estimation: 180, RemTime: 180}
+        DependsOn: -->...BasicExecute<
+        Requirement: -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV.."Executes query"..Filter<
+    EstTODO .Writes Back From Output:
+      Id: WriteBack
+      +: {CreatedBy: Bobi, CreatedAt: 20260522 T 015742, By: Bobi, Tags: [CSVTODO], Estimation: 180, RemTime: 180}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..QueryBasedCSV..WriteBack<
+  TODO .F2Link class based F2Link handling:
+    Id: F2LinkClass
+    +: {CreatedBy: Bobi, CreatedAt: 20260616 T 224605, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+    TODO .Update link parsing according to the new specification:
+      +: {CreatedBy: Bobi, CreatedAt: 20260617 T 142620, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+      Details:
+        Change the parser (F2Link.TryParseString):
+        - FilePathParts can now contain the file's extension as well
+        - Each ItemIdentifierPart can be suffixed by a number in brackets
+        - recognize a TypeIdPart (an ), which is: <TypeIdPart> ::= ".<" <IdString> ">"
+    TODO .Create a method which generates F2Links:
+      +: {CreatedBy: Bobi, CreatedAt: 20260618 T 012449, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+      Details:
+        - 
+        - replace the already existing F2Link generation functionalities to this
+
+
+    Details:
+      
+  EstTODO .Replacing F2Links:
+    Id: ReplaceLinks
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 022624, By: Bobi}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkUpgrades..ReplaceLinks<
+    MaintenanceTasks:
+      InProgress .Taskify and estimate:
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 022114, By: Bobi, Tags: [CSVTODO], Estimation: 30, RemTime: 30}
+        Result:                
+          MarkF2LinksForReplace:
+            PAR: 30m
+            Normal: 60m
+            Explanation: 3 new "functions" OR I can reuse existing ones for 2
+          ReplaceMarkedToIdLink:
+            PAR: 20m
+            Normal: 45m
+          ReplaceMarkedTo:
+            PAR: 
+            Normal:
+            Explanation: 
+    EstTODO .Register commands:
+      +: {CreatedBy: Bobi, CreatedAt: 20260522 T 000302, By: Bobi, Tags: [CSVTODO], Estimation: 10, RemTime: 10}
+      Details: 3 at the moment
+    EstTODO .MarkF2LinksForReplace:
+      Id: MarkF2LinksForReplace
+      +: {CreatedBy: Bobi, CreatedAt: 20260522 T 000421, By: Bobi, Tags: [CSVTODO], Estimation: 60, RemTime: 60}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkUpgrades..ReplaceLinks..MarkF2LinksForReplace<
+      Details:
+        - finds all files,
+        - parses them for f2links
+        - and checks whether any points to the Item by analyzing the link    
+    EstTODO .ReplaceMarkedToIdLink:
+      Id: ReplaceMarkedToIdLink
+      +: {CreatedBy: Bobi, CreatedAt: 20260522 T 002832, By: Bobi, Tags: [CSVTODO], Estimation: 45, RemTime: 45}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkUpgrades..ReplaceLinks..ReplaceMarkedToIdLink<
+      Details:
+        - simple id link generation + then replacing the old
+        - keeping the escaping (csv/yaml)
+    EstTODO .ReplaceMarkedTo:
+      Id: ReplaceMarkedTo
+      +: {CreatedBy: Bobi, CreatedAt: 20260522 T 002334, By: Bobi, Tags: [CSVTODO], Estimation: 20, RemTime: 15}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkUpgrades..ReplaceLinks..ReplaceMarkedTo<
+      Details:
+        On top of $@-->...ReplaceMarkedToLink<@$:
+        - to generate a new link for each link:
+          - keep the part up until the 2 links (newly generated, old) match
+          - the rest is the part from the generated (Id based)                  
+  InProgress .Make F2Links handle 2 or more property values preceding summary in headers:
+    Id: MorePrefix
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 023150, By: Bobi, Estimation: 30, RemTime: 30}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkUpgrades..MorePrefix<
+    MaintenanceTasks:
+      Done .Taskify and estimate:
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 022114, By: Bobi, Tags: [CSVTODO], Estimation: 10, RemTime: 0}
+        Result:
+          PAR: 10m
+          Normal: 30m
+          Explanation:
+            - the function - if there's one, but then there should be one - which removes one prefix should be updated
+            - expecting trouble.
+  InProgress .Support for local f2links:
+    Id: LocalLinks
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 023353, By: Bobi, Estimation: 90, RemTime: 90}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkUpgrades..LocalLink<
+    MaintenanceTasks:
+      Done .Taskify and estimate:
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 022114, By: Bobi, Tags: [CSVTODO], Estimation: 10, RemTime: 0}
+        Result:
+          PAR: 30m
+          Normal: 90m
+          Explanation:
+            - this is new logic, having to plug it into the existing mess
+            - yes, expecting trouble
+  InProgress .Support for filepath-only F2Links:
+    Id: FilePathLink
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 023512, By: Bobi, Estimation: 30, RemTime: 30}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkUpgrades..FilePathLink<
+    MaintenanceTasks:
+      Done .Taskify and estimate:
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 022114, By: Bobi, Estimation: 10, RemTime: 0}
+        Result:
+          PAR: 10m
+          Normal: 30m
+          Explanation: 
+            - supposedly just modifying a few lines
+            - but expecting trouble.  
+  InProgress .Proper Text output support:
+    Id: TextOutput
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 023648, By: Bobi, Estimation: 60, RemTime: 60}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..TextOutput<
+    MaintenanceTasks:
+      Done .Taskify and estimate:
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 022114, By: Bobi, Estimation: 10, RemTime: 0}
+        Result:
+          PAR: 30
+          Normal: 60
+          Explanation:
+            - creating some class (maybe static... mehh...) through which we write to Output:
+              - it checks the verbosity level
+            - settings creation
+            - one example implementation
+            - requirements for the other functionalities
+            - no trouble expected as this is not really changing or using any existing functionality
+    Done .Implement the logger functionality:
+      Id: Implement
+      +: {CreatedBy: Bobi, CreatedAt: 20260604 T 143712, By: Bobi}
+    Done .Upgrade the logger to be a log output:
+      +: {CreatedBy: Bobi, CreatedAt: 20260620 T 213712, By: Bobi}
+    TODO .Create the concept and the Tasks for the others:
+      +: {CreatedBy: Bobi, CreatedAt: 20260604 T 143728, By: Bobi}
+  InProgress .Proper escaping in Summary part of F2Links:
+    Id: F2LinkEscaping
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 150503, By: Bobi, Tags: [CSVTODO], Estimation: 40, RemTime: 40}
+    Requirement: -->Documents\Requirements\F2ToolsExtension\..F2LinkEscaping<
+    MaintenanceTasks:
+      Done .Taskify and estimate:
+        +: {CreatedBy: Bobi, CreatedAt: 20260521 T 151637, By: Bobi, Estimation: 10, RemTime: 0}
+        Result:
+          PAR: 20m
+          Normal: 40m
+          Explanation: expecting trouble, otherwise easy-peasy (simple string replace back and forth)
+
+
+  
+  OnGoing .Publication to marketplace:
+    Details:
+      Process: -->Documents\ProcessDescriptions\.."Process Descriptions".."F2Tools extension"..PublishToMarketPlace<
+    Done .Write initial changelog.md:
+      +: {CreatedBy: Bobi, CreatedAt: 20260424 T 191500, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+    Done .Write initial readme.md:
+      +: {CreatedBy: Bobi, CreatedAt: 20260424 T 232403, By: Bobi, Tags: [CSVDONE], Estimation: "30", RemTime: "0"}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..Docs.."ReadMe"<
+    EstTODO .Create proper readme:
+      +: {CreatedBy: Bobi, CreatedAt: 20260520 T 164900, By: Bobi, Tags: [CSVTODO], Estimation: 90, RemTime: 90}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..Docs.."ReadMe"<
+    EstTODO .Create License:
+      +: {CreatedBy: Bobi, CreatedAt: 20250901 T 134531, By: Bobi, Tags: [CSVDONE], Priority: 3-Average, Estimation: 60, RemTime: 60}
+      Requirement: -->Documents\Requirements\F2ToolsExtension\..Docs.."License"<
+    Done .V2.0.25:
+      +: {CreatedBy: Bobi, CreatedAt: 20260424 T 121346, By: Bobi, Tags: [CSVDONE], Estimation: "15", RemTime: "0"}
+    Done .V2.0.26:
+      +: {CreatedBy: Bobi, CreatedAt: 20260429 T 000248, By: Bobi, Tags: [CSVDONE], Estimation: "15", RemTime: "0"}
+
+Bugs:
+
+  OnHold .Mac can't install VSIX:
+    QA: [ Giselle ]
+    Severity: 4-High
+    Details:
+      - On version 2.0.4
+      - Devie Mac
+      - Tool is not installed after installing VSIX in MAC
+
+  OnHold .Name of the publisher is "undefined_publisher":
+    QA: Hana
+    Version: 1.5.0
+    Preconditions:
+      - The F2ToolsExtension is installed and enabled with version 1.5.0
+    Steps to reproduce:
+      - Check the extensions tab of VSCode
+      - Find the F2ToolsExtension
+      - Check the name of F2ToolsExtension (Top Line)
+    ActualResult:
+      - name of the extension tf2p
+    ExpectedResult:
+      - The name is "tf2p.org"
+    Notes:
+      - Requirement: -->Documents\Requirements\F2ToolsExtension\.."Minimal Base"< 
+      - (.) can be added only for registered publisher:
+          - Create an account (for review)
+    WorkLog:
+      - [ Gaurav, 5m, "", 20250529 T 141034 ]
+
+  Fixed .Non-Bug:_ No "Root path" in settings:
+    QA: Bobi
+    Severity: 3-Average
+    Version: 2.0.6
+    Area: LinkGeneration
+    Details:
+      - There is no settings for Root path; this makes all the links generated to be wrong.
+      - So this seems to be a feature request, not a bug. The feature should be then:
+          - There's a setting for Root path.
+          - The app, at start, checks if there's a VS Code Workspace (or Folder?) set:
+              - If so, copies the path of it to this setting
+          - At each link generation (or operation using the root path) the value from the settings is used
+    Comments:
+      - Bobi: I guess it happened when there was no VS Code Workspace open, I just opened a file; reduced the severity to from 5-VeryHigh to 3-Average therefore.
+
+  Fixed .Ignore Words in settings:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 1-VeryLow
+    Details: There is still an Ignore Words in settings - is this intentional, do we still use it for something?
+
+  Accepted .Not specific-enough error message when invalid line in SR:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 3-Average
+    Area: WorklogGeneration
+    Details:
+      When generating worklog the error message appearing when there are problems in my SR is not specific enough - I can't figure it out which line was problematic. I should at least know the line number, also, it would be good if it gave me all the wrong lines. Maybe giving a report that:
+        Errors:
+          Line 1: can't parse yaml
+          Line 5: invalid link
+          Line 6: target not found
+
+  Fixed .Wrongly placed dot in the link:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 4-High
+    Area: LinkGeneration
+    Details:
+      It extracted the link in the following format - the dot inside the quotations: -->Recruitment\JobDescriptions\.".Seniority classification for CSharp".Content< 
+    Comments:
+      Gaurav:
+        WorkAround:
+          - Not using spaces in properties and non-task items
+    Retests:
+      - QA: Bobi
+        Version: 2.0.17
+        Severity: 4-High
+        Details: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules".".F2Yaml syntax"< 
+
+  Fixed .Misleading error message when Stopping Timer on Task without Starting one:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 2-Low
+    Area: TimeTracking
+    Details: When I select "Stop timer on Task" without first starting a timer, the error message is "Speficy SR first" instead of reminding that I need to start something first.
+    Comments:
+      Bobi: How is the app implemented, are these messages embedded into the code or are they coming from a resource file (like a json?). Latter would be nicer; let's talk about it.
+
+  Accepted .Not informative error message when the SR entry is wrong:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 2-Low
+    Area: TimeTracking
+    Details: When I select "Stop timer on Task" on an entry which does not have the sequence afterwards, it gives me the "Cannot read properties of undefined (reading '0')"
+
+  Fixed .CSV Line generation not working - "cannot read the properties of undefined" error:
+    QA: [ Hana, Bobi ]
+    Version: 2.0.6
+    Severity: 5-VeryHIgh
+    Area: CSV
+    Details:
+      error message \"Cannot read the properties of undefined (reading:_ 'items')" is thrown for:
+        InProgress .Go through the existing material (articles, etc.) and share it with the current team:
+          +: { CreatedBy: Hana, CreatedAt: 20250727 T 160745, By: [ Bobi, Hana ] }
+          InProgress .Organize the video recordings in one file in GoogleDrive:
+
+
+  Fixed .CSV Line generation not working - "unable to find the Item"h:
+    QA: [ Hana, Bobi ]
+    Version: 2.0.6
+    Severity: 4-High
+    Area: CSV
+    Details:
+      we get \"Unable to find the Item" errror if this is the outmost element for example:
+        InProgress .MVPLeftAsOf20241113:
+      Notes: I cant generate CSV for this
+
+  Fixed .CSV Line generation not working - "taskObj.value.items is not iterable":
+    QA: Hana
+    Version: 2.0.6
+    Severity: 4-High
+    Details:
+      - In case the task has no value, error meesage above occur.
+      - Example:
+          - If the file content is this, it happens:
+              .Yeeah:
+                InProgress .Dilitme:
+          - Notes: I cant generate CSN for this
+
+  Fixed .Generate ID Link creates link with one dot where there should be 2:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 4-High
+    Area: LinkGeneration
+    Details:
+      So this was just generated: -->Backlog\Backlog\..PublicRelations.Recruitment.RecruitmentPhase1.."Advertise the job description in different platform"< 
+ 
+  Fixed .When trying to follow a link in the CSV, it gives "Cannot read properties of undefined (reading 'items')"j:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 4-High
+    Area: CSV
+    Details:
+      The link I tried: |
+        "-->Backlog\Backlog\..PublicRelations..Outreach..""Collect Outreach ideas""."".Written Outreach""..""Write thoughts on X""..""Definition of Fair""<"
+
+  Fixed .CSV link following works with the "wrong" IDLink format only:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 3-Average
+    Area: LinkFollowing
+    Details:
+      So it works with this link: -->Backlog\Backlog\..PublicRelations.Recruitment.RecruitmentPhase1.."Advertise the job description in different platform"< 
+      It doesn't with the fixed version: -->Backlog\Backlog\..PublicRelations..Recruitment..RecruitmentPhase1.."Advertise the job description in different platform"< 
+ 
+  Fixed .Non-Bug:_ CSV line generator does not take properties in the "+:" section into account:
+    QA: Bobi
+    Version: 2.0.6
+    Severity: 3-Average
+    Area: CSV
+    Details: So the reason it's non-Bug is that the F2Yaml specification still not talk about this "+" section - on the other hand, it's a bug in the spec AS WELL.
+
+  Fixed ."Start timer on task" command gives error "This is not a task":
+    QA: Gaurav
+    Version: 2.0.6
+    Severity: 4-High
+    Details:
+      Task on which the command was tried: |
+        New .CSV Line generation not working - "taskObj.value.items is not iterable":
+          QA: Hana
+          Version: 2.0.6
+          Severity: 4-High
+          Details: 
+            - In case the task has no value, error meesage above occur. 
+            - Example:
+              - If the file content is this, it happens: |
+                  .Yeeah:
+                    InProgress .Dilitme:
+
+  Fixed .CSV Line generation not working - when there is no character after last double qoutes:
+    QA: Hana
+    Version: 2.0.6
+    Severity: 4-High
+    Area: CSV
+    Details:
+      The link I tried: |
+        " New .CSV Line generation not working - "taskObj.value.items is not iterable":"   
+
+  Fixed .CSV Line generation not working - in case the top level element is not just one word:
+    QA: Hana
+    Version: 2.0.7
+    Severity: 4-High
+    Area: CSV
+    Details:
+      - put the following into an empty file (First row first column):
+          OnGoing .Website:
+            InProgress .SomeTask:
+      - Generating CSV from .SomeTask gives "Cannot read properties of undefined (reading 'items')"
+      - Generating CSV from .Website gives the "cannot find Item" error
+
+  Fixed .Double quotes are placed in between the dots in ID links (and maybe Summary links as well):
+    QA: Bobi
+    Retest:
+      QA: Bobi
+      Severity: 3-Average
+      Version: 2.0.14
+      Details:
+        - Tested with -->DocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules"<, with the "Generate ID link" 
+        - It works with the summary link: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules"<
+
+  Fixed .Follow Link command does not work, giving the error "Cannot read properties of undefined (reading 'length')":
+    QA: [ Hana, Bobi ]
+    Version: 2.0.14
+    Severity: 4-High
+    Area: CSV
+    Details:
+      - Extracted: -->DocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules"< follow link does not work on this one.
+      - And neither on this one: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules"<
+
+  Fixed .Follow Link command does not work (on a link which might not be supported), giving the error "Cannot read properties of undefined (reading 'length')":
+    QA: Bobi
+    Version: 2.0.14
+    Severity: 3-Average
+    Area: LinkFollowing
+    Details: -->BusinessClasses\."namespace Barba.Types"."enum TaskStatusEnum"< 
+    Notes:
+      Bobi: this might not be a bug but a missing feature; nevertheless, it would be good if it worked
+
+  Fixed .CSV Line generation not working - when the "by" property has a sequence (more than one name):
+    QA: Hana
+    Version: 2.0.14
+    Severity: 3-Average
+    Area: CSV
+    Details:
+      Example Item:
+        InProgress .Alma:
+          +: { CreatedBy: Bobi, CreatedAt: 20250805 T 111801, By: [ Bobi, FireWood ] }
+      Error message: Cannot read properties of undefined (reading 'trim')
+      #- I can't generate CSV with the above
+    Retest:
+      Version: 2.0.18
+      Details: same.
+
+  Fixed .Follow link does not work, giving the error "Unable to find the Item":
+    +: { CreatedBy: Bobi, CreatedAt: 20250806 T 191825, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.14
+    Severity: 4-High
+    Area: LinkFollowing
+    Details: -->DocsAndArticles\Specifications\YamlToHtmlConversion\.Content< 
+    Retest:
+      - QA: Bobi
+        Version: 2.0.17
+        Details: same link
+
+  Fixed .Follow link does not work, giving the error "Cannot read properties of undefined (reading 'items')":
+    +: { CreatedBy: Bobi, CreatedAt: 20250811 T 235245, By: Gaurav, Tags: [ ] }
+    QA: Bobi
+    Version: 2.0.17
+    Severity: 4-High
+    Area: LinkFollowing
+    Details:
+      - -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules".".F2Yaml syntax"< 
+      - (neither with correctly placed dot: -->DocsAndArticles\Specifications\F2Yaml\.."F2Tool MVP rules".".F2Yaml syntax"<)
+
+  OnHold .Follow link leads to the wrong place:
+    +: { CreatedBy: Bobi, CreatedAt: 20250811 T 235257, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.17
+    Severity: 4-High
+    Area: LinkFollowing
+    Details:
+      This link: -->Backlog\Development\..Processes..PM.VerifyAndImprove.Baseline<
+      Leads here: -->Tasks\Processes\..Members.."Initial Interview".."Baseline"<
+    Comments:
+      - Bobi: As agreed, this is hard to fix without proper parsing, so I put it on hold. Let's see my progress with the parser and get back to it when things change.
+
+  Rejected .Follow link does not work if no workspace despite Root Path is set:
+    +: { CreatedBy: Bobi, CreatedAt: 20250811 T 235818, By: Gaurav, Tags: [ ] }
+    QA: Bobi
+    Version: 2.0.17
+    Severity: 3-Average
+    Area: LinkFollowing
+    Details: As per the summary
+    Comments:
+      Gaurav:
+        - Unable to reproduce
+
+  Fixed .Generate ID link clears the Root Path, generates wrong link and then the next time it does not work:
+    +: { CreatedBy: Bobi, CreatedAt: 20250820 T 132152, By: Gaurav, Tags: [  ], Priority: 4-High }
+    QA: Bobi
+    Version: 2.0.19
+    Severity: 3-Average
+    Area: LinkGeneration
+    Steps:
+      - Open F2Yaml.yml in a VS Code without workspace
+      - Ensure that the Root Path is set (for me it's "d:\_TF2P\Management\")
+      - Issue the Extract ID Link command on -->DocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules".".F2Yaml syntax"..PropertyOf<
+      - Errors:
+          - The link generated is -->ocsAndArticles\Specifications\F2Yaml\.".F2Tool MVP rules".".F2Yaml syntax"..PropertyOf< - so no "D" 
+          - Displays the error: "No workspace found"
+      - Issue the Extract ID Link command again
+      - Errors:
+          - Displays Errors:
+              - "No workspace found"
+              - "Please enter the root path in the settings"
+          - The root path in settings becomes empty
+
+  Fixed .CSV generation giving the usual "Cannot read properties of undefined (reading 'items')" error:
+    +: { CreatedBy: Bobi, CreatedAt: 20250821 T 121117, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.20
+    Area: CSV
+    Severity: 4-High
+    Details: Basically on all.
+
+  Fixed .CSV generation giving "Cannot read properties of null (reading 'items')" error:
+    +: { CreatedBy: Bobi, CreatedAt: 20250821 T 121117, By: Gaurav, Tags: [  ] }
+    QA: Bobi
+    Version: 2.0.20
+    Area: CSV
+    Severity: 3-Average
+    Steps:
+      - Place this into an empty file: |
+          OnGoing .Website:
+            +: {CreatedBy: Hana, CreatedAt: 20250804 T 231015, By: [Hana, Mama]}
+            Done .SomeTask:    
+      - Try generating a csv line from the "SomeTask" task
+
+  New .Follow link is not working when the target item does not have any properties:
+    +: { CreatedBy: Hana, CreatedAt: 20250829 T 181438, By: Hana, Tags: [ CSVDONE ], Priority: 3-Average }
+    QA: Hana
+    Version: 2.0.23
+    Area: Follow Link
+    Severity: 3-Average
+
+  New .Can't use the features of VSIX on Mac depite installing the TF2Tool latest version:
+    +: { CreatedBy: Hana, CreatedAt: 20250831 T 154720, By: Bobi, Tags: [ CSVDONE ], Priority: 3-Average }
+    QA: Hana
+    Version: 2.0.23
+    Area: General
+    Severity: 3-Average
+
+  New ."Bug:_ Unknown structure" error message:
+    +: {CreatedBy: Bobi, CreatedAt: 20250902 T 124657, By: Bobi, Tags: [CSVDONE], Priority: 4-High}
+    QA: Hana
+    Version: 2.0.23
+    Area: General
+    Severity: 3-Average    
+    Details:
+      On this link: -->!PublicWorkspaces\Hana\PlanningMeeting20250830\.."Planning and Retrospective".."PlanningMeeting20250830".Workspace.."Review milestones"<
+
+  Fixed .Worklog generation is not working:
+    +: {CreatedBy: Hana, CreatedAt: 20250903 T 102933, By: Hana, Priority: 4-High}
+    QA: Hana
+    Version: 2.0.23
+    Area: Work
+    Severity: 4-High  
+    Details:
+      - specify SR, select task and stop task were implemented. Cursor was on SR worklog generation didn't work
+
+  Rejected .Task minutes does not get saved whem VSC is closed:
+    +: {CreatedBy: Hana, CreatedAt: 20250903 T 170338, By: Hana, Tags: [CSVDONE], Priority: 3-Average}
+    QA: Hana
+    Version: 2.0.23
+    Area: TimeTracking
+    Severity: 3-Average
+    Comments:
+      - [Bobi, 20260423 T 2153, "This feature is not implemented yet."]
+
+  Fixed .During Id link generation the value of the "Summary" field is used instead of the "Id" field:
+    +: {CreatedBy: Bobi, CreatedAt: 20250917 T 152232, By: Bobi, Tags: [CSVDONE]}
+    QA: Bobi
+    Version: 2.0.24
+    Area: LinkGeneration
+    FixVersion: 2.0.26
+    Severity: 4-High    
+    Details:
+      Probably in cases where:
+        - if the Item is a top level one
+        - the Summary contains just one word
+  
+  Fixed .During CSV Generation extra fields are added:
+    +: {CreatedBy: Hana, CreatedAt: 20260327 T 104642, By: Bobi, Tags: [CSVDONE]}
+    QA: Hana
+    Version: 2.0.24
+    FixVersion: 2.0.25
+    Area: LinkGeneration
+    Severity: 4-High
+  
+  Fixed .During CSV Generation if the value of a property is not a string, it fails:
+    +: {CreatedBy: Bobi, CreatedAt: 2026030 T 122326, By: Bobi, Tags: [CSVDONE]}
+    QA: Bobi
+    Version: 2.0.24
+    Area: LinkGeneration
+    FixVersion: 2.0.25
+    Severity: 4-High
+    Details:
+      \"str.Trim is not a function" if the value is e.g.:
+        number
+        null
+
+  New .Can't link to sequences:
+    +: {CreatedBy: Bobi, CreatedAt: 20260421 T 125103, By: Bobi, Tags: [CSVDONE]}
+    QA: Bobi
+    Version: 2.0.24
+    Area: LinkGeneration
+    Severity: 4-High
+    Details:
+      Description:
+        Trying to generate a link to a sequence element results in "Cannot read properties of underfined (reading 'value')" error message instead of generating the link
+      Example:
+        Prop1:
+          - You can't generate link to this line:            
+        Prop2:
+          But you can to this:
+      
+  New .Can't start timer on an F2Link containing Ids:
+    +: {CreatedBy: Bobi, CreatedAt: 20260422 T 120717, By: Bobi, Tags: [CSVDONE]}
+    QA: Bobi
+    Version: 2.0.24
+    Area: TimeTracking
+    Severity: 2-Low
+    Details:
+      While this is a valid F2Link, the timer can't be started on it: 
+        -->Tasks\Management\.."OCWSPhase1"..UpdateF2Links..Fix2ndRound<
+      It can be started if it's a summary one:
+        -->Tasks\Management\.."OCWSPhase1".."Update F2yaml links".."Bobi to go through the ones which are tagges"<
+    Comments:
+      Bobi: Take note that there's a pending (at the time of writing this) Task around this subject:_ -->Tasks\Software\F2ToolsExtension\.Tasks.."Enhancements".."Time tracking should generate Id based F2Links, not Summary ones."<
+
+  New .Start/Resume task does not resume the Task:
+    +: {CreatedBy: Bobi, CreatedAt: 20260425 T 011714, By: Bobi, Tags: [CSVDONE]}
+    QA: Bobi
+    Version: 2.0.25
+    Area: TimeTracking
+    Severity: 2-Low
+    Details:
+      After pausing an active timer by the the "Start/Resume task" command, resuming it by doing it again does not resume the task but gives a "There's no active task" error message
+            
+  Fixed .The value of Id field is not taken into account if it's inside the additional properties part:
+    +: {CreatedBy: Bobi, CreatedAt: 20260429 T 012514, By: Bobi, Tags: [CSVDONE], Estimation: 20, RemTime: 0}
+    QA: Bobi
+    Version: 2.0.25
+    FixVersion: 2.0.26
+    Area: LinkGeneration
+    Severity: 2-Low
+    Details:
+      So like this:
+        SomeTask:
+          +: {Id: blah}
+  
+  New .Stop timer fails with the usual "item" related error message when the SR entry is incomplete:
+    +: {CreatedBy: Bobi, CreatedAt: 20260517 T 144459, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+    QA: Bobi
+    Version: 2.0.25
+    FixVersion:
+    Area: TimeTracking
+    Severity: 2-Low
+    Details:
+      So starting and then stopping the timer on an entry like this:
+        Was:
+          - -->Tasks\Management\.."General management".."Task Administration"<:
+
+  New .getYamlMapIfPairOrYamlMap throws error if clicking on the f2links provided in the details:
+    +: {CreatedBy: Bobi, CreatedAt: 20260518 T 150217, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+    QA: Bobi
+    Version: 2.0.25
+    FixVersion:
+    Area: TimeTracking
+    Severity: 2-Low
+    Details:
+      On these links:
+        - -->MeetingMinutes\Plannings\.MeetingNotes..Planning20260428.Workspace.Tasks.."Create schedules".."Fine tune daily schedule during the trial week"<
+        - -->MeetingMinutes\Plannings\.MeetingNotes..Planning20260428.Workspace.Tasks.."Create schedules".."Create streaming schedule"<
+      The Planning20260428 meeting note currently:
+        .Planning20260428:
+          Participants: [Bobi, Hana]    
+          StartTime: 20260428 T 1240
+          EndTime: 20260428 T 1344
+          Details:
+            Task is $@-->Tasks\Management\.."Big replanning after OCWSPhase1"<@$
+          Result:
+            Tasks created:
+              - -->Tasks\Management\.."Plan the next Milestones"<
+              - -->Tasks\Management\.."Create schedules"<        
+              - -->Tasks\Management\.."Create "daily administration" schedule for Hana"<                
+              - -->Tasks\PublicRelations\.."Create outreach plan"<      
+
+  New .Unable to follow links where a summary part ends with dot:
+    +: {CreatedBy: Bobi, CreatedAt: 20260521 T 145730, By: Bobi, Tags: [CSVTODO], Estimation:, RemTime:}
+    Details:
+      Example:      
+        MyItem.:
+          -->Tasks\Software\F2ToolsExtension\.Bugs.."Unable to follow links where a summary part ends with dot".Details.Example.MyItem.< 
+
+  New .Unable to create new task from an existing task within the same SR "SR_20260608_Hana":
+    +: {CreatedBy: Hana, CreatedAt: 20260609 T 215850, By: Bobi, Tags: [CSVTODO], Estimation: 0m, RemTime: 0m}
+    QA: Bobi
+    Version: 2.0.26
+    Area: TimeTracking
+    Severity: 2-Low
+    Details:
+      Scenario one:
+        - Task previously present in the SR
+        - Specify stand up Report command
+        - Cursor on the existing task ( 20260601)
+        - Start timer command
+        - No new task added
+        - Time resumes on the the previous task
+      Scenario two:
+        - Task previously present in the SR
+        - Specify stand up Report command
+        - Cursor of the existing task in the orginal folder
+        - Start timer command
+        - No new task added
+        - Time resumes on the the previous task
+
+
+
+<EOF>: #Write above and do not delete this line please; without this, in VS Code editor if every Item is folded and you want to add something after the last one, you had to unfold the last one, navigate to the end of it, add a line and then go back and fold the (former) last one. (EOF = End of File)

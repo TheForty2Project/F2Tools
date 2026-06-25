@@ -23,7 +23,7 @@ export class QueryDescripton extends StandardItem {
   }
 
   public set From(value: F2Link[]) {
-    this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID_STRING, [...value] as unknown as string[]);
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID_STRING, [...value]);
   }
 
   public get Where(): WherePartOfQuery {
@@ -73,7 +73,7 @@ export class QueryDescripton extends StandardItem {
 
   public readonly ChildItems = new ItemList<F2YamlWorkspaceItem>(this, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID_STRING);
 
-  override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>): QueryDescripton {
+  override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): QueryDescripton {
     let yamlMap: yaml.YAMLMap = itemYamlPair.value!;
     this.OutputFile = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE.ID) ?? "";
     this.Select = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT.ID) ?? [];
@@ -103,14 +103,14 @@ export class QueryDescripton extends StandardItem {
     }
     else this.Where = new WherePartOfQuery();
 
-    super.ImportFromYamlNode(itemYamlPair, [
-      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE.ID_STRING,
-      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT.ID_STRING,
-      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID_STRING,
-      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID_STRING,
-      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.BEHAVIORWHENDELETINGROWS.ID_STRING,
-      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID_STRING,
-    ]);
+    super.ImportFromYamlNode(itemYamlPair, processedPropertyIds?.concat([
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE.ID_STRING.Value,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT.ID_STRING.Value,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM.ID_STRING.Value,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN.ID_STRING.Value,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.BEHAVIORWHENDELETINGROWS.ID_STRING.Value,
+      Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE.ID_STRING.Value,
+    ]));
 
     return this;
   }
@@ -164,19 +164,19 @@ export class QueryDescripton extends StandardItem {
     return this.Where.IsValid();
   }
 
-  public override toString(): string
-  {
-    return `
-<QueryDescription>:
-  Id: ${this.Id}
-  Summary: ${this.Summary}
-  Select: [${this.Select.join(", ")}]
-  From: [${this.From.join(", ")}]
-  Where: ${StringOperations.indentLinesBy(this.Where.toString(), 4)}
-  BehaviorWhenDeletingRows: RowDeletingBehavior.${this.BehaviorWhenDeletingRows === RowDeletingBehavior.CommentOut ? "CommentOut" : this.BehaviorWhenDeletingRows === RowDeletingBehavior.DoNothing ? "DoNothing" : "Remove"}
-  AddSyncResultColumn: ${this.AddSyncResultColumn}
-  OutputFile: ${this.OutputFile}`;
-  }
+//   public override toString(): string
+//   {
+//     return `
+// <QueryDescription>:
+//   Id: ${this.Id}
+//   Summary: ${this.Summary}
+//   Select: [${this.Select.join(", ")}]
+//   From: [${this.From.join(", ")}]
+//   Where: ${StringOperations.indentLinesBy(this.Where.toString(), 4)}
+//   BehaviorWhenDeletingRows: RowDeletingBehavior.${this.BehaviorWhenDeletingRows === RowDeletingBehavior.CommentOut ? "CommentOut" : this.BehaviorWhenDeletingRows === RowDeletingBehavior.DoNothing ? "DoNothing" : "Remove"}
+//   AddSyncResultColumn: ${this.AddSyncResultColumn}
+//   OutputFile: ${this.OutputFile}`;
+//   }
 
 }
 enum RowDeletingBehavior {
@@ -213,15 +213,15 @@ class WherePartOfQuery extends F2YamlWorkspaceItem {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID_STRING, value);
   }
 
-  public ImportFromYamlMap(yamlMap: yaml.YAMLMap): WherePartOfQuery {
+  public ImportFromYamlMap(yamlMap: yaml.YAMLMap, processedPropertyIds: string[] = []): WherePartOfQuery {
     this.TaggedBy = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY.ID) ?? []);
     this.ItemTypes = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES.ID) ?? []);
     this.SkipUnder = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID) ?? []);
-    super.ImportFromYamlNode(yamlMap, [
-      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY.ID_STRING,
-      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES.ID_STRING,
-      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID_STRING,
-    ]);
+    super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY.ID_STRING.Value,
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES.ID_STRING.Value,
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER.ID_STRING.Value,
+    ]));
     return this;
   }
 
@@ -233,11 +233,11 @@ class WherePartOfQuery extends F2YamlWorkspaceItem {
     return ValidationResult.Success(); //basically we don't have anything we can validate at this point
   }
 
-  public override toString(): string
-  {
-    return `    
-TaggedBy: [${this.TaggedBy.join(", ")}]
-ItemTypes: [${this.ItemTypes.join(", ") }]
-SkipUnder: [${this.SkipUnder.join(", ")}]`
-  }
+//   public override toString(): string
+//   {
+//     return `    
+// TaggedBy: [${this.TaggedBy.join(", ")}]
+// ItemTypes: [${this.ItemTypes.join(", ") }]
+// SkipUnder: [${this.SkipUnder.join(", ")}]`
+//   }
 }

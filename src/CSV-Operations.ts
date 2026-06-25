@@ -10,9 +10,11 @@ import { QueryDescripton } from './Items/QueryDescripton';
 import { F2YamlUtils } from './F2YamlUtils';
 import { IdString } from "./Items/IdString";
 import { F2Link } from "./Items/F2Link";
-import { F2YamlWorkspaceItem, ItemHeader } from "./Items/BasicItems";
+import { F2YamlWorkspaceItem, ItemRepresentationType, StandardItem } from "./Items/BasicItems";
+import { ItemHeader } from './Items/ItemHeader';
 import { Folder } from './Items/Folder';
-import { Message, OutputChannelLogger } from './Messaging';
+import * as path from "path";
+import { OutputChannelLogger } from './Messaging';
 
 export class CSVOperations extends YamlTaskOperations {
   
@@ -102,6 +104,11 @@ export class CSVOperations extends YamlTaskOperations {
 
     for (const link of queryDescription.From) {
       const items = await this.ResolveItemsFromLink(link);
+      for (let item of items)
+      {
+        var itemToString = item.toString();
+        OutputChannelLogger.logDebug(itemToString);
+      }
       result.push(...items);
     }
 
@@ -122,10 +129,10 @@ export class CSVOperations extends YamlTaskOperations {
     try {
       const stat = await vscode.workspace.fs.stat(targetUri);
       if ((stat.type & vscode.FileType.Directory) !== 0)
-        return await this.ResolveItemsFromFolder(targetUri, workspaceRelativePath);
+        return await this.ResolveItemsFromFolder(targetUri);
 
       if ((stat.type & vscode.FileType.File) !== 0) {
-        const item = await this.ResolveItemFromFile(targetUri, workspaceRelativePath);
+        const item = await this.ResolveItemFromFile(targetUri);
         return item ? [item] : [];
       }
     }
@@ -136,25 +143,25 @@ export class CSVOperations extends YamlTaskOperations {
     return [];
   }
 
-  private static async ResolveItemsFromFolder(folderUri: vscode.Uri, workspaceRelativePath: string): Promise<F2YamlWorkspaceItem[]> {
+  private static async ResolveItemsFromFolder(folderUri: vscode.Uri): Promise<F2YamlWorkspaceItem[]> {
     const folder = new Folder();
-    folder.YamlRepresentation.WorkspaceRelativePath = workspaceRelativePath;
-    folder.YamlRepresentation.RepresentationType = 0;
+    folder.YamlRepresentation.WorkspaceRelativePath = folderUri.path;
+    folder.YamlRepresentation.RepresentationType = ItemRepresentationType.Folder;
 
     const entries = await vscode.workspace.fs.readDirectory(folderUri);
     for (const [name, type] of entries) {
-      const childRelativePath = workspaceRelativePath.length > 0 ? `${workspaceRelativePath}\\${name}` : name;
+      //const childRelativePath = workspaceRelativePath.length > 0 ? `${workspaceRelativePath}\\${name}` : name;
       const childUri = vscode.Uri.joinPath(folderUri, name);
 
       if ((type & vscode.FileType.Directory) !== 0) {
-        const nestedFolders = await this.ResolveItemsFromFolder(childUri, childRelativePath);
+        const nestedFolders = await this.ResolveItemsFromFolder(childUri);
         for (const nestedFolder of nestedFolders)
           folder.Items.Add(nestedFolder);
         continue;
       }
 
       if ((type & vscode.FileType.File) !== 0 && (name.endsWith('.yml') || name.endsWith('.yaml'))) {
-        const item = await this.ResolveItemFromFile(childUri, childRelativePath);
+        const item = await this.ResolveItemFromFile(childUri);
         if (item)
           folder.Items.Add(item);
       }
@@ -163,24 +170,25 @@ export class CSVOperations extends YamlTaskOperations {
     return [folder];
   }
 
-  private static async ResolveItemFromFile(fileUri: vscode.Uri, workspaceRelativePath: string): Promise<F2YamlWorkspaceItem | undefined> {
+  private static async ResolveItemFromFile(fileUri: vscode.Uri): Promise<F2YamlWorkspaceItem | undefined> {
     try {
       const fileBytes = await vscode.workspace.fs.readFile(fileUri);
       const content = Buffer.from(fileBytes).toString('utf8');
       const yamlDoc = yaml.parseDocument(content);
       const rootNode = yamlDoc.contents;
       if (!rootNode || !F2YamlWorkspaceItem.IsItemYaml(rootNode)) {
-        OutputChannelLogger.logWarning(`Skipping non-item yaml file: ${workspaceRelativePath}`);
+        OutputChannelLogger.logWarning(`Skipping non-item yaml file: ${fileUri.path}`);
         return undefined;
       }
 
-      const item = new F2YamlWorkspaceItem().ImportFromYamlNode(rootNode as yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>);
-      item.YamlRepresentation.WorkspaceRelativePath = workspaceRelativePath.replace(/\.(yml|yaml)$/i, '');
-      item.YamlRepresentation.RepresentationType = 1;
+      const item = new StandardItem().ImportFromYamlNode(rootNode as yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>);
+      item.Id = IdString.ParseFromString(path.basename(fileUri.fsPath.replace(/\.(yml|yaml)$/i, '')));
+      item.YamlRepresentation.WorkspaceRelativePath = fileUri.path; /*.replace(/\.(yml|yaml)$/i, '');*/
+      item.YamlRepresentation.RepresentationType = ItemRepresentationType.File;
       return item;
     }
     catch (err: any) {
-      OutputChannelLogger.logWarning(`Skipping invalid yaml file ${workspaceRelativePath}: ${String(err?.message ?? err)}`);
+      OutputChannelLogger.logWarning(`Skipping invalid yaml file ${fileUri.path}: ${String(err?.message ?? err)}`);
       return undefined;
     }
   }
