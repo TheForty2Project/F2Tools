@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Data } from './Data';
 import path from 'path';
-import { Message } from './Messaging';
+import { Message, OutputChannelLogger, OutputChannelLogLevel } from './Messaging';
 
 
 export class VsCodeUtils {
@@ -29,6 +29,22 @@ export class VsCodeUtils {
     return vscode.workspace.getConfiguration(Data.MISC.EXTENSION_NAME);
   } 
 
+  static tryGetRootPath(): string | undefined
+  {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (!workspaceFolders)
+      return;
+
+    if (workspaceFolders.length > 1)
+      OutputChannelLogger.logWarning("Multiple workspaces detected; using the first under " + workspaceFolders[0].uri.fsPath);
+    
+    return workspaceFolders[0].uri.fsPath;
+  }
+
+
+  /**
+  * @deprecated Use tryGetRootPath() instead.
+  */
   static getRootPath() {
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (!workspaceFolders) {

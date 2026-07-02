@@ -142,7 +142,7 @@ OnGoing .Taskify the requirements:
     +: {CreatedBy: Bobi, CreatedAt: 20260602 T 220423, By: Bobi}
     Done .Rename Item to F2YamlWorkspaceItem:
       Id: RenameToF2YamlWorkspaceItem
-      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 022539, By: Bobi, Tags: [CSVTODO], Estimation:5, RemTime:5}
+      +: {CreatedBy: Bobi, CreatedAt: 20260609 T 022539, By: Bobi, Tags: [CSVTODO], Estimation: 5, RemTime: 5}
       Details:
         Comment to it: A smart map-like data-storage structure for storing Item data retrieved from yaml documents.    
     Done .Custom Properties OR F2YamlWorkspaceItem to store its data in a Map:

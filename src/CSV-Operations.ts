@@ -10,12 +10,18 @@ import { QueryDescripton } from './Items/QueryDescripton';
 import { F2YamlUtils } from './F2YamlUtils';
 import { IdString } from "./Items/IdString";
 import { F2Link } from "./Items/F2Link";
-import { F2YamlWorkspaceItem, ItemRepresentationType, LinkTypePreference, StandardItem } from "./Items/BasicItems";
+import { F2YamlWorkspaceItem, F2YamlWorkspaceItemPropertyValue, ItemRepresentationType, LinkTypePreference, NotParsedYaml, StandardItem } from "./Items/BasicItems";
 import { ItemHeader } from './Items/ItemHeader';
 import { Folder } from './Items/Folder';
 import * as path from "path";
 import { OutputChannelLogger } from './Messaging';
 import { ItemList } from "./Items/ItemList";
+
+function removeFrom(text: string, sequence: string): string
+{
+  const index = text.lastIndexOf(sequence);
+  return index === -1 ? text : text.substring(0, index);
+}
 
 export class CSVOperations extends YamlTaskOperations {
   
@@ -28,8 +34,7 @@ export class CSVOperations extends YamlTaskOperations {
       ...rows.map(row => row.join(','))
     ];
 
-    const report = lines.join('\n');
-    OutputChannelLogger.logDebug(report);
+    const report = lines.join('\n');    
     return report;
   }
 
@@ -52,7 +57,7 @@ export class CSVOperations extends YamlTaskOperations {
   }
 
   private static AppendItemRows(
-    selectMap: Map<IdString, string | null>,
+    selectMap: Map<string, string | null>,
     item: F2YamlWorkspaceItem,
     rows: string[][]
   ): void {
@@ -76,8 +81,8 @@ export class CSVOperations extends YamlTaskOperations {
     }
   }
 
-  private static GetCellValue(item: F2YamlWorkspaceItem, propertyId: IdString): string {
-    switch (propertyId.Value.toUpperCase()) {
+  private static GetCellValue(item: F2YamlWorkspaceItem, propertyId: string): string {
+    switch (propertyId.toUpperCase()) {
       case 'EMPTY':
         return '';
       case 'SYNCRESULT':
@@ -98,7 +103,22 @@ export class CSVOperations extends YamlTaskOperations {
           return value.toString();
         if (Array.isArray(value))
           return value.map(entry => String(entry)).join(', ');
-        return 'NOTSUPPORTED';
+        if (value instanceof F2YamlWorkspaceItem)
+          return value.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID) ?? 
+            value.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY) ?? 
+            item.toString();
+        if (value instanceof ItemList)
+        {
+          let result: string[] = []
+          for (const item of value)
+            result.push(item.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID) ??
+              item.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY) ??
+              item.toString());
+          return result.join(", ");
+        }       
+        if (value instanceof NotParsedYaml)         
+          return yaml.stringify(value.yamlNode, {collectionStyle: 'flow'});        
+        return String(value);        
       }
     }
   }
@@ -110,28 +130,44 @@ export class CSVOperations extends YamlTaskOperations {
   }
 
   static async ResolveItemsFromQuery(queryDescription: QueryDescripton): Promise<F2YamlWorkspaceItem[]> {
-    const result: F2YamlWorkspaceItem[] = [];
+    const filesOrFolders: [F2YamlWorkspaceItem, F2Link][] = [];
 
     for (const link of queryDescription.From) {
-      const items = await this.ResolveItemsFromLink(link);
-      for (let item of items)
+      const item = await this.LoadFileOrFolderFromLink(link);
+      if (item)
       {
-        var itemToString = item.toString();
-        OutputChannelLogger.logDebug(itemToString);
+        OutputChannelLogger.logDebug(item.toString());
+        filesOrFolders.push([item, link]);
       }
-      result.push(...items);
+    }
+
+    let result: F2YamlWorkspaceItem[] = [];
+    for (const fileOrFolder of filesOrFolders)
+    {
+      var linkValue: F2YamlWorkspaceItemPropertyValue | undefined
+      if (fileOrFolder[1].YamlPathParts.length > 0)
+      {
+        linkValue = fileOrFolder[0].TryGetValue([...fileOrFolder[1].YamlPathParts]);
+        if (linkValue && linkValue instanceof(F2YamlWorkspaceItem))
+          result.push(linkValue);
+        else
+        {
+          OutputChannelLogger.logWarning("Can't find Item under link: " + fileOrFolder[1].toString());
+        }        
+      }
+      else result.push(fileOrFolder[0]);
     }
 
     return result;
   }
 
-  static async ResolveItemsFromLink(link: F2Link): Promise<F2YamlWorkspaceItem[]> {
-    if (link.FilePathParts.length === 0)
-      return [];
+  public static async LoadFileOrFolderFromLink(link: F2Link): Promise<F2YamlWorkspaceItem | undefined> {
+    // if (link.FilePathParts.length === 0)
+    //   return [];
 
-    const rootPath = VsCodeUtils.getRootPath();
+    const rootPath = VsCodeUtils.tryGetRootPath();
     if (!rootPath)
-      return [];
+      throw new Error("There's no Workspace - please open the workspace/folder in VS Code, not just the yaml file.");
 
     const workspaceRelativePath = link.FilePathParts.join('\\');
     const targetUri = vscode.Uri.file(require('path').join(rootPath, workspaceRelativePath));
@@ -139,35 +175,35 @@ export class CSVOperations extends YamlTaskOperations {
     try {
       const stat = await vscode.workspace.fs.stat(targetUri);
       if ((stat.type & vscode.FileType.Directory) !== 0)
-        return await this.ResolveItemsFromFolder(targetUri);
+        return await this.ResolveItemFromFolder(targetUri);
 
       if ((stat.type & vscode.FileType.File) !== 0) {
-        const item = await this.ResolveItemFromFile(targetUri);
-        return item ? [item] : [];
+        return await this.ResolveItemFromFile(targetUri);
       }
     }
     catch (err: any) {
       OutputChannelLogger.logWarning(`Unable to resolve link ${link.toString()}: ${String(err?.message ?? err)}`);
     }
 
-    return [];
+    return;
   }
 
-  private static async ResolveItemsFromFolder(folderUri: vscode.Uri): Promise<F2YamlWorkspaceItem[]> {
+  private static async ResolveItemFromFolder(folderUri: vscode.Uri): Promise<Folder> {
     const folder = new Folder();
-    folder.Id = IdString.ParseFromString(path.basename(folderUri.fsPath.replace(/\.(yml|yaml)$/i, '')));
-    folder.YamlRepresentation.WorkspaceRelativePath = folderUri.path;
+    // folder.Id = path.basename(folderUri.fsPath.replace(/\.(yml|yaml)$/i, '')).replace(".", "_"); //TODO: store the filename (+path) in separate properties of the Item        
+    folder.YamlRepresentation.FSEntryName = path.basename(folderUri.fsPath);    
     folder.YamlRepresentation.RepresentationType = ItemRepresentationType.Folder;
+    folder.Id = IdString.GenerateFromString(folder.YamlRepresentation.FSEntryName).Value;
+    folder.Summary = folder.YamlRepresentation.FSEntryName;    
 
-    const entries = await vscode.workspace.fs.readDirectory(folderUri);
-    for (const [name, type] of entries) {
+    const fsEntries = await vscode.workspace.fs.readDirectory(folderUri);
+    for (const [name, type] of fsEntries) {
       //const childRelativePath = workspaceRelativePath.length > 0 ? `${workspaceRelativePath}\\${name}` : name;
       const childUri = vscode.Uri.joinPath(folderUri, name);
 
       if ((type & vscode.FileType.Directory) !== 0) {
-        const nestedFolders = await this.ResolveItemsFromFolder(childUri);
-        for (const nestedFolder of nestedFolders)
-          folder.Children.Add(nestedFolder);
+        const nestedFolder = await this.ResolveItemFromFolder(childUri);
+        folder.Children.Add(nestedFolder);
         continue;
       }
 
@@ -178,13 +214,13 @@ export class CSVOperations extends YamlTaskOperations {
       }
     }
 
-    return [folder];
+    return folder;
   }
 
   private static async ResolveItemFromFile(fileUri: vscode.Uri): Promise<F2YamlWorkspaceItem | undefined> {
     try {
       const fileBytes = await vscode.workspace.fs.readFile(fileUri);
-      const content = Buffer.from(fileBytes).toString('utf8');
+      const content = removeFrom(Buffer.from(fileBytes).toString('utf8'), "<EOF>");
       const yamlDoc = yaml.parseDocument(content);
       const rootNode = yamlDoc.contents;
       if (!rootNode || !F2YamlWorkspaceItem.IsItemYaml(rootNode)) {
@@ -192,9 +228,12 @@ export class CSVOperations extends YamlTaskOperations {
         return undefined;
       }
 
-      const item = new StandardItem().ImportFromYamlNode(rootNode as yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>);
-      item.Id = IdString.ParseFromString(path.basename(fileUri.fsPath.replace(/\.(yml|yaml)$/i, '')));
-      item.YamlRepresentation.WorkspaceRelativePath = fileUri.path; /*.replace(/\.(yml|yaml)$/i, '');*/
+      const item = new StandardItem();
+      //TODO:       
+      item.Id = IdString.GenerateFromString(path.basename(fileUri.fsPath).replace(/\.(yml|yaml)$/i, '')).Value;
+      item.Summary = fileUri.fsPath;
+      item.ImportFromYamlNode(rootNode as yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>);
+      item.YamlRepresentation.FSEntryName = path.basename(fileUri.fsPath);
       item.YamlRepresentation.RepresentationType = ItemRepresentationType.File;
       return item;
     }
@@ -217,7 +256,7 @@ export class CSVOperations extends YamlTaskOperations {
       throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
 
     let queryDescription = new QueryDescripton().ImportFromYamlScalarMapPair(scalarAndMapPairAtCursor)
-    if (queryDescription.TypeId.Value !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
+    if (queryDescription.TypeId !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
       throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
     return queryDescription;
   }

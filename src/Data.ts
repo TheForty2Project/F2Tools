@@ -1,22 +1,50 @@
-import { IdString } from './Items/IdString';
+import { Folder } from "./Items/Folder";
 
 export class Data
 {
+  public static readonly ENUMERATIONS = {
+    TASK_STATUS: {
+      ID: "Status",
+      TYPEIDS: ["Task", "Bug"],
+      MEMBERS: ["DraftTODO", "TODO", "EstTODO", "InProgress", "Done", "CurrentFocus", "Blocked", "NEXT", "Scheduled", "OnGoing", "OnHold", "Cancelled", "Paused", "Closed"]
+    },
+    REQUIREMENT_STATUS:
+    {
+      ID: "Status",
+      TYPEIDS: ["Requirement", "Milestone"],
+      MEMBERS: ["New", "Drafting", "Draft", "Reviewed", "ReadyForDev", "InDev", "Implemented", "InQA", "BugFixing", "QAPassed", "Done", "Closed"]
+    },   
+    ARTICLE_MATURITY:
+    {
+      ID: "Maturity",
+      TYPEIDS: ["Article"],
+      MEMBERS: ["0-New", "1-SomeProgress", "2-HighLevel", "3-Detailing", "4-AlmostDone", "5-Done", "6-Reviewed", "7-Mature", "8-Gandalf"]
+    },
+    BUG_LEVELS: {
+      ID: "Severity",
+      TYPEIDS: ["Bug"],
+      MEMBERS: ["0-Zero", "1-VeryLow", "2-Low", "3-Average", "4-High", "5-VeryHigh", "6-Extreme", "7-OMG"]
+    }
+  };
+
   public static readonly SYSTEM_CLASSES = {
     QUERYDESCRIPTION: {
       TYPEID: "QueryDescription",
-      FROM: { ID: "From", ID_STRING: IdString.ParseFromString("From") },
-      SELECT: { ID: "Select", ID_STRING: IdString.ParseFromString("Select") },
-      OUTPUTFILE: { ID: "OutputFile", ID_STRING: IdString.ParseFromString("OutputFile") },
-      ADDSYNCRESULTCOLUMN: { ID: "AddSyncResultColumn", ID_STRING: IdString.ParseFromString("AddSyncResultColumn") },
-      BEHAVIORWHENDELETINGROWS: { ID: "BehaviorWhenDeletingRows", ID_STRING: IdString.ParseFromString("BehaviorWhenDeletingRows") },
-      WHERE: { ID: "Where", ID_STRING: IdString.ParseFromString("Where") }
+      FROM: "From",
+      SELECT: "Select",
+      OUTPUTFILE: "OutputFile",
+      ADDSYNCRESULTCOLUMN: "AddSyncResultColumn",
+      BEHAVIORWHENDELETINGROWS: "BehaviorWhenDeletingRows",
+      WHERE: "Where"
+    },
+    FOLDER:{
+      TYPEID: "Folder"
     },
     WHEREPARTOFQUERY: {
       TYPEID: "WherePartOfQuery",
-      TAGGEDBY: { ID: "TaggedBy", ID_STRING: IdString.ParseFromString("TaggedBy") },
-      ITEMTYPES: { ID: "ItemTypes", ID_STRING: IdString.ParseFromString("ItemTypes") },
-      SKIPUNDER: { ID: "SkipUnder", ID_STRING: IdString.ParseFromString("SkipUnder") },
+      TAGGEDBY: "TaggedBy",
+      ITEMTYPES: "ItemTypes",
+      SKIPUNDER: "SkipUnder",
     },
     ROWDELETINGBEHAVIOR: {
       TYPEID: "RowDeletingBehavior",
@@ -30,14 +58,9 @@ export class Data
     CLASS_START: "<",
     CLASS_END: ">",
     ADDITIONAL_PROPERTIES: "+",
-    PROPERTY_ID: { 
-      ID_STRING: IdString.ParseFromString("Id") },
-    PROPERTY_SUMMARY: {
-      ID_STRING: IdString.ParseFromString("Summary")
-    },
-    PROPERTY_TYPE: {
-      ID_STRING: IdString.ParseFromString("Type")
-    }
+    PROPERTY_ID: "Id",
+    PROPERTY_SUMMARY: "Summary",
+    PROPERTY_TYPE: "Type"
   };
 
   public static readonly MESSAGES = {

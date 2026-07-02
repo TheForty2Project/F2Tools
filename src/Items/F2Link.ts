@@ -2,31 +2,36 @@ import { ItemParsingError, ItemParsingErrorType } from './BasicItems';
 import { IdString } from './IdString';
 
 export class F2Link {
-  public FilePathParts: string[] = [];
-  public YamlPathParts: YamlPathPart[] = [];
+  private readonly filePathParts: readonly string[];
+  private readonly yamlPathParts: readonly YamlPathPart[];
+
+  public get FilePathParts(): readonly string[] {
+    return this.filePathParts;
+  }
+
+  public get YamlPathParts(): readonly YamlPathPart[] {
+    return this.yamlPathParts;
+  }
 
   public get FilePathString(): string {
-    return this.FilePathParts.join("\\") + "\\";
+    return this.filePathParts.join("\\") + "\\";
   }
 
   public get YamlPathString(): string { 
-    if (this.YamlPathParts.length === 0)
+    if (this.yamlPathParts.length === 0)
       return "";
 
-    return "." + this.YamlPathParts.join(".");
-  }
-
-  public get IsLocalLink(): boolean {
-    return this.FilePathParts.length === 0 && this.YamlPathParts.length >= 0
-  }
-
-  public get IsPathLink(): boolean {
-    return this.YamlPathString.length === 0 && this.FilePathParts.length >= 0
+    return "." + this.yamlPathParts.join(".");
   }
 
   private constructor(filePathParts: string[], yamlPathParts: YamlPathPart[]) {
-    this.FilePathParts = filePathParts;
-    this.YamlPathParts = yamlPathParts;
+    this.filePathParts = Object.freeze([...filePathParts]);
+    this.yamlPathParts = Object.freeze([...yamlPathParts]); 
+  }
+
+  public GetPathLink(): F2Link
+  {
+    return new F2Link([...this.filePathParts], []);
   }
 
   public static CreateFromParts(filePathParts: string[], yamlPathParts: YamlPathPart[]): F2Link {
@@ -159,7 +164,7 @@ export class F2Link {
             if (numberSuffix instanceof ItemParsingError)
               return numberSuffix;
 
-            parts.push(new TypeIdPart(IdString.ParseFromString(typeId), numberSuffix.number));
+            parts.push(new TypeIdPart(typeId, numberSuffix.number));
             i = numberSuffix.nextIndex;
             continue;
           }
@@ -221,7 +226,7 @@ export class F2Link {
           if (numberSuffix instanceof ItemParsingError)
             return numberSuffix;
 
-          parts.push(new ItemIdPart(IdString.ParseFromString(itemId), numberSuffix.number));
+          parts.push(new ItemIdPart(itemId, numberSuffix.number));
           i = numberSuffix.nextIndex;
           continue;
         }
@@ -244,7 +249,7 @@ export class F2Link {
         if (!IdString.IsValidIdString(propertyId))
           return invalidIdentifier(propertyId);
 
-        parts.push(new PropertyIdPart(IdString.ParseFromString(propertyId)));
+        parts.push(new PropertyIdPart(propertyId));
       }
 
       return parts;
@@ -293,48 +298,45 @@ export class F2Link {
 
 export abstract class YamlPathPart{}
 
+export class PropertyIdPart extends YamlPathPart
+{
+  public PropertyId: string;
+
+  constructor(propertyId: string)
+  {
+    super();
+    this.PropertyId = propertyId;
+  }
+
+  public toString(): string
+  {
+    return this.PropertyId;
+  }
+}
+
 export abstract class ItemIdentiferPart extends YamlPathPart
 { 
-  public Number?: number = undefined;
+  public readonly NumberSuffix?: string;
 
   constructor(number?: number)
   {
     super();
-    this.Number = number;
+    if (number)
+      this.NumberSuffix = "(" + String(number) + ")";
   }
 
-  protected get NumberSuffix(): string
-  {
-    if (this.Number)
-      return "(" + String(this.Number) + ")";
-    else return "";
-  }  
 }
 
 export class ItemIdPart extends ItemIdentiferPart {
-  public ItemId: IdString;
+  public ItemId: string;
 
-  constructor(itemId: IdString, number?: number ) {
+  constructor(itemId: string, number?: number ) {
     super(number);
     this.ItemId = itemId;
   }
 
   public toString(): string {
-    return "." + this.ItemId.Value + this.NumberSuffix;
-  }
-}
-
-export class PropertyIdPart extends YamlPathPart {
-  public PropertyId: IdString;
-
-  constructor(propertyId: IdString)
-  { 
-    super();   
-    this.PropertyId = propertyId;
-  }
-
-  public toString(): string {
-    return this.PropertyId.Value;
+    return "." + this.ItemId + (this.NumberSuffix ?? "");
   }
 }
 
@@ -348,15 +350,15 @@ export class InternalIdPart extends ItemIdentiferPart {
   }
 
   public toString(): string {
-    return ".{" + this.InternalId + "}" + this.NumberSuffix;
+    return ".{" + this.InternalId + "}" + (this.NumberSuffix ?? "");
   }
 }
 
 export class TypeIdPart extends ItemIdentiferPart
 {
-  public TypeId: IdString;
+  public TypeId: string;
 
-  constructor(typeId: IdString, number?: number)
+  constructor(typeId: string, number?: number)
   {
     super(number);
     this.TypeId = typeId;
@@ -364,7 +366,7 @@ export class TypeIdPart extends ItemIdentiferPart
 
   public toString(): string
   {
-    return ".<" + this.TypeId + ">" + this.NumberSuffix;
+    return ".<" + this.TypeId + ">" + (this.NumberSuffix ?? "");
   }
 }
 
@@ -378,6 +380,6 @@ export class SummaryPart extends ItemIdentiferPart {
   }
 
   public toString(): string {
-    return ".\"" + this.Summary + "\"" + this.NumberSuffix;
+    return ".\"" + this.Summary + "\"" + (this.NumberSuffix ?? "");
   }
 }

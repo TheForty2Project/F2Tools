@@ -10,15 +10,17 @@ import { YamlTaskOperations } from "./YamlOperations";
 import { LinkFollower } from "./linkFollower";
 import { Data } from "./Data";
 import { CSVOperations } from "./CSV-Operations";
-import { ItemParsingError } from "./Items/BasicItems";
-import { ItemParsingErrorType } from "./Items/BasicItems";
 import path from "path";
+import { F2Link } from "./Items/F2Link";
 
 
-export class Commands {    
+export class Commands {
     public static async executeQuery() {
       const activeDoc = VsCodeUtils.getActiveDoc();
       const cursorPosition = VsCodeUtils.getCursorPosition();
+
+      // await this.loadAllFilesFromWS();
+      // return;
 
       try
       {
@@ -61,6 +63,32 @@ export class Commands {
       }
 
     }
+
+    static async loadAllFilesFromWS()
+    {
+      let start = performance.now();
+      let item = await CSVOperations.LoadFileOrFolderFromLink(F2Link.CreateFromParts([], []));
+      
+      OutputChannelLogger.logInfo(`Parsing 1st round took ${(performance.now() - start).toFixed(4)} ms`);
+
+      start = performance.now();
+      item = await CSVOperations.LoadFileOrFolderFromLink(F2Link.CreateFromParts([], []));
+      
+      OutputChannelLogger.logInfo(`Parsing 2nd round took ${(performance.now() - start).toFixed(4)} ms`);
+
+      start = performance.now();
+      let itemsToString: string = item!.toString() + "\n\n****************\n\n";
+      OutputChannelLogger.logInfo(`Tostring took ${(performance.now() - start).toFixed(4)} ms`);
+
+      let activeDoc = VsCodeUtils.getActiveDoc();
+      let outputFilePath: string = "TestOutput.yaml";
+      outputFilePath = path.join(VsCodeUtils.tryGetRootPath() ?? path.dirname(activeDoc.uri.fsPath), outputFilePath);
+      await vscode.workspace.fs.writeFile(
+        vscode.Uri.file(outputFilePath),
+        Buffer.from(itemsToString, 'utf8')
+      );          
+    }
+
     public static async writeBackFromReport() {
       throw new Error('Method not implemented.');
     }

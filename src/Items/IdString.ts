@@ -44,6 +44,37 @@ export class IdString {
     return true;
   }
 
+  public static GenerateFromString(str: string): IdString
+  {    
+    const normalized = str.normalize("NFD");
+    let result = "";
+
+    for (let i = 0; i < normalized.length; i++) {
+      const charCode = normalized.charCodeAt(i);
+
+      if (charCode >= 48 && charCode <= 57
+        || charCode >= 65 && charCode <= 90
+        || charCode >= 97 && charCode <= 122
+        || charCode === 45
+        || charCode === 95) {
+        result += normalized[i];
+        continue;
+      }
+
+      if (charCode >= 768 && charCode <= 879) {
+        continue;
+      }
+
+      result += charCode === 32 ? "_" : "_";
+    }
+
+    if (result.length === 0 || !this.IsValidIdString(result)) {
+      result += "_";
+    }
+
+    return new IdString(result);
+  }
+
   public static ParseFromString(idString: string): IdString {
     if (this.IsValidIdString(idString))
       return new IdString(idString);

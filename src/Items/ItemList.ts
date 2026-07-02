@@ -1,8 +1,7 @@
 import { F2YamlWorkspaceItem } from './BasicItems';
-import { IdString } from './IdString';
 
 type ParentAwareItem = F2YamlWorkspaceItem & {
-  SetParentItemAndProperty(parentItem: F2YamlWorkspaceItem, propertyId: IdString, itemList?: ItemList<F2YamlWorkspaceItem>): void;
+  SetParentItemAndProperty(parentItem: F2YamlWorkspaceItem, propertyId?: string, itemList?: ItemList<F2YamlWorkspaceItem>): void;
   RemoveFromItemList(itemList: ItemList<F2YamlWorkspaceItem>): void;
 };
 
@@ -16,7 +15,7 @@ export class ItemList<TItem extends F2YamlWorkspaceItem> implements Iterable<TIt
 
   constructor(
     public readonly PartOfItem: F2YamlWorkspaceItem,
-    public readonly PropertyId: IdString
+    public readonly PropertyId?: string
   ) { }
 
   public get Count(): number {

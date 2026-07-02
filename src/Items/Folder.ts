@@ -1,6 +1,6 @@
-import { F2YamlWorkspaceItem, StandardItem } from './BasicItems';
-import { ItemList } from './ItemList';
+import { StandardItem } from './BasicItems';
 import { IdString } from './IdString';
+import { Data } from '../Data';
 
 export class Folder extends StandardItem {
   public static readonly TYPE_ID = IdString.ParseFromString('Folder');
@@ -8,6 +8,6 @@ export class Folder extends StandardItem {
 
   constructor() {
     super();
-    this.TypeId = Folder.TYPE_ID;
+    this.TypeId = Data.SYSTEM_CLASSES.FOLDER.TYPEID;
   }
 }

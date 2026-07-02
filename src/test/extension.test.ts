@@ -3,7 +3,6 @@ import { F2Link } from '../Items/F2Link';
 import { F2YamlWorkspaceItem, LinkTypePreference, StandardItem, YamlNodeKind, YamlStringStyle } from '../Items/BasicItems';
 import { ItemYamlHeaderType } from '../Items/ItemHeader';
 import { ItemList } from '../Items/ItemList';
-import { IdString } from '../Items/IdString';
 import * as yaml from 'yaml';
 
 // You can import and use all API from the 'vscode' module
@@ -73,92 +72,92 @@ suite('Extension Test Suite', () => {
 			const item = new TestStandardItem();
 			item.YamlRepresentation.HeaderType = headerType;
 			if (id !== undefined)
-				item.Id = IdString.ParseFromString(id);
+				item.Id = id;
 			if (summary !== undefined)
 				item.Summary = summary;
 			if (typeId !== undefined)
-				item.TypeId = IdString.ParseFromString(typeId);
+				item.TypeId = typeId;
 			return item;
 		};
 
 		const createNonStandardItem = (typeId: string): F2YamlWorkspaceItem => {
 			const item = new F2YamlWorkspaceItem();
-			item.TypeId = IdString.ParseFromString(typeId);
+			item.TypeId = typeId;
 			return item;
 		};
 
 		const root = createStandardItem(ItemYamlHeaderType.Id, 'MyItem', undefined, 'Container');
-		root.YamlRepresentation.WorkspaceRelativePath = 'CurrentWork\\Bobi\\Test';
+		root.YamlRepresentation.FSEntryName = 'CurrentWork\\Bobi\\Test';
 
-		const myItemList = new ItemList<F2YamlWorkspaceItem>(root, IdString.ParseFromString('MyItemList'));
-		root.SetPropertyValue(IdString.ParseFromString('MyItemList'), myItemList);
+		const myItemList = new ItemList<F2YamlWorkspaceItem>(root, 'MyItemList');
+		root.SetPropertyValue('MyItemList', myItemList);
 
 		const linkToThis1Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
 		myItemList.Add(linkToThis1Owner);
 		const linkToThis1 = createNonStandardItem('PropertyOwner');
-		linkToThis1.SetParentItemAndProperty(linkToThis1Owner, IdString.ParseFromString('LinkToThis1'));
+		linkToThis1.SetParentItemAndProperty(linkToThis1Owner, 'LinkToThis1');
 
 		const linkToThis2Owner = createNonStandardItem('NonStandardItem');
 		myItemList.Add(linkToThis2Owner);
 		const linkToThis2 = createNonStandardItem('PropertyOwner');
-		linkToThis2.SetParentItemAndProperty(linkToThis2Owner, IdString.ParseFromString('LinkToThis2'));
+		linkToThis2.SetParentItemAndProperty(linkToThis2Owner, 'LinkToThis2');
 
 		const linkToThis3Owner = createStandardItem(ItemYamlHeaderType.Id, 'MyTask', undefined, 'Task');
 		myItemList.Add(linkToThis3Owner);
 		const linkToThis3 = createNonStandardItem('PropertyOwner');
-		linkToThis3.SetParentItemAndProperty(linkToThis3Owner, IdString.ParseFromString('LinkToThis3'));
+		linkToThis3.SetParentItemAndProperty(linkToThis3Owner, 'LinkToThis3');
 
 		const linkToThis4Owner = createNonStandardItem('NonStandardItem');
 		myItemList.Add(linkToThis4Owner);
 		const linkToThis4 = createNonStandardItem('PropertyOwner');
-		linkToThis4.SetParentItemAndProperty(linkToThis4Owner, IdString.ParseFromString('LinkToThis4'));
+		linkToThis4.SetParentItemAndProperty(linkToThis4Owner, 'LinkToThis4');
 
-		const myItemList2 = new ItemList<F2YamlWorkspaceItem>(root, IdString.ParseFromString('MyItemList2'));
-    root.SetPropertyValue(IdString.ParseFromString('MyItemList2'), myItemList2);
+		const myItemList2 = new ItemList<F2YamlWorkspaceItem>(root, 'MyItemList2');
+    root.SetPropertyValue('MyItemList2', myItemList2);
 
 		const linkToThis5Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
 		myItemList2.Add(linkToThis5Owner);
 		const linkToThis5 = createNonStandardItem('PropertyOwner');
-		linkToThis5.SetParentItemAndProperty(linkToThis5Owner, IdString.ParseFromString('LinkToThis5'));
+		linkToThis5.SetParentItemAndProperty(linkToThis5Owner, 'LinkToThis5');
 
 		const linkToThis6Owner = createNonStandardItem('NonStandardItem');
 		myItemList2.Add(linkToThis6Owner);
 		const linkToThis6 = createNonStandardItem('PropertyOwner');
-		linkToThis6.SetParentItemAndProperty(linkToThis6Owner, IdString.ParseFromString('LinkToThis6'));
+		linkToThis6.SetParentItemAndProperty(linkToThis6Owner, 'LinkToThis6');
 
-		const myNonStandardItemList = new ItemList<F2YamlWorkspaceItem>(root, IdString.ParseFromString('MyNonStandardItemList'));
-    root.SetPropertyValue(IdString.ParseFromString('MyNonStandardItemList'), myNonStandardItemList);
+		const myNonStandardItemList = new ItemList<F2YamlWorkspaceItem>(root, 'MyNonStandardItemList');
+    root.SetPropertyValue('MyNonStandardItemList', myNonStandardItemList);
 
 		const linkToThis7Owner = createNonStandardItem('NonStandardItem');
 		myNonStandardItemList.Add(linkToThis7Owner);
 		const duplicateNonStandard = createNonStandardItem('NonStandardItem');
 		myNonStandardItemList.Add(duplicateNonStandard);
 		const linkToThis7 = createNonStandardItem('PropertyOwner');
-		linkToThis7.SetParentItemAndProperty(linkToThis7Owner, IdString.ParseFromString('LinkToThis7'));
+		linkToThis7.SetParentItemAndProperty(linkToThis7Owner, 'LinkToThis7');
 
 		const linkToThis9Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
-    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty'), linkToThis9Owner);
-		linkToThis9Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty'));
+		root.SetPropertyValue('MyItemProperty', linkToThis9Owner);
+		linkToThis9Owner.SetParentItemAndProperty(root, 'MyItemProperty');
 		const linkToThis9 = createNonStandardItem('PropertyOwner');
-		linkToThis9.SetParentItemAndProperty(linkToThis9Owner, IdString.ParseFromString('LinkToThis9'));
+		linkToThis9.SetParentItemAndProperty(linkToThis9Owner, 'LinkToThis9');
 
 		const linkToThis10Owner = createStandardItem(ItemYamlHeaderType.None, 'MyTask', 'My Task', 'Task');
-    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty2'), linkToThis10Owner);
-		linkToThis10Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty2'));
+		root.SetPropertyValue('MyItemProperty2', linkToThis10Owner);
+		linkToThis10Owner.SetParentItemAndProperty(root, 'MyItemProperty2');
 		const linkToThis10 = createNonStandardItem('PropertyOwner');
-		linkToThis10.SetParentItemAndProperty(linkToThis10Owner, IdString.ParseFromString('LinkToThis10'));
+		linkToThis10.SetParentItemAndProperty(linkToThis10Owner, 'LinkToThis10');
 
 		const linkToThis11Owner = createStandardItem(ItemYamlHeaderType.Id, 'MyTask', 'My Task', 'Task');
-    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty3'), linkToThis11Owner);
-		linkToThis11Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty3'));
+		root.SetPropertyValue('MyItemProperty3', linkToThis11Owner);
+		linkToThis11Owner.SetParentItemAndProperty(root, 'MyItemProperty3');
 		const linkToThis11 = createNonStandardItem('PropertyOwner');
-		linkToThis11.SetParentItemAndProperty(linkToThis11Owner, IdString.ParseFromString('LinkToThis11'));
+		linkToThis11.SetParentItemAndProperty(linkToThis11Owner, 'LinkToThis11');
 
 		const linkToThis12Owner = createNonStandardItem('NonStandardItem');
-    root.SetPropertyValue(IdString.ParseFromString('MyItemProperty4'), linkToThis12Owner);
-		linkToThis12Owner.SetParentItemAndProperty(root, IdString.ParseFromString('MyItemProperty4'));
+		root.SetPropertyValue('MyItemProperty4', linkToThis12Owner);
+		linkToThis12Owner.SetParentItemAndProperty(root, 'MyItemProperty4');
 		const linkToThis12 = createNonStandardItem('PropertyOwner');
-		linkToThis12.SetParentItemAndProperty(linkToThis12Owner, IdString.ParseFromString('LinkToThis12'));
+		linkToThis12.SetParentItemAndProperty(linkToThis12Owner, 'LinkToThis12');
 
 		const expectedLinks = [
 			[linkToThis1, LinkTypePreference.None, '-->CurrentWork\\Bobi\\Test\\..MyItem.MyItemList..<Task>(0).LinkToThis1<'],
@@ -222,7 +221,7 @@ Done .My task:
 		const item = new TestStandardItemForYamlRepresentation().ImportFromYamlScalarMapPair(rootPair as yaml.Pair<yaml.Scalar, yaml.YAMLMap>);
 
 		assert.strictEqual(item.YamlRepresentation.IsMapFlowStyle, false);
-		assert.deepStrictEqual(item.YamlRepresentation.AdditionalPropertiesPropertyIds.map((id: IdString) => id.Value), ['CreatedBy', 'CreatedAt']);
+		assert.deepStrictEqual(item.YamlRepresentation.AdditionalPropertiesPropertyIds, ['CreatedBy', 'CreatedAt']);
 
 		const descriptionRendering = item.YamlRepresentation.PropertyRenderingById.get('Description');
 		assert.ok(descriptionRendering);

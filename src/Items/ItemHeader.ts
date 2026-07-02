@@ -5,10 +5,10 @@ import { IdString } from './IdString';
 
 export class ItemHeader
 {
-  public Id?: IdString = undefined;
+  public Id?: string = undefined;
   public Summary?: string = undefined;
-  public TypeId?: IdString = undefined;
-  public Prefixes: IdString[] = [];
+  public TypeId?: string = undefined;
+  public Prefixes: string[] = [];
 
   public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.None;
 
@@ -32,7 +32,7 @@ export class ItemHeader
 
   public static TryParseFromString(headerValue: string): ItemHeader | Error
   {
-    var prefixes: IdString[] = [];
+    var prefixes: string[] = [];
 
     if (headerValue.indexOf("\n") >= 0 || headerValue.indexOf("\r") >= 0)
       return new ItemParsingError(ItemParsingErrorType.ItemHeaderCantContainNewLine);
@@ -51,7 +51,7 @@ export class ItemHeader
         break;
       if (!IdString.IsValidIdString(word))
         return new ItemParsingError(ItemParsingErrorType.ItemHeaderPrefixesMustBeIdStrings);
-      prefixes.push(IdString.ParseFromString(word));
+      prefixes.push(word);
       counter++;
     }
     if (counter === words.length)
@@ -61,28 +61,33 @@ export class ItemHeader
     words[counter] = words[counter].substring(1);
 
 
+    let result: ItemHeader;
+
     //do we have multiple words after OR it's not an IdString/classId? If yes, that's a summary
     if (words.length === counter + 1)
     {
-      var idOrTypeId = words[counter];
+      let idOrTypeId = words[counter];
       if (IdString.IsValidIdString(idOrTypeId))
       {
-        let result = new ItemHeader(ItemYamlHeaderType.Id);
-        result.Id = IdString.ParseFromString(idOrTypeId);
+        result = new ItemHeader(ItemYamlHeaderType.Id);
+        result.Prefixes = prefixes;
+        result.Id = idOrTypeId;
         return result;
       }
       else if (idOrTypeId.startsWith(Data.F2YAML_ELEMENTS.CLASS_START)
         && idOrTypeId.endsWith(Data.F2YAML_ELEMENTS.CLASS_END)
         && IdString.IsValidIdString(idOrTypeId.slice(1, idOrTypeId.length - 1)))
       {
-        let result = new ItemHeader(ItemYamlHeaderType.TypeId);
-        result.TypeId = IdString.ParseFromString(idOrTypeId.slice(1, idOrTypeId.length - 1));
+        result = new ItemHeader(ItemYamlHeaderType.TypeId);
+        result.Prefixes = prefixes;
+        result.TypeId = idOrTypeId.slice(1, idOrTypeId.length - 1);
         return result;
       }
     }
 
     //else  
-    let result = new ItemHeader(ItemYamlHeaderType.Summary);
+    result = new ItemHeader(ItemYamlHeaderType.Summary);
+    result.Prefixes = prefixes;
     result.Summary = words.slice(counter).join(" ");
     return result;
   }
