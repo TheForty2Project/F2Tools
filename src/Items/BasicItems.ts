@@ -1,15 +1,13 @@
 import * as yaml from 'yaml';
 import { Data } from '../Data';
 import { F2YamlUtils } from '../F2YamlUtils';
-import { F2Link, InternalIdPart, ItemIdentiferPart, ItemIdPart, PropertyIdPart, SummaryPart, TypeIdPart, YamlPathPart } from './F2Link';
+import { F2Link, ItemIdentiferPart, ItemIdPart, PropertyIdPart, SummaryPart, TypeIdPart, YamlPathPart } from './F2Link';
 import { IdString } from './IdString';
-import { ItemList, ItemListChangeType } from './ItemList';
+import { ItemList } from './ItemList';
 import { Message, OutputChannelLogger, OutputChannelLogLevel } from '../Messaging';
 import { StringOperations } from '../StringOperations';
 import { ItemHeader, ItemYamlHeaderType } from './ItemHeader';
-import { isNullOrUndefined } from 'util';
-import { Console } from 'console';
-import { LogLevel } from 'vscode';
+import * as path from "path";
 
 export type F2YamlWorkspaceItemPropertyScalarValue = string | number | boolean | Date;
 export type F2YamlWorkspaceItemPropertyArrayValue = F2YamlWorkspaceItemPropertyScalarValue[];
@@ -173,7 +171,7 @@ export class YamlRepresentationDescriptor
   public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.None;
   public RepresentationType: ItemRepresentationType = ItemRepresentationType.Node;
   public IsMapFlowStyle: boolean = false;
-  public FSEntryName: string = "";
+  public WSRelativePath: string = "";
   public HeaderPrefixPropertyIds: string[] = [];
   public AdditionalPropertiesPropertyIds: string[] = [];
   public PropertyIds: string[] = [];
@@ -372,8 +370,8 @@ export class F2YamlWorkspaceItem
   private static IsDefaultItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean
   {
     return yamlNode.key instanceof yaml.Scalar
-      && typeof yamlNode.key.value === "string"
-      && ItemHeader.IsValidItemHeader(yamlNode.key.value)
+      //&& typeof yamlNode.key.value === "string"
+      && ItemHeader.IsValidItemHeader(String(yamlNode.key.value))
       && yamlNode.value instanceof yaml.YAMLMap
       && this.IsHeaderlessItemYaml(yamlNode.value);
   }
@@ -381,18 +379,17 @@ export class F2YamlWorkspaceItem
   private static IsHeaderlessItemYaml(yamlNode: yaml.YAMLMap): boolean
   {
     return yamlNode.items.every(
-      property => property.key instanceof yaml.Scalar 
-      && typeof property.key.value === "string"
+      property => property.key instanceof yaml.Scalar       
       && (property.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES 
-        || IdString.IsValidIdString(property.key.value) 
-        || ItemHeader.IsValidItemHeader(property.key.value))
+        || (typeof property.key.value === "string" && IdString.IsValidIdString(property.key.value))
+        || ItemHeader.IsValidItemHeader(String(property.key.value)))
     );
   }
 
   private static IsHeaderOnlyItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean
   {
     return yamlNode.key instanceof yaml.Scalar
-      && typeof yamlNode.key.value === "string"
+      //&& typeof yamlNode.key.value === "string"
       && ItemHeader.IsValidItemHeader(yamlNode.key.value)
       && yamlNode.value instanceof yaml.Scalar
       && (yamlNode.value.value === '' || yamlNode.value.value === null);
@@ -761,20 +758,33 @@ export class F2YamlWorkspaceItem
   {
     const buildFilePathParts = (item: F2YamlWorkspaceItem): void =>
     {
-      if (item.BelongsToItem !== undefined)      
-        buildFilePathParts(item.BelongsToItem);      
+      if (item.BelongsToItem !== undefined)
+        buildFilePathParts(item.BelongsToItem);
 
       if (item.YamlRepresentation.RepresentationType === ItemRepresentationType.Node)
         return;
 
-      let filePathPartValue = item.YamlRepresentation.FSEntryName;
-      if (isNullOrEmpty(filePathPartValue))
+      if (isNullOrEmpty(item.YamlRepresentation.WSRelativePath))
         throw new InvalidOperationError("Bug: item.YamlRepresentation.FSEntryName should not be empty.");
-      
-      if (item.YamlRepresentation.RepresentationType === ItemRepresentationType.File)
-        filePathPartValue = filePathPartValue.replace(/\.(yml|yaml)$/i, '');
+      let filePathPartValue: string = item.YamlRepresentation.WSRelativePath;
 
-      filePathParts.push(filePathPartValue);
+      if (item.BelongsToItem === undefined)
+      {
+        const folderNames = path          
+          .normalize(path.dirname(filePathPartValue))
+          .split(path.sep)
+          .filter(part => part.length > 0);
+        
+        for (const folderName of folderNames)
+          filePathParts.push(folderName);
+      }
+
+      let fileName: string = path.basename(filePathPartValue);
+
+      if (item.YamlRepresentation.RepresentationType === ItemRepresentationType.File)
+        fileName = fileName.replace(/\.(yml|yaml)$/i, '');
+
+      filePathParts.push(fileName);
     };
     
     const filePathParts: string[] = [];
@@ -1118,6 +1128,7 @@ export class StandardItem extends F2YamlWorkspaceItem
 
   //copied from System/Types.yaml:
 
+  //TODO: Add a parameter "belongsTo?: BelongsTo" to all ImportFromYamlNode and ImportFromYamlScalarMapPair (including overrides) as the 2nd parameter, put "TODO" to the call sites
   public override ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds?: string[]): StandardItem
   {
     let header = ItemHeader.Empty;

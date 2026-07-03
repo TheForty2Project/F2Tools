@@ -87,7 +87,7 @@ suite('Extension Test Suite', () => {
 		};
 
 		const root = createStandardItem(ItemYamlHeaderType.Id, 'MyItem', undefined, 'Container');
-		root.YamlRepresentation.FSEntryName = 'CurrentWork\\Bobi\\Test';
+		root.YamlRepresentation.WSRelativePath = 'CurrentWork\\Bobi\\Test';
 
 		const myItemList = new ItemList<F2YamlWorkspaceItem>(root, 'MyItemList');
 		root.SetPropertyValue('MyItemList', myItemList);

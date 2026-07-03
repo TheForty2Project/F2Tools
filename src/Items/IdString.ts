@@ -13,7 +13,8 @@ export class IdString {
   private constructor(value: string) { this._value = value; }
 
   public static IsValidIdString(id: string): boolean {
-    if (id.length === 0) return false;
+    if (!id || typeof id !== "string" || id.length === 0)
+      return false;
 
     switch (id.toLowerCase()) {
       case "new":

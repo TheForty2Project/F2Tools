@@ -19,7 +19,11 @@ export class ItemHeader
 
   public static IsValidItemHeader(headerValue: string): boolean
   {
-    return (ItemHeader.TryParseFromString(headerValue) instanceof ItemHeader);
+    var parsingResult = ItemHeader.TryParseFromString(headerValue);
+    if (parsingResult instanceof ItemHeader)
+      return true;
+    return false;
+    //return (ItemHeader.TryParseFromString(headerValue) instanceof ItemHeader);
   }
 
   public static ParseFromString(headerValue: string): ItemHeader

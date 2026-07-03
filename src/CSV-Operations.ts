@@ -7,7 +7,6 @@ import { F2yamlLinkExtractor } from "./f2yamlLinkExtractor";
 import * as vscode from 'vscode';
 import * as yaml from 'yaml';
 import { QueryDescripton } from './Items/QueryDescripton';
-import { F2YamlUtils } from './F2YamlUtils';
 import { IdString } from "./Items/IdString";
 import { F2Link } from "./Items/F2Link";
 import { F2YamlWorkspaceItem, F2YamlWorkspaceItemPropertyValue, ItemRepresentationType, LinkTypePreference, NotParsedYaml, StandardItem } from "./Items/BasicItems";
@@ -16,11 +15,25 @@ import { Folder } from './Items/Folder';
 import * as path from "path";
 import { OutputChannelLogger } from './Messaging';
 import { ItemList } from "./Items/ItemList";
+import * as fs from "fs";
 
 function removeFrom(text: string, sequence: string): string
 {
   const index = text.lastIndexOf(sequence);
   return index === -1 ? text : text.substring(0, index);
+}
+
+function replaceExtension(filePath: string, newExtension: string): string
+{
+  if (!newExtension.startsWith("."))
+  {
+    newExtension = "." + newExtension;
+  }
+
+  return path.join(
+    path.dirname(filePath),
+    path.basename(filePath, path.extname(filePath)) + newExtension
+  );
 }
 
 export class CSVOperations extends YamlTaskOperations {
@@ -173,12 +186,26 @@ export class CSVOperations extends YamlTaskOperations {
     const targetUri = vscode.Uri.file(require('path').join(rootPath, workspaceRelativePath));
 
     try {
-      const stat = await vscode.workspace.fs.stat(targetUri);
+      let filePath = targetUri.fsPath;
+      if (!fs.existsSync(filePath))
+      {
+        if (path.extname(filePath) !== "")
+          throw new Error("Can't find file: " + filePath);
+        filePath = replaceExtension(filePath, "yml");
+        if (!fs.existsSync(filePath))
+        {
+          filePath = replaceExtension(filePath, "yaml");
+          if (!fs.existsSync(filePath))
+            throw new Error("Can't find file: " + filePath);
+        }
+      }      
+
+      const stat = await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
       if ((stat.type & vscode.FileType.Directory) !== 0)
-        return await this.ResolveItemFromFolder(targetUri);
+        return await this.ResolveItemFromFolder(vscode.Uri.file(filePath), rootPath);
 
       if ((stat.type & vscode.FileType.File) !== 0) {
-        return await this.ResolveItemFromFile(targetUri);
+        return await this.ResolveItemFromFile(filePath, rootPath);
       }
     }
     catch (err: any) {
@@ -188,27 +215,26 @@ export class CSVOperations extends YamlTaskOperations {
     return;
   }
 
-  private static async ResolveItemFromFolder(folderUri: vscode.Uri): Promise<Folder> {
+  private static async ResolveItemFromFolder(folderUri: vscode.Uri, rootPath: string): Promise<Folder> {
     const folder = new Folder();
     // folder.Id = path.basename(folderUri.fsPath.replace(/\.(yml|yaml)$/i, '')).replace(".", "_"); //TODO: store the filename (+path) in separate properties of the Item        
-    folder.YamlRepresentation.FSEntryName = path.basename(folderUri.fsPath);    
+    folder.YamlRepresentation.WSRelativePath = path.relative(rootPath, folderUri.fsPath);
     folder.YamlRepresentation.RepresentationType = ItemRepresentationType.Folder;
-    folder.Id = IdString.GenerateFromString(folder.YamlRepresentation.FSEntryName).Value;
-    folder.Summary = folder.YamlRepresentation.FSEntryName;    
+    folder.Id = IdString.GenerateFromString(folder.YamlRepresentation.WSRelativePath).Value;
+    folder.Summary = folder.YamlRepresentation.WSRelativePath;    
 
     const fsEntries = await vscode.workspace.fs.readDirectory(folderUri);
-    for (const [name, type] of fsEntries) {
-      //const childRelativePath = workspaceRelativePath.length > 0 ? `${workspaceRelativePath}\\${name}` : name;
+    for (const [name, type] of fsEntries) {      
       const childUri = vscode.Uri.joinPath(folderUri, name);
 
       if ((type & vscode.FileType.Directory) !== 0) {
-        const nestedFolder = await this.ResolveItemFromFolder(childUri);
+        const nestedFolder = await this.ResolveItemFromFolder(childUri, rootPath);
         folder.Children.Add(nestedFolder);
         continue;
       }
 
       if ((type & vscode.FileType.File) !== 0 && (name.endsWith('.yml') || name.endsWith('.yaml'))) {
-        const item = await this.ResolveItemFromFile(childUri);
+        const item = await this.ResolveItemFromFile(childUri.fsPath, rootPath);
         if (item)
           folder.Children.Add(item);
       }
@@ -217,28 +243,28 @@ export class CSVOperations extends YamlTaskOperations {
     return folder;
   }
 
-  private static async ResolveItemFromFile(fileUri: vscode.Uri): Promise<F2YamlWorkspaceItem | undefined> {
+  private static async ResolveItemFromFile(filePath: string, rootPath: string): Promise<F2YamlWorkspaceItem | undefined> {
     try {
-      const fileBytes = await vscode.workspace.fs.readFile(fileUri);
+      const fileBytes = await vscode.workspace.fs.readFile(vscode.Uri.file(filePath));
       const content = removeFrom(Buffer.from(fileBytes).toString('utf8'), "<EOF>");
       const yamlDoc = yaml.parseDocument(content);
       const rootNode = yamlDoc.contents;
       if (!rootNode || !F2YamlWorkspaceItem.IsItemYaml(rootNode)) {
-        OutputChannelLogger.logWarning(`Skipping non-item yaml file: ${fileUri.path}`);
+        OutputChannelLogger.logWarning(`Skipping non-item yaml file: ${filePath}`);
         return undefined;
       }
 
       const item = new StandardItem();
       //TODO:       
-      item.Id = IdString.GenerateFromString(path.basename(fileUri.fsPath).replace(/\.(yml|yaml)$/i, '')).Value;
-      item.Summary = fileUri.fsPath;
+      item.Id = IdString.GenerateFromString(path.basename(filePath).replace(/\.(yml|yaml)$/i, '')).Value;
+      item.Summary = filePath;
       item.ImportFromYamlNode(rootNode as yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>);
-      item.YamlRepresentation.FSEntryName = path.basename(fileUri.fsPath);
+      item.YamlRepresentation.WSRelativePath = path.relative(rootPath, filePath);
       item.YamlRepresentation.RepresentationType = ItemRepresentationType.File;
       return item;
     }
     catch (err: any) {
-      OutputChannelLogger.logWarning(`Skipping invalid yaml file ${fileUri.path}: ${String(err?.message ?? err)}`);
+      OutputChannelLogger.logWarning(`Skipping invalid yaml file ${filePath}: ${String(err)}`);
       return undefined;
     }
   }
