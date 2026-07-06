@@ -108,7 +108,7 @@ export class F2yamlLinkExtractor {
       for (const item of yamlMap.items)       
         if (item instanceof yaml.Pair && item.key instanceof yaml.Scalar)
         {
-          if (item.key.value === Data.F2YAML_ELEMENTS.PROPERTY_ID && item.value instanceof yaml.Scalar)
+          if (item.key.value === Data.SYSTEM_CLASSES.STANDARDITEM.ID && item.value instanceof yaml.Scalar)
           {
             yamlKeyValue = item.value
             break;
@@ -116,7 +116,7 @@ export class F2yamlLinkExtractor {
           else if (item.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES && item.value instanceof yaml.YAMLMap)
           {            
             for (const property of item.value.items)
-              if (property instanceof yaml.Pair && property.key instanceof yaml.Scalar && property.key.value === Data.F2YAML_ELEMENTS.PROPERTY_ID && property.value instanceof yaml.Scalar)
+              if (property instanceof yaml.Pair && property.key instanceof yaml.Scalar && property.key.value === Data.SYSTEM_CLASSES.STANDARDITEM.ID && property.value instanceof yaml.Scalar)
               {
                 yamlKeyValue = property.value.value;
                 break;

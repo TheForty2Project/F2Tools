@@ -185,23 +185,38 @@ enum RowDeletingBehavior {
   CommentOut
 }
 
-class WherePartOfQuery extends F2YamlWorkspaceItem {
-  public get TaggedBy(): IdString[] {
-    const values = this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY) ?? [];
-    return IdString.ParseFromStringArray(values);
+export class WherePartOfQuery extends F2YamlWorkspaceItem {
+
+  public get LeavesOnly(): boolean {
+    return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) !== false;
   }
 
-  public set TaggedBy(value: IdString[]) {
-    this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY, value.map(item => item.Value));
+  public set LeavesOnly(value: boolean) {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY, value);
   }
 
-  public get ItemTypes(): IdString[] {
-    const values = this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES) ?? [];
-    return IdString.ParseFromStringArray(values);
+  public get SkipFoldersAndFiles(): boolean {
+    return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES) !== false;
   }
 
-  public set ItemTypes(value: IdString[]) {
-    this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES, value.map(item => item.Value));
+  public set SkipFoldersAndFiles(value: boolean) {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES, value);
+  }
+
+  public get TaggedBy(): string[] {
+    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY) ?? [];    
+  }
+
+  public set TaggedBy(value: string[]) {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY, value);
+  }
+
+  public get ItemTypes(): string[] {
+    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES) ?? [];    
+  }
+
+  public set ItemTypes(value: string[]) {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES, value);
   }
 
   public get SkipUnder(): F2Link[] {
@@ -214,10 +229,22 @@ class WherePartOfQuery extends F2YamlWorkspaceItem {
   }
 
   public ImportFromYamlMap(yamlMap: yaml.YAMLMap, processedPropertyIds: string[] = []): WherePartOfQuery {
-    this.TaggedBy = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY) ?? []);
-    this.ItemTypes = IdString.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES) ?? []);
+    const leavesOnlyPropValue = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) ?? true;
+    if (!F2YamlUtils.IsBoolean(leavesOnlyPropValue))
+      throw new ItemParsingError(ItemParsingErrorType.CantParseAsBoolean, "LeavesOnly");
+    this.LeavesOnly = F2YamlUtils.IsTrue(leavesOnlyPropValue);
+
+    const skipFoldersAndFilesPropValue = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES) ?? true;
+    if (!F2YamlUtils.IsBoolean(skipFoldersAndFilesPropValue))
+      throw new ItemParsingError(ItemParsingErrorType.CantParseAsBoolean, "SkipFoldersAndFiles");
+    this.SkipFoldersAndFiles = F2YamlUtils.IsTrue(skipFoldersAndFilesPropValue);
+
+    this.TaggedBy = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY) ?? [];
+    this.ItemTypes = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES) ?? [];
     this.SkipUnder = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER) ?? []);
     super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY,
+      Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES,
       Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY,
       Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES,
       Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER,
@@ -225,10 +252,20 @@ class WherePartOfQuery extends F2YamlWorkspaceItem {
     return this;
   }
 
-  public override IsValid(): ValidationResult {
+  public override IsValid(): ValidationResult 
+  {    
     var superIsValid = super.IsValid();
     if (!superIsValid.isValid)
       return superIsValid;
+
+    for (let taggedBy of this.TaggedBy)    
+      if (!IdString.IsValidIdString(taggedBy))
+        return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.CantParseAsIdString, taggedBy))
+    
+
+    for (let itemType of this.ItemTypes)
+      if (!IdString.IsValidIdString(itemType))
+        return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.CantParseAsIdString, itemType))
 
     return ValidationResult.Success(); //basically we don't have anything we can validate at this point
   }

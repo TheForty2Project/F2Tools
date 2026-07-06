@@ -10,7 +10,7 @@ export class Data
     },
     REQUIREMENT_STATUS:
     {
-      ID: "Status",
+      ID: "ReqStatus",
       TYPEIDS: ["Requirement", "Milestone"],
       MEMBERS: ["New", "Drafting", "Draft", "Reviewed", "ReadyForDev", "InDev", "Implemented", "InQA", "BugFixing", "QAPassed", "Done", "Closed"]
     },   
@@ -24,10 +24,28 @@ export class Data
       ID: "Severity",
       TYPEIDS: ["Bug"],
       MEMBERS: ["0-Zero", "1-VeryLow", "2-Low", "3-Average", "4-High", "5-VeryHigh", "6-Extreme", "7-OMG"]
+    },
+    BUG_STATUS: {
+      ID: "BugStatus",
+      TYPEIDS: ["Bug"],
+      MEMBERS: ["New", "Accepted", "Rejected", "Fixing", "Fixed", "Retesting", "RetestFail", "RetestSuccess", "Closed", "OnHold"]
+    },
+    UC_STATUS:{
+      ID: "UCStatus",
+      TYPEIDS: ["UseCase"],
+      MEMBERS: ["0-New", "1-SomeProgress", "2-HighLevel", "3-Detailing", "4-AlmostDone", "5-Done", "6-Reviewed", "7-Mature", "8-Gandalf"]
     }
   };
 
   public static readonly SYSTEM_CLASSES = {
+    STANDARDITEM: {
+      TYPEID: "StandardItem",
+      ID: "Id",
+      SUMMARY: "Summary",
+      NOTES: "Notes",
+      COMMENTS: "Comments",
+      TAGS: "Tags",
+    },
     QUERYDESCRIPTION: {
       TYPEID: "QueryDescription",
       FROM: "From",
@@ -40,12 +58,14 @@ export class Data
     FOLDER:{
       TYPEID: "Folder"
     },
-    WHEREPARTOFQUERY: {
-      TYPEID: "WherePartOfQuery",
-      TAGGEDBY: "TaggedBy",
-      ITEMTYPES: "ItemTypes",
-      SKIPUNDER: "SkipUnder",
-    },
+      WHEREPARTOFQUERY: {
+        TYPEID: "WherePartOfQuery",
+        TAGGEDBY: "TaggedBy",
+        ITEMTYPES: "ItemTypes",
+        SKIPUNDER: "SkipUnder",
+        LEAVESONLY: "LeavesOnly",
+        SKIPFOLDERSANDFILES: "SkipFoldersAndFiles",
+      },
     ROWDELETINGBEHAVIOR: {
       TYPEID: "RowDeletingBehavior",
       REMOVE: { ID: "Remove" },

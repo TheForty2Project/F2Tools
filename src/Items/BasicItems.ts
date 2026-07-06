@@ -65,7 +65,7 @@ function isF2LinkArray(value: unknown): value is F2Link[]
     value.every(v => v instanceof F2Link);
 }
 
-type EnumerationDefinition = {
+export type EnumerationDefinition = {
   ID: string;
   TYPEIDS: string[];
   MEMBERS: string[];
@@ -226,6 +226,7 @@ export enum ItemParsingErrorType
   ItemHeaderCantBeEmpty = 18,
   ItemHeaderCantContainNewLine,
   ItemHeaderPrefixesMustBeIdStrings,
+  CantParseAsIdString,
 }
 
 export class ValidationResult
@@ -261,7 +262,7 @@ export class F2YamlWorkspaceItem
   //     Entitlement[] Entitlements:
   //     bool IsDeleted:
   //       Summary: for soft-deleting an Item. #Note that it is still under consideration whether we need this; 80% we do.
-  protected readonly PropertyValuesById = new Map<string, F2YamlWorkspaceItemPropertyValue>();
+  public readonly PropertyValuesById = new Map<string, F2YamlWorkspaceItemPropertyValue>();
 
   //TODO: this should be in StandardItem once there's proper parsing
   public Header: ItemHeader = ItemHeader.Empty;
@@ -270,6 +271,17 @@ export class F2YamlWorkspaceItem
   public BelongsToProperty?: string;
   public readonly InItemLists = new Set<ItemList<F2YamlWorkspaceItem>>();
   public readonly YamlRepresentation = new YamlRepresentationDescriptor();
+
+  public get TypeId(): string
+  {
+    return this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE) ?? "";
+  }
+
+  public set TypeId(value: string)
+  {
+    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE, value);
+  }
+
 
 
   public TryGetValue(yamlPathParts: YamlPathPart[]): F2YamlWorkspaceItemPropertyValue | undefined
@@ -281,11 +293,11 @@ export class F2YamlWorkspaceItem
 
       if (part instanceof ItemIdPart)
       {
-        return item.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID) === part.ItemId;
+        return item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) === part.ItemId;
       }      
       else if (part instanceof SummaryPart)
       {
-        return item.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY) === part.Summary;
+        return item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) === part.Summary;
       }
       else if (part instanceof TypeIdPart)
       {
@@ -492,16 +504,6 @@ export class F2YamlWorkspaceItem
     }
   }
 
-  public get TypeId(): string
-  {
-    return this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE) ?? "";
-  }
-
-  public set TypeId(value: string)
-  {
-    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE, value);
-  }
-
   public TryGetPropertyValue(propertyId: string): F2YamlWorkspaceItemPropertyValue | undefined
   {
     return this.PropertyValuesById.get(propertyId);
@@ -628,9 +630,9 @@ export class F2YamlWorkspaceItem
       header = ItemHeader.ParseFromString(itemYamlNode.key.value);
       //TODO: remove/reconsider this part once there's proper item handling - so like when this method is static with all the upgrades handling this
       if (header.HeaderType === ItemYamlHeaderType.Id)
-        this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID, header.Id ?? "");
+        this.SetPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID, header.Id ?? "");
       if (header.HeaderType === ItemYamlHeaderType.Summary)
-        this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY, header.Summary ?? "");
+        this.SetPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY, header.Summary ?? "");
       if (header.HeaderType === ItemYamlHeaderType.TypeId && header.TypeId)
         this.TypeId = header.TypeId
 
@@ -688,8 +690,8 @@ export class F2YamlWorkspaceItem
           continue;
 
         //TODO: reconsider/remove this "if" when there's proper parsing - i.e. it's StandardItem's job to handle this maybe
-        if (propertyId === Data.F2YAML_ELEMENTS.PROPERTY_ID && header.HeaderType === ItemYamlHeaderType.Id
-          || propertyId === Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY && header.HeaderType === ItemYamlHeaderType.Summary
+        if (propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.ID && header.HeaderType === ItemYamlHeaderType.Id
+          || propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY && header.HeaderType === ItemYamlHeaderType.Summary
           || propertyId === Data.F2YAML_ELEMENTS.PROPERTY_TYPE && header.HeaderType === ItemYamlHeaderType.TypeId)
         {
           OutputChannelLogger.logWarning(new ItemParsingError(ItemParsingErrorType.IdSummaryHeaderCantBeFilledAll).message);          
@@ -824,8 +826,8 @@ export class F2YamlWorkspaceItem
 
     const createItemIdentifierPart = (item: F2YamlWorkspaceItem, preference: LinkTypePreference): YamlPathPart =>
     {      
-      const idValue = item.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID) ?? "";
-      const summaryValue = item.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY) ?? "";
+      const idValue = item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ?? "";
+      const summaryValue = item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ?? "";
       const typeValue = item.TypeId;
 
       const createItemIdPart = () =>
@@ -1044,9 +1046,9 @@ export class F2YamlWorkspaceItem
       contentIndentation = Data.CONFIG.DEFAULT_INDENT;
       let headerItemIdentifierPart: string =
         this.YamlRepresentation.HeaderType === ItemYamlHeaderType.Id
-          ? this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID)!
+          ? this.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID)!
           : this.YamlRepresentation.HeaderType === ItemYamlHeaderType.Summary
-            ? "\"" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY)! + "\""
+            ? "\"" + this.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY)! + "\""
             : "<" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE)! + ">";
 
       header = getHeaderPrefixes() + " ." + headerItemIdentifierPart + ": ";
@@ -1108,22 +1110,22 @@ export class StandardItem extends F2YamlWorkspaceItem
 {  
   public get Id(): string
   {
-    return this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID) ?? "";
+    return this.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ?? "";
   }
 
   public set Id(value: string)
   {
-    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_ID, value);
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID, value);
   }
 
   public get Summary(): string
   {
-    return this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY) ?? "";
+    return this.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ?? "";
   }
 
   public set Summary(value: string)
   {
-    this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY, value);
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY, value);
   }
 
   //copied from System/Types.yaml:
@@ -1155,13 +1157,13 @@ export class StandardItem extends F2YamlWorkspaceItem
 
     this.Header = header;
 
-    const idFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.F2YAML_ELEMENTS.PROPERTY_ID);
+    const idFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.STANDARDITEM.ID);
     let idPropHasValue = typeof idFromProperty === "string" && idFromProperty.length > 0;
 
     if (idPropHasValue && !IdString.IsValidIdString(String(idFromProperty)))
       throw new ItemParsingError(ItemParsingErrorType.SpaceInIdValue);
 
-    const summaryFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY);
+    const summaryFromProperty = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY);
     let summaryPropHasValue = typeof summaryFromProperty === "string" && summaryFromProperty.length > 0;
 
 
@@ -1195,8 +1197,8 @@ export class StandardItem extends F2YamlWorkspaceItem
       this.Summary = this.Header.Summary;
 
     super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
-      Data.F2YAML_ELEMENTS.PROPERTY_ID,
-      Data.F2YAML_ELEMENTS.PROPERTY_SUMMARY,
+      Data.SYSTEM_CLASSES.STANDARDITEM.ID,
+      Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY,
     ]));
 
     return this;
