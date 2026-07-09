@@ -53,7 +53,8 @@ export class Data
       OUTPUTFILE: "OutputFile",
       ADDSYNCRESULTCOLUMN: "AddSyncResultColumn",
       BEHAVIORWHENDELETINGROWS: "BehaviorWhenDeletingRows",
-      WHERE: "Where"
+      WHERE: "Where",
+      ORDERBY: "OrderBy"
     },
     FOLDER:{
       TYPEID: "Folder"

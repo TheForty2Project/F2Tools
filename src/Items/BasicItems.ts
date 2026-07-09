@@ -227,6 +227,7 @@ export enum ItemParsingErrorType
   ItemHeaderCantContainNewLine,
   ItemHeaderPrefixesMustBeIdStrings,
   CantParseAsIdString,
+  InvalidOrderByElement,
 }
 
 export class ValidationResult
@@ -393,7 +394,7 @@ export class F2YamlWorkspaceItem
     return yamlNode.items.every(
       property => property.key instanceof yaml.Scalar       
       && (property.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES 
-        || (typeof property.key.value === "string" && IdString.IsValidIdString(property.key.value))
+        || (typeof property.key.value === "string" && (IdString.IsValidIdString(property.key.value) || F2Link.TryParseString(property.key.value)))
         || ItemHeader.IsValidItemHeader(String(property.key.value)))
     );
   }

@@ -8,34 +8,53 @@ import { ItemList } from './ItemList';
 import { StringOperations } from '../StringOperations';
 
 
-export class QueryDescripton extends StandardItem {
-  public get Select(): string[] {
+export class QueryDescripton extends StandardItem
+{
+  public get OrderBy(): string[]
+  {
+    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ORDERBY) ?? [];
+  }
+
+  public set OrderBy(value: string[])
+  {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ORDERBY, [...value]);
+  }
+
+
+  public get Select(): string[]
+  {
     return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT) ?? [];
   }
 
-  public set Select(value: string[]) {
+  public set Select(value: string[])
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT, [...value]);
   }
 
-  public get From(): F2Link[] {
+  public get From(): F2Link[]
+  {
     const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM);
     return Array.isArray(value) && value.every(item => item instanceof F2Link) ? value : [];
   }
 
-  public set From(value: F2Link[]) {
+  public set From(value: F2Link[])
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM, [...value]);
   }
 
-  public get Where(): WherePartOfQuery {
+  public get Where(): WherePartOfQuery
+  {
     const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
     return value instanceof WherePartOfQuery ? value : new WherePartOfQuery();
   }
 
-  public set Where(value: WherePartOfQuery) {
+  public set Where(value: WherePartOfQuery)
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE, value);
   }
 
-  public get BehaviorWhenDeletingRows(): RowDeletingBehavior {
+  public get BehaviorWhenDeletingRows(): RowDeletingBehavior
+  {
     const value = this.GetStringPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.BEHAVIORWHENDELETINGROWS);
     if (value === Data.SYSTEM_CLASSES.ROWDELETINGBEHAVIOR.REMOVE.ID)
       return RowDeletingBehavior.Remove;
@@ -44,7 +63,8 @@ export class QueryDescripton extends StandardItem {
     return RowDeletingBehavior.DoNothing;
   }
 
-  public set BehaviorWhenDeletingRows(value: RowDeletingBehavior) {
+  public set BehaviorWhenDeletingRows(value: RowDeletingBehavior)
+  {
     this.SetPropertyValue(
       Data.SYSTEM_CLASSES.QUERYDESCRIPTION.BEHAVIORWHENDELETINGROWS,
       value === RowDeletingBehavior.Remove
@@ -55,25 +75,30 @@ export class QueryDescripton extends StandardItem {
     );
   }
 
-  public get AddSyncResultColumn(): boolean {
+  public get AddSyncResultColumn(): boolean
+  {
     return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN) === true;
   }
 
-  public set AddSyncResultColumn(value: boolean) {
+  public set AddSyncResultColumn(value: boolean)
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ADDSYNCRESULTCOLUMN, value);
   }
 
-  public get OutputFile(): string {
+  public get OutputFile(): string
+  {
     return this.GetStringPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE) ?? "";
   }
 
-  public set OutputFile(value: string) {
+  public set OutputFile(value: string)
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE, value);
   }
 
   public readonly ChildItems = new ItemList<F2YamlWorkspaceItem>(this, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
 
-  override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): QueryDescripton {
+  override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): QueryDescripton
+  {
     let yamlMap: yaml.YAMLMap = itemYamlPair.value!;
     this.OutputFile = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE) ?? "";
     this.Select = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT) ?? [];
@@ -97,7 +122,8 @@ export class QueryDescripton extends StandardItem {
     else throw new ItemParsingError(ItemParsingErrorType.CantParseAsEnumerationMember, "BehaviorWhenDeletingRows");
 
     const whereYamlMap = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
-    if (whereYamlMap instanceof yaml.YAMLMap) {
+    if (whereYamlMap instanceof yaml.YAMLMap)
+    {
       this.Where = new WherePartOfQuery().ImportFromYamlMap(whereYamlMap);
       this.ChildItems.ResetTo([this.Where]);
     }
@@ -116,20 +142,24 @@ export class QueryDescripton extends StandardItem {
   }
 
   private _selectFromPropertyIdsToColumNames?: Map<string, string | null>;
-  public get SelectFromPropertyIdsToColumNames(): Map<string, string | null> {
+  public get SelectFromPropertyIdsToColumNames(): Map<string, string | null>
+  {
     if (this._selectFromPropertyIdsToColumNames === undefined)
       this.ParseSelect();
     return this._selectFromPropertyIdsToColumNames!;
   }
 
-  private ParseSelect() {
+  private ParseSelect()
+  {
     const result = new Map<string, string | null>();
 
-    for (let i = 0; i < this.Select.length; i++) {
+    for (let i = 0; i < this.Select.length; i++)
+    {
       const selectItem = this.Select[i];
       const asIndex = selectItem.indexOf(" as ");
 
-      if (asIndex < 0) {
+      if (asIndex < 0)
+      {
         if (!IdString.IsValidIdString(selectItem))
           throw new ItemParsingError(ItemParsingErrorType.InvalidSelectPropertyName, selectItem);
         result.set(selectItem, null);
@@ -148,87 +178,143 @@ export class QueryDescripton extends StandardItem {
     this._selectFromPropertyIdsToColumNames = result;
   }
 
-  public IsValid(): ValidationResult {
+  private _orderByPropertyIdsAscending?: Map<string, boolean>;
+  public get OrderByPropertyIdsAscending(): Map<string, boolean>
+  {
+    if (this._orderByPropertyIdsAscending === undefined)
+      this.ParseOrderBy();
+    return this._orderByPropertyIdsAscending!;
+  }
+
+  private ParseOrderBy()
+  {
+    const result = new Map<string, boolean>();
+
+    for (let i = 0; i < this.OrderBy.length; i++)
+    {
+      const element = this.OrderBy[i].replace(/\s+/g, ' ').trim();
+      const spaceIndex = element.indexOf(" ");
+
+      if (spaceIndex < 0)
+      {
+        result.set(element, true);        
+      }
+      else
+      {
+        const propertyName = element.substring(0, spaceIndex).trim();
+        const ascDesc = element.substring(spaceIndex + 1).trim();
+        if (ascDesc.toLowerCase() === "asc")
+          result.set(propertyName, true);
+        else if (ascDesc.toLowerCase() === "desc")
+          result.set(propertyName, false);
+        else throw new ItemParsingError(ItemParsingErrorType.InvalidOrderByElement, ascDesc);
+      }
+    }
+
+    this._orderByPropertyIdsAscending = result;
+  }
+
+
+
+
+  public IsValid(): ValidationResult
+  {
     if (this.Select.length === 0)
       return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.SelectPropertyEmptyOrInvalid));
     if (this.From.length === 0)
       return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.FromPropertyEmptyOrInvalid));
 
-    try {
-      this.ParseSelect(); //this will throw errors if it's not parseable
+    try
+    {
+      this.ParseSelect();
+      this.ParseOrderBy();
     }
-    catch (err) {
+    catch (err)
+    {
       return ValidationResult.Failure(err as ItemParsingError);
     }
 
     return this.Where.IsValid();
   }
 
-//   public override toString(): string
-//   {
-//     return `
-// <QueryDescription>:
-//   Id: ${this.Id}
-//   Summary: ${this.Summary}
-//   Select: [${this.Select.join(", ")}]
-//   From: [${this.From.join(", ")}]
-//   Where: ${StringOperations.indentLinesBy(this.Where.toString(), 4)}
-//   BehaviorWhenDeletingRows: RowDeletingBehavior.${this.BehaviorWhenDeletingRows === RowDeletingBehavior.CommentOut ? "CommentOut" : this.BehaviorWhenDeletingRows === RowDeletingBehavior.DoNothing ? "DoNothing" : "Remove"}
-//   AddSyncResultColumn: ${this.AddSyncResultColumn}
-//   OutputFile: ${this.OutputFile}`;
-//   }
+  //   public override toString(): string
+  //   {
+  //     return `
+  // <QueryDescription>:
+  //   Id: ${this.Id}
+  //   Summary: ${this.Summary}
+  //   Select: [${this.Select.join(", ")}]
+  //   From: [${this.From.join(", ")}]
+  //   Where: ${StringOperations.indentLinesBy(this.Where.toString(), 4)}
+  //   BehaviorWhenDeletingRows: RowDeletingBehavior.${this.BehaviorWhenDeletingRows === RowDeletingBehavior.CommentOut ? "CommentOut" : this.BehaviorWhenDeletingRows === RowDeletingBehavior.DoNothing ? "DoNothing" : "Remove"}
+  //   AddSyncResultColumn: ${this.AddSyncResultColumn}
+  //   OutputFile: ${this.OutputFile}`;
+  //   }
 
 }
-enum RowDeletingBehavior {
+enum RowDeletingBehavior
+{
   DoNothing,
   Remove,
   CommentOut
 }
 
-export class WherePartOfQuery extends F2YamlWorkspaceItem {
+export class WherePartOfQuery extends F2YamlWorkspaceItem
+{
 
-  public get LeavesOnly(): boolean {
+  public get LeavesOnly(): boolean
+  {
     return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) !== false;
   }
 
-  public set LeavesOnly(value: boolean) {
+  public set LeavesOnly(value: boolean)
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY, value);
   }
 
-  public get SkipFoldersAndFiles(): boolean {
+  public get SkipFoldersAndFiles(): boolean
+  {
     return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES) !== false;
   }
 
-  public set SkipFoldersAndFiles(value: boolean) {
+  public set SkipFoldersAndFiles(value: boolean)
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES, value);
   }
 
-  public get TaggedBy(): string[] {
-    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY) ?? [];    
+  public get TaggedBy(): string[]
+  {
+    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY) ?? [];
   }
 
-  public set TaggedBy(value: string[]) {
+  public set TaggedBy(value: string[])
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY, value);
   }
 
-  public get ItemTypes(): string[] {
-    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES) ?? [];    
+  public get ItemTypes(): string[]
+  {
+    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES) ?? [];
   }
 
-  public set ItemTypes(value: string[]) {
+  public set ItemTypes(value: string[])
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES, value);
   }
 
-  public get SkipUnder(): F2Link[] {
+  public get SkipUnder(): F2Link[]
+  {
     const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER);
     return Array.isArray(value) && value.every(item => item instanceof F2Link) ? value : [];
   }
 
-  public set SkipUnder(value: F2Link[]) {
+  public set SkipUnder(value: F2Link[])
+  {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER, value);
   }
 
-  public ImportFromYamlMap(yamlMap: yaml.YAMLMap, processedPropertyIds: string[] = []): WherePartOfQuery {
+  public ImportFromYamlMap(yamlMap: yaml.YAMLMap, processedPropertyIds: string[] = []): WherePartOfQuery
+  {
     const leavesOnlyPropValue = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) ?? true;
     if (!F2YamlUtils.IsBoolean(leavesOnlyPropValue))
       throw new ItemParsingError(ItemParsingErrorType.CantParseAsBoolean, "LeavesOnly");
@@ -253,15 +339,15 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem {
   }
 
   public override IsValid(): ValidationResult 
-  {    
+  {
     var superIsValid = super.IsValid();
     if (!superIsValid.isValid)
       return superIsValid;
 
-    for (let taggedBy of this.TaggedBy)    
+    for (let taggedBy of this.TaggedBy)
       if (!IdString.IsValidIdString(taggedBy))
         return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.CantParseAsIdString, taggedBy))
-    
+
 
     for (let itemType of this.ItemTypes)
       if (!IdString.IsValidIdString(itemType))
@@ -270,11 +356,11 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem {
     return ValidationResult.Success(); //basically we don't have anything we can validate at this point
   }
 
-//   public override toString(): string
-//   {
-//     return `    
-// TaggedBy: [${this.TaggedBy.join(", ")}]
-// ItemTypes: [${this.ItemTypes.join(", ") }]
-// SkipUnder: [${this.SkipUnder.join(", ")}]`
-//   }
+  //   public override toString(): string
+  //   {
+  //     return `    
+  // TaggedBy: [${this.TaggedBy.join(", ")}]
+  // ItemTypes: [${this.ItemTypes.join(", ") }]
+  // SkipUnder: [${this.SkipUnder.join(", ")}]`
+  //   }
 }

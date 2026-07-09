@@ -36,6 +36,69 @@ function replaceExtension(filePath: string, newExtension: string): string
   );
 }
 
+class Duration
+{
+  public Seconds = 0;
+  public Minutes = 0;
+  public Hours = 0;
+  public Days = 0;
+  public Weeks = 0;
+
+  public static TryParse(value: string): Duration | undefined
+  {
+    const match = /^([+-]?\d+(?:\.\d+)?)([mhsdw])$/.exec(value.trim());
+    if (!match)
+      return undefined;
+
+    const amount = Number(match[1]);
+    if (!Number.isFinite(amount))
+      return undefined;
+
+    const duration = new Duration();
+    switch (match[2])
+    {
+      case "s":
+        duration.Seconds = amount;
+        break;
+      case "m":
+        duration.Minutes = amount;
+        break;
+      case "h":
+        duration.Hours = amount;
+        break;
+      case "d":
+        duration.Days = amount;
+        break;
+      case "w":
+        duration.Weeks = amount;
+        break;
+      default:
+        return undefined;
+    }
+
+    return duration;
+  }
+
+  public GetInSeconds(): number
+  {
+    return this.Seconds
+      + this.Minutes * 60
+      + this.Hours * 3600
+      + this.Days * 86400
+      + this.Weeks * 604800;
+  }
+}
+
+function tryParseNumber(value: string): number | undefined
+{
+  const trimmed = value.trim();
+  if (!/^[+-]?\d+(?:\.\d+)?$/.test(trimmed))
+    return undefined;
+
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 export class CSVOperations extends YamlTaskOperations
 {
 
@@ -43,9 +106,11 @@ export class CSVOperations extends YamlTaskOperations
   {
     const items = await this.ResolveItemsFromQuery(queryDescription);
     const rows = this.BuildReportRows(queryDescription, items);
+    this.SortRows(rows, queryDescription);
+
     const lines = [
       this.BuildHeaderRow(queryDescription),
-      ...rows.map(row => row.join(','))
+      ...rows.map(row => row.map(value => this.EscapeCsvCell(value)).join(','))
     ];
 
     const report = lines.join('\n');
@@ -73,6 +138,96 @@ export class CSVOperations extends YamlTaskOperations
     }
 
     return rows;
+  }
+
+  private static SortRows(rows: string[][], queryDescription: QueryDescripton): void
+  {
+    const orderBy = queryDescription.OrderByPropertyIdsAscending;
+    if (rows.length <= 1 || orderBy.size === 0)
+      return;
+
+    const columnIndexes = new Map<string, number>();
+    let selectIndex = 0;
+    for (const propertyId of queryDescription.SelectFromPropertyIdsToColumNames.keys())
+    {
+      columnIndexes.set(propertyId, selectIndex);
+      selectIndex++;
+    }
+
+    const descriptors: { index: number; ascending: boolean; type: "number" | "duration" | "string" }[] = [];
+    for (const [propertyId, ascending] of orderBy)
+    {
+      const index = columnIndexes.get(propertyId);
+      if (index === undefined)
+        continue;
+
+      let isNumberColumn = true;
+      let isDurationColumn = true;
+      for (let rowIndex = 0; rowIndex < rows.length; rowIndex++)
+      {
+        const value = rows[rowIndex][index];
+        if (value === "")
+          continue;
+        if (tryParseNumber(value) === undefined)
+          isNumberColumn = false;
+        if (Duration.TryParse(value) === undefined)
+          isDurationColumn = false;
+        if (!isNumberColumn && !isDurationColumn)
+          break;
+      }
+
+      descriptors.push({
+        index,
+        ascending,
+        type: isNumberColumn ? "number" : isDurationColumn ? "duration" : "string"
+      });
+    }
+
+    if (descriptors.length === 0)
+      return;
+
+    const sortableRows = rows.map(row => ({
+      row,
+      normalized: descriptors.map(descriptor =>
+      {
+        const value = row[descriptor.index];
+        if (value === "")
+          return 0;
+        if (descriptor.type === "number")
+          return tryParseNumber(value)!;
+        if (descriptor.type === "duration")
+          return Duration.TryParse(value)!.GetInSeconds();
+        return value;
+      })
+    }));
+
+    sortableRows.sort((leftEntry, rightEntry) =>
+    {
+      for (let i = 0; i < descriptors.length; i++)
+      {
+        const descriptor = descriptors[i];
+        const leftValue = leftEntry.normalized[i];
+        const rightValue = rightEntry.normalized[i];
+
+        let comparison = 0;
+        if (typeof leftValue === "number" && typeof rightValue === "number")
+        {
+          comparison = leftValue - rightValue;
+        }
+        else
+        {
+          comparison = leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0;
+        }
+
+        if (comparison !== 0)
+          return descriptor.ascending ? comparison : -comparison;
+      }
+
+      return 0;
+    });
+
+    for (let i = 0; i < sortableRows.length; i++)
+      rows[i] = sortableRows[i].row;
   }
 
   private static MatchesWhere(item: F2YamlWorkspaceItem, where: WherePartOfQuery): boolean
@@ -150,7 +305,7 @@ export class CSVOperations extends YamlTaskOperations
     {
       const row: string[] = [];
       for (const propertyId of selectMap.keys())
-        row.push(this.EscapeCsvCell(this.GetCellValue(item, propertyId)));
+        row.push(this.GetCellValue(item, propertyId));
       rows.push(row);
     }
     for (const child of item.Children)
@@ -158,14 +313,11 @@ export class CSVOperations extends YamlTaskOperations
 
     for (const value of (item as any).PropertyValuesById.values() as Iterable<unknown>)
     {
-      if (!(value instanceof ItemList))
-        continue;
-
-      if (value === item.Children)
-        continue;
-
-      for (const childItem of value)
-        this.AppendItemRows(selectMap, childItem, where, rows);
+      if (value instanceof F2YamlWorkspaceItem)
+        this.AppendItemRows(selectMap, value, where, rows);
+      else if (value instanceof ItemList && value !== item.Children)
+        for (const childItem of value)
+          this.AppendItemRows(selectMap, childItem, where, rows);
     }
   }
 
@@ -346,7 +498,6 @@ export class CSVOperations extends YamlTaskOperations
       }
 
       const item = new StandardItem();
-      //TODO:       
       item.Id = IdString.GenerateFromString(path.basename(filePath).replace(/\.(yml|yaml)$/i, '')).Value;
       item.Summary = filePath;
       item.ImportFromYamlNode(rootNode as yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>);
