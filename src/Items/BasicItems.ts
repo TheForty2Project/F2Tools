@@ -105,8 +105,8 @@ export class NotParsedYaml
 {
   constructor(public readonly yamlNode: yaml.Node | yaml.Pair<unknown, unknown>) 
   { 
-    if (OutputChannelLogger.LogLevel ?? OutputChannelLogLevel.None >= OutputChannelLogLevel.Debug) 
-      OutputChannelLogger.logDebug("NotParsedYaml created. Contents (JSON): " + yaml.stringify(this.yamlNode))
+    // if (OutputChannelLogger.LogLevel ?? OutputChannelLogLevel.None >= OutputChannelLogLevel.Debug) 
+    //   OutputChannelLogger.logDebug("NotParsedYaml created. Contents (JSON): " + yaml.stringify(this.yamlNode))
   }
 
   public toString(): string

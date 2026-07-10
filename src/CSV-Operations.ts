@@ -191,12 +191,16 @@ export class CSVOperations extends YamlTaskOperations
       normalized: descriptors.map(descriptor =>
       {
         const value = row[descriptor.index];
-        if (value === "")
-          return 0;
         if (descriptor.type === "number")
+        {
+          if (value === "") return 0;
           return tryParseNumber(value)!;
+        }
         if (descriptor.type === "duration")
+        {
+          if (value === "") return 0;
           return Duration.TryParse(value)!.GetInSeconds();
+        }
         return value;
       })
     }));
@@ -216,6 +220,8 @@ export class CSVOperations extends YamlTaskOperations
         }
         else
         {
+          if (leftValue === "" || rightValue === "")
+            OutputChannelLogger.logInfo(`${leftValue} < ${rightValue}: ` + String(leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0));
           comparison = leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0;
         }
 
@@ -381,7 +387,7 @@ export class CSVOperations extends YamlTaskOperations
       const item = await this.LoadFileOrFolderFromLink(link);
       if (item)
       {
-        OutputChannelLogger.logDebug(item.toString());
+        //OutputChannelLogger.logDebug(item.toString());
         filesOrFolders.push([item, link]);
       }
     }
