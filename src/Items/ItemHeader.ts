@@ -97,6 +97,28 @@ export class ItemHeader
   }
 
   public static get Empty() { return new ItemHeader(ItemYamlHeaderType.None); }
+
+  public toString()
+  {
+    if (this.HeaderType === ItemYamlHeaderType.None)
+      return "";
+
+    let prefixes: string = this.Prefixes?.join(" ") ?? ""; 
+    let result: string = prefixes.length === 0 ? "." : prefixes + " .";
+    switch (this.HeaderType)
+    {
+      case (ItemYamlHeaderType.Id):
+        result += this.Id;
+        break;
+      case (ItemYamlHeaderType.Summary):
+        result += this.Summary;
+        break;
+      case (ItemYamlHeaderType.TypeId):
+        result += "<" + this.TypeId + ">";
+        break;
+    }
+    return result;
+  }
 }
 export enum ItemYamlHeaderType
 {

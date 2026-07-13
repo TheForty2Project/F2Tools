@@ -94,7 +94,7 @@ export class YamlTaskOperations {
         let idOrSummaryFromHeader = StringOperations.removeFirstWordIfFollowedBySpaceAndDot(itemHeaderValue);
         if (idOrSummaryFromHeader === linkParts[0] 
           || StringOperations.wrapInQuotes(idOrSummaryFromHeader) === linkParts[0] 
-          || StringOperations.removeDot(idOrSummaryFromHeader) == StringOperations.removeQuoteWrapping(StringOperations.removeDot(linkParts[0]))) // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
+          || StringOperations.removeDot(idOrSummaryFromHeader) === StringOperations.removeQuoteWrapping(StringOperations.removeDot(linkParts[0]))) // cause for somereason one on them is wrapped in quotes. // TODO Fix this monstrosity
         {
           // parentYamlObj = element;
           return yamlDoc.get(itemHeaderValue, true);          
@@ -457,9 +457,9 @@ export class YamlTaskOperations {
 
   }
 
-  private static getName() {
+  public static getName():string {
     const config = vscode.workspace.getConfiguration(Data.MISC.EXTENSION_NAME);
-    const userName = config.get('UserName');
+    const userName = String(config.get('UserName'));
     return userName;
   }
 
@@ -467,9 +467,8 @@ export class YamlTaskOperations {
     const taskItemProperties: yaml.YAMLMap = await this.getTaskObj(yamlLink);
     if (!taskItemProperties) return;
     const workLogObj = await this.getWorkLogObj(taskItemProperties);
-    if (!workLogObj) return;
-    let name = this.getName();
-    name = new yaml.Scalar(name);
+    if (!workLogObj) return;    
+    let name = new yaml.Scalar(this.getName());
     workLog.items.unshift(name);
 
     // let isThisDuplicateWorkLog: boolean;

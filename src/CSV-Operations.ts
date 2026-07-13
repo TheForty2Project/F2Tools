@@ -6,11 +6,11 @@ import { YamlTaskOperations } from "./YamlOperations";
 import { F2yamlLinkExtractor } from "./f2yamlLinkExtractor";
 import * as vscode from 'vscode';
 import * as yaml from 'yaml';
-import { QueryDescripton, WherePartOfQuery } from './Items/QueryDescripton';
+import { QueryDescripton, ReportHeader, WherePartOfQuery } from './Items/QueryDescripton';
 import { IdString } from "./Items/IdString";
 import { F2Link } from "./Items/F2Link";
 import { EnumerationDefinition, F2YamlWorkspaceItem, F2YamlWorkspaceItemPropertyValue, ItemRepresentationType, LinkTypePreference, NotParsedYaml, StandardItem } from "./Items/BasicItems";
-import { ItemHeader } from './Items/ItemHeader';
+import { ItemHeader, ItemYamlHeaderType } from './Items/ItemHeader';
 import { Folder } from './Items/Folder';
 import * as path from "path";
 import { OutputChannelLogger } from './Messaging';
@@ -104,20 +104,36 @@ export class CSVOperations extends YamlTaskOperations
 
   static async GenerateReport(queryDescription: QueryDescripton): Promise<string>
   {
+    const getReportHeaderLogLine = () => 
+      {
+
+      }
+
     const items = await this.ResolveItemsFromQuery(queryDescription);
     const rows = this.BuildReportRows(queryDescription, items);
     this.SortRows(rows, queryDescription);
 
     const lines = [
-      this.BuildHeaderRow(queryDescription),
+      this.BuildColumnHeaderRow(queryDescription),
       ...rows.map(row => row.map(value => this.EscapeCsvCell(value)).join(','))
     ];
+    
+    const reportHeader = new ReportHeader();
+    reportHeader.QueryDescription = queryDescription;
+    reportHeader.QueryDescriptionLink = queryDescription.GetF2Link();
+    reportHeader.CreatedAt = new Date(Date.now());
+    reportHeader.CreatedBy = YamlTaskOperations.getName();
+    reportHeader.Log = ["Created at " + new Date(Date.now()).toISOString() + "; Added / Updated / Deleted: " + rows.length + " / 0 / 0"];
+    reportHeader.YamlRepresentation.AdditionalPropertiesPropertyIds = [Data.SYSTEM_CLASSES.ITEM.CREATEDBY, Data.SYSTEM_CLASSES.ITEM.CREATEDAT]
+    reportHeader.YamlRepresentation.HeaderType = ItemYamlHeaderType.TypeId
+    reportHeader.YamlRepresentation.PropertyIds = [Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES, Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTIONLINK, Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTION, Data.SYSTEM_CLASSES.REPORTHEADER.LOG]
+    reportHeader.YamlRepresentation.RepresentationType = ItemRepresentationType.Node;
 
-    const report = lines.join('\n');
-    return report;
-  }
+    const report = StringOperations.PrefixEachLine(reportHeader.toString(), Data.MISC.CSV_COMMENT_PREFIX) + "\n" + lines.join('\n');
+    return report;    
+  }  
 
-  static BuildHeaderRow(queryDescription: QueryDescripton): string
+  static BuildColumnHeaderRow(queryDescription: QueryDescripton): string
   {
     return queryDescription.Select.map(selectItem =>
     {
@@ -214,16 +230,10 @@ export class CSVOperations extends YamlTaskOperations
         const rightValue = rightEntry.normalized[i];
 
         let comparison = 0;
-        if (typeof leftValue === "number" && typeof rightValue === "number")
-        {
-          comparison = leftValue - rightValue;
-        }
-        else
-        {
-          if (leftValue === "" || rightValue === "")
-            OutputChannelLogger.logInfo(`${leftValue} < ${rightValue}: ` + String(leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0));
-          comparison = leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0;
-        }
+        if (typeof leftValue === "number" && typeof rightValue === "number")        
+          comparison = leftValue - rightValue;        
+        else        
+          comparison = leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0;        
 
         if (comparison !== 0)
           return descriptor.ascending ? comparison : -comparison;

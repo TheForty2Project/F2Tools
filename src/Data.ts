@@ -38,6 +38,12 @@ export class Data
   };
 
   public static readonly SYSTEM_CLASSES = {
+    ITEM:
+    {
+      TYPEID: "Item",
+      CREATEDBY: "CreatedBy",
+      CREATEDAT: "CreatedAt"
+    },
     STANDARDITEM: {
       TYPEID: "StandardItem",
       ID: "Id",
@@ -45,6 +51,9 @@ export class Data
       NOTES: "Notes",
       COMMENTS: "Comments",
       TAGS: "Tags",
+    },
+    FOLDER: {
+      TYPEID: "Folder"
     },
     QUERYDESCRIPTION: {
       TYPEID: "QueryDescription",
@@ -56,17 +65,20 @@ export class Data
       WHERE: "Where",
       ORDERBY: "OrderBy"
     },
-    FOLDER:{
-      TYPEID: "Folder"
+    REPORTHEADER: {
+      TYPEID: "ReportHeader",
+      QUERYDESCRIPTIONLINK: "QueryDescriptionLink",
+      QUERYDESCRIPTION: "QueryDescription",
+      LOG: "Log",
     },
-      WHEREPARTOFQUERY: {
-        TYPEID: "WherePartOfQuery",
-        TAGGEDBY: "TaggedBy",
-        ITEMTYPES: "ItemTypes",
-        SKIPUNDER: "SkipUnder",
-        LEAVESONLY: "LeavesOnly",
-        SKIPFOLDERSANDFILES: "SkipFoldersAndFiles",
-      },
+    WHEREPARTOFQUERY: {
+      TYPEID: "WherePartOfQuery",
+      TAGGEDBY: "TaggedBy",
+      ITEMTYPES: "ItemTypes",
+      SKIPUNDER: "SkipUnder",
+      LEAVESONLY: "LeavesOnly",
+      SKIPFOLDERSANDFILES: "SkipFoldersAndFiles",
+    },
     ROWDELETINGBEHAVIOR: {
       TYPEID: "RowDeletingBehavior",
       REMOVE: { ID: "Remove" },
@@ -136,6 +148,7 @@ export class Data
   };
 
   public static readonly MISC = {
+    CSV_COMMENT_PREFIX: "#",
     EMPTY_STRING: "",
     YAML: "yaml",
     EXTENSION_NAME: "F2Tools",

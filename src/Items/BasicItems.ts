@@ -167,8 +167,35 @@ export class YamlPropertyRenderingDescriptor
 
 export class YamlRepresentationDescriptor
 {
+  GetClone()
+  {
+    const clone = new YamlRepresentationDescriptor();
+    clone.DocumentRange = this.DocumentRange === undefined
+      ? undefined
+      : new F2YamlRange(this.DocumentRange.Start, this.DocumentRange.ValueEnd, this.DocumentRange.NodeEnd);
+    clone.HeaderType = this.HeaderType;
+    clone.RepresentationType = this.RepresentationType;
+    clone.IsMapFlowStyle = this.IsMapFlowStyle;
+    clone.WSRelativePath = this.WSRelativePath;
+    clone.HeaderPrefixPropertyIds = [...this.HeaderPrefixPropertyIds];
+    clone.AdditionalPropertiesPropertyIds = [...this.AdditionalPropertiesPropertyIds];
+    clone.PropertyIds = [...this.PropertyIds];
+    clone.RenderDefaultListPropertyId = this.RenderDefaultListPropertyId;
+    clone.PropertyRenderingById = new Map<string, YamlPropertyRenderingDescriptor>();
+    for (const [propertyId, descriptor] of this.PropertyRenderingById)
+    {
+      const descriptorClone = new YamlPropertyRenderingDescriptor();
+      descriptorClone.NodeKind = descriptor.NodeKind;
+      descriptorClone.IsFlowStyle = descriptor.IsFlowStyle;
+      descriptorClone.StringStyle = descriptor.StringStyle;
+      clone.PropertyRenderingById.set(propertyId, descriptorClone);
+    }
+
+    return clone;
+  }
+
   public DocumentRange?: F2YamlRange;
-  public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.None;
+  public HeaderType: ItemYamlHeaderType = ItemYamlHeaderType.TypeId;
   public RepresentationType: ItemRepresentationType = ItemRepresentationType.Node;
   public IsMapFlowStyle: boolean = false;
   public WSRelativePath: string = "";
@@ -281,6 +308,27 @@ export class F2YamlWorkspaceItem
   public set TypeId(value: string)
   {
     this.SetPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE, value);
+  }
+
+  public get CreatedBy(): string
+  {
+    return this.GetStringPropertyValue("CreatedBy") ?? "";
+  }
+
+  public set CreatedBy(value: string)
+  {
+    this.SetPropertyValue("CreatedBy", value);
+  }
+
+  public get CreatedAt(): Date | undefined
+  {
+    const value = this.TryGetPropertyValue("CreatedAt");
+    return value instanceof Date ? value : undefined;
+  }
+
+  public set CreatedAt(value: Date | undefined)
+  {
+    this.SetPropertyValue("CreatedAt", value ?? null);
   }
 
 
@@ -690,16 +738,18 @@ export class F2YamlWorkspaceItem
         if (processedPropertyIds.includes(propertyId))
           continue;
 
+        let propertyValue = this.ParsePropertyValue(pair.value as yaml.Node, this, propertyId);
+
         //TODO: reconsider/remove this "if" when there's proper parsing - i.e. it's StandardItem's job to handle this maybe
-        if (propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.ID && header.HeaderType === ItemYamlHeaderType.Id
-          || propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY && header.HeaderType === ItemYamlHeaderType.Summary
-          || propertyId === Data.F2YAML_ELEMENTS.PROPERTY_TYPE && header.HeaderType === ItemYamlHeaderType.TypeId)
-        {
-          OutputChannelLogger.logWarning(new ItemParsingError(ItemParsingErrorType.IdSummaryHeaderCantBeFilledAll).message);          
+        if (propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.ID && header.HeaderType === ItemYamlHeaderType.Id && propertyValue !== header.Id
+          || propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY && header.HeaderType === ItemYamlHeaderType.Summary && propertyValue !== header.Summary
+          || propertyId === Data.F2YAML_ELEMENTS.PROPERTY_TYPE && header.HeaderType === ItemYamlHeaderType.TypeId && propertyValue !== header.TypeId)
+        {          
+          OutputChannelLogger.logWarning(new ItemParsingError(ItemParsingErrorType.IdSummaryHeaderCantBeFilledAll, propertyId + ": " + propertyValue + " !== " + header.toString()).message);
           continue;
         }
 
-        this.SetPropertyValue(propertyId, this.ParsePropertyValue(pair.value as yaml.Node, this, propertyId));
+        this.SetPropertyValue(propertyId, propertyValue);
         continue;
       }
 
@@ -714,7 +764,7 @@ export class F2YamlWorkspaceItem
       if (f2Link instanceof F2Link)
       {
         //TODO: Idea is that we'd create a type something like export type ItemOrRef = {F2YamlWorkspaceItem | ItemReference} and ItemLists would store these, with some lazy-resolving maybe. Probably we need to introduce some ItemManager for resolving links
-        OutputChannelLogger.logDebug("F2Link as key is not implemented yet.");
+        OutputChannelLogger.logDebug("F2Link as key is not implemented yet." + header.toString());
         continue;
       }
     }
@@ -958,10 +1008,10 @@ export class F2YamlWorkspaceItem
       return headerPrefixEntries.join(" ");
     }
 
-    const renderPropertyValue = (propRenderingDescriptor: YamlPropertyRenderingDescriptor, value: F2YamlWorkspaceItemPropertyValue): string =>
+    const renderPropertyValue = (propRenderingDescriptor: YamlPropertyRenderingDescriptor | undefined, value: F2YamlWorkspaceItemPropertyValue): string =>
     {
       if (value === null) return "";
-      if (isScalarValue(value) || value instanceof F2Link || value instanceof NotParsedYaml || value instanceof F2YamlWorkspaceItem)
+      if (isScalarValue(value) || value instanceof F2Link || value instanceof NotParsedYaml)
       {
         if (value instanceof Date)
           return value.toISOString();
@@ -969,7 +1019,7 @@ export class F2YamlWorkspaceItem
         // - if it's a plain string but starts with a not allowed character - e.g. double quote - then prefix it with "\"; at parsing as well        
         else if (typeof value === "string")
         {
-          switch (propRenderingDescriptor.StringStyle)
+          switch (propRenderingDescriptor?.StringStyle ?? YamlStringStyle.Plain)
           {
             case YamlStringStyle.QuoteSingle:
               return `'${value.replace(/'/g, "''")}'`;
@@ -984,20 +1034,25 @@ export class F2YamlWorkspaceItem
               return value;
           }
         }
+         return value.toString();
+      }
 
-        return value.toString();
+      if (value instanceof F2YamlWorkspaceItem)
+      {
+        return value.toString(contentIndentation + Data.CONFIG.DEFAULT_INDENT);
       }
 
       if (isScalarArrayValue(value) || value instanceof ItemList || isF2LinkArray(value))
       {
-        let isFlowStyle = propRenderingDescriptor.IsFlowStyle;
-        let isMap = propRenderingDescriptor.NodeKind === YamlNodeKind.Mapping; //if it was Scalar somehow... - single element? Shouldn't be allowed.
+        let isFlowStyle = propRenderingDescriptor?.IsFlowStyle ?? false;
+        let isMap = (propRenderingDescriptor?.NodeKind ?? YamlNodeKind.Sequence) === YamlNodeKind.Mapping; //if it was Scalar somehow... - single element? Shouldn't be allowed.
         const renderedValues: string[] = [];
 
-        let tempPropRenderingDescr = new YamlPropertyRenderingDescriptor(); //TODO: store rendering descriptor for each sequence element as well, use that and remove this block
-        tempPropRenderingDescr.IsFlowStyle = propRenderingDescriptor.IsFlowStyle;
+        //TODO: store rendering descriptor for each sequence element as well, use that and remove this block
+        let tempPropRenderingDescr = new YamlPropertyRenderingDescriptor(); 
+        tempPropRenderingDescr.IsFlowStyle = isFlowStyle
         tempPropRenderingDescr.NodeKind = YamlNodeKind.Scalar; //kind of the most common...
-        tempPropRenderingDescr.StringStyle = YamlStringStyle.QuoteDouble; //same
+        tempPropRenderingDescr.StringStyle = YamlStringStyle.Plain; //same
 
         for (const item of value)
         {
@@ -1009,12 +1064,14 @@ export class F2YamlWorkspaceItem
 
         if (isMap)
           return renderedValues.length > 0
-            ? `\n${renderedValues.map(item => StringOperations.indentLinesBy(item, 2)).join("\n")}`
+            ? `\n${renderedValues.map(item => StringOperations.indentLinesBy(item, contentIndentation + 2)).join("\n")}`
             : "";
 
-        return renderedValues.length > 0
-          ? `\n${renderedValues.map(item => `- ${item.replace(/\n/g, "\n  ")}`).join("\n")}`
-          : "[]";
+        // return renderedValues.length > 0
+        //   ? `\n${renderedValues.map(item => `- ${item.replace(/\n/g, "\n  ")}`).join("\n")}`
+        //   : "[]";
+
+        return "\n" + StringOperations.indentLinesBy(renderedValues.map(item => "- " + item).join("\n"), contentIndentation + 2);
       }
 
       throw new InvalidOperationError("The value has an incorrect type. String(value):" + String(value));
@@ -1040,11 +1097,10 @@ export class F2YamlWorkspaceItem
 
     let result: string = "";
     let header: string = "";
-    let contentIndentation: number = 0;
+    let contentIndentation: number = initialIndent;
 
     if (this.YamlRepresentation.HeaderType !== ItemYamlHeaderType.None)
     {
-      contentIndentation = Data.CONFIG.DEFAULT_INDENT;
       let headerItemIdentifierPart: string =
         this.YamlRepresentation.HeaderType === ItemYamlHeaderType.Id
           ? this.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID)!
@@ -1052,7 +1108,8 @@ export class F2YamlWorkspaceItem
             ? "\"" + this.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY)! + "\""
             : "<" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE)! + ">";
 
-      header = getHeaderPrefixes() + " ." + headerItemIdentifierPart + ": ";
+      header = "".padEnd(initialIndent, " ") + getHeaderPrefixes() + "." + headerItemIdentifierPart + ": ";
+      contentIndentation += Data.CONFIG.DEFAULT_INDENT;
     }
 
     let propertiesRendered: string[] = [];
@@ -1093,7 +1150,10 @@ export class F2YamlWorkspaceItem
     else 
     {
       const indentString = "".padEnd(contentIndentation, " ");
-      result += "\n" + indentString + propertiesRendered.join("\n" + indentString) + "\n" + indentString + childrenRendered.join("\n" + indentString) + "\n";
+      if (propertiesRendered.length > 0)
+        result += "\n" + indentString + propertiesRendered.join("\n" + indentString)
+      if (childrenRendered.length > 0)
+        result += "\n" + indentString + childrenRendered.join("\n" + indentString);// + "\n";
     }
 
     return result;
@@ -1185,7 +1245,9 @@ export class StandardItem extends F2YamlWorkspaceItem
     //                          2,            1,                 1, ERROR      , ERROR
 
     if ((this.Header.Id || this.Header.Summary) && idPropHasValue && summaryPropHasValue)
-      throw new ItemParsingError(ItemParsingErrorType.IdSummaryHeaderCantBeFilledAll)
+    {
+      OutputChannelLogger.logWarning(new ItemParsingError(ItemParsingErrorType.IdSummaryHeaderCantBeFilledAll, header.toString()).message);
+    }
 
     if (idPropHasValue)
       this.Id = idFromProperty!;

@@ -1,7 +1,7 @@
 import * as yaml from 'yaml';
 import { Data } from '../Data';
 import { F2YamlUtils } from '../F2YamlUtils';
-import { StandardItem, ItemParsingError, ItemParsingErrorType, ValidationResult, F2YamlWorkspaceItem } from './BasicItems';
+import { StandardItem, ItemParsingError, ItemParsingErrorType, ValidationResult, F2YamlWorkspaceItem, InvalidOperationError } from './BasicItems';
 import { F2Link } from './F2Link';
 import { IdString } from './IdString';
 import { ItemList } from './ItemList';
@@ -363,4 +363,46 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem
   // ItemTypes: [${this.ItemTypes.join(", ") }]
   // SkipUnder: [${this.SkipUnder.join(", ")}]`
   //   }
+}
+
+export class ReportHeader extends StandardItem
+{
+  constructor()
+  {
+    super();
+    this.TypeId = Data.SYSTEM_CLASSES.REPORTHEADER.TYPEID;
+  }
+
+  public get QueryDescriptionLink(): F2Link | undefined
+  {
+    const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTIONLINK);
+    return value instanceof F2Link ? value : undefined;
+    
+  }
+
+  public set QueryDescriptionLink(value: F2Link)
+  {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTIONLINK, value);
+  }
+
+  public get QueryDescription(): QueryDescripton | undefined
+  {
+    const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTION);
+    return value instanceof QueryDescripton ? value : undefined;
+  }
+
+  public set QueryDescription(value: QueryDescripton)
+  {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTION, value);
+  }
+
+  public get Log(): string[]
+  {
+    return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.LOG) ?? [];
+  }
+
+  public set Log(value: string[])
+  {
+    this.SetPropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.LOG, value);
+  }
 }

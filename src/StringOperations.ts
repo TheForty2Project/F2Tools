@@ -4,6 +4,24 @@ import { VsCodeUtils } from './VsCodeUtils';
 import * as vscode from 'vscode';
 
 export class StringOperations {
+
+  static PrefixEachLine(lines: string, prefix: string, newLineChars: string = "\n")
+  {
+    //lines.replaceAll("\r\n", "\n").replaceAll("\n", "\n" + Data.MISC.CSV_COMMENT_PREFIX);
+    let result: string[] = [];
+    const linesArray = lines.split(newLineChars);
+    for (let i = linesArray.length -1 ; i > 0; i--)
+    {
+      if (linesArray[i].trim().length === 0)
+        linesArray.pop();
+      else break;
+    }
+    for (const line of linesArray)
+    {
+      result.push(prefix + line);
+    }
+    return result.join(newLineChars);
+  }
   static indentLinesBy(lines: string, indentBy: number): string
   {
     const result: string[] = [];
