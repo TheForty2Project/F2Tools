@@ -6,10 +6,17 @@ import { F2Link } from './F2Link';
 import { IdString } from './IdString';
 import { ItemList } from './ItemList';
 import { StringOperations } from '../StringOperations';
+import { IItemManager } from './ItemManager';
 
 
 export class QueryDescripton extends StandardItem
 {
+  constructor(
+    private _itemManager: IItemManager)
+  {
+    super();
+  }
+
   public get OrderBy(): string[]
   {
     return this.GetStringSequencePropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.ORDERBY) ?? [];
@@ -45,7 +52,7 @@ export class QueryDescripton extends StandardItem
   public get Where(): WherePartOfQuery
   {
     const value = this.TryGetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
-    return value instanceof WherePartOfQuery ? value : new WherePartOfQuery();
+    return value instanceof WherePartOfQuery ? value : new WherePartOfQuery(this._itemManager);
   }
 
   public set Where(value: WherePartOfQuery)
@@ -97,7 +104,7 @@ export class QueryDescripton extends StandardItem
 
   public readonly ChildItems = new ItemList<F2YamlWorkspaceItem>(this, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
 
-  override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): QueryDescripton
+  override async ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): Promise<QueryDescripton>
   {
     let yamlMap: yaml.YAMLMap = itemYamlPair.value!;
     this.OutputFile = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE) ?? "";
@@ -124,12 +131,12 @@ export class QueryDescripton extends StandardItem
     const whereYamlMap = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
     if (whereYamlMap instanceof yaml.YAMLMap)
     {
-      this.Where = new WherePartOfQuery().ImportFromYamlMap(whereYamlMap);
+      this.Where = await new WherePartOfQuery(this._itemManager).ImportFromYamlMap(whereYamlMap);
       this.ChildItems.ResetTo([this.Where]);
     }
-    else this.Where = new WherePartOfQuery();
+    else this.Where = new WherePartOfQuery(this._itemManager);
 
-    super.ImportFromYamlNode(itemYamlPair, processedPropertyIds?.concat([
+    await super.ImportFromYamlNode(itemYamlPair, processedPropertyIds?.concat([
       Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE,
       Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT,
       Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM,
@@ -261,6 +268,11 @@ enum RowDeletingBehavior
 
 export class WherePartOfQuery extends F2YamlWorkspaceItem
 {
+  constructor(
+    private _itemManager: IItemManager)
+  {
+    super();
+  }
 
   public get LeavesOnly(): boolean
   {
@@ -311,9 +323,16 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem
   public set SkipUnder(value: F2Link[])
   {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER, value);
+  }  
+
+  private _skipUnderItems?: F2YamlWorkspaceItem[] = undefined;
+
+  public get SkipUnderItems(): F2YamlWorkspaceItem[]
+  {
+    return this._skipUnderItems ?? [];
   }
 
-  public ImportFromYamlMap(yamlMap: yaml.YAMLMap, processedPropertyIds: string[] = []): WherePartOfQuery
+  public async ImportFromYamlMap(yamlMap: yaml.YAMLMap, processedPropertyIds: string[] = []): Promise<WherePartOfQuery>
   {
     const leavesOnlyPropValue = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) ?? true;
     if (!F2YamlUtils.IsBoolean(leavesOnlyPropValue))
@@ -328,7 +347,15 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem
     this.TaggedBy = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY) ?? [];
     this.ItemTypes = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.ITEMTYPES) ?? [];
     this.SkipUnder = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPUNDER) ?? []);
-    super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
+    this._skipUnderItems = [];
+    for (let link of this.SkipUnder)
+    {
+      let item = await this._itemManager.tryGetItem(link);
+      if (item)
+        this._skipUnderItems.push(item);
+    }            
+
+    await super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
       Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY,
       Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES,
       Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.TAGGEDBY,

@@ -6,7 +6,7 @@ export class Data
     TASK_STATUS: {
       ID: "Status",
       TYPEIDS: ["Task", "Bug"],
-      MEMBERS: ["DraftTODO", "TODO", "EstTODO", "InProgress", "Done", "CurrentFocus", "Blocked", "NEXT", "Scheduled", "OnGoing", "OnHold", "Cancelled", "Paused", "Closed"]
+      MEMBERS: ["DraftTODO", "TODO", "EstTODO", "InProgress", "Done", "CurrentFocus", "Blocked", "NEXT", "Scheduled", "OnGoing", "OnHold", "Cancelled", "Paused", "Closed", "Deleted"]
     },
     REQUIREMENT_STATUS:
     {

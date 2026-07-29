@@ -1,9 +1,11 @@
-import { ItemParsingError, ItemParsingErrorType } from './BasicItems';
+import { InvalidOperationError, ItemParsingError, ItemParsingErrorType } from './BasicItems';
 import { IdString } from './IdString';
 
 export class F2Link {
   private readonly filePathParts: readonly string[];
   private readonly yamlPathParts: readonly YamlPathPart[];
+
+  public static readonly Empty: F2Link = new F2Link([], []);
 
   public get FilePathParts(): readonly string[] {
     return this.filePathParts;
@@ -14,7 +16,7 @@ export class F2Link {
   }
 
   public get FilePathString(): string {
-    return this.filePathParts.join("\\") + "\\";
+    return this.filePathParts.join("\\");
   }
 
   public get YamlPathString(): string { 
@@ -27,7 +29,7 @@ export class F2Link {
   private constructor(filePathParts: string[], yamlPathParts: YamlPathPart[]) {
     this.filePathParts = Object.freeze([...filePathParts]);
     this.yamlPathParts = Object.freeze([...yamlPathParts]); 
-  }
+  }  
 
   public GetPathLink(): F2Link
   {
@@ -36,6 +38,23 @@ export class F2Link {
 
   public static CreateFromParts(filePathParts: string[], yamlPathParts: YamlPathPart[]): F2Link {
     return new F2Link(filePathParts, yamlPathParts);
+  }
+
+  public static AppendPartToLink(f2Link: F2Link, part: string | YamlPathPart): F2Link
+  {
+    if (typeof part === "string")
+    { 
+      if (!f2Link.IsPathLink())
+        throw new InvalidOperationError("Can't append a file path part to a non-path link");
+      return new F2Link([...f2Link.filePathParts, part], [])
+    }
+
+    return new F2Link([...f2Link.filePathParts], [part])
+  }
+
+  public IsPathLink(): boolean
+  {
+    return this.yamlPathParts.length === 0;
   }
 
   public static TryParseString(f2LinkString: string): F2Link | ItemParsingError {
@@ -292,7 +311,7 @@ export class F2Link {
   }
 
   public toString(): string {
-    return "-->" + this.FilePathString + this.YamlPathString + "<";
+    return "-->" + this.FilePathString + "\\" + this.YamlPathString + "<";
   }
 }
 

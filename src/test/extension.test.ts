@@ -60,7 +60,7 @@ suite('Extension Test Suite', () => {
 		}
 	});
 
-	test('GetF2Link generates links complying with the specification', () => {
+	test('GetF2Link generates links complying with the specification', async () => {
 		class TestStandardItem extends StandardItem {}
 
 		const createStandardItem = (
@@ -199,7 +199,7 @@ suite('Extension Test Suite', () => {
 			assert.strictEqual(item.GetF2Link(preference).toString(), expected);
 	});
 
-	test('Stores further yaml representation information', () => {
+	test('Stores further yaml representation information', async () => {
 		class TestStandardItemForYamlRepresentation extends StandardItem {}
 
 		const parsed = yaml.parseDocument(`
@@ -218,7 +218,7 @@ Done .My task:
 			: undefined;
 
 		assert.ok(rootPair !== undefined);
-		const item = new TestStandardItemForYamlRepresentation().ImportFromYamlScalarMapPair(rootPair as yaml.Pair<yaml.Scalar, yaml.YAMLMap>);
+		const item = await new TestStandardItemForYamlRepresentation().ImportFromYamlScalarMapPair(rootPair as yaml.Pair<yaml.Scalar, yaml.YAMLMap>);
 
 		assert.strictEqual(item.YamlRepresentation.IsMapFlowStyle, false);
 		assert.deepStrictEqual(item.YamlRepresentation.AdditionalPropertiesPropertyIds, ['CreatedBy', 'CreatedAt']);

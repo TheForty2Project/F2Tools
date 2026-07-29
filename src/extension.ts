@@ -1,11 +1,9 @@
 import * as vscode from 'vscode';
 import { Commands } from './Commands';
+import { createApplicationServices } from './Items/ItemManager';
+import { Message } from './Messaging';
 export function activate(context: vscode.ExtensionContext) {
 
-
-  const disposableForReportsExecute = vscode.commands.registerCommand('F2Tools.Reports.Execute', async () => {
-    await Commands.executeQuery();
-  });
 
   const disposableForReportsWriteBack = vscode.commands.registerCommand('F2Tools.Reports.WriteBack', async () => {
     await Commands.writeBackFromReport();
@@ -47,8 +45,24 @@ export function activate(context: vscode.ExtensionContext) {
     await Commands.generateCSV();
   });
 
-  context.subscriptions.push(
-    disposableForReportsExecute,
+  vscode.window.showInformationMessage("Start");
+  
+  const workspaceRoot =
+    vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+
+  if (!workspaceRoot)
+  {
+    Message.err("no workspace root");
+    return;
+  }
+
+  const services = createApplicationServices(workspaceRoot);
+
+  context.subscriptions.push(    
+    vscode.commands.registerCommand('F2Tools.Reports.Execute', async () =>
+      {
+        await Commands.executeQuery(services.itemManager);
+      }),
     disposableForReportsWriteBack,
     disposableForSr,
     disposableForTaskSelection,
@@ -60,6 +74,9 @@ export function activate(context: vscode.ExtensionContext) {
     disposableForF2yamlLinkFollower,
     disposableForCSVGeneration
   );
+  
+
+
 }
 
 export function deactivate() { }

@@ -333,9 +333,9 @@ export class F2YamlWorkspaceItem
 
 
 
-  public TryGetValue(yamlPathParts: YamlPathPart[]): F2YamlWorkspaceItemPropertyValue | undefined
+  public TryGetValue(yamlPathParts: readonly YamlPathPart[]): F2YamlWorkspaceItemPropertyValue | undefined
   {
-    const itemMatchesPart = (item: F2YamlWorkspaceItem, part: ItemIdentiferPart): boolean =>
+    const doesItemMatchPart = (item: F2YamlWorkspaceItem, part: ItemIdentiferPart): boolean =>
     {
       if (part.NumberSuffix)
         throw new Error("Number suffixes in F2LinkParts are not yet supported.");
@@ -377,7 +377,7 @@ export class F2YamlWorkspaceItem
               return value.TryGetValue(yamlPathParts.slice(1))
             else if (nextPart instanceof ItemIdentiferPart)
             { 
-              if (itemMatchesPart(value, nextPart))
+              if (doesItemMatchPart(value, nextPart))
               {
                 if (yamlPathParts.length === 2)
                   return value;
@@ -397,7 +397,7 @@ export class F2YamlWorkspaceItem
             }
             for (const item of value)
             {
-              if (itemMatchesPart(item, itemIdentifierPart))
+              if (doesItemMatchPart(item, itemIdentifierPart))
                 return item.TryGetValue(yamlPathParts.slice(1));
             }
           }
@@ -410,7 +410,7 @@ export class F2YamlWorkspaceItem
     else if (currentPart instanceof ItemIdentiferPart)
     {
       for (const child of this.Children) //the "default" Items
-        if (itemMatchesPart(child, currentPart))
+        if (doesItemMatchPart(child, currentPart))
           return child.TryGetValue(yamlPathParts.slice(1));
     }
 
@@ -609,7 +609,7 @@ export class F2YamlWorkspaceItem
     return result;
   }
 
-  protected ParsePropertyValue(yamlNode: yaml.Node | yaml.Pair<unknown, unknown>, parentItem: F2YamlWorkspaceItem, parentProperty?: string): F2YamlWorkspaceItemPropertyValue
+  protected async ParsePropertyValue(yamlNode: yaml.Node | yaml.Pair<unknown, unknown>, parentItem: F2YamlWorkspaceItem, parentProperty?: string): Promise<F2YamlWorkspaceItemPropertyValue>
   {
     if (yamlNode instanceof yaml.Scalar)
     {
@@ -646,9 +646,9 @@ export class F2YamlWorkspaceItem
       {
         let item = new F2YamlWorkspaceItem();
         if (yamlNode instanceof yaml.YAMLMap)          
-          item = new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode);
+          item = await new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode);
         else if (yamlNode.key instanceof yaml.Scalar && yamlNode.value !== null && yamlNode.value !== undefined)
-          item = new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode as yaml.Pair<yaml.Scalar, yaml.Node>);
+          item = await new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode as yaml.Pair<yaml.Scalar, yaml.Node>);
 
         item.BelongsToItem = parentItem;
         item.BelongsToProperty = parentProperty;
@@ -666,7 +666,7 @@ export class F2YamlWorkspaceItem
   }
 
   //TODO: make this a static method which returns an F2YamlItem (based on the determined type, so StandardItem if there's an Id, etc)  
-  public ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: string[] = []): F2YamlWorkspaceItem
+  public async ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: string[] = []): Promise<F2YamlWorkspaceItem>
   {
     let header = ItemHeader.Empty;
     let yamlMap: yaml.YAMLMap | undefined;
@@ -726,7 +726,7 @@ export class F2YamlWorkspaceItem
             if (processedPropertyIds.includes(additionalPropertyId))
               continue;
 
-            this.SetPropertyValue(additionalPropertyId, this.ParsePropertyValue(additionalProperty.value as yaml.Node, this, additionalPropertyId));
+            this.SetPropertyValue(additionalPropertyId, await this.ParsePropertyValue(additionalProperty.value as yaml.Node, this, additionalPropertyId));
           }
         }
         continue;
@@ -738,7 +738,7 @@ export class F2YamlWorkspaceItem
         if (processedPropertyIds.includes(propertyId))
           continue;
 
-        let propertyValue = this.ParsePropertyValue(pair.value as yaml.Node, this, propertyId);
+        let propertyValue = await this.ParsePropertyValue(pair.value as yaml.Node, this, propertyId);
 
         //TODO: reconsider/remove this "if" when there's proper parsing - i.e. it's StandardItem's job to handle this maybe
         if (propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.ID && header.HeaderType === ItemYamlHeaderType.Id && propertyValue !== header.Id
@@ -755,7 +755,7 @@ export class F2YamlWorkspaceItem
 
       if (F2YamlWorkspaceItem.IsItemYaml(pair))
       {
-        var item = new F2YamlWorkspaceItem().ImportFromYamlNode(pair as yaml.Pair<yaml.Scalar, yaml.Node>);
+        var item = await new F2YamlWorkspaceItem().ImportFromYamlNode(pair as yaml.Pair<yaml.Scalar, yaml.Node>);
         this.Children.Add(item);
         continue;
       }
@@ -802,12 +802,179 @@ export class F2YamlWorkspaceItem
     return this;
   }
 
-  public ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): F2YamlWorkspaceItem
+  public async ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): Promise<F2YamlWorkspaceItem>
   {
     return this.ImportFromYamlNode(itemYamlPair, processedPropertyIds);
   }
 
+  public F2LinkCache: Map<LinkTypePreference, F2Link> = new Map<LinkTypePreference, F2Link>();
+
   public GetF2Link(linkTypePreference: LinkTypePreference = LinkTypePreference.None): F2Link
+  {
+    const getOccurrenceIndex = (item: F2YamlWorkspaceItem, identifierFactory: (candidate: F2YamlWorkspaceItem) => string | undefined): number | undefined =>
+    {
+      const parent = item.BelongsToItem;
+      const propertyId = item.BelongsToProperty;
+      if (parent === undefined || propertyId === undefined)
+        return undefined;
+
+      const propertyValue = parent.TryGetPropertyValue(propertyId);
+      if (!(propertyValue instanceof ItemList))
+        return undefined;
+
+      const identifier = identifierFactory(item);
+      if (identifier === undefined)
+        return undefined;
+
+      let sameIdentifierCount = 0;
+      let occurrenceIndex = -1;
+      for (const candidate of propertyValue)
+      {
+        const candidateIdentifier = identifierFactory(candidate);
+        if (candidateIdentifier !== identifier)
+          continue;
+
+        if (candidate === item)
+          occurrenceIndex = sameIdentifierCount;
+
+        sameIdentifierCount++;
+      }
+
+      return sameIdentifierCount > 1 ? occurrenceIndex : undefined;
+    };
+    const createItemIdentifierPart = (item: F2YamlWorkspaceItem, preference: LinkTypePreference): YamlPathPart =>
+    {
+      const idValue = item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ?? "";
+      const summaryValue = item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ?? "";
+      const typeValue = item.TypeId;
+
+      const createItemIdPart = () =>
+      {
+        const number = getOccurrenceIndex(item, candidate => candidate instanceof StandardItem && candidate.Id.length > 0 ? candidate.Id : undefined);
+        return new ItemIdPart(idValue, number);
+      };
+
+      const createSummaryPart = () =>
+      {
+        const number = getOccurrenceIndex(item, candidate => candidate instanceof StandardItem && candidate.Summary.length > 0 ? candidate.Summary : undefined);
+        return new SummaryPart(summaryValue, number);
+      };
+
+      const createTypeIdPart = () =>
+      {
+        const number = getOccurrenceIndex(item, candidate => candidate.TypeId.length > 0 ? candidate.TypeId : undefined);
+        return new TypeIdPart(item.TypeId, number);
+      };
+
+      if (preference === LinkTypePreference.Summary)
+      {
+        if (summaryValue.length > 0)
+          return createSummaryPart();
+        if (idValue.length > 0)
+          return createItemIdPart();
+        if (typeValue.length > 0)
+          return createTypeIdPart();
+      }
+      else if (preference === LinkTypePreference.Id)
+      {
+        if (idValue.length > 0)
+          return createItemIdPart();
+        if (summaryValue.length > 0)
+          return createSummaryPart();
+        if (typeValue.length > 0)
+          return createTypeIdPart();
+      }
+      else
+      {
+        switch (item.YamlRepresentation.HeaderType)
+        {
+          case ItemYamlHeaderType.Id:
+            if (idValue.length > 0)
+              return createItemIdPart();
+            break;
+          case ItemYamlHeaderType.Summary:
+            if (summaryValue.length > 0)
+              return createSummaryPart();
+            break;
+          case ItemYamlHeaderType.TypeId:
+            if (typeValue.length > 0)
+              return createTypeIdPart();
+            break;
+        }
+
+        if (item.BelongsToItem !== undefined && item.BelongsToProperty !== undefined && !(item.BelongsToItem.TryGetPropertyValue(item.BelongsToProperty) instanceof ItemList))
+        {
+          if (item.YamlRepresentation.HeaderType !== ItemYamlHeaderType.None)
+            return createItemIdentifierPart(item, LinkTypePreference.Id);
+
+          throw new Error('Headerless non-list property items should be skipped by the caller.');
+        }
+
+        if (idValue.length > 0)
+          return createItemIdPart();
+        if (summaryValue.length > 0)
+          return createSummaryPart();
+        if (typeValue.length > 0)
+          return createTypeIdPart();
+      }
+
+      OutputChannelLogger.logWarning("Unable to generate F2Link item identifier part.")
+      return new ItemIdPart("ERROR");
+    };
+
+    if (this.F2LinkCache.has(linkTypePreference))
+      return this.F2LinkCache.get(linkTypePreference)!;
+
+    let result: F2Link = F2Link.Empty;
+
+    if (this.BelongsToItem !== undefined)
+      result = this.BelongsToItem.GetF2Link(linkTypePreference);
+
+    if (this.YamlRepresentation.RepresentationType !== ItemRepresentationType.Node)
+    {
+      if (isNullOrEmpty(this.YamlRepresentation.WSRelativePath))
+        throw new InvalidOperationError("Bug: item.YamlRepresentation.WSRelativePath should not be empty.");
+      let filePathPartValue: string = this.YamlRepresentation.WSRelativePath;
+      let fileName: string = path.basename(filePathPartValue);
+
+      if (this.YamlRepresentation.RepresentationType === ItemRepresentationType.File)
+        fileName = fileName.replace(/\.(yml|yaml)$/i, '');
+
+      result = F2Link.AppendPartToLink(result, fileName);
+    }      
+    else
+    {
+      if (this.BelongsToItem !== undefined && this.BelongsToItem.YamlRepresentation.RepresentationType === ItemRepresentationType.Node)
+      {        
+        if (this.BelongsToProperty !== undefined)
+        {
+          const parentPropertyValue = this.BelongsToItem.TryGetPropertyValue(this.BelongsToProperty);
+          //TODO: update this once there's classdescription support
+          const isItemList = parentPropertyValue instanceof ItemList;
+          const shouldRenderProperty = !isItemList || this.BelongsToItem.YamlRepresentation.RenderDefaultListPropertyId || this.BelongsToProperty !== 'Items';
+          if (shouldRenderProperty)
+            result = F2Link.AppendPartToLink(result, new PropertyIdPart(this.BelongsToProperty));
+
+          if (isItemList)
+            result = F2Link.AppendPartToLink(result, createItemIdentifierPart(this, linkTypePreference));
+        }
+        else 
+          result = F2Link.AppendPartToLink(result, createItemIdentifierPart(this, linkTypePreference));
+      }
+      else
+      {
+        result = F2Link.AppendPartToLink(result, createItemIdentifierPart(this, linkTypePreference));
+      }
+    }
+
+    this.F2LinkCache.set(linkTypePreference, result);
+    return result;
+  }
+
+  /**
+  * @deprecated Use GetF2Link instead.
+  */
+  public GetF2Link_old(linkTypePreference: LinkTypePreference = LinkTypePreference.None): F2Link
   {
     const buildFilePathParts = (item: F2YamlWorkspaceItem): void =>
     {
@@ -818,7 +985,7 @@ export class F2YamlWorkspaceItem
         return;
 
       if (isNullOrEmpty(item.YamlRepresentation.WSRelativePath))
-        throw new InvalidOperationError("Bug: item.YamlRepresentation.FSEntryName should not be empty.");
+        throw new InvalidOperationError("Bug: item.YamlRepresentation.WSRelativePath should not be empty.");
       let filePathPartValue: string = item.YamlRepresentation.WSRelativePath;
 
       if (item.BelongsToItem === undefined)
@@ -1192,7 +1359,7 @@ export class StandardItem extends F2YamlWorkspaceItem
   //copied from System/Types.yaml:
 
   //TODO: Add a parameter "belongsTo?: BelongsTo" to all ImportFromYamlNode and ImportFromYamlScalarMapPair (including overrides) as the 2nd parameter, put "TODO" to the call sites
-  public override ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds?: string[]): StandardItem
+  public override async ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds?: string[]): Promise<StandardItem>
   {
     let header = ItemHeader.Empty;
     let yamlMap: yaml.YAMLMap | undefined;
@@ -1259,7 +1426,7 @@ export class StandardItem extends F2YamlWorkspaceItem
     else if (this.Header.Summary)
       this.Summary = this.Header.Summary;
 
-    super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
+    await super.ImportFromYamlNode(yamlMap, processedPropertyIds?.concat([
       Data.SYSTEM_CLASSES.STANDARDITEM.ID,
       Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY,
     ]));
@@ -1267,7 +1434,7 @@ export class StandardItem extends F2YamlWorkspaceItem
     return this;
   }
 
-  public override ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds?: string[]): StandardItem
+  public override async ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds?: string[]): Promise<StandardItem>
   {    
     return this.ImportFromYamlNode(itemYamlPair, processedPropertyIds);
 

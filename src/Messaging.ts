@@ -56,6 +56,7 @@ export class OutputChannelLogger
       try
       {
         this.Output = vscode.window.createOutputChannel("F2Tools", {log: true});
+        this.Output!.show();
       }
       catch (err: any)
       {
@@ -74,8 +75,6 @@ export class OutputChannelLogger
         this.Output.warn(message);
       else if (logLevel === OutputChannelLogLevel.Error)
         this.Output.error(message);
-
-      OutputChannelLogger.Output!.show();
     }
   }
 
