@@ -49,7 +49,7 @@ export class F2Link {
       return new F2Link([...f2Link.filePathParts, part], [])
     }
 
-    return new F2Link([...f2Link.filePathParts], [part])
+    return new F2Link([...f2Link.filePathParts], [...f2Link.YamlPathParts, part])
   }
 
   public IsPathLink(): boolean
@@ -327,7 +327,7 @@ export class PropertyIdPart extends YamlPathPart
     this.PropertyId = propertyId;
   }
 
-  public toString(): string
+  public override toString(): string
   {
     return this.PropertyId;
   }
@@ -354,7 +354,7 @@ export class ItemIdPart extends ItemIdentiferPart {
     this.ItemId = itemId;
   }
 
-  public toString(): string {
+  public override toString(): string {
     return "." + this.ItemId + (this.NumberSuffix ?? "");
   }
 }
@@ -368,7 +368,7 @@ export class InternalIdPart extends ItemIdentiferPart {
     this.InternalId = internalId;
   }
 
-  public toString(): string {
+  public override toString(): string {
     return ".{" + this.InternalId + "}" + (this.NumberSuffix ?? "");
   }
 }
@@ -383,7 +383,7 @@ export class TypeIdPart extends ItemIdentiferPart
     this.TypeId = typeId;
   }
 
-  public toString(): string
+  public override toString(): string
   {
     return ".<" + this.TypeId + ">" + (this.NumberSuffix ?? "");
   }
@@ -398,7 +398,7 @@ export class SummaryPart extends ItemIdentiferPart {
     this.Summary = summary;
   }
 
-  public toString(): string {
+  public override toString(): string {
     return ".\"" + this.Summary + "\"" + (this.NumberSuffix ?? "");
   }
 }

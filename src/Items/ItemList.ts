@@ -10,6 +10,7 @@ export enum ItemListChangeType {
   Remove
 }
 
+//TODO: make this 
 export class ItemList<TItem extends F2YamlWorkspaceItem> implements Iterable<TItem> {
   private readonly items: TItem[] = [];
 
@@ -20,6 +21,23 @@ export class ItemList<TItem extends F2YamlWorkspaceItem> implements Iterable<TIt
 
   public get Count(): number {
     return this.items.length;
+  }
+
+  public get(index: number): TItem
+  {
+    return this.items[index];
+  }
+
+  public set(index: number, value: TItem)
+  {
+    this.items[index] = value;
+    (this.items[index] as ParentAwareItem).SetParentItemAndProperty(this.PartOfItem, this.PropertyId);
+  }
+
+  public removeAt(index: number)
+  {
+    this.items.splice(index);
+    (this.items[index] as ParentAwareItem).RemoveFromItemList(this);
   }
 
   public Add(item: TItem): void {

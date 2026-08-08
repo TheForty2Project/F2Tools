@@ -31,7 +31,14 @@ export class Message
 
 export class OutputChannelLogger
 {
-  static LogLevel?: OutputChannelLogLevel = undefined;
+  private static _logLevel?: OutputChannelLogLevel = undefined;
+
+  public static get LogLevel(): OutputChannelLogLevel
+  {
+    if (this._logLevel === undefined)
+      this._logLevel = OutputChannelLogger.parseLogLevel(vscode.workspace.getConfiguration(Data.MISC.EXTENSION_NAME).get<string>(Data.CONFIG.LOG_LEVEL, Data.CONFIG.LOG_LEVEL_DEBUG));
+    return this._logLevel;
+  }
   static Output?: vscode.LogOutputChannel = undefined;
 
   static parseLogLevel(value: string): OutputChannelLogLevel
@@ -49,8 +56,6 @@ export class OutputChannelLogger
 
   static log(message: string, logLevel: OutputChannelLogLevel)
   {
-    if (this.LogLevel === undefined)
-      this.LogLevel = OutputChannelLogger.parseLogLevel(vscode.workspace.getConfiguration(Data.MISC.EXTENSION_NAME).get<string>(Data.CONFIG.LOG_LEVEL, Data.CONFIG.LOG_LEVEL_DEBUG));
     if (this.Output === undefined)
     {
       try

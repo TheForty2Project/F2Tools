@@ -224,7 +224,7 @@ export class QueryDescripton extends StandardItem
 
 
 
-  public IsValid(): ValidationResult
+  public override IsValid(): ValidationResult
   {
     if (this.Select.length === 0)
       return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.SelectPropertyEmptyOrInvalid));
