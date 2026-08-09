@@ -385,7 +385,7 @@ export class QueryExecution
     else if (matchResult === MatchResult.SkipItemAndDescendants)
       return;
 
-    for (const child of item.Children)
+    for (const child of item.Children.Items)
       this.AppendItemRows(selectMap, child, where, rows, alreadyProcessedItems);
 
     for (const value of (item as any).PropertyValuesById.values() as Iterable<unknown>)
@@ -393,7 +393,7 @@ export class QueryExecution
       if (value instanceof F2YamlWorkspaceItem)
         this.AppendItemRows(selectMap, value, where, rows, alreadyProcessedItems);
       else if (value instanceof ItemList && value !== item.Children)
-        for (const childItem of value)
+        for (const childItem of value.Items)
           this.AppendItemRows(selectMap, childItem, where, rows, alreadyProcessedItems);
     }
   }
@@ -429,7 +429,7 @@ export class QueryExecution
         if (value instanceof ItemList)
         {
           let result: string[] = [];
-          for (const item of value)
+          for (const item of value.Items)
             result.push(item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ??
               item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ??
               item.toString());

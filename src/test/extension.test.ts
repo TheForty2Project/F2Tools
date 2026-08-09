@@ -89,7 +89,7 @@ suite('Extension Test Suite', () => {
 		const root = createStandardItem(ItemYamlHeaderType.Id, 'MyItem', undefined, 'Container');
 		root.YamlRepresentation.WSRelativePath = 'CurrentWork\\Bobi\\Test';
 
-		const myItemList = new ItemList<F2YamlWorkspaceItem>(root, 'MyItemList');
+		const myItemList = new ItemList(root, 'MyItemList');
 		root.SetPropertyValue('MyItemList', myItemList);
 
 		const linkToThis1Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
@@ -112,7 +112,7 @@ suite('Extension Test Suite', () => {
 		const linkToThis4 = createNonStandardItem('PropertyOwner');
 		linkToThis4.SetParentItemAndProperty(linkToThis4Owner, 'LinkToThis4');
 
-		const myItemList2 = new ItemList<F2YamlWorkspaceItem>(root, 'MyItemList2');
+		const myItemList2 = new ItemList(root, 'MyItemList2');
     root.SetPropertyValue('MyItemList2', myItemList2);
 
 		const linkToThis5Owner = createStandardItem(ItemYamlHeaderType.TypeId, 'MyTask', 'My Task', 'Task');
@@ -125,7 +125,7 @@ suite('Extension Test Suite', () => {
 		const linkToThis6 = createNonStandardItem('PropertyOwner');
 		linkToThis6.SetParentItemAndProperty(linkToThis6Owner, 'LinkToThis6');
 
-		const myNonStandardItemList = new ItemList<F2YamlWorkspaceItem>(root, 'MyNonStandardItemList');
+		const myNonStandardItemList = new ItemList(root, 'MyNonStandardItemList');
     root.SetPropertyValue('MyNonStandardItemList', myNonStandardItemList);
 
 		const linkToThis7Owner = createNonStandardItem('NonStandardItem');

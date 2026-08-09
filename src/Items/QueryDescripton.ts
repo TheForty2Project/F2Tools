@@ -102,7 +102,7 @@ export class QueryDescripton extends StandardItem
     this.SetPropertyValue(Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE, value);
   }
 
-  public readonly ChildItems = new ItemList<F2YamlWorkspaceItem>(this, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
+  public readonly ChildItems = new ItemList(this, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
 
   override async ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): Promise<QueryDescripton>
   {

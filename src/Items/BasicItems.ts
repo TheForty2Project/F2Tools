@@ -17,9 +17,11 @@ export type F2YamlWorkspaceItemPropertyValue =
   | F2YamlWorkspaceItem
   | F2Link
   | F2Link[]
-  | ItemList<F2YamlWorkspaceItem>
+  | ItemList
   | NotParsedYaml
   | null;
+  
+export type ItemOrF2Link = F2YamlWorkspaceItem | F2Link;
 
 function isNullOrEmpty(value: string | null | undefined): boolean
 {
@@ -295,10 +297,10 @@ export class F2YamlWorkspaceItem
 
   //TODO: this should be in StandardItem once there's proper parsing
   public Header: ItemHeader = ItemHeader.Empty;
-  public Children: ItemList<F2YamlWorkspaceItem> = new ItemList<F2YamlWorkspaceItem>(this, undefined) //temporary measure until we have class and default item list flag support; right now we store the "sub" items here
+  public Children: ItemList = new ItemList(this, undefined) //temporary measure until we have class and default item list flag support; right now we store the "sub" items here
   public BelongsToItem?: F2YamlWorkspaceItem;
   public BelongsToProperty?: string;
-  public readonly InItemLists = new Set<ItemList<F2YamlWorkspaceItem>>();
+  public readonly InItemLists = new Set<ItemList>();
   public YamlRepresentation = new YamlRepresentationDescriptor();  
 
   public get TypeId(): string
@@ -371,6 +373,10 @@ export class F2YamlWorkspaceItem
       {
         for (let item of this.Children)
         {          
+          if (!(item instanceof F2YamlWorkspaceItem)) //this actually shouldn't happen - a Folder should not be able to contain F2Links as a child          
+            continue;
+          
+
           let fileName: string = path.basename(item.YamlRepresentation.WSRelativePath).toLowerCase();          
           let f2LinkFirstPathName = f2Link.FilePathParts[0].toLowerCase();
           if (f2LinkFirstPathName === fileName 
@@ -424,7 +430,7 @@ export class F2YamlWorkspaceItem
                 OutputChannelLogger.logWarning("Expected ItemIdentifierPart");
                 return;
               }
-              for (const item of value)
+              for (const item of value.Items)
               {
                 if (doesItemMatchPart(item, itemIdentifierPart))
                   return item.TryGetValue(F2Link.CreateFromParts([], f2Link.YamlPathParts.slice(1)));
@@ -438,7 +444,7 @@ export class F2YamlWorkspaceItem
       }
       else if (currentPart instanceof ItemIdentiferPart)
       {
-        for (const child of this.Children) //the "default" Items
+        for (const child of this.Children.Items) //the "default" Items
           if (doesItemMatchPart(child, currentPart))
           {
             if (f2Link.YamlPathParts.length === 1)
@@ -608,7 +614,7 @@ export class F2YamlWorkspaceItem
     return this.PropertyValuesById.has(propertyId);
   }
 
-  public SetParentItemAndProperty(parentItem: F2YamlWorkspaceItem, propertyId?: string, itemList?: ItemList<F2YamlWorkspaceItem>): void
+  public SetParentItemAndProperty(parentItem: F2YamlWorkspaceItem, propertyId?: string, itemList?: ItemList): void
   {
     this.BelongsToItem = parentItem;
     this.BelongsToProperty = propertyId;
@@ -616,7 +622,7 @@ export class F2YamlWorkspaceItem
       this.InItemLists.add(itemList);
   }
 
-  public RemoveFromItemList(itemList: ItemList<F2YamlWorkspaceItem>): void
+  public RemoveFromItemList(itemList: ItemList): void
   {
     this.InItemLists.delete(itemList);
     if (this.InItemLists.size === 0)
@@ -710,6 +716,16 @@ export class F2YamlWorkspaceItem
   public IsValid(): ValidationResult
   {
     return ValidationResult.Success();
+  }
+
+  public GetContainingFilePath(): string | undefined
+  {
+    if (this.YamlRepresentation.RepresentationType === ItemRepresentationType.File)
+      return this.YamlRepresentation.WSRelativePath;
+    else if (this.BelongsToItem)
+      return this.BelongsToItem.GetContainingFilePath();
+    else   
+      return undefined;
   }
   
   public async ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds: string[] = []): Promise<F2YamlWorkspaceItem> 
@@ -870,7 +886,7 @@ export class F2YamlWorkspaceItem
 
       let sameIdentifierCount = 0;
       let occurrenceIndex = -1;
-      for (const candidate of propertyValue)
+      for (const candidate of propertyValue.Items)
       {
         const candidateIdentifier = identifierFactory(candidate);
         if (candidateIdentifier !== identifier)
@@ -892,19 +908,19 @@ export class F2YamlWorkspaceItem
 
       const createItemIdPart = () =>
       {
-        const number = getOccurrenceIndex(item, candidate => candidate instanceof StandardItem && candidate.Id.length > 0 ? candidate.Id : undefined);
+        const number = getOccurrenceIndex(item, candidate => candidate.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID));
         return new ItemIdPart(idValue, number);
       };
 
       const createSummaryPart = () =>
       {
-        const number = getOccurrenceIndex(item, candidate => candidate instanceof StandardItem && candidate.Summary.length > 0 ? candidate.Summary : undefined);
+        const number = getOccurrenceIndex(item, candidate => candidate.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY))
         return new SummaryPart(summaryValue, number);
       };
 
       const createTypeIdPart = () =>
       {
-        const number = getOccurrenceIndex(item, candidate => candidate.TypeId.length > 0 ? candidate.TypeId : undefined);
+        const number = getOccurrenceIndex(item, candidate => candidate.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY));
         return new TypeIdPart(item.TypeId, number);
       };
 
@@ -1069,7 +1085,7 @@ export class F2YamlWorkspaceItem
 
       let sameIdentifierCount = 0;
       let occurrenceIndex = -1;
-      for (const candidate of propertyValue)
+      for (const candidate of propertyValue.Items)
       {
         const candidateIdentifier = identifierFactory(candidate);
         if (candidateIdentifier !== identifier)

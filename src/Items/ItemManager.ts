@@ -87,7 +87,7 @@ export class FileItemRepository implements IItemRepository
     {
       if (item.YamlRepresentation.WSRelativePath === wsRelativePath)
         return item;
-      for (let child of item.Children)
+      for (let child of item.Children.Items)
       {
         const foundItem = findItemWithPathRecursive(child);
         if (foundItem)
@@ -142,9 +142,9 @@ export class FileItemRepository implements IItemRepository
         if (item.YamlRepresentation.NeedsReload)
           return this.ResolveItemFromFolder(path.join(this._workspaceRoot, item.YamlRepresentation.WSRelativePath), item)
 
-        for (let i = 0; i < item.Children.Count; i++)
+        for (let i = 0; i < item.Children.Items.length; i++)
         {
-          let reloadedItem = reloadIfNeeded(item.Children.get(i));
+          let reloadedItem = reloadIfNeeded(item.Children.Items[i]);
           if (reloadedItem === undefined)
           {
             item.Children.removeAt(i);
