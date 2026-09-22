@@ -28,7 +28,7 @@ export class ItemList implements Iterable<ItemOrF2Link> {
     return this.items[index];
   }
 
-  public set(index: number, itemOrF2Link: ItemOrF2Link)
+  public setAt(index: number, itemOrF2Link: ItemOrF2Link)
   {
     this.items[index] = itemOrF2Link;
     if (itemOrF2Link instanceof F2YamlWorkspaceItem)

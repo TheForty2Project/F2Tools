@@ -2,7 +2,7 @@ import * as yaml from "yaml";
 import { tryParseNumber, Duration, CSVOperations } from "./CSV-Operations";
 import { Data } from "./Data";
 import { ItemRepresentationType, F2YamlWorkspaceItem, EnumerationDefinition, LinkTypePreference, NotParsedYaml } from "./Items/BasicItems";
-import { F2Link } from "./Items/F2Link";
+import { F2Link, ItemIdentiferPart } from "./Items/F2Link";
 import { ItemHeader, ItemYamlHeaderType } from "./Items/ItemHeader";
 import { ItemList } from "./Items/ItemList";
 import { IItemManager } from "./Items/ItemManager";
@@ -400,7 +400,14 @@ export class QueryExecution
 
   private GetCellValue(item: F2YamlWorkspaceItem, propertyId: string): string
   {
-    switch (propertyId.toUpperCase())
+    const tryGetIdHierarchyNo = (propertyIdUC: string) : number | undefined => 
+    {
+      const match = /^IDHIERARCHY\((\d+)\)$/.exec(propertyIdUC);
+      return match ? Number.parseInt(match[1], 10) : undefined;
+    }    
+
+    let propertyIdUC = propertyId.toUpperCase();
+    switch (propertyIdUC)
     {
       case 'EMPTY':
         return '';
@@ -410,36 +417,48 @@ export class QueryExecution
         return item.GetF2Link(LinkTypePreference.Id).toString();
       case 'SUMMARYLINK':
         return item.GetF2Link(LinkTypePreference.Summary).toString();
-      default: {
-        const value = item.TryGetPropertyValue(propertyId);
-        if (value === undefined || value === null)
-          return '';
-        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean')
-          return String(value);
-        if (value instanceof Date)
-          return value.toISOString();
-        if (value instanceof F2Link)
-          return value.toString();
-        if (Array.isArray(value))
-          return value.map(entry => String(entry)).join(', ');
-        if (value instanceof F2YamlWorkspaceItem)
-          return value.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ??
-            value.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ??
-            item.toString();
-        if (value instanceof ItemList)
-        {
-          let result: string[] = [];
-          for (const item of value.Items)
-            result.push(item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ??
-              item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ??
-              item.toString());
-          return result.join(", ");
-        }
-        if (value instanceof NotParsedYaml)
-          return yaml.stringify(value.yamlNode, { collectionStyle: 'flow' });
-        return String(value);
+    }      
+
+    if (propertyIdUC.startsWith("IDHIERARCHY"))
+    {
+      let numberOfParentIds = tryGetIdHierarchyNo(propertyIdUC);
+      if (!numberOfParentIds)
+      {
+        OutputChannelLogger.logWarning("Invalid IDHIERARCHY format (should be \"IDHIERARCHY(n)\", where \"n\" is a positive integer): " + propertyIdUC);
+        return "";
       }
+
+      return item.GetF2Link(LinkTypePreference.Id).YamlPathParts.filter(part => part instanceof ItemIdentiferPart).map(part => part.Value).slice(-numberOfParentIds).join(".");
     }
+
+    const value = item.TryGetPropertyValue(propertyId);
+    if (value === undefined || value === null)
+      return '';
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean')
+      return String(value);
+    if (value instanceof Date)
+      return value.toISOString();
+    if (value instanceof F2Link)
+      return value.toString();
+    if (Array.isArray(value))
+      return value.map(entry => String(entry)).join(', ');
+    if (value instanceof F2YamlWorkspaceItem)
+      return value.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ??
+        value.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ??
+        item.toString();
+    if (value instanceof ItemList)
+    {
+      let result: string[] = [];
+      for (const item of value.Items)
+        result.push(item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.ID) ??
+          item.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY) ??
+          item.toString());
+      return result.join(", ");
+    }
+    if (value instanceof NotParsedYaml)
+      return yaml.stringify(value.yamlNode, { collectionStyle: 'flow' });
+    return String(value);
+      
   }
 
   private EscapeCsvCell(value: string): string

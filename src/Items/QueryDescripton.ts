@@ -167,7 +167,7 @@ export class QueryDescripton extends StandardItem
 
       if (asIndex < 0)
       {
-        if (!IdString.IsValidIdString(selectItem))
+        if (!IdString.IsValidIdString(selectItem) && !selectItem.startsWith("IDHIERARCHY("))
           throw new ItemParsingError(ItemParsingErrorType.InvalidSelectPropertyName, selectItem);
         result.set(selectItem, null);
         continue;
@@ -176,7 +176,7 @@ export class QueryDescripton extends StandardItem
       const propertyName = selectItem.substring(0, asIndex).trim();
       const columnName = selectItem.substring(asIndex + 4).trim();
 
-      if (!IdString.IsValidIdString(propertyName))
+      if (!IdString.IsValidIdString(propertyName) && !propertyName.startsWith("IDHIERARCHY("))
         throw new ItemParsingError(ItemParsingErrorType.InvalidSelectPropertyName, propertyName);
 
       result.set(propertyName, columnName);
@@ -276,7 +276,7 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem
 
   public get LeavesOnly(): boolean
   {
-    return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) !== false;
+    return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) === true;
   }
 
   public set LeavesOnly(value: boolean)
@@ -286,7 +286,7 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem
 
   public get SkipFoldersAndFiles(): boolean
   {
-    return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES) !== false;
+    return this.TryGetPropertyValue(Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.SKIPFOLDERSANDFILES) === true;
   }
 
   public set SkipFoldersAndFiles(value: boolean)
@@ -334,7 +334,7 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem
 
   public async ImportFromYamlMap(yamlMap: yaml.YAMLMap, processedPropertyIds: string[] = []): Promise<WherePartOfQuery>
   {
-    const leavesOnlyPropValue = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) ?? true;
+    const leavesOnlyPropValue = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.WHEREPARTOFQUERY.LEAVESONLY) ?? false;
     if (!F2YamlUtils.IsBoolean(leavesOnlyPropValue))
       throw new ItemParsingError(ItemParsingErrorType.CantParseAsBoolean, "LeavesOnly");
     this.LeavesOnly = F2YamlUtils.IsTrue(leavesOnlyPropValue);

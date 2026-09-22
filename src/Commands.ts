@@ -39,7 +39,7 @@ export class Commands
       {
         if (!path.isAbsolute(outputFilePath))
         {
-          outputFilePath = path.join(VsCodeUtils.getRootPath() ?? path.dirname(activeDoc.uri.fsPath), outputFilePath);
+          outputFilePath = path.join(VsCodeUtils.tryGetRootPath() ?? path.dirname(activeDoc.uri.fsPath), outputFilePath);
         }
       } else
       {
@@ -76,6 +76,7 @@ export class Commands
 
   }
 
+  //TODO: remove this once 
   static async loadAllFilesFromWS(itemManager: IItemManager)
   {
     let start = performance.now();

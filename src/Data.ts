@@ -12,13 +12,19 @@ export class Data
     {
       ID: "ReqStatus",
       TYPEIDS: ["Requirement", "Milestone"],
-      MEMBERS: ["New", "Drafting", "Draft", "Reviewed", "ReadyForDev", "InDev", "Implemented", "InQA", "BugFixing", "QAPassed", "Done", "Closed"]
+      MEMBERS: ["New", "Drafting", "Draft", "Reviewed", "Estimated", "ReadyForDev", "InDev", "Implemented", "InQA", "BugFixing", "QAPassed", "Done", "Closed", "Obsolete"]
     },   
     ARTICLE_MATURITY:
     {
       ID: "Maturity",
       TYPEIDS: ["Article"],
       MEMBERS: ["0-New", "1-SomeProgress", "2-HighLevel", "3-Detailing", "4-AlmostDone", "5-Done", "6-Reviewed", "7-Mature", "8-Gandalf"]
+    },
+    ARTICLE_COULDSHOULDMUST:
+    {
+      ID: "Importance",
+      TYPEIDS: ["Article"],
+      MEMBERS: ["Could", "Should", "Must"]
     },
     BUG_LEVELS: {
       ID: "Severity",
@@ -162,6 +168,8 @@ export class Data
     ROOT_PATH: "pathFromRoot",
     CSV_FIELDS: "csvFields",
     WORKSPACE_PATH: "workspacePath",
+    IGNORE_PATHS: "ignorePaths",
+    USER_ID : "userId",
     LOG_LEVEL: "logLevel",
     LOG_LEVEL_NONE: "None",
     LOG_LEVEL_ERROR: "Error",
