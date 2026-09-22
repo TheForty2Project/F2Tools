@@ -32,7 +32,7 @@ export class VsCodeUtils {
   static tryGetRootPath(): string | undefined
   {
     const workspaceFolders = vscode.workspace.workspaceFolders;
-    if (!workspaceFolders)
+    if (!workspaceFolders || workspaceFolders.length === 0)
       return;
 
     if (workspaceFolders.length > 1)

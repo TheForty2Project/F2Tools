@@ -12,6 +12,18 @@ and this project partially adheres to [Semantic Versioning](https://semver.org/s
 
 ---------------
 
+## 3.1.1
+
+### Bugs:
+
+  - Report needs to be generated twice for the changes to be taken into account: 
+    
+    -->Tasks\Software\F2ToolsExtension\..Bugs.."Report needs to be generated twice for the changes to be taken into account"<
+
+  - The file name part in F2Link does not get generated for certain Items:
+  
+    -->Tasks\Software\F2ToolsExtension\..Bugs.."The file name part in F2Link does not get generated for certain Items"<
+
 ## 3.1.0
 
 ### Features:
@@ -23,7 +35,7 @@ and this project partially adheres to [Semantic Versioning](https://semver.org/s
 
   - The value of Id field is not taken into account if it's inside the additional properties part
 
-    -->Tasks\Software\F2ToolsExtension\.Bugs..]"The value of Id field is not taken into account if it's inside the additional properties part"<
+    -->Tasks\Software\F2ToolsExtension\.Bugs.."The value of Id field is not taken into account if it's inside the additional properties part"<
 
 ## 2.0.26
 

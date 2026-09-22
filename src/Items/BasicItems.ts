@@ -135,6 +135,11 @@ export class F2YamlRange
     const nodeEnd = range[2] ?? range[1];
     return new F2YamlRange(start, valueEnd, nodeEnd);
   }
+
+  public toString(): string
+  {
+    return this.Start + ".." + this.ValueEnd + "(" + this.NodeEnd + ")";
+  }
 }
 
 export enum ItemRepresentationType
@@ -454,7 +459,7 @@ export class F2YamlWorkspaceItem
           }
       }
     }
-    else 
+    else
       return this;
 
     if (OutputChannelLogger.LogLevel && OutputChannelLogger.LogLevel >= OutputChannelLogLevel.Debug)
@@ -485,12 +490,33 @@ export class F2YamlWorkspaceItem
 
   private static IsHeaderlessItemYaml(yamlNode: yaml.YAMLMap): boolean
   {
-    return yamlNode.items.every(
-      property => property.key instanceof yaml.Scalar
-        && (property.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES
-          || (typeof property.key.value === "string" && (IdString.IsValidIdString(property.key.value) || F2Link.TryParseString(property.key.value)))
-          || ItemHeader.IsValidItemHeader(String(property.key.value)))
-    );
+    //Original code:
+    //
+    //return yamlNode.items.every(
+    //   property => property.key instanceof yaml.Scalar
+    //     && (property.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES
+    //       || (typeof property.key.value === "string" && (IdString.IsValidIdString(property.key.value) || F2Link.TryParseString(property.key.value)))
+    //       || ItemHeader.IsValidItemHeader(String(property.key.value)))
+    // );
+
+    //For debugging purposes:
+    for (const property of yamlNode.items)
+    {
+      if (!(property.key instanceof yaml.Scalar))
+        return false;
+
+      if (property.key.value === Data.F2YAML_ELEMENTS.ADDITIONAL_PROPERTIES)
+        continue;
+
+      if (typeof property.key.value !== "string")
+        return false;
+
+      //TODO: this needs to be uncommented and fixed (the "IsValidItemHEader" part removed probably) but property parsing should handle the "sequence represented as a map" case, also, the case when we're trying to determine whether a file contains an Item (for which the IsValidItemHeader part was originally (and erroneously) present; something like that if it's the full file content then we don't use this, rather, a new "IsFileAnF2Item" method probably)
+      // if (!IdString.IsValidIdString(property.key.value) && !F2Link.TryParseString(property.key.value) && !ItemHeader.IsValidItemHeader(property.key.value))
+      //   return false;
+    }
+
+    return true;
   }
 
   private static IsHeaderOnlyItemYaml(yamlNode: yaml.Pair<unknown, unknown>): boolean
@@ -696,15 +722,15 @@ export class F2YamlWorkspaceItem
     if (yamlNode instanceof yaml.YAMLMap || yamlNode instanceof yaml.Pair)
     {
       if (F2YamlWorkspaceItem.IsItemYaml(yamlNode))
-      {
+      {        
         let item = new F2YamlWorkspaceItem();
-        if (yamlNode instanceof yaml.YAMLMap)
-          item = await new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode);
-        else if (yamlNode.key instanceof yaml.Scalar && yamlNode.value !== null && yamlNode.value !== undefined)
-          item = await new F2YamlWorkspaceItem().ImportFromYamlNode(yamlNode as yaml.Pair<yaml.Scalar, yaml.Node>);
-
         item.BelongsToItem = parentItem;
         item.BelongsToProperty = parentProperty;
+        if (yamlNode instanceof yaml.YAMLMap)
+          await item.ImportFromYamlNode(yamlNode);
+        else if (yamlNode.key instanceof yaml.Scalar && yamlNode.value !== null && yamlNode.value !== undefined)
+          await item.ImportFromYamlNode(yamlNode as yaml.Pair<yaml.Scalar, yaml.Node>);
+
         return item;
       }
       return new NotParsedYaml(yamlNode);
@@ -803,7 +829,7 @@ export class F2YamlWorkspaceItem
           || propertyId === Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY && this.Header.HeaderType === ItemYamlHeaderType.Summary && propertyValue !== this.Header.Summary
           || propertyId === Data.F2YAML_ELEMENTS.PROPERTY_TYPE && this.Header.HeaderType === ItemYamlHeaderType.TypeId && propertyValue !== this.Header.TypeId)
         {
-          OutputChannelLogger.logWarning(new ItemParsingError(ItemParsingErrorType.IdSummaryHeaderCantBeFilledAll, propertyId + ": " + propertyValue + " !== " + this.Header.toString()).message);
+          OutputChannelLogger.logWarning(new ItemParsingError(ItemParsingErrorType.IdSummaryHeaderCantBeFilledAll, propertyId + ": " + propertyValue + " !== " + this.Header.toString() + "; File: " + this.GetContainingFilePath() + "; Position: " + this.YamlRepresentation.DocumentRange).message);
           continue;
         }
 
@@ -813,17 +839,19 @@ export class F2YamlWorkspaceItem
 
       if (F2YamlWorkspaceItem.IsItemYaml(pair))
       {
-        var item = await new F2YamlWorkspaceItem().ImportFromYamlNode(pair as yaml.Pair<yaml.Scalar, yaml.Node>);
+        let item = new F2YamlWorkspaceItem();
         this.Children.Add(item);
+        await item.ImportFromYamlNode(pair as yaml.Pair<yaml.Scalar, yaml.Node>);
         continue;
       }
 
-      let f2Link = F2Link.TryParseString(keyValue)
+      let f2Link = F2Link.TryParseStringOrGetError(keyValue)
       if (f2Link instanceof F2Link)
       {
-        //TODO: Idea is that we'd create a type something like export type ItemOrRef = {F2YamlWorkspaceItem | ItemReference} and ItemLists would store these, with some lazy-resolving maybe. Probably we need to introduce some ItemManager for resolving links
-        OutputChannelLogger.logDebug("F2Link as key is not implemented yet." + this.Header.toString());
+        this.Children.Add(f2Link);
         continue;
+
+        //OutputChannelLogger.logDebug("F2Link as key is not implemented yet. Header: " + this.Header.toString() + " File: " + this.GetContainingFilePath() + " Position: " + this.YamlRepresentation.DocumentRange);        
       }
     }
 

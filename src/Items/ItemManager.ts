@@ -9,28 +9,14 @@ import * as path from "path";
 import * as fs from 'fs';
 import { Data } from "../Data";
 
+//TODO: move this somewhere else
 function removeFrom(text: string, sequence: string): string
 {
   const index = text.lastIndexOf(sequence);
   return index === -1 ? text : text.substring(0, index);
 }
 
-function replaceExtension(filePath: string, newExtension: string): string
-{
-  if (!newExtension.startsWith("."))
-  {
-    newExtension = "." + newExtension;
-  }
-
-  return path.join(
-    path.dirname(filePath),
-    path.basename(filePath, path.extname(filePath)) + newExtension
-  );
-}
-
-
-
-export interface ApplicationServices
+export interface IApplicationServices
 {
   itemManager: IItemManager;
   itemRepository: IItemRepository;
@@ -38,9 +24,9 @@ export interface ApplicationServices
 
 export function createApplicationServices(
   workspaceRoot: string,
-): ApplicationServices
+): IApplicationServices
 {
-  const yamlSerializer = new YamlSerializer();
+  const yamlSerializer = new YamlSerializer(); 
 
   const itemRepository = new FileItemRepository(
     workspaceRoot,
@@ -67,8 +53,10 @@ export interface IItemRepository
 
 export class FileItemRepository implements IItemRepository
 {
+  private _ignorePaths: string[];
+
   constructor(
-    private readonly _workspaceRoot: string,
+    private readonly _workspaceRoot: string,    
     private readonly yamlSerializer: IYamlSerializer
   )
   {
@@ -79,6 +67,19 @@ export class FileItemRepository implements IItemRepository
       )
     );
     this._fsWatcher.onDidChange(this.fileChanged, this)
+    this._ignorePaths = vscode.workspace.getConfiguration(Data.MISC.EXTENSION_NAME).get<string[]>(Data.CONFIG.IGNORE_PATHS, []);
+  }
+
+  private shouldPathBeIgnored(fsPath: string): boolean
+  {
+    for (const ignorePath of this._ignorePaths)
+    {
+      const relativePath = path.relative(path.resolve(this._workspaceRoot, ignorePath), fsPath);
+      if (relativePath === "" ||
+        (relativePath !== ".." && !relativePath.startsWith(".." + path.sep) && !path.isAbsolute(relativePath)))
+        return true;
+    }
+    return false;
   }
 
   private fileChanged(uri: vscode.Uri)
@@ -94,7 +95,10 @@ export class FileItemRepository implements IItemRepository
           return foundItem;
       }
       return undefined;
-    }
+    }    
+
+    if (this.shouldPathBeIgnored(uri.fsPath))
+      return;
 
     let wsRelativePath = path.relative(this._workspaceRoot, uri.fsPath);
     const foundItem = findItemWithPathRecursive(this._workspace!);
@@ -144,28 +148,27 @@ export class FileItemRepository implements IItemRepository
 
         for (let i = 0; i < item.Children.Items.length; i++)
         {
-          let reloadedItem = reloadIfNeeded(item.Children.Items[i]);
+          let reloadedItem = await reloadIfNeeded(item.Children.Items[i]);
           if (reloadedItem === undefined)
           {
             item.Children.removeAt(i);
             i--;
           }
+          else item.Children.setAt(i, reloadedItem)
         }
         return item;
       }
       else return item;
     }
     
-
-
     if (link.FilePathParts.length === 0)
       return;
 
     if (this._workspace === undefined)
     {
-      this._workspace = await this.LoadFileOrFolderFromLink(F2Link.Empty);
-      if (this._workspace === undefined)
-        throw new Error("Can't load workspace: " + this._workspaceRoot);
+      this._workspace = await this.ResolveItemFromFolder(this._workspaceRoot);
+      // if (this._workspace === undefined)
+      //   throw new Error("Can't load workspace: " + this._workspaceRoot);
     }
 
     let f2LinkToFile = F2Link.CreateFromParts([...link.FilePathParts], []);
@@ -173,10 +176,11 @@ export class FileItemRepository implements IItemRepository
 
     if (fileOrFolder)    
     {      
-      if (await reloadIfNeeded(fileOrFolder) === undefined) //i.e. the file got deleted
+      let reloadedItem = await reloadIfNeeded(fileOrFolder);
+      if (reloadedItem === undefined) //i.e. the file got deleted
         throw new Error("Can't re-load file/folder: " + f2LinkToFile);
-      
-      return fileOrFolder.TryGetValue(F2Link.CreateFromParts([], [...link.YamlPathParts])) as F2YamlWorkspaceItem | undefined;
+
+      return reloadedItem.TryGetValue(F2Link.CreateFromParts([], [...link.YamlPathParts])) as F2YamlWorkspaceItem | undefined;
     }
 
     return undefined;
@@ -187,46 +191,45 @@ export class FileItemRepository implements IItemRepository
     throw new Error("Method not implemented.");
   }
 
-  async LoadFileOrFolderFromLink(link: F2Link): Promise<F2YamlWorkspaceItem | undefined>
-  {
-    const workspaceRelativePath = link.FilePathString;
-    let filePath = path.join(this._workspaceRoot, workspaceRelativePath);
+  // async LoadFileOrFolderFromLink(link: F2Link): Promise<F2YamlWorkspaceItem | undefined>
+  // {
+  //   const workspaceRelativePath = link.FilePathString;
+  //   let filePath = path.join(this._workspaceRoot, workspaceRelativePath);
 
-    try
-    {      
-      if (!fs.existsSync(filePath))
-      {
-        if (path.extname(filePath) !== "")
-          throw new Error("Can't find file: " + filePath);
-        filePath = replaceExtension(filePath, "yml");
-        if (!fs.existsSync(filePath))
-        {
-          filePath = replaceExtension(filePath, "yaml");
-          if (!fs.existsSync(filePath))
-            throw new Error("Can't find file: " + filePath);
-        }
-      }
+  //   try
+  //   {      
+  //     if (!fs.existsSync(filePath))
+  //     {
+  //       if (path.extname(filePath) !== "")
+  //         throw new Error("Can't find file: " + filePath);
+  //       filePath = replaceExtension(filePath, "yml");
+  //       if (!fs.existsSync(filePath))
+  //       {
+  //         filePath = replaceExtension(filePath, "yaml");
+  //         if (!fs.existsSync(filePath))
+  //           throw new Error("Can't find file: " + filePath);
+  //       }
+  //     }      
 
-      const stat = await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
-      if ((stat.type & vscode.FileType.Directory) !== 0)
-        return await this.ResolveItemFromFolder(filePath);
+  //     const stat = await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
+  //     if ((stat.type & vscode.FileType.Directory) !== 0)
+  //       return await this.ResolveItemFromFolder(filePath);
 
-      if ((stat.type & vscode.FileType.File) !== 0)
-      {
-        return await this.ResolveItemFromFile(filePath);
-      }
-    }
-    catch (err: any)
-    {
-      OutputChannelLogger.logWarning(`Unable to resolve link ${link.toString()}: ${String(err?.message ?? err)}`);
-    }
-
-    return;
-  }
+  //     if ((stat.type & vscode.FileType.File) !== 0)
+  //     {
+  //       return await this.ResolveItemFromFile(filePath);
+  //     }
+  //   }
+  //   catch (err: any)
+  //   {
+  //     OutputChannelLogger.logWarning(`Unable to resolve link ${link.toString()}: ${String(err?.message ?? err)}`);
+  //   }
+ 
+  //   return;
+  // }
 
   private async ResolveItemFromFolder(folderPath: string, folder: F2YamlWorkspaceItem | undefined = undefined): Promise<F2YamlWorkspaceItem>
   {
-    //const filePath = folderUri.fsPath;
     OutputChannelLogger.logDebug("Parsing folder: " + folderPath);
     if (folder === undefined)
       folder = new Folder();
@@ -242,6 +245,12 @@ export class FileItemRepository implements IItemRepository
     {
       const childPath = path.join(folderPath, name);
 
+      if (this.shouldPathBeIgnored(childPath))
+      {
+        OutputChannelLogger.logDebug("Skipping folder: " + childPath);  
+        continue;
+      }
+      
       if ((type & vscode.FileType.Directory) !== 0)
       {
         const nestedFolder = await this.ResolveItemFromFolder(childPath);

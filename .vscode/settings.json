@@ -1,15 +1,17 @@
 // Place your settings in this file to overwrite default and user settings.
 {
 	"files.exclude": {
-		"out": false // set this to true to hide the "out" folder with the compiled JS files
+		"out": true // set this to true to hide the "out" folder with the compiled JS files
 	},
 	"search.exclude": {
 		"out": true // set this to false to include "out" folder in search results
 	},
 	// Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-	"typescript.tsc.autoDetect": "off",
+  //"typescript.tsc.autoDetect": "off",
+  "js/ts.tsc.autoDetect": "off",
 	// Keep the editor on the same TS version the project compiles with.
-	"typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "js/ts.tsdk.path": "node_modules/typescript/lib"
+	//"typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  //"typescript.enablePromptUseWorkspaceTsdk": true,
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
 }

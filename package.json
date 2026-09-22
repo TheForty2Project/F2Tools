@@ -3,7 +3,7 @@
   "displayName": "F2Tools",
   "description": "",
   "publisher": "TF2P",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/TheForty2Project/F2Tools/"
@@ -64,9 +64,9 @@
       }
     ],
     "configuration": {
-      "title": "F2Tools",
+      "title": "F2Tools", 
       "properties": {
-        "F2Tools.logLevel": {
+        "f2tools.logLevel": {
           "type": "string",
           "default": "Info",
           "enum": [
@@ -81,21 +81,21 @@
             "Show only errors",
             "Show warnings and errors",
             "Show informational messages, warnings and errors",
-            "Show all messages"
+            "Show all messages, including debugging related"
           ],
           "description": "Controls the extension log level."
         },
-        "F2Tools.userName": {
+        "f2tools.userId": {
           "type": "string",
           "default": "YourUserName",
           "description": "Your username"
         },
-        "F2Tools.pathSeparator": {
+        "f2tools.pathSeparator": {
           "type": "string",
           "description": "The separator to use in the extracted YAML path.",
           "default": "."
         },
-        "F2Tools.csvFields": {
+        "f2tools.csvFields": {
           "type": "array",
           "description": "Fields of the csv generated.",
           "items": {
@@ -110,7 +110,7 @@
             "DependsOn"
           ]
         },
-        "F2Tools.workspacePath": {
+        "f2tools.workspacePath": {
           "type": "string",
           "description": "If you are using the extension without workspace enter the workspace path here",
           "default": ""
