@@ -5,12 +5,20 @@ All notable changes to the F2Tools extension are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project partially adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html):
   - The major version (first number) represent "groundbreaking" changes, not API incomaptibility - as there's no API in this extension
-  - The minor version represent additional funcionalities
+  - The minor version represent additional functionalities
   - The patch version represent bugfixes
 
 >You can take a closer look on the DeepDive section of The Forty2 Project site: [deepdive.tf2p.org](https://deepdive.tf2p.org), also, send us a message if you're interested in participating in its development. The links ("F2Links"; the path-looking strings in between --> and <) refer to the Items in its "The Abyss" section (inside "Deep Dive" one) in a way that the parts up until the last "\" represent nodes from the tree - well, file system paths originally but we mirror our file system to the site - and the ones separated by "." (dot) represent a yaml path.
 
 ---------------
+
+## 3.2.0
+
+### Features:
+
+  - QueryDescription based CSV Report generation updates:
+    - IDHierarchy(n) support
+    - CSV Report can be re-generated from the CSV file itself
 
 ## 3.1.1
 
