@@ -1,7 +1,7 @@
 import * as yaml from "yaml";
 import { tryParseNumber, Duration, CSVOperations } from "./CSV-Operations";
 import { Data } from "./Data";
-import { ItemRepresentationType, F2YamlWorkspaceItem, EnumerationDefinition, LinkTypePreference, NotParsedYaml } from "./Items/BasicItems";
+import { ItemRepresentationType, F2YamlWorkspaceItem, EnumerationDefinition, LinkTypePreference, NotParsedYaml, ValidationResult } from "./Items/BasicItems";
 import { F2Link, ItemIdentiferPart } from "./Items/F2Link";
 import { ItemHeader, ItemYamlHeaderType } from "./Items/ItemHeader";
 import { ItemList } from "./Items/ItemList";
@@ -11,6 +11,7 @@ import { OutputChannelLogger } from "./Messaging";
 import { StringOperations } from "./StringOperations";
 import { YamlTaskOperations } from "./YamlOperations";
 import * as vscode from 'vscode';
+import { VsCodeUtils } from "./VsCodeUtils";
 
 
 enum MatchResult
@@ -36,15 +37,46 @@ export class QueryExecution
 
   async GetQueryDescriptionUnderTheCursor(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<QueryDescripton>
   {
+    let queryDescription: QueryDescripton | undefined;
 
-    let scalarAndMapPairAtCursor = await this.TryGetEnclosingItemScalarMapPairAtCursor(activeDoc, cursorPosition);
-    if (scalarAndMapPairAtCursor === undefined)
-      throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
+    if (VsCodeUtils.isActiveDocCSV())
+    {
+      const headerRows: string[] = [];
+      for (let lineIndex = 0; lineIndex < activeDoc.lineCount; lineIndex++)
+      {
+        const line = activeDoc.lineAt(lineIndex).text;
+        if (!line.startsWith("#"))
+          break;
+        headerRows.push(line.substring(1));
+      }
 
-    let queryDescription = await new QueryDescripton(this._itemManager).ImportFromYamlScalarMapPair(scalarAndMapPairAtCursor)
-    if (queryDescription.TypeId !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
-      throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
-    return queryDescription;
+      let reportHeader: ReportHeader | undefined;
+      // try
+      // {
+        const documentRoot = (await YamlTaskOperations.parseYamlString(headerRows.join("\n"))).contents;
+        if (yaml.isMap(documentRoot) && documentRoot.items[0] instanceof yaml.Pair && documentRoot.items[0].key instanceof yaml.Scalar && documentRoot.items[0].value instanceof yaml.YAMLMap)
+          reportHeader = await new ReportHeader(this._itemManager).ImportFromYamlNode(documentRoot.items[0] as yaml.Pair<yaml.Scalar, yaml.YAMLMap>);      
+      // }
+      // catch {}
+
+      if (!reportHeader || !reportHeader.IsValid().isValid)
+        throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
+
+      return reportHeader.QueryDescription!;
+    }
+    else
+    {
+      let scalarAndMapPairAtCursor = await this.TryGetEnclosingItemScalarMapPairAtCursor(activeDoc, cursorPosition);
+
+      if (scalarAndMapPairAtCursor === undefined)
+        throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
+
+      queryDescription = await new QueryDescripton(this._itemManager).ImportFromYamlNode(scalarAndMapPairAtCursor)
+      if (queryDescription.TypeId !== Data.SYSTEM_CLASSES.QUERYDESCRIPTION.TYPEID)
+        throw new Error(Data.MESSAGES.ERRORS.MUST_BE_ON_QUERYDESCRIPTION);
+
+      return queryDescription;
+    }
   }
 
   static isValidItemHeader(node: yaml.Node): boolean
@@ -158,9 +190,9 @@ export class QueryExecution
       ...rows.map(row => row.map(value => this.EscapeCsvCell(value)).join(','))
     ];
 
-    const reportHeader = new ReportHeader();
+    const reportHeader = new ReportHeader(this._itemManager);
     reportHeader.QueryDescription = queryDescription;
-    reportHeader.QueryDescriptionLink = queryDescription.GetF2Link();
+    reportHeader.QueryDescriptionLink = queryDescription.GetF2Link(); //TODO: this is now a useless link - does not contain the parents; we'll probably need to get the QueryDescription from ItemManager (or something) to fix this
     reportHeader.CreatedAt = new Date(Date.now());
     reportHeader.CreatedBy = YamlTaskOperations.getName();
     reportHeader.Log = ["Created at " + new Date(Date.now()).toISOString() + "; Added / Updated / Deleted: " + rows.length + " / 0 / 0"];
@@ -400,11 +432,11 @@ export class QueryExecution
 
   private GetCellValue(item: F2YamlWorkspaceItem, propertyId: string): string
   {
-    const tryGetIdHierarchyNo = (propertyIdUC: string) : number | undefined => 
+    const tryGetIdHierarchyNo = (propertyIdUC: string): number | undefined => 
     {
       const match = /^IDHIERARCHY\((\d+)\)$/.exec(propertyIdUC);
       return match ? Number.parseInt(match[1], 10) : undefined;
-    }    
+    }
 
     let propertyIdUC = propertyId.toUpperCase();
     switch (propertyIdUC)
@@ -417,7 +449,7 @@ export class QueryExecution
         return item.GetF2Link(LinkTypePreference.Id).toString();
       case 'SUMMARYLINK':
         return item.GetF2Link(LinkTypePreference.Summary).toString();
-    }      
+    }
 
     if (propertyIdUC.startsWith("IDHIERARCHY"))
     {
@@ -458,7 +490,7 @@ export class QueryExecution
     if (value instanceof NotParsedYaml)
       return yaml.stringify(value.yamlNode, { collectionStyle: 'flow' });
     return String(value);
-      
+
   }
 
   private EscapeCsvCell(value: string): string

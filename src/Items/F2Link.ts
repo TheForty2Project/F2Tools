@@ -2,11 +2,6 @@ import { InvalidOperationError, ItemParsingError, ItemParsingErrorType } from '.
 import { IdString } from './IdString';
 
 export class F2Link {
-  static TryParseString(value: string): boolean
-  {
-    return !(this.TryParseStringOrGetError(value) instanceof Error);
-  }
-
   private readonly filePathParts: readonly string[];
   private readonly yamlPathParts: readonly YamlPathPart[];
 

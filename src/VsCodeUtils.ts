@@ -65,14 +65,23 @@ export class VsCodeUtils {
     if (!activeEditor) throw new Error(Data.MESSAGES.ERRORS.NO_ACTIVE_TEXT_EDITOR);
     return activeEditor;
   }
+ 
+  static isFileNameYaml(fileName: string)
+  {
+    var extension = path.extname(fileName).toLowerCase();
+    return extension === ".yml" || extension === ".yaml";
+  }
 
-  static isThisYamlDoc(): boolean {
+  static isActiveDocYaml(): boolean 
+  {
     const activeDocument = this.getActiveDoc();
-    if (activeDocument.languageId !== Data.MISC.YAML) {
-      Message.err(Data.MESSAGES.ERRORS.THIS_COMMAND_ONLY_WORKS_WITH_YAML_FILES);
-      return false;
-    }
-    return true
+    return activeDocument && (activeDocument.languageId === Data.MISC.YAML || this.isFileNameYaml(activeDocument.fileName));
+  }
+
+  static isActiveDocCSV(): boolean
+  {
+    const activeDocument = this.getActiveDoc();
+    return activeDocument && (activeDocument.languageId === Data.MISC.CSV || path.extname(activeDocument.fileName).toLowerCase() === ".csv");
   }
 
   static getCursorPosition() {

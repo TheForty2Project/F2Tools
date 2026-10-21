@@ -5,6 +5,7 @@ import { VsCodeUtils } from './VsCodeUtils';
 import { YamlTaskOperations } from './YamlOperations';
 import { StringOperations } from './StringOperations';
 import { HackingFixes } from './HackingFixes';
+import { Message} from './Messaging';
 
 
 export class F2yamlLinkExtractor {
@@ -41,7 +42,7 @@ export class F2yamlLinkExtractor {
 
   private static async getPropertyValuesFor(yamlDocSymbolNames: string[], idLink: boolean, activeDoc: vscode.TextDocument): Promise<string[]> {
     let yamlKeyValues: string[] = [];
-    const yamlDoc = await YamlTaskOperations.parseYamlDoc(activeDoc.uri);
+    const yamlDoc = await YamlTaskOperations.parseYamlDocInFile(activeDoc.uri);
     let parentYamlObj = yamlDoc.get(yamlDocSymbolNames[0], true);
     let parentKeyValue = this.getParentValue(parentYamlObj, idLink, yamlDocSymbolNames[0]);
     yamlKeyValues.push(parentKeyValue);
@@ -151,8 +152,13 @@ export class F2yamlLinkExtractor {
     return cleanYamlKeys;
   }
 
-  private static async getYamlDocSymbolNames(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<string[]> {
-    VsCodeUtils.isThisYamlDoc();
+  private static async getYamlDocSymbolNames(activeDoc: vscode.TextDocument, cursorPosition: vscode.Position): Promise<string[]> 
+  {
+    if (!VsCodeUtils.isActiveDocYaml())
+    {
+      Message.err(Data.MESSAGES.ERRORS.THIS_COMMAND_ONLY_WORKS_WITH_YAML_FILES);
+      return [];      
+    }
 
     for (let i = 0; i < 10; i++) {
       let allYamlKeys = await F2yamlLinkExtractor.getVsCodeDocSymbols(activeDoc);

@@ -25,7 +25,7 @@ export class YamlTaskOperations {
 
   static async getYamlObj(yamlKeys: string[], fileUri: vscode.Uri): Promise<any> { // TODO replace the strings with constants
     let yamlObj: any;
-    const yamlDoc = await this.parseYamlDoc(fileUri);
+    const yamlDoc = await this.parseYamlDocInFile(fileUri);
     this.taskYamlDoc = yamlDoc;
     let parentYamlObj: any = yamlDoc.get(yamlKeys[0], true);
 
@@ -159,21 +159,31 @@ export class YamlTaskOperations {
   }
 
 
-  public static async parseYamlDoc(docUri: vscode.Uri): Promise<yaml.Document<yaml.Node, true>> { // TODO chage name to parseYamlDoc
-    const doc = await vscode.workspace.openTextDocument(docUri);
-    const text = doc.getText();
-    try {
-      const lineCounter = new yaml.LineCounter();
-      const yamlDoc: yaml.Document = yaml.parseDocument(text, { lineCounter });
-      this.lineCounter = lineCounter;
-      if (yamlDoc.errors.length > 0) {
+  public static async parseYamlString(str: string, lineCounter? : yaml.LineCounter): Promise<yaml.Document<yaml.Node, true>>
+  {
+    if (!lineCounter)
+      lineCounter = new yaml.LineCounter();
+    try
+    {
+      const yamlDoc: yaml.Document = yaml.parseDocument(str, { lineCounter });       
+      if (yamlDoc.errors.length > 0)
+      {
         let error = yamlDoc.errors[0];
         throw new Error(Data.MESSAGES.ERRORS.PARSING_ERROR(error.message))
       }
       return yamlDoc;
-    } catch (error: any) {
+    } catch (error: any)
+    {
       throw new Error(Data.MESSAGES.ERRORS.FAILED_TO_PARSE_YAML)
     }
+
+  }
+
+  public static async parseYamlDocInFile(docUri: vscode.Uri): Promise<yaml.Document<yaml.Node, true>> {
+    const doc = await vscode.workspace.openTextDocument(docUri);
+    const text = doc.getText();
+    this.lineCounter = new yaml.LineCounter();
+    return this.parseYamlString(text, this.lineCounter);
   }
 
   private static async getSrObj(yamlDoc: yaml.Document, srCode: string) {
@@ -260,7 +270,7 @@ export class YamlTaskOperations {
   }
 
   public static async moveEntryToWasInSr(srEntry: yaml.YAMLMap<unknown, unknown>, srCode: string, srDocUri: vscode.Uri) {
-    const yamlDoc = await this.parseYamlDoc(srDocUri);
+    const yamlDoc = await this.parseYamlDocInFile(srDocUri);
     // if (!yamlDoc) return;
     const wasNode = await this.getWasObj(yamlDoc, srCode);
     // if (!wasNode) return;
@@ -297,7 +307,7 @@ export class YamlTaskOperations {
   }
 
   public static async updateSrEntryDuration(srEntry: yaml.YAMLMap<unknown, unknown>, srCode: string, srDocUri: vscode.Uri, duration: number) {
-    const yamlDoc = await this.parseYamlDoc(srDocUri);
+    const yamlDoc = await this.parseYamlDocInFile(srDocUri);
     let srEntryIndex = await this.findSrEntry(srEntry, yamlDoc, srCode);
     await this.updateDuration(srEntryIndex, duration, yamlDoc, srCode);
     const doc = await vscode.workspace.openTextDocument(srDocUri);
@@ -504,7 +514,7 @@ export class YamlTaskOperations {
   }
 
   public static async checkIfTaskIsAlreadyInSr(srEntry: yaml.YAMLMap<unknown, unknown>, srCode: string, srDocUri: vscode.Uri) {
-    const yamlDoc = await this.parseYamlDoc(srDocUri);
+    const yamlDoc = await this.parseYamlDocInFile(srDocUri);
     // if (!yamlDoc) return;
     const wasNode = await this.getWasObj(yamlDoc, srCode);
     // if (!wasNode) return;
@@ -514,7 +524,7 @@ export class YamlTaskOperations {
   }
 
   public static async generateWorkLogs(srCode: string, srDocUri: vscode.Uri) {
-    const yamlDoc = await this.parseYamlDoc(srDocUri);
+    const yamlDoc = await this.parseYamlDocInFile(srDocUri);
     // if (!yamlDoc) return;
     const wasNode = await this.getWasObj(yamlDoc, srCode);
     // if (!wasNode) return;

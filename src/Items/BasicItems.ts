@@ -263,6 +263,7 @@ export enum ItemParsingErrorType
   ItemHeaderPrefixesMustBeIdStrings,
   CantParseAsIdString,
   InvalidOrderByElement,
+  InvalidReportHeader,
 }
 
 export class ValidationResult

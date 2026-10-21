@@ -157,6 +157,7 @@ export class Data
     CSV_COMMENT_PREFIX: "#",
     EMPTY_STRING: "",
     YAML: "yaml",
+    CSV: "csv",
     EXTENSION_NAME: "F2Tools",
     FILE_DIVIDER: "//",
     DOUBLE_QUOTE: "\"",

@@ -104,9 +104,15 @@ export class QueryDescripton extends StandardItem
 
   public readonly ChildItems = new ItemList(this, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.WHERE);
 
-  override async ImportFromYamlScalarMapPair(itemYamlPair: yaml.Pair<yaml.Scalar, yaml.YAMLMap>, processedPropertyIds: string[] = []): Promise<QueryDescripton>
+  override async ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds?: string[]): Promise<QueryDescripton>
   {
-    let yamlMap: yaml.YAMLMap = itemYamlPair.value!;
+    let yamlMap: yaml.YAMLMap = new yaml.YAMLMap();
+
+    if (itemYamlNode instanceof yaml.YAMLMap)
+      yamlMap = itemYamlNode;
+    else if (itemYamlNode instanceof yaml.Pair && itemYamlNode.value instanceof yaml.YAMLMap)
+      yamlMap = itemYamlNode.value;
+
     this.OutputFile = F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE) ?? "";
     this.Select = F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT) ?? [];
     this.From = F2Link.ParseFromStringArray(F2YamlUtils.TryGetStringSequencePropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM) ?? []);
@@ -132,11 +138,11 @@ export class QueryDescripton extends StandardItem
     if (whereYamlMap instanceof yaml.YAMLMap)
     {
       this.Where = await new WherePartOfQuery(this._itemManager).ImportFromYamlMap(whereYamlMap);
-      this.ChildItems.ResetTo([this.Where]);
     }
     else this.Where = new WherePartOfQuery(this._itemManager);
+    this.ChildItems.ResetTo([this.Where]); //TODO: revise this... for sure it's not right.
 
-    await super.ImportFromYamlNode(itemYamlPair, processedPropertyIds?.concat([
+    await super.ImportFromYamlNode(itemYamlNode, (processedPropertyIds ?? []).concat([
       Data.SYSTEM_CLASSES.QUERYDESCRIPTION.OUTPUTFILE,
       Data.SYSTEM_CLASSES.QUERYDESCRIPTION.SELECT,
       Data.SYSTEM_CLASSES.QUERYDESCRIPTION.FROM,
@@ -220,9 +226,6 @@ export class QueryDescripton extends StandardItem
 
     this._orderByPropertyIdsAscending = result;
   }
-
-
-
 
   public override IsValid(): ValidationResult
   {
@@ -394,7 +397,7 @@ export class WherePartOfQuery extends F2YamlWorkspaceItem
 
 export class ReportHeader extends StandardItem
 {
-  constructor()
+  constructor(private _itemManager: IItemManager)
   {
     super();
     this.TypeId = Data.SYSTEM_CLASSES.REPORTHEADER.TYPEID;
@@ -419,7 +422,7 @@ export class ReportHeader extends StandardItem
   }
 
   public set QueryDescription(value: QueryDescripton)
-  {
+  {    
     this.SetPropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTION, value);
   }
 
@@ -432,4 +435,45 @@ export class ReportHeader extends StandardItem
   {
     this.SetPropertyValue(Data.SYSTEM_CLASSES.REPORTHEADER.LOG, value);
   }
+
+  // public override async ImportFromYamlNode()
+  // {}
+
+  public override async ImportFromYamlNode(itemYamlNode: yaml.YAMLMap | yaml.Pair<yaml.Scalar, yaml.Node>, processedPropertyIds?: string[]): Promise<ReportHeader>
+  {
+    let yamlMap: yaml.YAMLMap = new yaml.YAMLMap();
+
+    if (itemYamlNode instanceof yaml.YAMLMap)
+      yamlMap = itemYamlNode;
+    else if (itemYamlNode instanceof yaml.Pair && itemYamlNode.value instanceof yaml.YAMLMap)    
+      yamlMap = itemYamlNode.value;    
+
+    this.QueryDescription = new QueryDescripton(this._itemManager);
+    this.Children.Add(this.QueryDescription);
+
+    const qdMap = F2YamlUtils.TryGetPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTION);
+    if (qdMap)
+      await this.QueryDescription.ImportFromYamlNode(qdMap);
+    
+    const qdLink = F2Link.TryParseStringOrGetError(F2YamlUtils.TryGetStringPropertyValueFromYamlMap(yamlMap, Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTIONLINK) ?? "");
+    if (qdLink instanceof F2Link)
+      this.QueryDescriptionLink = qdLink;
+
+    await super.ImportFromYamlNode(itemYamlNode, (processedPropertyIds ?? []).concat([
+      Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTION,
+      Data.SYSTEM_CLASSES.REPORTHEADER.QUERYDESCRIPTIONLINK,
+    ]));
+
+    return this;
+
+  }
+
+  public override IsValid(): ValidationResult
+  {
+    if (!this.QueryDescription || !this.QueryDescription.IsValid())
+      return ValidationResult.Failure(new ItemParsingError(ItemParsingErrorType.InvalidReportHeader));
+
+    return ValidationResult.Success();
+  }
+
 }
