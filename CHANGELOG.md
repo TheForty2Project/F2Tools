@@ -12,6 +12,12 @@ and this project partially adheres to [Semantic Versioning](https://semver.org/s
 
 ---------------
 
+## 3.2.1
+
+### Bugs:
+
+  - VS Code is acting up: "Unable to write to User Settings because F2Tools.workspacePath is not a registered configuration."
+
 ## 3.2.0
 
 ### Features:

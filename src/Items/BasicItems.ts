@@ -1058,30 +1058,29 @@ export class F2YamlWorkspaceItem
     return result;
   }
 
-
-  public toString(initialIndent: number = 0, ignoreRepresentationType: boolean = true): string
+  private getHeaderPrefixesString(): string
   {
-    const getHeaderPrefixes = (): string =>
+    let headerPrefixEntries: string[] = [];
+    for (let propertyId of this.YamlRepresentation.HeaderPrefixPropertyIds)
     {
-      let headerPrefixEntries: string[] = [];
-      for (let propertyId of this.YamlRepresentation.HeaderPrefixPropertyIds)
-      {
-        var propValue = this.GetStringPropertyValue(propertyId);
-        if (!propValue)
-          throw new InvalidOperationError(`Can't get string value for property "${propertyId}"`);
-        headerPrefixEntries.push(StringOperations.wrapInQuotesIfMultiWord(propValue));
-      }
-
-      return headerPrefixEntries.join(" ");
+      var propValue = this.GetStringPropertyValue(propertyId);
+      if (!propValue)
+        throw new InvalidOperationError(`Can't get string value for property "${propertyId}"`);
+      headerPrefixEntries.push(StringOperations.wrapInQuotesIfMultiWord(propValue));
     }
 
+    return headerPrefixEntries.join(" ");
+  }
+
+  public toString(initialIndent: number = 0): string
+  {
     const renderPropertyValue = (propRenderingDescriptor: YamlPropertyRenderingDescriptor | undefined, value: F2YamlWorkspaceItemPropertyValue): string =>
     {
       if (value === null) return "";
       if (isScalarValue(value) || value instanceof F2Link || value instanceof NotParsedYaml)
       {
         if (value instanceof Date)
-          return value.toISOString();
+          return value.toISOString(); //TODO: use custom formatting
         //TODO:
         // - if it's a plain string but starts with a not allowed character - e.g. double quote - then prefix it with "\"; at parsing as well        
         else if (typeof value === "string")
@@ -1161,8 +1160,7 @@ export class F2YamlWorkspaceItem
 
       return "{" + renderedProperties.join(", ") + "}";
     }
-
-    let result: string = "";
+    
     let header: string = "";
     let contentIndentation: number = initialIndent;
 
@@ -1175,7 +1173,7 @@ export class F2YamlWorkspaceItem
             ? "\"" + this.GetStringPropertyValue(Data.SYSTEM_CLASSES.STANDARDITEM.SUMMARY)! + "\""
             : "<" + this.GetStringPropertyValue(Data.F2YAML_ELEMENTS.PROPERTY_TYPE)! + ">";
 
-      header = "".padEnd(initialIndent, " ") + getHeaderPrefixes() + "." + headerItemIdentifierPart + ": ";
+      header = "".padEnd(initialIndent, " ") + this.getHeaderPrefixesString() + "." + headerItemIdentifierPart + ": ";
       contentIndentation += Data.CONFIG.DEFAULT_INDENT;
     }
 
@@ -1207,9 +1205,10 @@ export class F2YamlWorkspaceItem
     {
       childrenRendered.push(childItem.toString());
     }
-    //now render, with indendation and sheeit:
 
-    result += header;
+    //now render, with indendation and sheeit:
+ 
+    let result = header;
     if (this.YamlRepresentation.IsMapFlowStyle)
     {
       result += "{" + propertiesRendered.join(", ") + childrenRendered.join(", ") + "}";

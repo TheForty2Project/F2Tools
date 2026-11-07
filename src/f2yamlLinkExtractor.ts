@@ -178,9 +178,9 @@ export class F2yamlLinkExtractor {
   }
 
   private static async removeRootPath(filePath: string) {
-    let rootPath = VsCodeUtils.getRootPath();
+    let rootPath = VsCodeUtils.tryGetRootPath();
     const config = VsCodeUtils.getConfig();
-    if (rootPath) { await config.update(Data.CONFIG.WORKSPACE_PATH, rootPath, vscode.ConfigurationTarget.Global); }
+    // if (rootPath) { await config.update(Data.CONFIG.WORKSPACE_PATH, rootPath, vscode.ConfigurationTarget.Global); }
 
     if (!rootPath) {
       rootPath = config.get<string>(Data.CONFIG.WORKSPACE_PATH);
