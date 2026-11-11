@@ -12,6 +12,12 @@ and this project partially adheres to [Semantic Versioning](https://semver.org/s
 
 ---------------
 
+## 3.3.0
+
+### Features:
+
+  - IDHiearchy(n) now supports the bottom-up format
+
 ## 3.2.1
 
 ### Bugs:

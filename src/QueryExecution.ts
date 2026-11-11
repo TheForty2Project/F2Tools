@@ -2,7 +2,7 @@ import * as yaml from "yaml";
 import { tryParseNumber, Duration, CSVOperations } from "./CSV-Operations";
 import { Data } from "./Data";
 import { ItemRepresentationType, F2YamlWorkspaceItem, EnumerationDefinition, LinkTypePreference, NotParsedYaml, ValidationResult } from "./Items/BasicItems";
-import { F2Link, ItemIdentiferPart } from "./Items/F2Link";
+import { F2Link, ItemIdentiferPart, SummaryPart } from "./Items/F2Link";
 import { ItemHeader, ItemYamlHeaderType } from "./Items/ItemHeader";
 import { ItemList } from "./Items/ItemList";
 import { IItemManager } from "./Items/ItemManager";
@@ -460,7 +460,7 @@ export class QueryExecution
         return "";
       }
 
-      return item.GetF2Link(LinkTypePreference.Id).YamlPathParts.filter(part => part instanceof ItemIdentiferPart).map(part => part.Value).slice(-numberOfParentIds).join(".");
+      return item.GetF2Link(LinkTypePreference.Id).YamlPathParts.filter(part => part instanceof ItemIdentiferPart).map(part => part instanceof SummaryPart ? part.Summary : part.Value).slice(-numberOfParentIds).reverse().join(" -> ");
     }
 
     const value = item.TryGetPropertyValue(propertyId);
